@@ -5,3 +5,5 @@ eshell/*
 session*
 tramp
 ac-comphist.dat
+ido.last
+recentf

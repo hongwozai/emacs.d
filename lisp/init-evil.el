@@ -19,5 +19,4 @@
   "sd" 'sudo-edit
   "sr" 'sr-speedbar-toggle
   )
-;; evil-leader/set-key-for-mode
 (provide 'init-evil)
