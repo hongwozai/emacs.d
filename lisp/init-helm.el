@@ -20,8 +20,8 @@
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 
 (custom-set-variables
- '(helm-gtags-path-style 'relative)
  '(helm-gtags-ignore-case t)
+ '(helm-gtags-display-style t)
  '(helm-gtags-auto-update t)
  '(helm-gtags-use-input-at-cursor t))
 

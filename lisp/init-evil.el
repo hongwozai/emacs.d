@@ -11,6 +11,7 @@
   "e"  'ido-find-file
   "b"  'helm-mini
   "k"  'kill-this-buffer
+  "o"  'org-agenda
   "im" 'helm-imenu
   "ha" 'helm-apropos
   "hs" 'hs-toggle-hiding
@@ -18,5 +19,10 @@
   "gd" 'helm-gtags-dwim
   "sd" 'sudo-edit
   "sr" 'sr-speedbar-toggle
+  "xc" 'save-buffers-kill-terminal
+  "xe" 'eval-last-sexp
+  "xs" 'save-buffer
+  "xa" 'save-some-buffers
   )
+(evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (provide 'init-evil)

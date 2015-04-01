@@ -18,6 +18,7 @@
 (require 'init-helm)
 (require 'init-evil)
 
+(require 'init-git)
 (require 'init-flycheck)
 (require 'init-complete)
 

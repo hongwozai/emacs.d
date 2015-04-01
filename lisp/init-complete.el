@@ -14,19 +14,19 @@
 
 (setq company-require-match nil)
 (setq company-auto-complete nil)
-(setq company-idle-delay    0.2)
-(setq company-minimum-prefix-length 3)
+;(setq company-idle-delay    nil)
+;(setq company-minimum-prefix-length 3)
 (setq company-dabbrev-ignore-case t)
 (setq company-dabbrev-downcase nil)
+(setq company-begin-commands '(self-insert-command))
 (setq company-show-numbers t)
 
-(add-hook 'company-mode-hook
-          '(lambda ()
-             (define-key company-active-map (kbd "C-g") 'company-abort)))
+(eval-after-load 'company
+  '(progn
+     (add-to-list 'company-backends 'company-cmake)
+     (add-to-list 'company-backends 'compnay)
+     (company-clang-insert-arguments nil)))
 
-(add-hook 'company-mode-hook
-          '(lambda ()
-             (add-to-list 'company-backends 'company-c-headers)))
 ;; (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8")
 
 (provide 'init-complete)
