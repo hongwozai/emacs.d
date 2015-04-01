@@ -14,7 +14,7 @@
 
 (setq company-require-match nil)
 (setq company-auto-complete nil)
-;(setq company-idle-delay    nil)
+(setq company-idle-delay    0.2)
 ;(setq company-minimum-prefix-length 3)
 (setq company-dabbrev-ignore-case t)
 (setq company-dabbrev-downcase nil)
@@ -25,7 +25,7 @@
   '(progn
      (add-to-list 'company-backends 'company-cmake)
      (add-to-list 'company-backends 'compnay)
-     (company-clang-insert-arguments nil)))
+     (setq company-clang-insert-arguments nil)))
 
 ;; (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8")
 
