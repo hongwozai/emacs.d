@@ -3,9 +3,11 @@
 (setq user-mail-address "hongwozai@163.com")
 (setq default-directory "~/")
 
-;; surface
+;; initial
 (setq inhibit-startup-message t)
 (setq initial-scratch-message ";; Happy hacking, luzeya, you can do it.\n\n")
+(setq initial-major-mode 'scheme-mode)
+;; surface
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
