@@ -12,6 +12,7 @@
   "b"  'helm-mini
   "k"  'kill-this-buffer
   "o"  'org-agenda
+  "p"  'helm-projectile
   "im" 'helm-imenu
   "ha" 'helm-apropos
   "hs" 'hs-toggle-hiding

@@ -26,5 +26,7 @@
  '(helm-gtags-use-input-at-cursor t))
 
 ;; TODO: function args
-
+;TODO: helm projectile
+(require-package 'helm-projectile)
+(helm-projectile-on)
 (provide 'init-helm)
