@@ -23,6 +23,8 @@
 (require 'init-flycheck)
 (require 'init-complete)
 
+(require 'init-dict)
+
 (require 'init-cc-mode)
 (require 'init-org-mode)
 (require 'init-lisp)
@@ -32,3 +34,4 @@
 (require 'init-locale)
 
 (provide 'init)
+(put 'erase-buffer 'disabled nil)

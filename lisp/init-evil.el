@@ -13,6 +13,10 @@
   "k"  'kill-this-buffer
   "o"  'org-agenda
   "p"  'helm-projectile
+  "q"  'delete-window
+  "cd" 'yasdcv-translate-at-point
+  "ff"  'ido-find-file-other-window
+  "fb"  'ido-switch-buffer-other-window
   "im" 'helm-imenu
   "ha" 'helm-apropos
   "hs" 'hs-toggle-hiding

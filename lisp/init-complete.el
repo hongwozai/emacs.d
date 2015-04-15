@@ -31,7 +31,7 @@
 (eval-after-load 'company
   '(progn
      (add-to-list 'company-backends 'company-cmake)
-     (add-to-list 'company-backends 'compnay)
+     ;; (add-to-list 'company-backends 'company)
      (setq company-clang-insert-arguments nil)))
 
 ;; (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8")

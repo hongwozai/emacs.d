@@ -16,6 +16,7 @@
   '(abbrev-mode            ; minor modes
     auto-fill-function
     flycheck-mode
+    magit-auto-revert-mode
     flyspell-mode
     paredit-mode
     hs-minor-mode
