@@ -34,4 +34,3 @@
 (require 'init-locale)
 
 (provide 'init)
-(put 'erase-buffer 'disabled nil)
