@@ -2,6 +2,8 @@
 (require-package 'evil)
 (evil-mode 1)
 
+(define-key evil-normal-state-map (kbd "q") 'delete-window)
+
 ;; evil leader custom key
 (require-package 'evil-leader)
 (global-evil-leader-mode)
@@ -13,7 +15,6 @@
   "k"  'kill-this-buffer
   "o"  'org-agenda
   "p"  'helm-projectile
-  "q"  'delete-window
   "cd" 'yasdcv-translate-at-point
   "ff"  'ido-find-file-other-window
   "fb"  'ido-switch-buffer-other-window
