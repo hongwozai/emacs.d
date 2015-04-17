@@ -4,7 +4,7 @@
 ;; initial
 (setq inhibit-startup-message t)
 (setq initial-scratch-message ";; Happy learning, you can do it.\n\n")
-(setq initial-major-mode 'scheme-mode)
+(setq initial-major-mode 'lisp-interaction-mode)
 
 ;; surface
 (tool-bar-mode -1)
