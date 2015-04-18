@@ -27,6 +27,7 @@
 
 (require 'init-cc-mode)
 (require 'init-org-mode)
+(require 'init-web)
 (require 'init-lisp)
 (require-package 'lua-mode)
 (require-package 'markdown-mode)
