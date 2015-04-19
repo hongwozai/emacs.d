@@ -12,6 +12,7 @@
 
 (require 'init-editing-utils)
 (require 'init-tramp)
+(require 'init-shell)
 (require 'init-pair)
 
 (require 'init-ido)
@@ -29,9 +30,5 @@
 (require 'init-org-mode)
 (require 'init-web)
 (require 'init-lisp)
-(require-package 'lua-mode)
-(require-package 'markdown-mode)
-
-(require 'init-locale)
 
 (provide 'init)
