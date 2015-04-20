@@ -3,7 +3,7 @@
 (evil-mode 1)
 
 (define-key evil-normal-state-map (kbd "q") 'delete-window)
-
+(define-key evil-normal-state-map (kbd ";") 'evil-ex)
 ;; evil leader custom key
 (require-package 'evil-leader)
 (global-evil-leader-mode)
@@ -28,7 +28,6 @@
   "xc" 'save-buffers-kill-terminal
   "xe" 'eval-last-sexp
   "xs" 'save-buffer
-  "xa" 'save-some-buffers
   )
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (provide 'init-evil)
