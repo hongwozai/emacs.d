@@ -10,6 +10,6 @@
 ;; (getenv "PATH")
 ;;; (setenv "PATH" ...)
 ;;; shotcuts key
-(global-set-key (kbd "<f2>") 'shell)
+(global-set-key (kbd "<f2>") 'eshell)
 
 (provide 'init-shell)
