@@ -22,6 +22,7 @@
     hs-minor-mode
     eldoc-mode
     helm-mode
+    helm-gtags-mode
     company-search-mode
     company-mode
     undo-tree-mode

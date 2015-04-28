@@ -3,7 +3,7 @@
 (evil-mode 1)
 
 (define-key evil-normal-state-map (kbd "q") 'delete-window)
-(define-key evil-normal-state-map (kbd ";") 'evil-ex)
+
 ;; evil leader custom key
 (require-package 'evil-leader)
 (global-evil-leader-mode)
