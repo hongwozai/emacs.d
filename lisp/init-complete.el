@@ -19,6 +19,8 @@
 (require-package 'company-c-headers)
 (add-hook 'after-init-hook 'global-company-mode)
 
+(global-set-key (kbd "C-c y") 'company-yasnippet)
+
 (setq company-require-match nil)
 (setq company-auto-complete nil)
 (setq company-idle-delay    0.2)
@@ -31,9 +33,13 @@
 (eval-after-load 'company
   '(progn
      (add-to-list 'company-backends 'company-cmake)
-     ;; (add-to-list 'company-backends 'company)
+     (add-to-list 'company-backends 'company-c-headers)
      (setq company-clang-insert-arguments nil)))
 
-;; (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8")
+(eval-after-load 'company-c-headers
+  '(progn
+     (setq company-c-headers-path-system
+           (append company-c-headers-path-system
+                   (hong/qt4-include-path)))))
 
 (provide 'init-complete)

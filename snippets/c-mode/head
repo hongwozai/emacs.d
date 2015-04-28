@@ -3,12 +3,9 @@
 # key: head
 # binding: direct-keybinding
 # --
-/*****************************************************************************
-* @author: luzeya
-* @date: `(format-time-string "%Y/%m/%d" (current-time))`
-* @version: ver 0.1
-* @filename: `(buffer-name)`
-* @filepath: `(file-name-directory (buffer-file-name))`
-* @description: $0
-*****************************************************************************/
+/**
+* @Author: luzeya
+* @Create: `(format-time-string "%Y/%m/%d" (current-time))`
+* @Description: $0
+**/
 $1
