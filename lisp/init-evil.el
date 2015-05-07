@@ -2,7 +2,10 @@
 (require-package 'evil)
 (evil-mode 1)
 
-(define-key evil-normal-state-map (kbd "q") 'delete-window)
+;; (define-key evil-normal-state-map (kbd "q") 'delete-window)
+(define-key evil-normal-state-map (kbd "C-=") 'er/expand-region)
+(define-key evil-normal-state-map (kbd "SPC") 'ace-jump-word-mode)
+(define-key evil-visual-state-map (kbd "SPC") 'ace-jump-word-mode)
 
 ;; evil leader custom key
 (require-package 'evil-leader)
@@ -24,7 +27,6 @@
   "gf" 'helm-gtags-find-tag
   "gd" 'helm-gtags-dwim
   "sd" 'sudo-edit
-  "sr" 'sr-speedbar-toggle
   "xc" 'save-buffers-kill-terminal
   "xe" 'eval-last-sexp
   "xs" 'save-buffer

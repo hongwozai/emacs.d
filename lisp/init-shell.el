@@ -1,10 +1,10 @@
-(require-package 'bash-completion)
-;;; bash-completion *shell*
-(autoload 'bash-completion-dynamic-complete 
-  "bash-completion"
-  "BASH completion hook")
-(add-hook 'shell-dynamic-complete-functions
-          'bash-completion-dynamic-complete)
+;; (require-package 'bash-completion)
+;; ;;; bash-completion *shell*
+;; (autoload 'bash-completion-dynamic-complete 
+;;   "bash-completion"
+;;   "BASH completion hook")
+;; (add-hook 'shell-dynamic-complete-functions
+;;           'bash-completion-dynamic-complete)
 
 ;;; exec-path-from-shell
 ;; (getenv "PATH")

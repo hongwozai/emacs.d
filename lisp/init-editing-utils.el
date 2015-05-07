@@ -23,6 +23,12 @@
 ;; hs minor mode
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
+;; expand-region
+(require-package 'expand-region)
+
+;; ace-jump
+(require-package 'ace-jump-mode)
+
 ;; pair mode
 (show-paren-mode t)
 
