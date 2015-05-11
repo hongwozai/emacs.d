@@ -3,9 +3,12 @@
 (evil-mode 1)
 
 ;; (define-key evil-normal-state-map (kbd "q") 'delete-window)
-(define-key evil-normal-state-map (kbd "C-=") 'er/expand-region)
+(define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-word-mode)
 (define-key evil-visual-state-map (kbd "SPC") 'ace-jump-word-mode)
+(define-key evil-normal-state-map (kbd "RET") 'ace-jump-line-mode)
+(define-key evil-visual-state-map (kbd "RET") 'ace-jump-line-mode)
+(define-key evil-normal-state-map (kbd "K") 'helm-man-woman)
 
 ;; evil leader custom key
 (require-package 'evil-leader)
@@ -14,13 +17,16 @@
 (evil-leader/set-leader ",")
 (evil-leader/set-key
   "e"  'ido-find-file
+  "d"  'dired
   "b"  'helm-mini
   "k"  'kill-this-buffer
   "o"  'org-agenda
   "p"  'helm-projectile
+  "m"  'helm-pp-bookmarks
   "cd" 'yasdcv-translate-at-point
   "ff"  'ido-find-file-other-window
   "fb"  'ido-switch-buffer-other-window
+  "fl"  'flycheck-list-errors
   "im" 'helm-imenu
   "ha" 'helm-apropos
   "hs" 'hs-toggle-hiding

@@ -6,6 +6,10 @@
 (setq gdb-many-window t)
 (setq gdb-show-main   t)
 
+;; doxymacs
+(require 'doxymacs)
+(add-hook 'c-mode-common-hook 'doxymacs-mode)
+
 ;; cmake
 (require-package 'cmake-mode)
 (setq auto-mode-alist

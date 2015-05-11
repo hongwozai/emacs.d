@@ -23,11 +23,19 @@
 ;; hs minor mode
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
+;; ispell
+(setq ispell-dictionary "english")
+
+;; uniquify buffer-name
+(require 'uniquify)
+
 ;; expand-region
 (require-package 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 ;; ace-jump
 (require-package 'ace-jump-mode)
+(global-set-key (kbd "C-;") 'ace-jump-word-mode)
 
 ;; pair mode
 (show-paren-mode t)
