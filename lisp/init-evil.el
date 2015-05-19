@@ -31,7 +31,7 @@
   "ha" 'helm-apropos
   "hs" 'hs-toggle-hiding
   "gf" 'helm-gtags-find-tag
-  "gd" 'helm-gtags-dwim
+  "gc" 'helm-gtags-create-tags
   "sd" 'sudo-edit
   "xc" 'save-buffers-kill-terminal
   "xe" 'eval-last-sexp

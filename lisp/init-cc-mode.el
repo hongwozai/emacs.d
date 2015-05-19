@@ -3,7 +3,7 @@
       indent-tabs-mode     t
       default-tab-with     4)
 
-(setq gdb-many-window t)
+(setq gdb-many-windows t)
 (setq gdb-show-main   t)
 
 ;; doxymacs
@@ -17,13 +17,5 @@
               '(("\\.cmake\\'" . cmake-mode))
               auto-mode-alist))
 
-
-(defun hong/head-comment ()
-  (interactive)
-  (insert "/**\n")
-  (insert "* @Author: luzeya\n")
-  (insert (concat "* @Create: " (format-time-string "%Y/%m/%d" (current-time)) "\n"))
-  (insert "* @Description:\n")
-  (insert "**/\n"))
 
 (provide 'init-cc-mode)
