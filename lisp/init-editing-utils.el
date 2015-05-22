@@ -33,16 +33,13 @@
 (require-package 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-;; ace-jump
-(require-package 'ace-jump-mode)
-(global-set-key (kbd "C-;") 'ace-jump-word-mode)
+;; ;;; TODO:ace-pinyin
+;;; avy
+(require-package 'avy)
+(global-set-key (kbd "C-;") 'avy-goto-word-0)
 
 ;; pair mode
 (show-paren-mode t)
-
-;; eldoc-mode
-;; (add-to-list 'lisp-interaction-mode-hook 'eldoc-mode)
-;; (add-to-list 'emacs-lisp-mode-hook 'eldoc-mode)
 
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)

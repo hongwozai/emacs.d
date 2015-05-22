@@ -4,10 +4,10 @@
 
 ;; (define-key evil-normal-state-map (kbd "q") 'delete-window)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
-(define-key evil-normal-state-map (kbd "SPC") 'ace-jump-word-mode)
-(define-key evil-visual-state-map (kbd "SPC") 'ace-jump-word-mode)
-(define-key evil-normal-state-map (kbd "RET") 'ace-jump-line-mode)
-(define-key evil-visual-state-map (kbd "RET") 'ace-jump-line-mode)
+(define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-1)
+(define-key evil-visual-state-map (kbd "SPC") 'avy-goto-word-1)
+(define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
+(define-key evil-visual-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-normal-state-map (kbd "K") 'helm-man-woman)
 
 ;; evil leader custom key
