@@ -15,6 +15,7 @@
               mouse-yank-at-point         t
               grep-hightlight-matches     t
               grep-scroll-output          t
+              truncate-lines              nil
               show-trailing-whitespace    t)
 
 ;; syntax hightlight
@@ -26,6 +27,9 @@
 ;; ispell
 (setq ispell-dictionary "english")
 
+;;; subword c-subword superword
+;; (global-subword-mode)
+
 ;; uniquify buffer-name
 (require 'uniquify)
 
@@ -33,7 +37,6 @@
 (require-package 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-;; ;;; TODO:ace-pinyin
 ;;; avy
 (require-package 'avy)
 (global-set-key (kbd "C-;") 'avy-goto-word-0)
