@@ -14,11 +14,13 @@
 
 ;;; slime
 (require-package 'slime)
+(setq inferior-lisp-program "sbcl")
 (let ((helper (expand-file-name "~/quicklisp/slime-helper.el")))
   (if (file-exists-p helper)
       (load helper)))
-(setq inferior-lisp-program "sbcl")
+;; ;; ;; C-c C-d h clhs帮助
+(load "/home/lm/quicklisp/clhs-use-local.el" t)
 ;;; don't display loading message
-(slime-setup '(slime-fancy))
+;; (slime-setup '(slime-fancy))
 
 (provide 'init-lisp)

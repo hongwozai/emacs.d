@@ -1,5 +1,5 @@
 ;;debug
-(setq debug-on-error nil)
+(setq debug-on-error t)
 
 ;; initial
 (setq inhibit-startup-message t)

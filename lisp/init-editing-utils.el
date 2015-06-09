@@ -28,7 +28,7 @@
 (setq ispell-dictionary "english")
 
 ;;; subword c-subword superword
-;; (global-subword-mode)
+(global-superword-mode)
 
 ;; uniquify buffer-name
 (require 'uniquify)
