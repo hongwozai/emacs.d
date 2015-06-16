@@ -3,6 +3,11 @@
       indent-tabs-mode     t
       default-tab-with     4)
 
+;;; compile
+(setq compilation-window-height 12)
+(setq compilation-read-command t)
+(setq compile-command "make")
+;;; gdb
 (setq gdb-many-windows t)
 (setq gdb-show-main   t)
 
@@ -16,6 +21,5 @@
       (append '(("CMakeLists\\.txt\\'" . cmake-mode))
               '(("\\.cmake\\'" . cmake-mode))
               auto-mode-alist))
-
 
 (provide 'init-cc-mode)

@@ -19,6 +19,6 @@
       (load-solarized-theme 'light)
     (load-solarized-theme 'dark)))
 
-(load-solarized-theme 'dark)
+(load-solarized-theme 'light)
 
 (provide 'init-themes)

@@ -38,4 +38,6 @@
   "xs" 'save-buffer
   )
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
+(evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)
+
 (provide 'init-evil)

@@ -14,17 +14,6 @@
 (setq helm-imenu-fuzzy-match t)
 (setq helm-apropos-fuzzy-match t)
 
-;; ;; gtags
-;; (require-package 'helm-gtags)
-;; (add-hook 'c-mode-hook 'helm-gtags-mode)
-;; (add-hook 'c++-mode-hook 'helm-gtags-mode)
-
-;; (custom-set-variables
-;;  '(helm-gtags-ignore-case t)
-;;  '(helm-gtags-display-style t)
-;;  '(helm-gtags-auto-update t)
-;;  '(helm-gtags-use-input-at-cursor t))
-
 ;; helm projectile
 (require-package 'helm-projectile)
 (helm-projectile-on)

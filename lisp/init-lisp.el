@@ -22,5 +22,6 @@
 (load "/home/lm/quicklisp/clhs-use-local.el" t)
 ;;; don't display loading message
 ;; (slime-setup '(slime-fancy))
+(slime-setup '(slime-company))
 
 (provide 'init-lisp)

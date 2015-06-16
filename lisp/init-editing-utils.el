@@ -25,10 +25,12 @@
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
 ;; ispell
+(setq-default ispell-program-name "aspell")
 (setq ispell-dictionary "english")
+;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 ;;; subword c-subword superword
-(global-superword-mode)
+;;; (global-superword-mode)
 
 ;; uniquify buffer-name
 (require 'uniquify)
