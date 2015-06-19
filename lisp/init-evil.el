@@ -39,5 +39,6 @@
   )
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)
+(evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
 
 (provide 'init-evil)

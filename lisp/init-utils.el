@@ -1,10 +1,10 @@
 ;;debug
-(setq debug-on-error t)
+(setq debug-on-error nil)
 
 ;; initial
 (setq inhibit-startup-message t)
 (setq initial-scratch-message ";; Happy learning, you can do it.\n\n")
-(setq initial-major-mode 'lisp-interaction-mode)
+(setq initial-major-mode 'lisp-mode)
 
 ;; surface
 (tool-bar-mode -1)

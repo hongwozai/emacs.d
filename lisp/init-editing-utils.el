@@ -21,16 +21,17 @@
 ;; syntax hightlight
 (global-font-lock-mode t)
 
+;;; dired
+;; (require-package 'dired+)
+(setq dired-recursive-copies t)
+(setq dired-recursive-deletes t)
+
 ;; hs minor mode
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
 ;; ispell
 (setq-default ispell-program-name "aspell")
 (setq ispell-dictionary "english")
-;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-
-;;; subword c-subword superword
-;;; (global-superword-mode)
 
 ;; uniquify buffer-name
 (require 'uniquify)
@@ -45,6 +46,10 @@
 
 ;; pair mode
 (show-paren-mode t)
+
+(custom-set-faces
+ '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
+ '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
 
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)

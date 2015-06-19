@@ -7,6 +7,7 @@
 (setq compilation-window-height 12)
 (setq compilation-read-command t)
 (setq compile-command "make")
+
 ;;; gdb
 (setq gdb-many-windows t)
 (setq gdb-show-main   t)
@@ -15,6 +16,7 @@
 (require 'doxymacs)
 (add-hook 'c-mode-common-hook 'doxymacs-mode)
 
+;;; TODO: cpputils-cmake
 ;; cmake
 (require-package 'cmake-mode)
 (setq auto-mode-alist

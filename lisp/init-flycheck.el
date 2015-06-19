@@ -9,7 +9,7 @@
 (setq flycheck-clang-language-standard "c99")
 
 (defun hong/gtk-include-path ()
-  (let* ((cmd "pkg-config --cflags --libs gtk+-2.0")
+  (let* ((cmd "pkg-config --cflags --libs gtk+-3.0")
          (gtk (split-string
               (shell-command-to-string cmd))))
     (mapcar #'(lambda (x) (substring x 2))
@@ -20,4 +20,5 @@
          "/usr/include"
          "include" "../include"
          "inc" "../inc"))
+
 (provide 'init-flycheck)

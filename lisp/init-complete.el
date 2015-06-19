@@ -6,6 +6,7 @@
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill))
 
+;;; yasnippet
 
 ;; company
 (require-package 'company)

@@ -7,6 +7,8 @@
              (expand-file-name "site-lisp"
                                user-emacs-directory))
 ;;; TODO:up/down case, c word add underline
+;;; 调整架构，编写一些函数（添加固定mode的函数）
+(require 'cl)
 (require 'init-utils)
 (require 'init-elpa)
 
@@ -34,6 +36,5 @@
 (require 'init-python)
 (require 'init-org-mode)
 (require 'init-web)
-(require-package 'lua-mode)
 
 (provide 'init)
