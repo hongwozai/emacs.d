@@ -3,14 +3,14 @@
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 
-;; helm find files in TAB
-(define-key helm-find-files-map (kbd "<tab>") 'helm-execute-persistent-action)
+(setq helm-display-header-line nil)
+(setq helm-split-window-in-side-p t)
 
 ;; fuzzy match
+(setq helm-M-x-fuzzy-match t)
 (setq helm-recentf-fuzzy-match t)
 (setq helm-buffers-fuzzy-matching t)
 (setq helm-locate-fuzzy-match t)
-(setq helm-M-x-fuzzy-match t)
 (setq helm-imenu-fuzzy-match t)
 (setq helm-apropos-fuzzy-match t)
 

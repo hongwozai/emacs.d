@@ -12,10 +12,6 @@
 (setq gdb-many-windows t)
 (setq gdb-show-main   t)
 
-;; doxymacs
-(require 'doxymacs)
-(add-hook 'c-mode-common-hook 'doxymacs-mode)
-
 ;;; TODO: cpputils-cmake
 ;; cmake
 (require-package 'cmake-mode)

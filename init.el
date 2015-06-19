@@ -3,22 +3,19 @@
 (add-to-list 'load-path
              (expand-file-name "lisp"
                                user-emacs-directory))
-(add-to-list 'load-path
-             (expand-file-name "site-lisp"
-                               user-emacs-directory))
-;;; TODO:up/down case, c word add underline
-;;; 调整架构，编写一些函数（添加固定mode的函数）
-(require 'cl)
+
 (require 'init-utils)
 (require 'init-elpa)
 
 (require 'init-themes)
+(require 'init-frame)
 (require 'init-window)
 
 (require 'init-editing-utils)
 (require 'init-tramp)
 (require 'init-shell)
 (require 'init-pair)
+(require 'init-tags)
 
 (require 'init-ido)
 (require 'init-helm)

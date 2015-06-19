@@ -2,6 +2,8 @@
 (require-package 'evil)
 (evil-mode 1)
 
+(setq evil-move-cursor-back nil)
+
 ;; (define-key evil-normal-state-map (kbd "q") 'delete-window)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 (define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-1)
@@ -30,8 +32,6 @@
   "im" 'helm-imenu
   "ha" 'helm-apropos
   "hs" 'hs-toggle-hiding
-  "gf" 'helm-gtags-find-tag
-  "gc" 'helm-gtags-create-tags
   "sd" 'sudo-edit
   "xc" 'save-buffers-kill-terminal
   "xe" 'eval-last-sexp
@@ -40,5 +40,8 @@
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)
 (evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
+
+(require-package 'evil-matchit)
+(global-evil-matchit-mode 1)
 
 (provide 'init-evil)

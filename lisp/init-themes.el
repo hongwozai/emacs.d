@@ -1,6 +1,10 @@
 ;; color theme
 (require-package 'solarized-theme)
 
+(setq solarized-use-variable-pitch nil)
+(setq solarized-high-contrast-mode-line t)
+(setq solarized-use-more-italic t)
+
 (defun load-solarized-theme (lod)
   "lod is light or dark"
   (defvar current-theme nil)
