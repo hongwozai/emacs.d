@@ -17,12 +17,12 @@
 (setq inferior-lisp-program "sbcl")
 (add-hook 'lisp-mode-hook
           (lambda ()
-            (let ((helper (expand-file-name "~/quicklisp/slime-helper.el")))
-              (if (file-exists-p helper)
-                  (load helper)))
+            ;; (let ((helper (expand-file-name "~/quicklisp/slime-helper.el")))
+            ;;   (if (file-exists-p helper)
+            ;;       (load helper)))
             ;; C-c C-d h clhs帮助
             (load "/home/lm/quicklisp/clhs-use-local.el" t)
-            (slime-setup '(slime-company))
+            (slime-setup '(slime-fancy slime-company))
             ))
 
 ;;; don't display loading message
