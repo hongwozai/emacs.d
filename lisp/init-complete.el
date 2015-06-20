@@ -20,8 +20,8 @@
 (require-package 'company-c-headers)
 (require-package 'slime-company)
 
-(dolist (hook '(prog-mode-hook
-                cmake-mode-hook web-mode-hook))
+(dolist (hook '(prog-mode-hook inferior-python-mode-hook
+                               cmake-mode-hook web-mode-hook))
   (add-hook hook 'company-mode))
 
 (global-set-key (kbd "C-c y") 'company-yasnippet)

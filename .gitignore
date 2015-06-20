@@ -15,3 +15,4 @@ projectile-bookmarks.eld
 projectile*
 flycheck-init.el
 semanticdb/*
+.python-environments/*
