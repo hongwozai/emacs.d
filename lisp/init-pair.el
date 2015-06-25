@@ -2,6 +2,9 @@
 (when (fboundp 'electric-pair-mode)
   (electric-pair-mode))
 
+(require-package 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
 ;; paredit
 (require-package 'paredit)
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)

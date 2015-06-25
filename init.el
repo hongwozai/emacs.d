@@ -27,11 +27,12 @@
 (require 'init-complete)
 
 (require 'init-dict)
+(require 'init-org-mode)
 
 (require 'init-cc-mode)
 (require 'init-lisp)
 (require 'init-python)
-(require 'init-org-mode)
 (require 'init-web)
+(require 'init-sql)
 
 (provide 'init)
