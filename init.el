@@ -1,8 +1,6 @@
 ;; load path
 (setq user-emacs-directory "~/.emacs.d/")
-(add-to-list 'load-path
-             (expand-file-name "lisp"
-                               user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 
 (require 'init-utils)
 (require 'init-elpa)
@@ -32,7 +30,10 @@
 (require 'init-cc-mode)
 (require 'init-lisp)
 (require 'init-python)
+(require 'init-ruby)
 (require 'init-web)
 (require 'init-sql)
+
+(require 'init-misc)
 
 (provide 'init)

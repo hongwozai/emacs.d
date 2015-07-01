@@ -7,6 +7,10 @@
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 
+;;; gui
+(setq use-file-dialog nil)
+(setq use-dialog-box nil)
+
 (defvar show-minor-modes
   '(projectile-mode slime-mode))
 (defun purge-minor-modes ()
@@ -19,5 +23,25 @@
                 minor-mode-alist)))
 
 (add-hook 'after-change-major-mode-hook 'purge-minor-modes)
+
+(setq-default mode-line-format
+              (list
+               mode-line-front-space
+               " "
+               mode-line-mule-info
+               mode-line-client
+               mode-line-modified
+               mode-line-remote
+               mode-line-frame-identification
+               ;; mode-line-buffer-identification
+               '(:eval (propertize "%b " 'face nil
+                                   'help-echo (buffer-file-name)))
+               "  "
+               mode-line-position
+               mode-line-modes
+               ;;global-mode-string, org-timer-set-timer in org-mode need this
+               (propertize "%M" 'face nil)
+               mode-line-end-spaces
+               ))
 
 (provide 'init-frame)

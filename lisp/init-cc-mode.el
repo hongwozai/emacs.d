@@ -1,5 +1,5 @@
-(setq c-default-style "linux"
-      c-basic-offset       8
+(setq c-default-style "k&r"
+      c-basic-offset       4
       indent-tabs-mode     t
       default-tab-with     4)
 

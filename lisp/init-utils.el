@@ -1,6 +1,6 @@
 ;;debug
 (setq debug-on-error nil)
-;;; cl-lib
+;;; common lisp support
 (require 'cl)
 
 (provide 'init-utils)
