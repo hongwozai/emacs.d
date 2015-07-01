@@ -23,6 +23,9 @@
       (load-solarized-theme 'light)
     (load-solarized-theme 'dark)))
 
-(load-solarized-theme 'dark)
+(let ((theme (if (equal 0 (mod (random) 2))
+                 'dark
+               'light)))
+  (load-solarized-theme theme))
 
 (provide 'init-themes)
