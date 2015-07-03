@@ -5,9 +5,10 @@
 (setq evil-move-cursor-back nil)
 
 
-(dolist (mode '(dired-mode term-mode gud-mode
-                           eshell-mode shell-mode
-                           flycheck-error-list-mode))
+(dolist (mode '(dired-mode
+                term-mode gud-mode
+                eshell-mode shell-mode
+                flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
 
 ;; (evil-declare-key 'normal org-mode-map)
@@ -17,6 +18,17 @@
 (define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-normal-state-map (kbd "K") 'helm-man-woman)
+
+;;; evil escape
+;; (require-package 'evil-escape)
+;; (setq-default evil-escape-key-sequence "kj")
+;; (setq evil-escape-excluded-major-modes '(dired-mode))
+;; (setq-default evil-escape-delay 0.2)
+;; (evil-escape-mode 1)
+
+;;; evil surround
+(require-package 'evil-surround)
+(global-evil-surround-mode 1)
 
 ;; evil leader custom key
 (require-package 'evil-leader)
@@ -61,7 +73,7 @@
 (evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
 
 (lexical-let ((default-color ;; (cons (face-background 'mode-line)
-                             ;;       (face-foreground 'mode-line))
+                ;;       (face-foreground 'mode-line))
                 (cons nil nil)
                 ))
   (add-hook 'post-command-hook
