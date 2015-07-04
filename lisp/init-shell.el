@@ -9,9 +9,13 @@
 (require-package 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
 
-;; (getenv "PATH")
-;;; (setenv "PATH" ...)
 ;;; shotcuts key
 (global-set-key (kbd "<f2>") 'eshell)
+
+;;; term
+(require-package 'multi-term)
+(global-set-key (kbd "C-x e") 'multi-term)
+(setq multi-term-program "/bin/zsh")
+
 
 (provide 'init-shell)

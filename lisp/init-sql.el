@@ -1,7 +1,4 @@
 ;;; sql information
-;; (setq sql-mysql-options '("-C" "-f" "-t" "-n")) ; for windows
-(setq sql-user "root")
-(setq sql-password "")
 
 (setq sql-connection-alist
       '((pool-a
@@ -12,4 +9,17 @@
          (sql-database "mysql")
          (sql-port     3306))
          ))
+(defun sql-connect-prset (name)
+  (eval `(let ,(cdr (assoc name sql-connection-alist))
+           (flet ((sql-get-login (&rest what)))
+             (sql-product-interactive sql-product)))))
+
+(defun mysql ()
+  (interactive)
+  (sql-connect-preset 'pool-a))
+
+;;; M-x sql-mysql login
+(setq sql-mysql-login-params '(user password))
+;; (setq sql-mysql-options nil)
+
 (provide 'init-sql)

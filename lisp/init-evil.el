@@ -4,9 +4,7 @@
 
 (setq evil-move-cursor-back nil)
 
-
-(dolist (mode '(dired-mode
-                term-mode gud-mode
+(dolist (mode '(term-mode gud-mode
                 eshell-mode shell-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
@@ -20,11 +18,11 @@
 (define-key evil-normal-state-map (kbd "K") 'helm-man-woman)
 
 ;;; evil escape
-;; (require-package 'evil-escape)
-;; (setq-default evil-escape-key-sequence "kj")
-;; (setq evil-escape-excluded-major-modes '(dired-mode))
-;; (setq-default evil-escape-delay 0.2)
-;; (evil-escape-mode 1)
+(require-package 'evil-escape)
+(setq-default evil-escape-key-sequence "fd")
+(setq evil-escape-excluded-major-modes '(dired-mode))
+(setq-default evil-escape-delay 0.2)
+(evil-escape-mode 1)
 
 ;;; evil surround
 (require-package 'evil-surround)
