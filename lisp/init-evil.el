@@ -6,8 +6,13 @@
 
 (dolist (mode '(term-mode gud-mode
                 eshell-mode shell-mode
+                minibuffer-inactive-mode
+                messages-buffer-mode
+                special-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
+;;; messages-buffer-mode can't emacs state in emacs start
+(kill-buffer "*Messages*")
 
 ;; (evil-declare-key 'normal org-mode-map)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
@@ -16,13 +21,6 @@
 (define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-normal-state-map (kbd "K") 'helm-man-woman)
-
-;;; evil escape
-(require-package 'evil-escape)
-(setq-default evil-escape-key-sequence "fd")
-(setq evil-escape-excluded-major-modes '(dired-mode))
-(setq-default evil-escape-delay 0.2)
-(evil-escape-mode 1)
 
 ;;; evil surround
 (require-package 'evil-surround)
@@ -41,11 +39,15 @@
   "ff"  'ido-find-file-other-window
   "fb"  'ido-switch-buffer-other-window
   "fl"  'flycheck-list-errors
+  "gd"  'ggtags-find-definition
+  "gt"  'ggtags-find-tag-dwim
+  "gr"  'ggtags-find-reference
   "ha" 'helm-apropos
   "hs" 'hs-toggle-hiding
   "im" 'helm-imenu
   "kb"  'kill-this-buffer
   "mf"  'mark-defun
+  "mx"  'helm-M-x
   "pa"  'helm-projectile
   "sd" 'sudo-edit
   "uk" 'gud-kill-yes
@@ -59,21 +61,21 @@
   "ui" 'gud-stepi
   "uc" 'gud-cont
   "uf" 'gud-finish
+  "xb"  'ido-switch-buffer
   "xc" 'save-buffers-kill-terminal
-  "xf"  'ido-find-file
   "xe" 'eval-last-sexp
+  "xf"  'ido-find-file
+  "xk"  'ido-kill-buffer
   "xs" 'save-buffer
   "xz" 'suspend-frame
+  "."  'evil-ex
   )
 
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)
 (evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
 
-(lexical-let ((default-color ;; (cons (face-background 'mode-line)
-                ;;       (face-foreground 'mode-line))
-                (cons nil nil)
-                ))
+(lexical-let ((default-color (cons nil nil)))
   (add-hook 'post-command-hook
             (lambda ()
               (let ((color (cond ((minibufferp) default-color)

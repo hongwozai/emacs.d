@@ -1,6 +1,5 @@
 ;; bookmark
 (setq bookmark-save-flag 1)
-;TODO: ede cedet
 ;; projectile
 (require-package 'projectile)
 (projectile-global-mode)

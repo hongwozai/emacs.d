@@ -6,7 +6,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (setq-default default-tab-width           4
-              indent-tabs-mode            nil
+              indent-tabs-mode            t
               column-number-mode          t
               scorll-margin               3
               make-backup-files           nil
@@ -21,9 +21,24 @@
 ;; syntax hightlight
 (global-font-lock-mode t)
 
+;;; highlight symbol
+(require-package 'highlight-symbol)
+(dolist (hook '(prog-mode-hook web-mode-hook css-mode-hook))
+  (add-hook hook 'highlight-symbol-mode)
+  (add-hook hook 'highlight-symbol-nav-mode))
+(setq highlight-symbol-idle-delay 0.5)
+(global-set-key (kbd "M-n") 'highlight-symbol-next)
+(global-set-key (kbd "M-p") 'highlight-symbol-prev)
+
+;;; pretty symbol
+(setq prettify-symbols-alist '(("lambda" . 955)))
+(global-prettify-symbols-mode)
+
 ;;; dired
-(setq dired-recursive-copies t)
-(setq dired-recursive-deletes t)
+(eval-after-load 'dired
+  (progn
+    (setq dired-recursive-copies t)
+    (setq dired-recursive-deletes t)))
 
 ;; hs minor mode
 (add-hook 'prog-mode-hook 'hs-minor-mode)
@@ -41,7 +56,6 @@
 
 ;;; avy
 (require-package 'avy)
-(global-set-key (kbd "C-;") 'avy-goto-word-0)
 
 ;; pair mode
 (show-paren-mode t)

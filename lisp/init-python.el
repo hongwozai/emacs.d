@@ -10,9 +10,9 @@
 
 (add-hook 'python-mode-hook
           '(lambda ()
-             (anaconda-mode 1)
+             (anaconda-mode)
              (add-to-list 'company-backends 'company-anaconda)
-             (eldoc-mode 1)
+             (eldoc-mode)
              (setq electric-indent-chars (delq ?: electric-indent-chars))))
 
 (provide 'init-python)

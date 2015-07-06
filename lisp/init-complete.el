@@ -1,4 +1,5 @@
 ;; hippie expand
+(global-set-key (kbd "M-/") 'hippie-expand)
 (setq hippid-expand-try-functions-list
       '(try-complete-file-name-partially
         try-complete-file-name
@@ -37,16 +38,6 @@
      (setq company-dabbrev-downcase nil)
      (setq company-show-numbers t)
      (setq company-begin-commands '(self-insert-command))
-     (setq company-clang-insert-arguments nil)
-     (setq company-clang-arguments
-           (mapcar #'(lambda (string) (concat "-I" string))
-                   (hong/gtk-include-path)))
-     ))
-
-(eval-after-load 'company-c-headers
-  '(progn
-     (setq company-c-headers-path-system
-           (append company-c-headers-path-system
-                   (hong/gtk-include-path)))))
+     (setq company-clang-insert-arguments nil)))
 
 (provide 'init-complete)

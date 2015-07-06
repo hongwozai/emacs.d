@@ -4,6 +4,7 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 
 (setq helm-display-header-line nil)
+(setq helm-split-window-in-side-p t)
 
 ;; fuzzy match
 (setq helm-M-x-fuzzy-match t)

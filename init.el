@@ -30,7 +30,6 @@
 (require 'init-cc-mode)
 (require 'init-lisp)
 (require 'init-python)
-(require 'init-ruby)
 (require 'init-web)
 (require 'init-sql)
 
