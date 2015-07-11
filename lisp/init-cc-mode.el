@@ -1,3 +1,9 @@
+;;; ggtags
+(require-package 'ggtags)
+(eval-after-load 'ggtags
+  (progn
+    (setq ggtags-update-on-save t)))
+
 ;;; c-eldoc
 (require-package 'c-eldoc)
 
@@ -20,8 +26,6 @@
   ;; indent
   (setq c-default-style "k&r"
         c-basic-offset  4)
-  ;; comment... use autoload
-  ;; (require 'doxygen)
   ;; compile
   (setq compile-command "make")
   (setq compilation-window-height 12)
@@ -41,7 +45,8 @@
   (autoload 'c-turn-on-eldoc-mode "c-eldoc" "" t)
   (c-turn-on-eldoc-mode)
   (setq c-eldoc-buffer-regenerate-time 60)
-  (defvar c-eldoc-includes "-I./ -I../ -I/usr/include "))
+  (setq c-eldoc-cpp-command "/usr/bin/cpp")
+  (setq c-eldoc-includes "-I./ -I../ -I/usr/include "))
 
 (add-hook 'c-mode-common-hook
           (lambda ()

@@ -9,7 +9,6 @@
                                      ",u" ",b"
                                      ",o" ",g"))
 (guide-key-mode 1)
-(setq guide-key/highlight-command-regexp "rectange")
 (setq guide-key/recursive-key-sequence-flag t)
 (setq guide-key/idle-delay 0.5)
 

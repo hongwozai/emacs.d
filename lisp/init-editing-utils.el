@@ -6,15 +6,13 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (setq-default default-tab-width           4
-              indent-tabs-mode            t
+              indent-tabs-mode            nil
               column-number-mode          t
               scorll-margin               3
               make-backup-files           nil
               auto-save-mode              nil
               x-select-enable-clipboard   t
               mouse-yank-at-point         t
-              grep-hightlight-matches     t
-              grep-scroll-output          t
               truncate-lines              nil
               show-trailing-whitespace    t)
 

@@ -17,7 +17,6 @@
 
 ;; company
 (require-package 'company)
-(require-package 'company-web)
 (require-package 'company-c-headers)
 (require-package 'slime-company)
 
@@ -31,10 +30,13 @@
   '(progn
      (add-to-list 'company-backends 'company-cmake)
      (add-to-list 'company-backends 'company-c-headers)
-     (add-to-list 'company-backends 'company-web-html)
+     ;; can't work with TRAMP
+     (setq company-backends (delete 'company-ropemacs company-backends))
+     (setq company-require-match nil)
+     ;; press SPACE will accept the highlighted candidate and insert a space
+     (setq company-auto-complete nil)
      (setq company-idle-delay    0.2)
      (setq company-minimum-prefix-length 3)
-     (setq company-dabbrev-ignore-case t)
      (setq company-dabbrev-downcase nil)
      (setq company-show-numbers t)
      (setq company-begin-commands '(self-insert-command))

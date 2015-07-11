@@ -7,16 +7,8 @@
 
 (setq flycheck-emacs-lisp-load-path 'inherit)
 
-(defun hong/gtk-include-path ()
-  (let* ((cmd "pkg-config --cflags gtk+-3.0")
-         (gtk (split-string
-               (shell-command-to-string cmd))))
-    (mapcar #'(lambda (x) (substring x 2))
-            (remove-if #'(lambda (x) (not (eql (elt x 1) ?I))) gtk))))
-
 (setq flycheck-clang-include-path
-      `( ,@(hong/gtk-include-path)
-         "/usr/include"
+      `("/usr/include"
          "include" "../include"
          "inc" "../inc"))
 

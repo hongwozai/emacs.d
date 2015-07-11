@@ -13,10 +13,9 @@
 (require 'init-tramp)
 (require 'init-shell)
 (require 'init-pair)
-(require 'init-tags)
+(require 'init-search)
 
 (require 'init-ido)
-(require 'init-helm)
 (require 'init-evil)
 
 (require 'init-project)

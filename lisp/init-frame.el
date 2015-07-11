@@ -10,9 +10,14 @@
 ;;; gui
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
+(setq frame-title-format
+	  '((:eval (if (buffer-file-name)
+				   (abbreviate-file-name (buffer-file-name))
+				 "%b"))))
+
 
 (defvar show-minor-modes
-  '(projectile-mode slime-mode))
+  '(slime-mode))
 (defun purge-minor-modes ()
   (interactive)
   (setf minor-mode-alist

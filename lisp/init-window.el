@@ -20,4 +20,8 @@
   (when golden-ratio-mode
     (golden-ratio)))
 
+(defadvice quit-window (after golden-ratio-select-window activate)
+  (when golden-ratio-mode
+    (golden-ratio)))
+
 (provide 'init-window)

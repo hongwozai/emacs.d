@@ -32,25 +32,27 @@
 
 (evil-leader/set-leader ",")
 (evil-leader/set-key
-  "bl"  'helm-mini
-  "cd" 'yasdcv-translate-at-point
-  "dj" 'dired-jump
+  "bl"  'ibuffer
+  "cd"  'yasdcv-translate-at-point
+  "dj"  'dired-jump
   "oa"  'org-agenda
+  "oc"  'occur
+  "fp"  'ffip
   "ff"  'ido-find-file-other-window
   "fb"  'ido-switch-buffer-other-window
   "fl"  'flycheck-list-errors
   "gd"  'ggtags-find-definition
   "gt"  'ggtags-find-tag-dwim
   "gr"  'ggtags-find-reference
-  "ha" 'helm-apropos
-  "hs" 'hs-toggle-hiding
-  "im" 'helm-imenu
+  "gn"  'ggtags-next-mark
+  "gp"  'ggtags-prev-mark
+  "ha"  'helm-apropos
+  "hs"  'hs-toggle-hiding
+  "im"  'idomenu
   "kb"  'kill-this-buffer
   "mf"  'mark-defun
-  "mx"  'helm-M-x
-  "pa"  'helm-projectile
+  "sc"  'shell-command
   "sd" 'sudo-edit
-  "uk" 'gud-kill-yes
   "ur" 'gud-remove
   "ub" 'gud-break
   "uu" 'gud-run
@@ -66,6 +68,8 @@
   "xe" 'eval-last-sexp
   "xf"  'ido-find-file
   "xk"  'ido-kill-buffer
+  "xh"  'mark-whole-buffer
+  "xo"  'other-window
   "xs" 'save-buffer
   "xz" 'suspend-frame
   "."  'evil-ex
