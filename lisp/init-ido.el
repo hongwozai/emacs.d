@@ -24,4 +24,6 @@
 (global-set-key [remap execute-extended-command] 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
+(require-package 'idomenu)
+
 (provide 'init-ido)
