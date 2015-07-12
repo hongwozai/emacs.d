@@ -17,7 +17,7 @@
 
 
 (defvar show-minor-modes
-  '(slime-mode))
+  '(projectile-mode slime-mode))
 (defun purge-minor-modes ()
   (interactive)
   (setf minor-mode-alist
