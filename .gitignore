@@ -16,3 +16,4 @@ projectile*
 flycheck-init.el
 semanticdb/*
 .python-environments/*
+pyim/*

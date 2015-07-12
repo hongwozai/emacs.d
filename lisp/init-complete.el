@@ -8,13 +8,6 @@
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill))
 
-;;; yasnippet
-(require-package 'yasnippet)
-(yas-global-mode)
-(setq yas-prompt-functions '(yas-ido-prompt
-                             yas-dropdown-prompt
-                             yas-completing-prompt))
-
 ;; company
 (require-package 'company)
 (require-package 'company-c-headers)

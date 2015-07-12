@@ -7,7 +7,8 @@
 (require-package 'guide-key)
 (setq guide-key/guide-key-sequence '("C-c" "C-x 4"
                                      ",u" ",b"
-                                     ",o" ",g"))
+                                     ",o" ",g"
+                                     ",p"))
 (guide-key-mode 1)
 (setq guide-key/recursive-key-sequence-flag t)
 (setq guide-key/idle-delay 0.5)

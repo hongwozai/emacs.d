@@ -9,10 +9,8 @@
 (flx-ido-mode 1)
 (setq flx-ido-threshold 10000)
 (setq ido-default-buffer-method 'selected-window)
-
 (setq ido-enable-flex-matching t)
-(setq ido-use-faces t)
-;; (setq ido-use-filename-at-point t)
+(setq ido-use-faces nil)
 (setq ido-use-virtual-buffers t)
 (setq ido-auto-merge-work-directories-length 0)
 

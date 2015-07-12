@@ -33,10 +33,13 @@
 (global-prettify-symbols-mode)
 
 ;;; dired
+(require 'dired)
 (eval-after-load 'dired
-  (progn
-    (setq dired-recursive-copies t)
-    (setq dired-recursive-deletes t)))
+  '(progn
+     (setq dired-recursive-copies t)
+     (setq dired-recursive-deletes t)
+     (define-key dired-mode-map "/" 'dired-isearch-filenames)
+     ))
 
 ;; hs minor mode
 (add-hook 'prog-mode-hook 'hs-minor-mode)

@@ -1,8 +1,9 @@
 ;;; ggtags
 (require-package 'ggtags)
 (eval-after-load 'ggtags
-  (progn
-    (setq ggtags-update-on-save t)))
+  '(progn
+     (setq ggtags-update-on-save t)))
+(setq-local imenu-create-index-function #'ggtags-build-imenu-index)
 
 ;;; c-eldoc
 (require-package 'c-eldoc)

@@ -16,11 +16,10 @@
 
 ;; (evil-declare-key 'normal org-mode-map)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
-(define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-1)
-(define-key evil-visual-state-map (kbd "SPC") 'avy-goto-word-1)
+(define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-0)
+(define-key evil-visual-state-map (kbd "SPC") 'avy-goto-word-0)
 (define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "RET") 'avy-goto-line)
-(define-key evil-normal-state-map (kbd "K") 'helm-man-woman)
 
 ;;; evil surround
 (require-package 'evil-surround)
@@ -35,11 +34,8 @@
   "bl"  'ibuffer
   "cd"  'yasdcv-translate-at-point
   "dj"  'dired-jump
-  "oa"  'org-agenda
-  "oc"  'occur
-  "fp"  'ffip
-  "ff"  'ido-find-file-other-window
-  "fb"  'ido-switch-buffer-other-window
+  "fp"  'flycheck-previous-error
+  "fn"  'flycheck-next-error
   "fl"  'flycheck-list-errors
   "gd"  'ggtags-find-definition
   "gt"  'ggtags-find-tag-dwim
@@ -51,6 +47,15 @@
   "im"  'idomenu
   "kb"  'kill-this-buffer
   "mf"  'mark-defun
+  "ne"  'next-error
+  "pf"  'ffip
+  ;; "pf"  'projectile-find-file
+  "pa"  'projectile-ag
+  "pb"  'projectile-switch-to-buffer
+  "pd"  'projectile-dired
+  "pe"  'previous-error                 ;"ne" next-error
+  "ps"  'projectile-switch-project
+  "oa"  'org-agenda
   "sc"  'shell-command
   "sd" 'sudo-edit
   "ur" 'gud-remove
@@ -63,6 +68,8 @@
   "ui" 'gud-stepi
   "uc" 'gud-cont
   "uf" 'gud-finish
+  "x4f"  'ido-find-file-other-window
+  "x4b"  'ido-switch-buffer-other-window
   "xb"  'ido-switch-buffer
   "xc" 'save-buffers-kill-terminal
   "xe" 'eval-last-sexp
@@ -79,7 +86,7 @@
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)
 (evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
 
-(lexical-let ((default-color (cons nil nil)))
+(lexical-let ((default-color (cons "#657b83" "#fdf6e3")))
   (add-hook 'post-command-hook
             (lambda ()
               (let ((color (cond ((minibufferp) default-color)

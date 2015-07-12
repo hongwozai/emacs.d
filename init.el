@@ -23,7 +23,7 @@
 (require 'init-flycheck)
 (require 'init-complete)
 
-(require 'init-dict)
+(require 'init-chinese)
 (require 'init-org-mode)
 
 (require 'init-cc-mode)
