@@ -1,5 +1,9 @@
-;;; sql information
+;;; indent
+(require-package 'sql-indent)
+(eval-after-load "sql"
+  '(load-library "sql-indent"))
 
+;;; sql information
 (setq sql-product 'mysql)
 (setq sql-server  "localhost")
 (setq sql-user    "root")
