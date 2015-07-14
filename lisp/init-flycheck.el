@@ -8,7 +8,7 @@
 (setq flycheck-emacs-lisp-load-path 'inherit)
 
 (setq flycheck-clang-include-path
-      `("/usr/include"
+      '("/usr/include"
          "include" "../include"
          "inc" "../inc"))
 

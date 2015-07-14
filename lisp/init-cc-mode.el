@@ -40,6 +40,28 @@
               (winner-undo)
               (message "NO COMPILATION ERRORS!")))))
   )
+;;; .dir-local
+;;; gtk
+(defun hong/gtk-headers ()
+  (let* ((cmd "pkg-config --cflags gtk+-3.0")
+         (gtk (split-string
+               (shell-command-to-string cmd))))
+    (mapcar #'(lambda (x) (substring x 2))
+            (remove-if #'(lambda (x) (not (eql (elt x 1) ?I))) gtk))))
+(defun hong/my-gtk-config ()
+  (setq flycheck-clang-include-path
+        (append flycheck-clang-include-path (hong/gtk-headers)))
+  (setq company-clang-arguments
+        (append company-clang-arguments
+                        (mapcar #'(lambda (x) (concat "-I" x)) (hong/gtk-headers))))
+  (setq company-c-headers-path-system
+        (append company-c-headers-path-system (hong/gtk-headers)))
+  (setq c-eldoc-includes
+        (concat c-eldoc-includes
+                " "
+                (reduce #'(lambda (x y) (concat x " " y))
+                        (mapcar #'(lambda (x) (concat "-I" x)) (hong/gtk-headers))))))
+
 (defun hong/my-c-mode-config ()
   "C/C++ only"
 ;;; c-eldoc
@@ -47,13 +69,15 @@
   (c-turn-on-eldoc-mode)
   (setq c-eldoc-buffer-regenerate-time 60)
   (setq c-eldoc-cpp-command "/usr/bin/cpp")
-  (setq c-eldoc-includes "-I./ -I../ -I/usr/include "))
+  (setq c-eldoc-includes "-I../ -I/usr/include "))
 
 (add-hook 'c-mode-common-hook
           (lambda ()
             (hong/my-cc-common-config)
             (hong/my-c-mode-config)
             (ggtags-mode 1)))
-
+(add-hook 'c-mode-hook
+          (lambda ()
+            (hong/my-gtk-config)))
 
 (provide 'init-cc-mode)
