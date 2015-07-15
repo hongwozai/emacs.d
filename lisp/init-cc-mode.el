@@ -16,6 +16,9 @@
 (setq gdb-many-windows t)
 (setq gdb-show-main   t)
 
+;;; bison
+(require-package 'bison-mode)
+
 ;; cmake
 (require-package 'cmake-mode)
 (setq auto-mode-alist
@@ -40,7 +43,6 @@
               (winner-undo)
               (message "NO COMPILATION ERRORS!")))))
   )
-;;; .dir-local
 ;;; gtk
 (defun hong/gtk-headers ()
   (let* ((cmd "pkg-config --cflags gtk+-3.0")

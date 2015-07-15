@@ -39,6 +39,7 @@
      (setq dired-recursive-copies t)
      (setq dired-recursive-deletes t)
      (define-key dired-mode-map "/" 'dired-isearch-filenames)
+     (define-key dired-mode-map " " 'avy-goto-word-1)
      ))
 
 ;; hs minor mode

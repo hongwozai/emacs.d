@@ -9,6 +9,7 @@
                 minibuffer-inactive-mode
                 messages-buffer-mode
                 special-mode
+                sql-interactive-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
 ;;; messages-buffer-mode can't emacs state in emacs start
