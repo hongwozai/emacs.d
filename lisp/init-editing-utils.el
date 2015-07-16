@@ -25,6 +25,10 @@
   (add-hook hook 'highlight-symbol-mode)
   (add-hook hook 'highlight-symbol-nav-mode))
 (setq highlight-symbol-idle-delay 0.5)
+(eval-after-load 'highlight-symbol
+  '(progn
+     (set-face-foreground 'highlight-symbol-face nil)
+     (set-face-background 'highlight-symbol-face "#f2e5c0")))
 (global-set-key (kbd "M-n") 'highlight-symbol-next)
 (global-set-key (kbd "M-p") 'highlight-symbol-prev)
 
@@ -61,7 +65,8 @@
 
 ;; pair mode
 (show-paren-mode t)
-
+(set-face-background 'show-paren-match      "#f6cebf")
+(set-face-foreground 'show-paren-match      nil)
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)
 

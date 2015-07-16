@@ -5,6 +5,7 @@
 (setq solarized-high-contrast-mode-line t)
 (setq solarized-use-more-italic t)
 
+;;; switch light or dark
 (defun load-solarized-theme (lod)
   "lod is light or dark"
   (defvar current-theme nil)

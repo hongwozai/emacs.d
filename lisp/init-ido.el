@@ -13,6 +13,10 @@
 (setq ido-use-faces nil)
 (setq ido-use-virtual-buffers t)
 (setq ido-auto-merge-work-directories-length 0)
+;;; flx match highlight
+(setq flx-ido-use-faces t)
+(set-face-foreground 'flx-highlight-face "red")
+(set-face-underline  'flx-highlight-face "red")
 
 (ido-ubiquitous-mode 1)
 (setq org-completion-use-ido t)

@@ -1,5 +1,5 @@
-(when (executable-find "mit-scheme")
-  (defvar scheme-program-name "mit-scheme"))
+(when (executable-find "racket")
+  (defvar scheme-program-name "racket"))
 
 (defun hong/run-scheme ()
   "hong's function to run scheme"

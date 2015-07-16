@@ -18,6 +18,17 @@
 
 ;;; bison
 (require-package 'bison-mode)
+(eval-after-load 'bison-mode
+  '(progn
+     (setq bison-all-electricity-off t)
+     (setq bison-rule-separator-column 8)
+     (setq bison-rule-enumeration-column 16)
+     (setq bison-decl-type-column 8)
+     (setq bison-decl-token-column 0)
+     (define-key bison-mode-map [remap bison-indent-line]
+       '(lambda () (interactive)
+          (save-excursion (move-beginning-of-line 1)
+                          (insert "    "))))))
 
 ;; cmake
 (require-package 'cmake-mode)
@@ -55,7 +66,7 @@
         (append flycheck-clang-include-path (hong/gtk-headers)))
   (setq company-clang-arguments
         (append company-clang-arguments
-                        (mapcar #'(lambda (x) (concat "-I" x)) (hong/gtk-headers))))
+                (mapcar #'(lambda (x) (concat "-I" x)) (hong/gtk-headers))))
   (setq company-c-headers-path-system
         (append company-c-headers-path-system (hong/gtk-headers)))
   (setq c-eldoc-includes

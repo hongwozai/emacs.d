@@ -35,6 +35,8 @@
   "bl"  'ibuffer
   "cd"  'yasdcv-translate-at-point
   "dj"  'dired-jump
+  "en"  'next-error
+  "ep"  'previous-error
   "fp"  'flycheck-previous-error
   "fn"  'flycheck-next-error
   "fl"  'flycheck-list-errors
@@ -48,14 +50,14 @@
   "im"  'idomenu
   "kb"  'kill-this-buffer
   "mf"  'mark-defun
-  "ne"  'next-error
   "pf"  'ffip
   ;; "pf"  'projectile-find-file
-  "pa"  'projectile-ag
+  "ps"  'projectile-ag
+  "pS"   'projectile-save-project-buffers
   "pb"  'projectile-switch-to-buffer
   "pd"  'projectile-dired
-  "pe"  'previous-error                 ;"ne" next-error
-  "ps"  'projectile-switch-project
+  "pe"  'projectile-recentf
+  "pp"  'projectile-switch-project
   "oa"  'org-agenda
   "sc"  'shell-command
   "sd" 'sudo-edit
