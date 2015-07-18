@@ -2,7 +2,10 @@
 (require-package 'evil)
 (evil-mode 1)
 
-(setq evil-move-cursor-back nil)
+(setq evil-move-cursor-back t)
+(dolist (mode '(lisp-mode-hook lisp-interaction-mode-hook
+                               emacs-lisp-mode-hook))
+  (add-hook mode (lambda () (setq-local evil-move-cursor-back nil))))
 
 (dolist (mode '(term-mode gud-mode
                 eshell-mode shell-mode
@@ -33,12 +36,12 @@
 (evil-leader/set-leader ",")
 (evil-leader/set-key
   "bl"  'ibuffer
+  "bb"  'bookmark-bmenu-list
+  "bs"  'bookmark-set
   "cd"  'yasdcv-translate-at-point
   "dj"  'dired-jump
   "en"  'next-error
   "ep"  'previous-error
-  "fp"  'flycheck-previous-error
-  "fn"  'flycheck-next-error
   "fl"  'flycheck-list-errors
   "gd"  'ggtags-find-definition
   "gt"  'ggtags-find-tag-dwim
@@ -53,12 +56,14 @@
   "pA"  'hong/add-directory-to-projectile
   "pf"  'ffip
   ;; "pf"  'projectile-find-file
-  "ps"  'projectile-ag
-  "pS"  'projectile-save-project-buffers
   "pd"  'projectile-dired
   "pe"  'projectile-recentf
   "pp"  'projectile-switch-project
   "pn"  'hong/new-project
+  "pR"  'projectile-regenerate-tags
+  "ps"  'projectile-ag
+  "pS"  'projectile-save-project-buffers
+  "pr"  'projectile-remove-known-project
   "oa"  'org-agenda
   "sc"  'shell-command
   "sd" 'sudo-edit

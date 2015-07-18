@@ -12,7 +12,7 @@
 
 ;;; autoresize window
 (require-package 'golden-ratio)
-(golden-ratio-mode 1)
+;; (golden-ratio-mode 1)
 (setq golden-ratio-auto-scale t)
 
 ;;; defadvice window-numbering's select-window-n
