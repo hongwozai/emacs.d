@@ -17,4 +17,19 @@
                collecting (expand-file-name dir lisp-dir))
          load-path)))
 
+;;; autoexit
+(defun hong/exit ()
+  (let ((process (ignore-errors (get-buffer-process (current-buffer)))))
+    (when process
+      (set-process-sentinel process
+                           'hong/exit-prompt))))
+(defun hong/exit-prompt (process state)
+  ;; (message "%s" state)
+  (if (or (string-match "exited abnormally with code.*" state)
+          (string-match "Bye" state)
+          (string-match "finished" state))
+      (progn
+        (kill-buffer (process-buffer process))
+        (winner-undo))))
+
 (provide 'init-utils)

@@ -28,9 +28,9 @@
      (setq company-require-match nil)
      ;; press SPACE will accept the highlighted candidate and insert a space
      (setq company-auto-complete nil)
-     (setq company-idle-delay    0.2)
-     (setq company-minimum-prefix-length 3)
-     (setq company-dabbrev-downcase nil)
+     (setq company-idle-delay    0.3)
+     (setq company-dabbrev-downcase    nil)
+     (setq company-dabbrev-ignore-case nil)
      (setq company-show-numbers t)
      (setq company-begin-commands '(self-insert-command))
      (setq company-clang-insert-arguments nil)))

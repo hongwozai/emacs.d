@@ -46,6 +46,9 @@
      (define-key dired-mode-map " " 'avy-goto-word-1)
      ))
 
+;;; recentf
+(require 'recentf)
+
 ;; hs minor mode
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
@@ -62,6 +65,11 @@
 
 ;;; avy
 (require-package 'avy)
+
+;;; popup window autoclose
+(require-package 'popwin)
+(require 'popwin)
+(popwin-mode 1)
 
 ;; pair mode
 (show-paren-mode t)

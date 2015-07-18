@@ -8,7 +8,7 @@
                 eshell-mode shell-mode
                 minibuffer-inactive-mode
                 messages-buffer-mode
-                special-mode
+                special-mode process-menu-mode
                 sql-interactive-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
@@ -50,14 +50,15 @@
   "im"  'idomenu
   "kb"  'kill-this-buffer
   "mf"  'mark-defun
+  "pA"  'hong/add-directory-to-projectile
   "pf"  'ffip
   ;; "pf"  'projectile-find-file
   "ps"  'projectile-ag
-  "pS"   'projectile-save-project-buffers
-  "pb"  'projectile-switch-to-buffer
+  "pS"  'projectile-save-project-buffers
   "pd"  'projectile-dired
   "pe"  'projectile-recentf
   "pp"  'projectile-switch-project
+  "pn"  'hong/new-project
   "oa"  'org-agenda
   "sc"  'shell-command
   "sd" 'sudo-edit
@@ -71,6 +72,13 @@
   "ui" 'gud-stepi
   "uc" 'gud-cont
   "uf" 'gud-finish
+  "wg" 'golden-ratio
+  "wh" 'evil-window-left
+  "wj" 'evil-window-down
+  "wk" 'evil-window-up
+  "wl" 'evil-window-right
+  "wo" 'delete-other-windows
+  "wu" 'winner-undo
   "x4f"  'ido-find-file-other-window
   "x4b"  'ido-switch-buffer-other-window
   "xb"  'ido-switch-buffer

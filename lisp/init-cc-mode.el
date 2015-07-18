@@ -45,6 +45,7 @@
   (setq compile-command "make")
   (setq compilation-window-height 12)
   (setq compilation-read-command t)
+  (setq compilation-auto-jump-to-first-error t)
   (setq compilation-finish-function
         (lambda (buf str)
           (if (string-match "exited abnormally" str)

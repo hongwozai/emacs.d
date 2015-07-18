@@ -12,5 +12,6 @@
 (guide-key-mode 1)
 (setq guide-key/recursive-key-sequence-flag t)
 (setq guide-key/idle-delay 0.5)
+(setq guide-key/popup-window-position 'bottom)
 
 (provide 'init-misc)

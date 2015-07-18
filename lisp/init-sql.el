@@ -12,4 +12,7 @@
 ;;; M-x sql-mysql login
 (setq sql-mysql-login-params '(user password))
 
+;;; mysql exit autoclose
+(add-hook 'sql-interactive-mode-hook 'hong/exit)
+
 (provide 'init-sql)
