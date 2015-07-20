@@ -16,6 +16,16 @@
               truncate-lines              nil
               show-trailing-whitespace    t)
 
+;; Auto refresh buffers
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t
+      dired-auto-revert-buffer            t
+      auto-revert-verbose                 nil)
+
+;;; cursor
+(blink-cursor-mode 0)
+(global-hl-line-mode t)
+
 ;; syntax hightlight
 (global-font-lock-mode t)
 
@@ -24,9 +34,9 @@
 (dolist (hook '(prog-mode-hook web-mode-hook css-mode-hook))
   (add-hook hook 'highlight-symbol-mode)
   (add-hook hook 'highlight-symbol-nav-mode))
-(setq highlight-symbol-idle-delay 0.5)
 (eval-after-load 'highlight-symbol
   '(progn
+     (setq highlight-symbol-idle-delay 0.5)
      (set-face-foreground 'highlight-symbol-face nil)
      (set-face-background 'highlight-symbol-face "#f2e5c0")))
 (global-set-key (kbd "M-n") 'highlight-symbol-next)
@@ -75,6 +85,7 @@
 (show-paren-mode t)
 (set-face-background 'show-paren-match      "#f6cebf")
 (set-face-foreground 'show-paren-match      nil)
+
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)
 

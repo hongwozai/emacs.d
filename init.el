@@ -7,16 +7,15 @@
 
 (require 'init-themes)
 (require 'init-frame)
+(require 'init-evil)
 (require 'init-window)
-
 (require 'init-editing-utils)
+
 (require 'init-tramp)
 (require 'init-shell)
 (require 'init-pair)
 (require 'init-search)
-
 (require 'init-ido)
-(require 'init-evil)
 
 (require 'init-project)
 (require 'init-git)
