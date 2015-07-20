@@ -66,7 +66,7 @@
   "gp"  'ggtags-prev-mark
   "ha"  'helm-apropos
   "hs"  'hs-toggle-hiding
-  "im"  'idomenu
+  "im"  'imenu
   "kb"  'kill-this-buffer
   "mf"  'mark-defun
   "oa"  'org-agenda
