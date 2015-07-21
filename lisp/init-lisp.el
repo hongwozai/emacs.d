@@ -1,13 +1,14 @@
 (when (executable-find "racket")
   (defvar scheme-program-name "racket"))
+(add-hook 'scheme-mode-hook 'hong/exit)
 
 (defun hong/run-scheme ()
   "hong's function to run scheme"
   (interactive)
-  (split-window-below)
-  (other-window 1)
-  (run-scheme scheme-program-name)
-  (other-window 1))
+  (let ((swindow (get-buffer-window (buffer-name))))
+    (select-window (split-window-below))
+    (run-scheme scheme-program-name)
+    (select-window swindow)))
 
 ;; eldoc-mode
 (add-to-list 'lisp-interaction-mode-hook 'eldoc-mode)
