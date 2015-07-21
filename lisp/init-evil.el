@@ -6,7 +6,7 @@
 (dolist (mode '(lisp-mode-hook lisp-interaction-mode-hook
                                emacs-lisp-mode-hook))
   (add-hook mode (lambda () (setq-local evil-move-cursor-back nil))))
-
+;;; initial state change
 (dolist (mode '(term-mode gud-mode
                 eshell-mode shell-mode
                 minibuffer-inactive-mode
@@ -15,7 +15,9 @@
                 sql-interactive-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
-;;; messages-buffer-mode can't emacs state in emacs start
+(dolist (mode '(diff-mode))
+  (evil-set-initial-state mode 'motion))
+;;; messages-buffer-mode can't set emacs state in emacs start
 (kill-buffer "*Messages*")
 
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
@@ -77,6 +79,7 @@
   "pp"  'projectile-switch-project
   "pn"  'hong/new-project
   "pR"  'projectile-regenerate-tags
+  "po"  'projectile-multi-occur
   "ps"  'projectile-ag
   "pS"  'projectile-save-project-buffers
   "pr"  'projectile-remove-known-project

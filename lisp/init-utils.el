@@ -31,5 +31,7 @@
       (progn
         (kill-buffer (process-buffer process))
         (winner-undo))))
+;;; ielm C-c C-d exit
+(add-hook 'ielm-mode-hook 'hong/exit)
 
 (provide 'init-utils)

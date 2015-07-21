@@ -14,5 +14,8 @@
 
 ;;; mysql exit autoclose
 (add-hook 'sql-interactive-mode-hook 'hong/exit)
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)))
 
 (provide 'init-sql)
