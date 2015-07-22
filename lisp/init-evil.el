@@ -15,7 +15,7 @@
                 sql-interactive-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
-(dolist (mode '(diff-mode))
+(dolist (mode '(diff-mode occur-mode))
   (evil-set-initial-state mode 'motion))
 ;;; messages-buffer-mode can't set emacs state in emacs start
 (kill-buffer "*Messages*")
@@ -61,12 +61,17 @@
   "en"  'next-error
   "ep"  'previous-error
   "fl"  'flycheck-list-errors
+  "gc"  'ggtags-create-tags
   "gd"  'ggtags-find-definition
   "gt"  'ggtags-find-tag-dwim
   "gr"  'ggtags-find-reference
   "gn"  'ggtags-next-mark
   "gp"  'ggtags-prev-mark
-  "ha"  'helm-apropos
+  "hf"  'describe-function
+  "hv"  'describe-variable
+  "hk"  'describe-key
+  "hm"  'describe-mode
+  "hi"  'info
   "hs"  'hs-toggle-hiding
   "im"  'imenu
   "kb"  'kill-this-buffer
@@ -85,6 +90,9 @@
   "pr"  'projectile-remove-known-project
   "sc"  'shell-command
   "sd" 'sudo-edit
+  "sr" 'sr-speedbar-toggle
+  "sa" 'ag
+  "so" 'occur
   "ur" 'gud-remove
   "ub" 'gud-break
   "uu" 'gud-run
@@ -115,8 +123,7 @@
   "xvs" 'git-gutter:stage-hunk
   "xvr" 'git-gutter:revert-hunk
   "xv=" 'git-gutter:popup-hunk
-  "xz" 'suspend-frame
-  )
+  "xz" 'suspend-frame)
 
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)

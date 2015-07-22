@@ -10,6 +10,25 @@
 
 (window-numbering-mode)
 
+;;; sr-speedbar
+(require-package 'sr-speedbar)
+(eval-after-load 'sr-speedbar
+  '(progn
+     (setq sr-speedbar-right-side nil)
+     (setq sr-speedbar-width 25)
+     (setq sr-speedbar-max-width 25)
+     (setq speedbar-use-images nil)
+     (setq speedbar-show-unknown-files t)
+     (setq sr-speedbar-auto-refresh t)
+     (setq sr-speedbar-delete-windows t)
+     (setq speedbar-directory-unshown-regexp "^\\..*$")
+     (add-hook 'speedbar-mode-hook
+               (lambda ()
+                 (define-key evil-motion-state-local-map (kbd "TAB") 'speedbar-toggle-line-expansion)
+                 (define-key evil-motion-state-local-map (kbd "H") 'speedbar-toggle-show-all-files)
+                 (define-key speedbar-mode-map (kbd "q") 'sr-speedbar-close)
+                 (define-key evil-motion-state-local-map (kbd "q") 'sr-speedbar-close)))))
+
 ;;; autoresize window
 (require-package 'golden-ratio)
 (eval-after-load 'golden-ratio

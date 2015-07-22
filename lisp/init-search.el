@@ -17,9 +17,18 @@
         (hl-line-mode 1)
         (recenter)
         (select-window buf)))))
-(define-key occur-mode-map (kbd "j") 'next-line)
-(define-key occur-mode-map (kbd "k") 'previous-line)
-(define-key occur-mode-map (kbd "n") (hong/occur-next-or-prev 'next))
-(define-key occur-mode-map (kbd "p") (hong/occur-next-or-prev 'prev))
+
+(defadvice occur (after hong/occur-switch-window activate)
+  (select-window (get-buffer-window "*Occur*")))
+
+(defadvice isearch-occur (after hong/occur-exit-isearch activate)
+  (select-window (get-buffer-window "*Occur*"))
+  (isearch-exit))
+(add-hook 'occur-mode-hook
+          (lambda ()
+            (define-key evil-motion-state-local-map (kbd "n")
+              (hong/occur-next-or-prev 'next))
+            (define-key evil-motion-state-local-map (kbd "p")
+              (hong/occur-next-or-prev 'prev))))
 
 (provide 'init-search)
