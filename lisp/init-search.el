@@ -19,11 +19,15 @@
         (select-window buf)))))
 
 (defadvice occur (after hong/occur-switch-window activate)
-  (select-window (get-buffer-window "*Occur*")))
+  (let ((w (get-buffer-window "*Occur*")))
+    (when w (select-window w))))
 
 (defadvice isearch-occur (after hong/occur-exit-isearch activate)
-  (select-window (get-buffer-window "*Occur*"))
-  (isearch-exit))
+  (let ((w (get-buffer-window "*Occur*")))
+    (when w
+      (select-window w)
+      (isearch-exit))))
+
 (add-hook 'occur-mode-hook
           (lambda ()
             (define-key evil-motion-state-local-map (kbd "n")
