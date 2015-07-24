@@ -61,6 +61,7 @@
   "en"  'next-error
   "ep"  'previous-error
   "fl"  'flycheck-list-errors
+  "ff"  'ffip
   "gc"  'ggtags-create-tags
   "gd"  'ggtags-find-definition
   "gt"  'ggtags-find-tag-dwim
@@ -78,7 +79,8 @@
   "mf"  'mark-defun
   "oa"  'org-agenda
   "pA"  'hong/add-directory-to-projectile
-  "pf"  'ffip
+  "pf"  'projectile-find-file
+  "pb"  'projectile-switch-to-buffer
   "pd"  'projectile-dired
   "pe"  'projectile-recentf
   "pp"  'projectile-switch-project
