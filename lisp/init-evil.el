@@ -76,6 +76,7 @@
   "hs"  'hs-toggle-hiding
   "im"  'imenu
   "kb"  'kill-this-buffer
+  "kw"  'kill-buffer-and-window
   "mf"  'mark-defun
   "oa"  'org-agenda
   "pA"  'hong/add-directory-to-projectile
@@ -83,6 +84,7 @@
   "pb"  'projectile-switch-to-buffer
   "pd"  'projectile-dired
   "pe"  'projectile-recentf
+  "pk"  'projectile-kill-buffers
   "pp"  'projectile-switch-project
   "pn"  'hong/new-project
   "pR"  'projectile-regenerate-tags
@@ -125,7 +127,8 @@
   "xvs" 'git-gutter:stage-hunk
   "xvr" 'git-gutter:revert-hunk
   "xv=" 'git-gutter:popup-hunk
-  "xz" 'suspend-frame)
+  "xz" 'suspend-frame
+  "."  'evil-ex)
 
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)

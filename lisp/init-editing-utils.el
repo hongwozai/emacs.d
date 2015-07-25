@@ -76,11 +76,6 @@
 ;;; avy
 (require-package 'avy)
 
-;;; popup window autoclose
-(require-package 'popwin)
-(require 'popwin)
-(popwin-mode 1)
-
 ;; pair mode
 (show-paren-mode t)
 (set-face-background 'show-paren-match      "#f6cebf")
