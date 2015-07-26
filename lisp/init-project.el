@@ -30,7 +30,7 @@
   (if (or (projectile-root-bottom-up default-directory)
           (projectile-root-top-down  default-directory)
           (projectile-root-top-down-recurring default-directory))
-      (progn (projectile-add-known-project default-directory)
+      (progn (projectile-add-known-project (file-truename default-directory))
              (message "add projectile project list"))
     (message "you're not project!")))
 

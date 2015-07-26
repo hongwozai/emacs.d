@@ -30,11 +30,6 @@
 (require-package 'evil-surround)
 (global-evil-surround-mode 1)
 
-;;; evil visualstar
-(require-package 'evil-visualstar)
-(global-evil-visualstar-mode)
-(setq evil-visualstar/persistent t)
-
 ;;; evil jumper
 ;;; C-i forward jump C-o backward jump
 (require-package 'evil-jumper)
@@ -53,6 +48,10 @@
   "4"   'select-window-4
   "5"   'select-window-5
   "6"   'select-window-6
+  "acl" 'avy-copy-line
+  "acr" 'avy-copy-region
+  "al"  'avy-goto-line
+  "aw"  'avy-goto-word-0
   "bl"  'ibuffer
   "bm"  'bookmark-bmenu-list
   "bs"  'bookmark-set
@@ -107,6 +106,7 @@
   "ui" 'gud-stepi
   "uc" 'gud-cont
   "uf" 'gud-finish
+  "wc" 'evil-window-delete
   "wg" 'golden-ratio
   "wh" 'evil-window-left
   "wj" 'evil-window-down
