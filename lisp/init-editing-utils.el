@@ -8,7 +8,7 @@
 (setq-default default-tab-width           4
               indent-tabs-mode            nil
               column-number-mode          t
-              scorll-margin               3
+              scroll-preserve-screen-position 'always
               make-backup-files           nil
               auto-save-mode              nil
               x-select-enable-clipboard   t
@@ -24,7 +24,7 @@
 
 ;;; cursor
 (blink-cursor-mode 0)
-(global-hl-line-mode t)
+;; (global-hl-line-mode t)
 
 ;; syntax hightlight
 (global-font-lock-mode t)
@@ -36,7 +36,7 @@
   (add-hook hook 'highlight-symbol-nav-mode))
 (eval-after-load 'highlight-symbol
   '(progn
-     (setq highlight-symbol-idle-delay 0.5)
+     (setq highlight-symbol-idle-delay 1)
      (set-face-foreground 'highlight-symbol-face nil)
      (set-face-background 'highlight-symbol-face "#f2e5c0")))
 (global-set-key (kbd "M-n") 'highlight-symbol-next)
@@ -68,6 +68,38 @@
 
 ;; uniquify buffer-name
 (require 'uniquify)
+
+;;; ibuffer (list-buffers have bug: auto-recenterring)
+(require-package 'ibuffer-vc)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(evil-ex-define-cmd "ls" 'ibuffer)
+(require 'ibuffer-vc)
+(eval-after-load 'ibuffer
+  '(progn
+     (setq ibuffer-show-empty-filter-groups nil)
+     (setq ibuffer-saved-filter-groups
+           '(("default"
+              ("org"   (or (mode . org-mode)
+                           (mode . org-agenda-mode)))
+              ("dired" (mode . dired-mode))
+              ("emacs" (or (name . "^\\*scratch\\*$")
+                           (name . "^\\*Messages\\*$"))))))
+     (add-hook 'ibuffer-hook
+               (lambda ()
+                 (ibuffer-vc-set-filter-groups-by-vc-root)
+                 (unless (eq ibuffer-sorting-mode 'filename/process)
+                   (ibuffer-do-sort-by-filename/process))))))
+(setq ibuffer-formats
+      '((mark modified read-only vc-status-mini " "
+              (name 18 18 :left :elide)
+              " "
+              (size 9 -1 :right)
+              " "
+              (mode 16 16 :left :elide)
+              " "
+              (vc-status 16 16 :left)
+              " "
+              filename-and-process)))
 
 ;; expand-region
 (require-package 'expand-region)

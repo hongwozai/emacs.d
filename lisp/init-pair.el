@@ -3,7 +3,10 @@
   (electric-pair-mode))
 
 (require-package 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(dolist (hook '(emacs-lisp-mode-hook
+                lisp-mode-hook lisp-interaction-mode-hook
+                scheme-mode-hook slime-repl-mode-hook))
+  (add-hook hook 'rainbow-delimiters-mode))
 
 ;; paredit
 (require-package 'paredit)

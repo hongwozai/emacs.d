@@ -26,6 +26,13 @@
 (define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "RET") 'avy-goto-line)
 
+;;; evil-anzu
+(require-package 'evil-anzu)
+(with-eval-after-load 'evil
+  (require 'evil-anzu)
+  (global-anzu-mode))
+(set-face-foreground 'anzu-mode-line "gold")
+
 ;;; evil surround
 (require-package 'evil-surround)
 (global-evil-surround-mode 1)
@@ -98,16 +105,6 @@
   "sr" 'sr-speedbar-toggle
   "sa" 'ag
   "so" 'occur
-  "ur" 'gud-remove
-  "ub" 'gud-break
-  "uu" 'gud-run
-  "up" 'gud-print
-  "ue" 'gud-cls
-  "un" 'gud-next
-  "us" 'gud-step
-  "ui" 'gud-stepi
-  "uc" 'gud-cont
-  "uf" 'gud-finish
   "wc" 'evil-window-delete
   "wg" 'golden-ratio
   "wh" 'evil-window-left
