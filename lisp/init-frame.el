@@ -36,12 +36,12 @@
                mode-line-mule-info
                '(:eval (format "%s" (buffer-size)))
                "  "
-               '(:eval (propertize "%b " 'face nil
+               '(:eval (propertize "%b " 'face 'bold-italic
                                    'help-echo (buffer-file-name)))
                '(:eval (format "[%s]" (projectile-project-name)))
+               '(:eval (propertize " %m" 'face 'italic))
                "  "
                mode-line-position
-               '(:eval (format "[%s]" major-mode))
                ;;global-mode-string, org-timer-set-timer in org-mode need this
                (propertize "%M" 'face nil)
                mode-line-end-spaces
