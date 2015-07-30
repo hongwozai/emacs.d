@@ -10,7 +10,7 @@
 (dolist (mode '(term-mode gud-mode
                 eshell-mode shell-mode
                 minibuffer-inactive-mode
-                messages-buffer-mode
+                messages-buffer-mode bs-mode
                 special-mode process-menu-mode
                 sql-interactive-mode
                 flycheck-error-list-mode))
@@ -132,16 +132,5 @@
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)
 (evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
-
-(lexical-let ((default-color (cons "#657b83" "#fdf6e3")))
-  (add-hook 'post-command-hook
-            (lambda ()
-              (let ((color (cond ((minibufferp) default-color)
-                                 ((evil-insert-state-p) '("#e80000" . "#ffffff"))
-                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                                 (t default-color))))
-                (set-face-background 'mode-line (car color))
-                (set-face-foreground 'mode-line (cdr color))))))
 
 (provide 'init-evil)
