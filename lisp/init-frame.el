@@ -34,6 +34,7 @@
                mode-line-front-space
                " "
                mode-line-mule-info
+               '(:eval (format "%c" (if buffer-read-only ?\- ?\+)))
                '(:eval (format "%s" (buffer-size)))
                "  "
                '(:eval (propertize "%b " 'face 'bold-italic
