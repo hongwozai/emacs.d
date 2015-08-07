@@ -17,3 +17,5 @@ flycheck-init.el
 semanticdb/*
 .python-environments/*
 pyim/*
+.gnus.el
+.mew.el

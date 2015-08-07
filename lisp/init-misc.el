@@ -1,8 +1,22 @@
+;;; email ~/.mew.el
+(require-package 'mew)
+(autoload 'mew "mew" nil t)
+(autoload 'mew-send "mew" nil t)
+
+;;; markdown-mode
 (require-package 'markdown-mode)
 (setq auto-mode-alist
       (append '(("\\.md\\'" . markdown-mode))
               auto-mode-alist))
 
+;; cmake
+(require-package 'cmake-mode)
+(setq auto-mode-alist
+      (append '(("CMakeLists\\.txt\\'" . cmake-mode))
+              '(("\\.cmake\\'" . cmake-mode))
+              auto-mode-alist))
+
+;;; guide-key
 (require-package 'guide-key)
 (setq guide-key/guide-key-sequence `(",p" ",xv" ",g" ",w"
                                      ",b" ",h" ",u" ",s"

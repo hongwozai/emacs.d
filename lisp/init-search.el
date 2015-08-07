@@ -14,7 +14,6 @@
       (let ((buf (get-buffer-window (buffer-name))))
         (if (eq nop 'next) (occur-next) (occur-prev))
         (occur-mode-goto-occurrence-other-window)
-        (hl-line-mode 1)
         (recenter)
         (select-window buf)))))
 
