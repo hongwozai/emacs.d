@@ -13,6 +13,8 @@
                 messages-buffer-mode bs-mode
                 special-mode process-menu-mode
                 sql-interactive-mode
+                anaconda-mode anaconda-nav-mode
+                inferior-python-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
 (dolist (mode '(diff-mode occur-mode))
@@ -20,6 +22,7 @@
 ;;; messages-buffer-mode can't set emacs state in emacs start
 (kill-buffer "*Messages*")
 
+(define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 (define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-0)
 (define-key evil-visual-state-map (kbd "SPC") 'avy-goto-word-0)
