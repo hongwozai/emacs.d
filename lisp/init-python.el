@@ -14,5 +14,6 @@
              (add-to-list 'company-backends 'company-anaconda)
              (eldoc-mode)
              (setq electric-indent-chars (delq ?: electric-indent-chars))))
+(add-hook 'inferior-python-mode-hook 'hong/exit)
 
 (provide 'init-python)

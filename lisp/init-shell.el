@@ -3,7 +3,6 @@
           (lambda () (setq pcomplete-cycle-completions nil
                            eshell-save-history-on-exit nil
                            eshell-buffer-shorthand t)))
-
 ;;; term
 (add-hook 'term-mode-hook 'hong/exit)
 

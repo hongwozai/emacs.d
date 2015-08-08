@@ -76,6 +76,7 @@
 (require 'ibuffer-vc)
 (eval-after-load 'ibuffer
   '(progn
+     (define-key ibuffer-mode-map (kbd "SPC") 'avy-goto-line)
      (setq ibuffer-show-empty-filter-groups nil)
      (setq ibuffer-saved-filter-groups
            '(("default"

@@ -16,20 +16,6 @@
 (setq gdb-many-windows t)
 (setq gdb-show-main   t)
 
-;;; bison
-(require-package 'bison-mode)
-(eval-after-load 'bison-mode
-  '(progn
-     (setq bison-all-electricity-off t)
-     (setq bison-rule-separator-column 8)
-     (setq bison-rule-enumeration-column 16)
-     (setq bison-decl-type-column 8)
-     (setq bison-decl-token-column 0)
-     (define-key bison-mode-map [remap bison-indent-line]
-       '(lambda () (interactive)
-          (save-excursion (move-beginning-of-line 1)
-                          (insert "    "))))))
-
 (defun hong/my-cc-common-config ()
   ;; indent
   (setq c-default-style "k&r"
@@ -65,18 +51,15 @@
         (append company-c-headers-path-system (hong/gtk-headers)))
   (setq c-eldoc-includes
         (concat c-eldoc-includes
-                " "
-                (reduce #'(lambda (x y) (concat x " " y))
-                        (mapcar #'(lambda (x) (concat "-I" x)) (hong/gtk-headers))))))
-
+                " `pkg-config gtk+-3.0 --cflags`"))
+  )
 (defun hong/my-c-mode-config ()
   "C/C++ only"
 ;;; c-eldoc
   (autoload 'c-turn-on-eldoc-mode "c-eldoc" "" t)
   (c-turn-on-eldoc-mode)
-  (setq c-eldoc-buffer-regenerate-time 60)
   (setq c-eldoc-cpp-command "/usr/bin/cpp")
-  (setq c-eldoc-includes "-I../ -I/usr/include "))
+  (setq c-eldoc-includes "-I./ -I../"))
 
 (add-hook 'c-mode-common-hook
           (lambda ()

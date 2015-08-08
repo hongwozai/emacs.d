@@ -13,7 +13,7 @@
                 messages-buffer-mode bs-mode
                 special-mode process-menu-mode
                 sql-interactive-mode
-                anaconda-mode anaconda-nav-mode
+                anaconda-nav-mode
                 inferior-python-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))

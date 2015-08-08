@@ -17,8 +17,6 @@
                                cmake-mode-hook web-mode-hook))
   (add-hook hook 'company-mode))
 
-(global-set-key (kbd "C-c y") 'company-yasnippet)
-
 (eval-after-load 'company
   '(progn
      (add-to-list 'company-backends 'company-cmake)
