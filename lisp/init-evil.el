@@ -51,15 +51,6 @@
 
 (evil-leader/set-leader ",")
 (evil-leader/set-key
-  "0"   'select-window-0
-  "1"   'select-window-1
-  "2"   'select-window-2
-  "3"   'select-window-3
-  "4"   'select-window-4
-  "5"   'select-window-5
-  "6"   'select-window-6
-  "acl" 'avy-copy-line
-  "acr" 'avy-copy-region
   "al"  'avy-goto-line
   "aw"  'avy-goto-word-0
   "bl"  'ibuffer
@@ -109,6 +100,8 @@
   "sa" 'ag
   "so" 'occur
   "wc" 'evil-window-delete
+  "ws" 'evil-window-split
+  "wv" 'evil-window-vsplit
   "wg" 'golden-ratio
   "wh" 'evil-window-left
   "wj" 'evil-window-down

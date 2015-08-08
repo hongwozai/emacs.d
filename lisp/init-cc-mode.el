@@ -55,19 +55,23 @@
   )
 (defun hong/my-c-mode-config ()
   "C/C++ only"
-;;; c-eldoc
+  ;; c-eldoc
   (autoload 'c-turn-on-eldoc-mode "c-eldoc" "" t)
   (c-turn-on-eldoc-mode)
+  (setq c-eldoc-buffer-regenerate-time 120)
   (setq c-eldoc-cpp-command "/usr/bin/cpp")
   (setq c-eldoc-includes "-I./ -I../"))
 
 (add-hook 'c-mode-common-hook
           (lambda ()
             (hong/my-cc-common-config)
-            (hong/my-c-mode-config)
             (ggtags-mode 1)))
+(add-hook 'c++-mode-hook
+          (lambda ()
+            (hong/my-c-mode-config)))
 (add-hook 'c-mode-hook
           (lambda ()
+            (hong/my-c-mode-config)
             (hong/my-gtk-config)))
 
 (provide 'init-cc-mode)

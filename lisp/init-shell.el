@@ -4,7 +4,8 @@
                            eshell-save-history-on-exit nil
                            eshell-buffer-shorthand t)))
 ;;; term
-(add-hook 'term-mode-hook 'hong/exit)
+(require-package 'multi-term)
+;; (add-hook 'term-mode-hook 'hong/exit)
 
 ;;; shell
 (setq shell-file-name "/bin/bash")
