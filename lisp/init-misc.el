@@ -1,8 +1,3 @@
-;;; email ~/.mew.el
-(require-package 'mew)
-(autoload 'mew "mew" nil t)
-(autoload 'mew-send "mew" nil t)
-
 ;;; bison
 (require-package 'bison-mode)
 (eval-after-load 'bison-mode
