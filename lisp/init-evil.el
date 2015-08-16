@@ -3,9 +3,7 @@
 (evil-mode 1)
 
 (setq evil-move-cursor-back t)
-(dolist (mode '(lisp-mode-hook lisp-interaction-mode-hook
-                               emacs-lisp-mode-hook))
-  (add-hook mode (lambda () (setq-local evil-move-cursor-back nil))))
+
 ;;; initial state change
 (dolist (mode '(term-mode gud-mode
                 eshell-mode shell-mode

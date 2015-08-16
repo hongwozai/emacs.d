@@ -24,16 +24,13 @@
       (set-process-sentinel process
                            'hong/exit-prompt))))
 (defun hong/exit-prompt (process state)
-  ;; (message "%s" state)
-  (if (or (string-match "exited abnormally with code.*" state)
+  (if (or (string-match "exited" state)
           (string-match "Bye" state)
           (string-match "finished" state))
       (progn
         (kill-buffer (process-buffer process))
-        (winner-undo))))
+        (delete-window))))
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
-
-;;; with-switch-window
 
 (provide 'init-utils)

@@ -42,10 +42,6 @@
 (global-set-key (kbd "M-n") 'highlight-symbol-next)
 (global-set-key (kbd "M-p") 'highlight-symbol-prev)
 
-;;; pretty symbol
-(setq prettify-symbols-alist '(("lambda" . 955)))
-(global-prettify-symbols-mode)
-
 ;;; dired
 (require 'dired)
 (eval-after-load 'dired
@@ -109,8 +105,9 @@
 ;;; avy
 (require-package 'avy)
 
-;; pair mode
+;; show pair
 (show-paren-mode t)
+(setq show-paren-style 'parenthesis)
 (set-face-background 'show-paren-match      "#f6cebf")
 (set-face-foreground 'show-paren-match      nil)
 

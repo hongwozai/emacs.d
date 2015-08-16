@@ -1,3 +1,4 @@
+;;; =================== grep =========================
 (setq-default grep-hightlight-matches     t
               grep-scroll-output          t)
 
@@ -5,6 +6,7 @@
   (require-package 'ag)
   (setq-default ag-highlight-search t))
 
+;;; =================== occur =========================
 ;;; occur inside isearch
 (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
 ;;; occur follow
@@ -12,10 +14,10 @@
   (lexical-let ((nop next-or-prev))
     (lambda () (interactive)
       (let ((buf (get-buffer-window (buffer-name))))
-        (if (eq nop 'next) (occur-next) (occur-prev))
-        (occur-mode-goto-occurrence-other-window)
-        (recenter)
-        (select-window buf)))))
+        (save-selected-window
+          (if (eq nop 'next) (occur-next) (occur-prev))
+          (occur-mode-goto-occurrence-other-window)
+          (recenter))))))
 
 (defadvice occur (after hong/occur-switch-window activate)
   (let ((w (get-buffer-window "*Occur*")))
@@ -32,6 +34,8 @@
             (define-key evil-motion-state-local-map (kbd "n")
               (hong/occur-next-or-prev 'next))
             (define-key evil-motion-state-local-map (kbd "p")
-              (hong/occur-next-or-prev 'prev))))
+              (hong/occur-next-or-prev 'prev))
+            (define-key evil-motion-state-local-map (kbd "RET")
+              #'occur-mode-goto-occurrence-other-window)))
 
 (provide 'init-search)

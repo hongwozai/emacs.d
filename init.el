@@ -13,7 +13,6 @@
 
 (require 'init-tramp)
 (require 'init-shell)
-(require 'init-pair)
 (require 'init-search)
 (require 'init-ido)
 
