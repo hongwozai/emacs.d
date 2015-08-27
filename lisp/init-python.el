@@ -15,5 +15,7 @@
              (eldoc-mode)
              (setq electric-indent-chars (delq ?: electric-indent-chars))))
 (add-hook 'inferior-python-mode-hook 'hong/exit)
+;;; flake8 with python3
+(setq flycheck-python-flake8-executable "python3 -m flake8")
 
 (provide 'init-python)

@@ -29,7 +29,7 @@
           (string-match "finished" state))
       (progn
         (kill-buffer (process-buffer process))
-        (delete-window))))
+        (winner-undo))))
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
 

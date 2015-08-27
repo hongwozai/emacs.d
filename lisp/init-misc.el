@@ -34,7 +34,7 @@
 (require-package 'guide-key)
 (setq guide-key/guide-key-sequence `(",p" ",xv" ",g" ",w"
                                      ",b" ",h" ",u" ",s"
-                                     ",a"
+                                     ",a" "C-x v"
                                      "C-c" "C-x 4" "C-x 5"))
 (guide-key-mode 1)
 (setq guide-key/recursive-key-sequence-flag t)
