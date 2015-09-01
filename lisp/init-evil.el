@@ -27,6 +27,14 @@
 (define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "RET") 'avy-goto-line)
 
+;;; terminal cursor
+(require-package 'evil-terminal-cursor-changer)
+(require 'evil-terminal-cursor-changer)
+(setq evil-visual-state-cursor '("#657b83" box))
+(setq evil-normal-state-cursor '("#657b83" box))
+(setq evil-insert-state-cursor '("red" bar))
+(setq evil-emacs-state-cursor '("blue" hbar))
+
 ;;; evil-anzu
 (require-package 'evil-anzu)
 (with-eval-after-load 'evil

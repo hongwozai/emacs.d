@@ -1,11 +1,13 @@
 ;;; eshell
 (add-hook 'eshell-mode
           (lambda () (setq pcomplete-cycle-completions nil
-                           eshell-save-history-on-exit nil
-                           eshell-buffer-shorthand t)))
+                       eshell-save-history-on-exit nil
+                       eshell-buffer-shorthand t)))
+;;;
+(require-package 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
 ;;; term
 (require-package 'multi-term)
-;; (add-hook 'term-mode-hook 'hong/exit)
 
 ;;; shell
 (setq shell-file-name "/bin/bash")

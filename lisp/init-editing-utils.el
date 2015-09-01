@@ -31,9 +31,6 @@
 
 ;;; highlight symbol
 (require-package 'highlight-symbol)
-(dolist (hook '(prog-mode-hook web-mode-hook css-mode-hook))
-  (add-hook hook 'highlight-symbol-mode)
-  (add-hook hook 'highlight-symbol-nav-mode))
 (eval-after-load 'highlight-symbol
   '(progn
      (setq highlight-symbol-idle-delay 1)

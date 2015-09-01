@@ -4,6 +4,8 @@
 ;;; git-gutter
 (require-package 'git-gutter)
 (global-git-gutter-mode +1)
+(custom-set-variables
+ '(git-gutter:handled-backends '(git svn)))
 
 (global-set-key (kbd "C-x C-g") 'git-gutter:toggle)
 (global-set-key (kbd "C-x v =") 'git-gutter:popup-hunk)

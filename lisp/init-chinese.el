@@ -1,3 +1,6 @@
+;;; environment
+(set-language-environment "utf-8")
+;;; input method
 (require-package 'chinese-pyim)
 (require-package 'chinese-yasdcv)
 (setq yasdcv-sdcv-dicts '(("langdaoyh" "朗道英汉字典5.0" "langdao" t)
