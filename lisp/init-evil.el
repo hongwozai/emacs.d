@@ -12,7 +12,6 @@
                 special-mode process-menu-mode
                 sql-interactive-mode
                 anaconda-nav-mode
-                inferior-python-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
 (dolist (mode '(diff-mode occur-mode))

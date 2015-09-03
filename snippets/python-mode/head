@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: python-head
+# key: head
+# --
+#!/usr/bin/env python${1:3}
+# -*- coding: utf-8 -*-
+
+$0

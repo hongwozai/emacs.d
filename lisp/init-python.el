@@ -2,11 +2,16 @@
 (require-package 'anaconda-mode)
 (require-package 'company-anaconda)
 
-(setq interpreter-mode-alist
-      (cons '("python3" . python-mode) interpreter-mode-alist))
+(setq hong/python-version "3")
+(setq hong/python-program (concat "python" hong/python-version))
+(setq hong/ipython-program (concat "ipython" hong/python-version))
 
-(when (executable-find "ipython3")
-  (setq python-shell-interpreter "ipython3"))
+(setq interpreter-mode-alist
+      (cons '(hong/python-program . python-mode)
+            interpreter-mode-alist))
+
+(when (executable-find hong/ipython-program)
+  (setq python-shell-interpreter hong/ipython-program))
 
 (add-hook 'python-mode-hook
           '(lambda ()
@@ -16,6 +21,7 @@
              (setq electric-indent-chars (delq ?: electric-indent-chars))))
 (add-hook 'inferior-python-mode-hook 'hong/exit)
 ;;; flake8 with python3
-(setq flycheck-python-flake8-executable "python3 -m flake8")
+(setq flycheck-python-flake8-executable
+      (concat hong/python-program " -m flake8"))
 
 (provide 'init-python)
