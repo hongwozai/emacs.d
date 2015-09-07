@@ -60,7 +60,10 @@
   (c-turn-on-eldoc-mode)
   (setq c-eldoc-buffer-regenerate-time 120)
   (setq c-eldoc-cpp-command "/usr/bin/cpp")
-  (setq c-eldoc-includes "-I./ -I../"))
+  (setq c-eldoc-includes "-I./ -I../")
+  ;; keywords
+  (font-lock-add-keywords 'c-mode '("typeof" "__attribute__"))
+  )
 
 (add-hook 'c-mode-common-hook
           (lambda ()

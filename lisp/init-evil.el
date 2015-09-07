@@ -11,6 +11,7 @@
                 messages-buffer-mode bs-mode
                 special-mode process-menu-mode
                 sql-interactive-mode
+                inferior-python-mode
                 anaconda-nav-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
@@ -41,6 +42,11 @@
 ;;; C-i forward jump C-o backward jump
 (require-package 'evil-jumper)
 (global-evil-jumper-mode)
+
+;;; evil escape
+(require-package 'evil-escape)
+(setq-default evil-escape-key-sequence "jk")
+(evil-escape-mode)
 
 ;; evil leader custom key
 (require-package 'evil-leader)
@@ -77,6 +83,8 @@
   "kb"  'kill-this-buffer
   "kw"  'kill-buffer-and-window
   "mf"  'mark-defun
+  "mp"  'mark-paragraph
+  "mb"  'mark-whole-buffer
   "oa"  'org-agenda
   "pA"  'hong/add-directory-to-projectile
   "pf"  'projectile-find-file
@@ -113,7 +121,6 @@
   "xe" 'eval-last-sexp
   "xf"  'ido-find-file
   "xk"  'ido-kill-buffer
-  "xh"  'mark-whole-buffer
   "xo"  'other-window
   "xs" 'save-buffer
   "xvs" 'git-gutter:stage-hunk
