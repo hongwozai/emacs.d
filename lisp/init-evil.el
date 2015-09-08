@@ -48,6 +48,10 @@
 (setq-default evil-escape-key-sequence "jk")
 (evil-escape-mode)
 
+;;; evil matchit
+(require-package 'evil-matchit)
+(global-evil-matchit-mode 1)
+
 ;; evil leader custom key
 (require-package 'evil-leader)
 (global-evil-leader-mode)
