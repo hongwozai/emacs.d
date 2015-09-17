@@ -21,6 +21,7 @@
 (kill-buffer "*Messages*")
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
+(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 (define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-0)
 (define-key evil-visual-state-map (kbd "SPC") 'avy-goto-word-0)
