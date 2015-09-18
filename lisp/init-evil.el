@@ -138,4 +138,7 @@
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)
 (evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
 
+;;; evil ex cmd
+(evil-ex-define-cmd "ls" 'ibuffer)
+
 (provide 'init-evil)

@@ -65,7 +65,6 @@
 ;;; ibuffer (list-buffers have bug: auto-recenterring)
 (require-package 'ibuffer-vc)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(evil-ex-define-cmd "ls" 'ibuffer)
 (require 'ibuffer-vc)
 (eval-after-load 'ibuffer
   '(progn
