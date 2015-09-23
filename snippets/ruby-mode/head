@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: head
+# key: head
+# binding: direct-keybinding
+# --
+#!/usr/bin/env ruby
+# coding: utf-8
+$0

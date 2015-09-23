@@ -13,6 +13,7 @@
                 sql-interactive-mode
                 inferior-python-mode
                 anaconda-nav-mode
+                yari-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
 (dolist (mode '(diff-mode occur-mode))
