@@ -16,4 +16,17 @@
 (autoload 'yari "yari" "" t nil)
 (defalias 'ri 'yari)
 
+;;; create new ruby buffer
+(defun hong/ruby-new-file ()
+  "Open new ruby buffer"
+  (interactive)
+  (let ((buf (generate-new-buffer "*new-ruby*")))
+    (switch-to-buffer buf)
+    (funcall (and 'ruby-mode))
+    (insert "head")
+    (yas-expand)
+    (evil-insert-state)))
+
+(evil-ex-define-cmd "rn" 'hong/ruby-new-file)
+
 (provide 'init-ruby)
