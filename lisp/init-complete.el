@@ -13,7 +13,7 @@
 (require-package 'company-c-headers)
 (require-package 'slime-company)
 
-(dolist (hook '(prog-mode-hook inferior-python-mode-hook
+(dolist (hook '(prog-mode-hook inferior-python-mode-hook inf-ruby-mode-hook
                                cmake-mode-hook web-mode-hook))
   (add-hook hook 'company-mode))
 

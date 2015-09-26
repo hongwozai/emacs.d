@@ -138,6 +138,7 @@
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)
 (evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
+(evil-leader/set-key-for-mode 'ruby-mode "cr" 'ruby-send-region)
 
 ;;; evil ex cmd
 (evil-ex-define-cmd "ls" 'ibuffer)
