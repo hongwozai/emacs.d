@@ -11,11 +11,16 @@
 ;;; term
 (require-package 'multi-term)
 (setq multi-term-program "/bin/bash")
+;;; term-mode-hook term-raw-map !!! must be term-raw-map
 (add-hook 'term-mode-hook
           (lambda ()
-            (define-key term-mode-hook (kbd "C-p") 'term-send-up)
-            (define-key term-mode-hook (kbd "C-n") 'term-send-down)
-            (define-key term-mode-hook (kbd "M-DEL") 'term-send-backward-kill-word)))
+            (setq-local show-trailing-whitespace nil)
+            (define-key term-raw-map (kbd "C-y") 'term-paste)
+            (define-key term-raw-map (kbd "M-x") 'execute-extended-command)
+            (define-key term-raw-map (kbd "C-p") 'term-send-up)
+            (define-key term-raw-map (kbd "C-n") 'term-send-down)
+            (define-key term-raw-map (kbd "M-DEL") 'term-send-raw-meta)
+            (define-key term-raw-map (kbd "TAB") 'term-send-raw-meta)))
 
 ;;; shell
 (setq shell-file-name "/bin/bash")
