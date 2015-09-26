@@ -19,7 +19,7 @@
 (dolist (mode '(diff-mode occur-mode))
   (evil-set-initial-state mode 'motion))
 ;;; messages-buffer-mode can't set emacs state in emacs start
-;; (kill-buffer "*Messages*")
+(kill-buffer "*Messages*")
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
