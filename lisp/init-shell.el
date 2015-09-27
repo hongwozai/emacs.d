@@ -4,9 +4,14 @@
 
 ;;; eshell
 (add-hook 'eshell-mode-hook
-          (lambda () (setq pcomplete-cycle-completions nil
-                       eshell-save-history-on-exit nil
-                       eshell-buffer-shorthand t)))
+          (lambda ()
+            (define-key eshell-mode-map (kbd "C-p")
+              'eshell-previous-matching-input-from-input)
+            (define-key eshell-mode-map (kbd "C-n")
+              'eshell-next-matching-input-from-input)
+            (setq pcomplete-cycle-completions nil
+                  eshell-save-history-on-exit nil
+                  eshell-buffer-shorthand t)))
 
 ;;; term
 (require-package 'multi-term)
