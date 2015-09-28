@@ -20,3 +20,4 @@ pyim/*
 .gnus.el
 .mew.el
 games/
+smex-items

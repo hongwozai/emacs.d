@@ -18,6 +18,8 @@
 (setq multi-term-program
       (or (executable-find "zsh") "/bin/bash"))
 ;;; term-mode-hook term-raw-map !!! must be term-raw-map
+(global-set-key (kbd "M-[") 'multi-term-prev)
+(global-set-key (kbd "M-]") 'multi-term-next)
 (add-hook 'term-mode-hook
           (lambda ()
             (setq-local show-trailing-whitespace nil)
