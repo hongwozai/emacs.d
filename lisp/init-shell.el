@@ -28,6 +28,7 @@
             (define-key term-raw-map (kbd "C-p") 'term-send-up)
             (define-key term-raw-map (kbd "C-n") 'term-send-down)
             (define-key term-raw-map (kbd "M-DEL") 'term-send-raw-meta)
+            (define-key term-raw-map (kbd "M-d") 'term-send-raw-meta)
             (define-key term-raw-map (kbd "TAB")
               '(lambda ()
                  (interactive)
