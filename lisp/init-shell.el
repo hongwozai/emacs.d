@@ -15,7 +15,8 @@
 
 ;;; term
 (require-package 'multi-term)
-(setq multi-term-program "/bin/bash")
+(setq multi-term-program
+      (or (executable-find "zsh") "/bin/bash"))
 ;;; term-mode-hook term-raw-map !!! must be term-raw-map
 (add-hook 'term-mode-hook
           (lambda ()
@@ -25,7 +26,11 @@
             (define-key term-raw-map (kbd "C-p") 'term-send-up)
             (define-key term-raw-map (kbd "C-n") 'term-send-down)
             (define-key term-raw-map (kbd "M-DEL") 'term-send-raw-meta)
-            (define-key term-raw-map (kbd "TAB") 'term-send-raw-meta)))
+            (define-key term-raw-map (kbd "TAB")
+              '(lambda ()
+                 (interactive)
+                 (term-send-raw-string "\t")))
+            ))
 
 ;;; shell
 (setq shell-file-name "/bin/bash")
