@@ -28,8 +28,8 @@
             (define-key term-raw-map (kbd "M-x") 'execute-extended-command)
             (define-key term-raw-map (kbd "C-p") 'term-send-up)
             (define-key term-raw-map (kbd "C-n") 'term-send-down)
-            (define-key term-raw-map (kbd "M-DEL") 'term-send-raw-meta)
-            (define-key term-raw-map (kbd "M-d") 'term-send-raw-meta)
+            (define-key term-raw-map (kbd "M-DEL") 'term-send-backward-kill-word)
+            (define-key term-raw-map (kbd "M-d") 'term-send-forward-kill-word)
             (define-key term-raw-map (kbd "TAB")
               '(lambda ()
                  (interactive)
@@ -43,6 +43,12 @@
           (lambda ()
             (define-key shell-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key shell-mode-map (kbd "C-n") 'comint-next-input)))
+
+;;; comint mode
+(add-hook 'comint-mode-hook
+          (lambda ()
+            (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
+            (define-key comint-mode-map (kbd "C-n") 'comint-next-input)))
 
 ;;; shotcuts key
 (global-set-key (kbd "<f2>") 'eshell)

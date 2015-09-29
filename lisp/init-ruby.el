@@ -16,6 +16,12 @@
 (autoload 'yari "yari" "" t nil)
 (defalias 'ri 'yari)
 
+;;; inf-ruby
+(add-hook 'inf-ruby-mode-hook
+          (lambda ()
+            (define-key inf-ruby-mode-map (kbd "C-p") 'comint-previous-input)
+            (define-key inf-ruby-mode-map (kbd "C-n") 'comint-next-input)))
+
 ;;; create new ruby buffer
 (defun hong/ruby-new-file ()
   "Open new ruby buffer"
