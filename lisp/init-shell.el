@@ -22,6 +22,7 @@
 (global-set-key (kbd "M-]") 'multi-term-next)
 (add-hook 'term-mode-hook
           (lambda ()
+            (setq multi-term-dedicated-select-after-open-p t)
             (setq-local show-trailing-whitespace nil)
             (define-key term-raw-map (kbd "C-r") 'term-send-reverse-search-history)
             (define-key term-raw-map (kbd "C-y") 'term-paste)
