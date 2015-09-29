@@ -23,6 +23,7 @@
 (add-hook 'term-mode-hook
           (lambda ()
             (setq-local show-trailing-whitespace nil)
+            (define-key term-raw-map (kbd "C-r") 'term-send-reverse-search-history)
             (define-key term-raw-map (kbd "C-y") 'term-paste)
             (define-key term-raw-map (kbd "M-x") 'execute-extended-command)
             (define-key term-raw-map (kbd "C-p") 'term-send-up)
