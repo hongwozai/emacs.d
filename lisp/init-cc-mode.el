@@ -75,7 +75,6 @@
             (hong/my-c-mode-config)))
 (add-hook 'c-mode-hook
           (lambda ()
-            (hong/my-c-mode-config)
-            (hong/my-gtk-config)))
+            (hong/my-c-mode-config)))
 
 (provide 'init-cc-mode)
