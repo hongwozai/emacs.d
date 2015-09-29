@@ -30,8 +30,9 @@
           (if (string-match "exited abnormally" str)
               (message "compilation errors, press C-x ` to visit'")
             (when (string-match "*compilation*" (buffer-name buf))
-              (bury-buffer "*compilation*")
-              (winner-undo)
+              (select-window (get-buffer-window "*compilation*"))
+              ;; (bury-buffer "*compilation*")
+              ;; (winner-undo)
               (message "NO COMPILATION ERRORS!")))))
   )
 ;;; gtk
