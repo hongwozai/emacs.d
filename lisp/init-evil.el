@@ -146,9 +146,8 @@
 ;;; evil make compatiable
 (evil-define-command evil-make (arg)
   (interactive "<sh>")
-  (if (and (fboundp 'recompile)
-           (not arg))
-      (recompile)
+  (if (not arg)
+      (compile "make")
     (compile (concat "make " arg))))
 
 (provide 'init-evil)
