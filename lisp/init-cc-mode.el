@@ -1,4 +1,4 @@
-;;; ggtags
+;;; ===================== ggtags eldoc doxygen ==================
 (require-package 'ggtags)
 (eval-after-load 'ggtags
   '(progn
@@ -12,30 +12,26 @@
 (autoload 'doxygen-insert-function-comment "doxygen" "insert comment for the function at point" t)
 (autoload 'doxygen-insert-file-comment "doxygen" "insert comment for file" t)
 
-;;; gdb
+;;; ===================== gdb ==================
 (setq gdb-many-windows t)
 (setq gdb-show-main   t)
 
-(defun hong/my-cc-common-config ()
-  ;; indent
-  (setq c-default-style "k&r"
-        c-basic-offset  4)
-  ;; compile
+;;; ===================== compile ==================
+(defun hong/my-compile-common-config ()
+    ;; compile
   (setq compile-command "make")
   (setq compilation-window-height 12)
   (setq compilation-read-command t)
   ;; (setq compilation-auto-jump-to-first-error t)
   (setq compilation-finish-function
         (lambda (buf str)
+          (select-window (get-buffer-window "*compilation*"))
           (if (string-match "exited abnormally" str)
               (message "compilation errors, press C-x ` to visit'")
             (when (string-match "*compilation*" (buffer-name buf))
-              (select-window (get-buffer-window "*compilation*"))
-              ;; (bury-buffer "*compilation*")
-              ;; (winner-undo)
               (message "NO COMPILATION ERRORS!")))))
   )
-;;; gtk
+;;; ===================== gtk config ==================
 (defun hong/gtk-headers ()
   (let* ((cmd "pkg-config --cflags gtk+-3.0")
          (gtk (split-string
@@ -54,6 +50,12 @@
         (concat c-eldoc-includes
                 " `pkg-config gtk+-3.0 --cflags`"))
   )
+;;; ===================== cc mode config ==================
+(defun hong/my-cc-common-config ()
+  ;; indent
+  (setq c-default-style "k&r"
+        c-basic-offset  4)
+  )
 (defun hong/my-c-mode-config ()
   "C/C++ only"
   ;; c-eldoc
@@ -66,6 +68,7 @@
   (font-lock-add-keywords 'c-mode '("typeof" "__attribute__"))
   )
 
+(add-hook 'after-init-hook 'hong/my-compile-common-config)
 (add-hook 'c-mode-common-hook
           (lambda ()
             (hong/my-cc-common-config)
