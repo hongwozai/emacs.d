@@ -1,7 +1,7 @@
 ;; evil
 (require-package 'evil)
 (evil-mode 1)
-
+;;; =================== evil configure =====================
 (setq evil-move-cursor-back t)
 
 ;;; initial state change
@@ -29,6 +29,7 @@
 (define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "RET") 'avy-goto-line)
 
+;;; ======================== evil plugin ==========================
 ;;; evil-anzu
 (require-package 'evil-anzu)
 (with-eval-after-load 'evil
@@ -54,7 +55,7 @@
 (require-package 'evil-matchit)
 (global-evil-matchit-mode 1)
 
-;; evil leader custom key
+;;; ===================== evil leader custom key =================
 (require-package 'evil-leader)
 (global-evil-leader-mode)
 
@@ -140,6 +141,7 @@
 (evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
 (evil-leader/set-key-for-mode 'ruby-mode "cr" 'ruby-send-region)
 
+;;; ===================== self ===========================
 ;;; evil ex cmd
 (evil-ex-define-cmd "ls" 'ibuffer)
 
@@ -149,5 +151,11 @@
   (if (not arg)
       (compile "make")
     (compile (concat "make " arg))))
+
+;;; evil *, # search symbol not word
+(define-key evil-motion-state-map "*"
+  (lambda (count) (interactive "P") (evil-search-word-forward count t)))
+(define-key evil-motion-state-map "#"
+  (lambda (count) (interactive "P") (evil-search-word-backward count t)))
 
 (provide 'init-evil)

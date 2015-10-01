@@ -25,11 +25,12 @@
   ;; (setq compilation-auto-jump-to-first-error t)
   (setq compilation-finish-function
         (lambda (buf str)
-          (select-window (get-buffer-window "*compilation*"))
           (if (string-match "exited abnormally" str)
               (message "compilation errors, press C-x ` to visit'")
             (when (string-match "*compilation*" (buffer-name buf))
               (message "NO COMPILATION ERRORS!")))))
+  (defadvice compile (after hong/compile-switch-window activate)
+    (ignore-errors (select-window (get-buffer-window "*compilation*"))))
   )
 ;;; ===================== gtk config ==================
 (defun hong/gtk-headers ()

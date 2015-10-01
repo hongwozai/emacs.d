@@ -4,7 +4,13 @@
 
 (when (executable-find "ag")
   (require-package 'ag)
-  (setq-default ag-highlight-search t))
+  (setq-default ag-highlight-search t)
+  (setq-default ag-reuse-buffers t)
+  (setq-default ag-reuse-window t)
+
+  (defadvice ag (after hong/ag-switch-window activate)
+    (ignore-errors (select-window (get-buffer-window "*ag search*"))))
+  )
 
 ;;; =================== occur =========================
 ;;; occur inside isearch
@@ -20,14 +26,11 @@
           (recenter))))))
 
 (defadvice occur (after hong/occur-switch-window activate)
-  (let ((w (get-buffer-window "*Occur*")))
-    (when w (select-window w))))
+  (ignore-errors (select-window (get-buffer-window "*Occur*"))))
 
 (defadvice isearch-occur (after hong/occur-exit-isearch activate)
-  (let ((w (get-buffer-window "*Occur*")))
-    (when w
-      (select-window w)
-      (isearch-exit))))
+  (and (ignore-errors (select-window (get-buffer-window "*Occur*")))
+       (isearch-exit)))
 
 (add-hook 'occur-mode-hook
           (lambda ()
