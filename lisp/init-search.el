@@ -6,7 +6,7 @@
   (require-package 'ag)
   (setq-default ag-highlight-search t)
   (setq-default ag-reuse-buffers t)
-  (setq-default ag-reuse-window t)
+  (setq-default ag-reuse-window nil)
 
   (defadvice ag (after hong/ag-switch-window activate)
     (ignore-errors (select-window (get-buffer-window "*ag search*"))))
