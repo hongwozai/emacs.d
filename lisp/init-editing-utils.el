@@ -14,7 +14,17 @@
               x-select-enable-clipboard   t
               mouse-yank-at-point         t
               truncate-lines              nil
-              show-trailing-whitespace    t)
+              show-trailing-whitespace    t
+              visible-bell                t)
+
+;;; trailing whitespace
+(dolist (hook '(special-mode-hook
+                comint-mode-hook
+                Info-mode-hook
+                minibuffer-setup-hook
+                compilation-mode-hook
+                term-mode-hook))
+  (add-hook hook #'(lambda () (setq show-trailing-whitespace nil))))
 
 ;; Auto refresh buffers
 (global-auto-revert-mode 1)

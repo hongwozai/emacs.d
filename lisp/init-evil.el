@@ -134,6 +134,7 @@
   "xvr" 'git-gutter:revert-hunk
   "xv=" 'git-gutter:popup-hunk
   "xz" 'suspend-frame
+  "z"  'evil-emacs-state
   "."  'evil-ex)
 
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
