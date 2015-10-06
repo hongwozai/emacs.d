@@ -46,6 +46,7 @@
 (hong/sw '((describe-function . "*Help*")
            (describe-key . "*Help*")
            (describe-mode . "*Help*")
-           (describe-coding-system . "*Help*")))
+           (describe-coding-system . "*Help*")
+           (shell-command . "*Shell Command Output*")))
 
 (provide 'init-utils)
