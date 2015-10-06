@@ -2,8 +2,8 @@
 (require-package 'yasnippet)
 (yas-global-mode 1)
 
-(add-hook 'yas--inhibit-overlay-hooks
-          'yas--on-field-overlay-modification)
+;; (add-hook 'yas--inhibit-overlay-hooks
+;;           'yas--on-field-overlay-modification)
 
 ;;; configure
 (setq yas-snippet-dirs '("~/.emacs.d/snippets"
