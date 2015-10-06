@@ -29,8 +29,7 @@
               (message "compilation errors, press C-x ` to visit'")
             (when (string-match "*compilation*" (buffer-name buf))
               (message "NO COMPILATION ERRORS!")))))
-  (defadvice compile (after hong/compile-switch-window activate)
-    (ignore-errors (select-window (get-buffer-window "*compilation*"))))
+  (hong/select-buffer-window compile "*compilation*")
   )
 ;;; ===================== gtk config ==================
 (defun hong/gtk-headers ()

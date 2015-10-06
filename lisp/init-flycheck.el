@@ -13,4 +13,7 @@
            '(flycheck-error ((((class color)) (:background "#FF6E64" :underline nil))))
            '(flycheck-warning ((((class color)) (:breakline "Orange")))))))
 
+;;; flycheck errors
+(hong/select-buffer-window flycheck-list-errors "*Flycheck errors*")
+
 (provide 'init-flycheck)

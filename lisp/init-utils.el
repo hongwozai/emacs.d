@@ -33,4 +33,19 @@
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
 
+;;; select window
+(defmacro hong/select-buffer-window (cmd buffer-name)
+  `(defadvice ,cmd (after ,(gensym) activate)
+     (ignore-errors (select-window (get-buffer-window ,buffer-name)))))
+
+(defun hong/sw (alist)
+  (when (not (null alist))
+    (eval `(hong/select-buffer-window ,(caar alist) ,(cdar alist)))
+    (hong/sw (cdr alist))))
+
+(hong/sw '((describe-function . "*Help*")
+           (describe-key . "*Help*")
+           (describe-mode . "*Help*")
+           (describe-coding-system . "*Help*")))
+
 (provide 'init-utils)

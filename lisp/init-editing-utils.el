@@ -79,6 +79,10 @@
 (eval-after-load 'ibuffer
   '(progn
      (define-key ibuffer-mode-map (kbd "SPC") 'avy-goto-line)
+     (define-key ibuffer-mode-map (kbd "j") 'ibuffer-forward-line)
+     (define-key ibuffer-mode-map (kbd "k") 'ibuffer-backward-line)
+     (define-key ibuffer-mode-map (kbd "J") 'ibuffer-jump-to-buffer)
+     (define-key ibuffer-mode-map (kbd "K") 'ibuffer-do-kill-lines)
      (setq ibuffer-show-empty-filter-groups nil)
      (setq ibuffer-saved-filter-groups
            '(("default"

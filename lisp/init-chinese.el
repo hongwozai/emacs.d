@@ -8,6 +8,10 @@
                           ("langdaohy" "朗道汉英字典5.0" "langdao" t)))
 (global-set-key (kbd "C-c d") 'yasdcv-translate-at-point)
 
+;;; select start
+(hong/select-buffer-window yasdcv-translate-at-point
+                           "*Stardict Output*")
+
 ;;; input method
 (require 'chinese-pyim)
 (global-set-key (kbd "C-<SPC>") 'toggle-input-method)

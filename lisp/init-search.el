@@ -8,8 +8,7 @@
   (setq-default ag-reuse-buffers t)
   (setq-default ag-reuse-window nil)
 
-  (defadvice ag (after hong/ag-switch-window activate)
-    (ignore-errors (select-window (get-buffer-window "*ag search*"))))
+  (hong/select-buffer-window ag "*ag search*")
   )
 
 ;;; =================== occur =========================
@@ -25,8 +24,7 @@
           (occur-mode-goto-occurrence-other-window)
           (recenter))))))
 
-(defadvice occur (after hong/occur-switch-window activate)
-  (ignore-errors (select-window (get-buffer-window "*Occur*"))))
+(hong/select-buffer-window occur "*Occur*")
 
 (defadvice isearch-occur (after hong/occur-exit-isearch activate)
   (and (ignore-errors (select-window (get-buffer-window "*Occur*")))
