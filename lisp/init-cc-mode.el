@@ -4,6 +4,12 @@
   '(progn
      (setq ggtags-update-on-save t)
      (setq-local imenu-create-index-function #'ggtags-build-imenu-index)))
+;;; evil C-] jump to tag
+(define-key evil-normal-state-map (kbd "C-]")
+  '(lambda () (interactive)
+     (if (file-exists-p "./GTAGS")
+         (ggtags-find-definition (thing-at-point 'symbol))
+       (evil-jump-to-tag))))
 
 ;;; c-eldoc
 (require-package 'c-eldoc)
