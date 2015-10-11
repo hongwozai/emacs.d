@@ -47,6 +47,7 @@
            (describe-key . "*Help*")
            (describe-mode . "*Help*")
            (describe-coding-system . "*Help*")
+           (describe-variable . "*Help*")
            (shell-command . "*Shell Command Output*")))
 
 (provide 'init-utils)

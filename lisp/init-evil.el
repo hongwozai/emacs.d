@@ -92,7 +92,7 @@
   "mf"  'mark-defun
   "mp"  'mark-paragraph
   "mb"  'mark-whole-buffer
-  "oa"  'org-agenda
+  "o"  'org-agenda
   "pA"  'hong/add-directory-to-projectile
   "pf"  'projectile-find-file
   "pb"  'projectile-switch-to-buffer

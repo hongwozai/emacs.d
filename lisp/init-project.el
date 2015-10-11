@@ -23,18 +23,6 @@
           (projectile-hash-keys projectile-project-root-cache))
     (remhash key projectile-project-root-cache)))
 
-(defun hong/add-directory-to-projectile ()
-  "add current directory to projectile project list"
-  (interactive)
-  (hong/remove-the-key-from-project-cache default-directory)
-  (if (or (projectile-root-bottom-up default-directory)
-          (projectile-root-top-down  default-directory)
-          (projectile-root-top-down-recurring default-directory))
-      (progn (projectile-add-known-project (file-truename default-directory))
-             (message "add projectile project list"))
-    (message "you're not project!")))
-
-
 (defun hong/new-project (project-name)
   "create new project in projectile"
   (interactive "sPlease input new project name: ")
