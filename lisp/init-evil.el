@@ -93,7 +93,6 @@
   "mp"  'mark-paragraph
   "mb"  'mark-whole-buffer
   "o"  'org-agenda
-  "pA"  'hong/add-directory-to-projectile
   "pf"  'projectile-find-file
   "pb"  'projectile-switch-to-buffer
   "pd"  'projectile-dired

@@ -10,26 +10,19 @@
 (setq org-agenda-files (list "~/org/todo.org"))
 
 (setq org-todo-keywords
-      '((sequence "TODO(!)" "|" "DONE(@/!)" "CANCELED(@/!)")))
+      '((sequence "TODO(t!)" "|" "DONE(d@/!)" "CANCELED(c@/!)")))
 
 ;;; org capture fast remember
 (setq org-capture-templates
       '(("t" "TODO" entry (file+headline "~/org/todo.org" "inbox")
-         "* TODO %?\n %i" :prepend t)
+         "* TODO %?\n %i\n" :prepend t)
         ("n" "NOTE" entry (file+headline "~/org/note.org" "note")
-         "* %?\n %i" :prepend t :empty-lines 1)))
+         "* %?\n %i\n" :prepend t :empty-lines 1)))
 
 (eval-after-load 'evil
   '(progn
      (evil-declare-key 'normal org-mode-map
-       "gh" 'outline-up-heading
-       "gl" 'outline-next-visible-heading
-       "gt" 'org-ctrl-c-ctrl-c
-       "gj" 'org-forward-heading-same-level
-       "gk" 'org-backward-heading-same-level
-       "t"  'org-todo
-       "<" 'org-metaleft
-       ">" 'org-metaright
+       "q"  'quit-window
        (kbd "TAB") 'org-cycle)))
 
 (provide 'init-org-mode)
