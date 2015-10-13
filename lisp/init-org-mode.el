@@ -6,6 +6,22 @@
 (add-hook 'org-mode-hook
           '(lambda () (setq-local truncate-lines nil)))
 
+;;; org picture (insert file: link)
+(add-hook 'org-mode-hook
+          '(lambda () (iimage-mode)
+             (org-display-inline-images)))
+
+(defun hong/org-insert-image ()
+  (interactive)
+  (org-insert-link)
+  (org-redisplay-inline-images))
+
+;;; org tags
+(setq org-tags-column -60)
+(setq org-tag-alist '(("computer" . ?c)
+                      ("nocomputer" . ?n)
+                      ("outside" . ?o)))
+
 ;;; todo file or todo directory
 (setq org-agenda-files (list "~/org/todo.org"))
 
@@ -17,6 +33,8 @@
       '(("t" "TODO" entry (file+headline "~/org/todo.org" "inbox")
          "* TODO %?\n %i\n" :prepend t)
         ("n" "NOTE" entry (file+headline "~/org/note.org" "note")
+         "* %?\n %i\n" :prepend t :empty-lines 1)
+        ("i" "IDEA" entry (file+headline "~/org/note.org" "idea")
          "* %?\n %i\n" :prepend t :empty-lines 1)))
 
 (eval-after-load 'evil

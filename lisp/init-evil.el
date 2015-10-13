@@ -14,6 +14,7 @@
                 inferior-python-mode
                 anaconda-nav-mode
                 yari-mode comint-mode
+                image-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
 (dolist (mode '(diff-mode occur-mode))
