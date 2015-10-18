@@ -15,8 +15,8 @@
 
 ;;; term
 (require-package 'multi-term)
-(setq multi-term-program
-      (or (executable-find "zsh") "/bin/bash"))
+;;; zsh can't display normally in ssh
+(setq multi-term-program "/bin/bash")
 ;;; term-mode-hook term-raw-map !!! must be term-raw-map
 (global-set-key (kbd "M-[") 'multi-term-prev)
 (global-set-key (kbd "M-]") 'multi-term-next)
@@ -31,6 +31,7 @@
             (define-key term-raw-map (kbd "C-n") 'term-send-down)
             (define-key term-raw-map (kbd "M-DEL") 'term-send-backward-kill-word)
             (define-key term-raw-map (kbd "M-d") 'term-send-forward-kill-word)
+            (define-key term-raw-map (kbd "M-c") 'term-send-raw-meta)
             (define-key term-raw-map (kbd "TAB")
               '(lambda ()
                  (interactive)

@@ -24,12 +24,10 @@
       (set-process-sentinel process
                            'hong/exit-prompt))))
 (defun hong/exit-prompt (process state)
-  (if (or (string-match "exited" state)
-          (string-match "Bye" state)
-          (string-match "finished" state))
+  (if (string-match "\\(exited\\|finished\\)" state)
       (progn
         (kill-buffer (process-buffer process))
-        (winner-undo))))
+        (ignore-errors (delete-window)))))
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
 

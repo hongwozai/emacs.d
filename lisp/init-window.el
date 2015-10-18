@@ -19,5 +19,6 @@
 (global-set-key (kbd "s-c") 'delete-window)
 
 (global-set-key (kbd "s-<return>") 'multi-term)
+(global-set-key (kbd "s-b") 'ido-switch-buffer)
 
 (provide 'init-window)

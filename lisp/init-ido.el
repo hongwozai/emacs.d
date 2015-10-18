@@ -26,9 +26,10 @@
 (global-set-key [remap execute-extended-command] 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
-(require-package 'ido-vertical-mode)
-(ido-vertical-mode 1)
-(setq ido-vertical-define-keys 'C-n-and-C-p-only)
-(setq ido-vertical-show-count t)
+;;; ido decorations
+(setq ido-decorations
+      '("\n   " "" "\n   " " | ..." "[" "]"
+        " [No match]" " [Matched]" " [Not readable]"
+        " [Too big]" " [Confirm]"))
 
 (provide 'init-ido)
