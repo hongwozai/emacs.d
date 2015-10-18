@@ -12,7 +12,9 @@
 (setq ido-enable-flex-matching t)
 (setq ido-use-faces nil)
 (setq ido-use-virtual-buffers t)
-(setq ido-auto-merge-work-directories-length 0)
+;;; ido disable automerge work directories , use M-s
+(setq ido-auto-merge-work-directories-length -1)
+
 ;;; flx match highlight
 (setq flx-ido-use-faces t)
 (set-face-foreground 'flx-highlight-face "red")
