@@ -34,20 +34,10 @@
 
 ;;; cursor
 (blink-cursor-mode 0)
-;; (global-hl-line-mode t)
+(global-hl-line-mode t)
 
 ;; syntax hightlight
 (global-font-lock-mode t)
-
-;;; highlight symbol
-(require-package 'highlight-symbol)
-(eval-after-load 'highlight-symbol
-  '(progn
-     (setq highlight-symbol-idle-delay 1)
-     (set-face-foreground 'highlight-symbol-face nil)
-     (set-face-background 'highlight-symbol-face "#f2e5c0")))
-(global-set-key (kbd "M-n") 'highlight-symbol-next)
-(global-set-key (kbd "M-p") 'highlight-symbol-prev)
 
 ;;; dired
 (require 'dired)
@@ -118,8 +108,6 @@
 ;; show pair
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
-(set-face-background 'show-paren-match      "#f6cebf")
-(set-face-foreground 'show-paren-match      nil)
 
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)
