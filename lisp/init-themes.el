@@ -13,7 +13,7 @@
              :foreground "#ffffff" :background ,hong/mode-line-normal
              :overline ,hong/mode-line-normal :inverse-video nil))))
  `(mode-line-inactive
-   ((t (:box (:line-width 1 :color "#657b83" :style nil)
+   ((t (:box (:line-width 1 :color ,hong/mode-line-inactive :style nil)
              :foreground "#ffffff" :background ,hong/mode-line-inactive
              :overline ,hong/mode-line-inactive :inverse-video nil))))
  )
