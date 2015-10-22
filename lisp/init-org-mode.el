@@ -16,6 +16,9 @@
   (org-insert-link)
   (org-redisplay-inline-images))
 
+;;; org agenda
+(setq org-agenda-span 'day)
+
 ;;; org tags
 (setq org-tags-column -60)
 (setq org-tag-alist '(("computer" . ?c)
@@ -33,9 +36,9 @@
       '(("t" "TODO" entry (file+headline "~/org/todo.org" "inbox")
          "* TODO %?\n %i\n" :prepend t)
         ("n" "NOTE" entry (file+headline "~/org/note.org" "note")
-         "* %?\n %i\n" :prepend t :empty-lines 1)
+         "* %?\n %i\n" :prepend t)
         ("i" "IDEA" entry (file+headline "~/org/note.org" "idea")
-         "* %?\n %i\n" :prepend t :empty-lines 1)))
+         "* %?\n %i\n" :prepend t)))
 
 (eval-after-load 'evil
   '(progn
