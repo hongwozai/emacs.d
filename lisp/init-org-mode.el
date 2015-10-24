@@ -32,11 +32,12 @@
       '((sequence "TODO(t!)" "|" "DONE(d@/!)" "CANCELED(c@/!)")))
 
 ;;; org capture fast remember
+;;; org-capture
 (setq org-capture-templates
       '(("t" "TODO" entry (file+headline "~/org/todo.org" "inbox")
          "* TODO %?\n %i\n" :prepend t)
         ("n" "NOTE" entry (file+headline "~/org/note.org" "note")
-         "* %?\n %i\n" :prepend t)
+         "* %?\n %i\n" :prepend t :empty-lines-after 1)
         ("i" "IDEA" entry (file+headline "~/org/note.org" "idea")
          "* %?\n %i\n" :prepend t)))
 
