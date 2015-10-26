@@ -30,4 +30,7 @@
               '(("\\.cmake\\'" . cmake-mode))
               auto-mode-alist))
 
+;;; zsh
+(push '("\\.zsh\\'" . shell-script-mode) auto-mode-alist)
+
 (provide 'init-misc)

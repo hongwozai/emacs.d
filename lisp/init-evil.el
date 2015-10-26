@@ -5,19 +5,19 @@
 (setq evil-move-cursor-back t)
 
 ;;; initial state change
-(dolist (mode '(term-mode gud-mode
-                eshell-mode shell-mode
+(dolist (mode '(term-mode
+                eshell-mode shell-mode gud-mode
                 minibuffer-inactive-mode
                 messages-buffer-mode bs-mode
                 special-mode process-menu-mode
                 sql-interactive-mode
                 inferior-python-mode
-                anaconda-nav-mode
-                yari-mode comint-mode
-                image-mode
+                anaconda-nav-mode ibuffer-mode
+                comint-mode image-mode
                 flycheck-error-list-mode))
   (evil-set-initial-state mode 'emacs))
-(dolist (mode '(diff-mode occur-mode))
+
+(dolist (mode '(diff-mode occur-mode yari-mode))
   (evil-set-initial-state mode 'motion))
 ;;; messages-buffer-mode can't set emacs state in emacs start
 (kill-buffer "*Messages*")

@@ -13,6 +13,7 @@
             (setq compile-command "rake ")
             (inf-ruby-minor-mode)))
 
+;;; yari
 (autoload 'yari "yari" "" t nil)
 (defalias 'ri 'yari)
 

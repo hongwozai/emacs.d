@@ -13,10 +13,7 @@ fi
 EOF
 }
 # ============== control flow ============
-# emacs multi-term ch
+# emacs multi-term ch only zsh
 if [ -f ~/.zshrc ]; then
     emacs_term_chpwd "~/.zshrc"
-fi
-if [ -f ~/.bashrc ]; then
-    emacs_term_chpwd "~/.bashrc"
 fi

@@ -15,6 +15,7 @@
               mouse-yank-at-point         t
               truncate-lines              nil
               show-trailing-whitespace    t
+              scroll-margin               0
               visible-bell                t)
 
 ;;; trailing whitespace

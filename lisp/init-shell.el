@@ -15,8 +15,9 @@
 
 ;;; term
 (require-package 'multi-term)
-;;; zsh can't display normally in ssh
-(setq multi-term-program "/bin/bash")
+;;; zsh bash not set TERM=xterm-256color, otherwise not display normally
+(setq multi-term-program
+      (or (executable-find "/bin/zsh") "/bin/bash"))
 ;;; term-mode-hook term-raw-map !!! must be term-raw-map
 (global-set-key (kbd "M-[") 'multi-term-prev)
 (global-set-key (kbd "M-]") 'multi-term-next)
