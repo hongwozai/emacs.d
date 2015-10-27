@@ -11,7 +11,8 @@
               'eshell-next-matching-input-from-input)
             (setq pcomplete-cycle-completions nil
                   eshell-save-history-on-exit nil
-                  eshell-buffer-shorthand t)))
+                  eshell-buffer-shorthand t)
+            (defalias 'ff #'find-file)))
 
 ;;; term
 (require-package 'multi-term)
