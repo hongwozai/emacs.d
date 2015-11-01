@@ -13,9 +13,7 @@
 (require-package 'company-c-headers)
 (require-package 'slime-company)
 
-(dolist (hook '(prog-mode-hook inferior-python-mode-hook inf-ruby-mode-hook
-                               cmake-mode-hook web-mode-hook))
-  (add-hook hook 'company-mode))
+(add-hook 'after-init-hook #'global-company-mode)
 
 (eval-after-load 'company
   '(progn
@@ -26,11 +24,14 @@
      (setq company-require-match nil)
      ;; press SPACE will accept the highlighted candidate and insert a space
      (setq company-auto-complete nil)
-     (setq company-idle-delay    0.3)
+     (setq company-idle-delay    0.2)
      (setq company-dabbrev-downcase    nil)
      (setq company-dabbrev-ignore-case nil)
      (setq company-show-numbers t)
      (setq company-begin-commands '(self-insert-command))
-     (setq company-clang-insert-arguments nil)))
+     (setq company-clang-insert-arguments nil)
+     (setq company-global-modes
+           '(not eshell-mode comint-mode gud-mode))
+))
 
 (provide 'init-complete)
