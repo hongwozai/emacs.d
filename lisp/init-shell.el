@@ -1,10 +1,10 @@
 ;;; shell-script-mode
 (push '("\\.zsh\\'" . sh-mode) auto-mode-alist)
-(push '("\\.sh\\" . sh-mode) auto-mode-alist)
-(push '("\\.bash\\" . sh-mode) auto-mode-alist)
-(push '("\\.bashrc\\" . sh-mode) auto-mode-alist)
-(push '("\\.bash_history\\" . sh-mode) auto-mode-alist)
-(push '("\\.bash_profile\\" . sh-mode) auto-mode-alist)
+(push '("\\.sh\\'" . sh-mode) auto-mode-alist)
+(push '("\\.bash\\'" . sh-mode) auto-mode-alist)
+(push '("\\.bashrc\\'" . sh-mode) auto-mode-alist)
+(push '("\\.bash_history\\'" . sh-mode) auto-mode-alist)
+(push '("\\.bash_profile\\'" . sh-mode) auto-mode-alist)
 
 ;;; set path
 (require-package 'exec-path-from-shell)
