@@ -110,6 +110,9 @@
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
 
+;;; highlight indent
+(require-package 'highlight-indentation)
+
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)
 

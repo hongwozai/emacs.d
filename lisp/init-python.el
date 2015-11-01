@@ -18,8 +18,11 @@
              (anaconda-mode)
              (add-to-list 'company-backends 'company-anaconda)
              (eldoc-mode)
-             (setq electric-indent-chars (delq ?: electric-indent-chars))))
+             (setq electric-indent-chars (delq ?: electric-indent-chars))
+             (highlight-indentation-mode)))
+
 (add-hook 'inferior-python-mode-hook 'hong/exit)
+
 ;;; flake8 with python
 (setq flycheck-python-flake8-executable
       (concat hong/python-program " -m flake8"))

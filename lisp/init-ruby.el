@@ -11,7 +11,8 @@
             (push 'ruby-rubylint flycheck-disabled-checkers)
             (push 'company-robe company-backends)
             (setq compile-command "rake ")
-            (inf-ruby-minor-mode)))
+            (inf-ruby-minor-mode)
+            (highlight-indentation-mode)))
 
 ;;; yari
 (autoload 'yari "yari" "" t nil)
