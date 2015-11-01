@@ -1,3 +1,6 @@
+;;; go language
+(require-package 'go-mode)
+
 ;;; bison
 (require-package 'bison-mode)
 (eval-after-load 'bison-mode
