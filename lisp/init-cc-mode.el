@@ -27,7 +27,7 @@
     ;; compile
   (setq compile-command "make")
   (setq compilation-window-height 12)
-  (setq compilation-read-command t)
+  (setq compilation-read-command nil)
   ;; (setq compilation-auto-jump-to-first-error t)
   (setq compilation-finish-function
         (lambda (buf str)
@@ -59,7 +59,9 @@
 ;;; ===================== cc mode config ==================
 (defun hong/my-cc-common-config ()
   ;; indent
-  (setq c-default-style "k&r"
+  (setq c-default-style '((java-mode . "java")
+                          (awk-mode . "awk")
+                          (other . "k&r"))
         c-basic-offset  4)
   )
 (defun hong/my-c-mode-config ()
@@ -71,7 +73,7 @@
   (setq c-eldoc-cpp-command "/usr/bin/cpp")
   (setq c-eldoc-includes "-I./ -I../")
   ;; keywords
-  (font-lock-add-keywords 'c-mode '("typeof" "__attribute__"))
+  (font-lock-add-keywords 'c-mode '("typeof" "__attribute__" "__asm__"))
   )
 
 (add-hook 'after-init-hook 'hong/my-compile-common-config)

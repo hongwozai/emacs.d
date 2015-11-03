@@ -16,7 +16,8 @@
 (add-hook 'python-mode-hook
           '(lambda ()
              (anaconda-mode)
-             (add-to-list 'company-backends 'company-anaconda)
+             (setq-local company-backends
+                         (cons 'company-anaconda company-backends))
              (eldoc-mode)
              (setq electric-indent-chars (delq ?: electric-indent-chars))
              (highlight-indentation-mode)))

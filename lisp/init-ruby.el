@@ -9,7 +9,7 @@
           (lambda ()
             (robe-mode)
             (push 'ruby-rubylint flycheck-disabled-checkers)
-            (push 'company-robe company-backends)
+            (setq-local company-backends (cons 'company-robe company-backends))
             (setq compile-command "rake ")
             (inf-ruby-minor-mode)
             (highlight-indentation-mode)))
