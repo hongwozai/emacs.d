@@ -1,6 +1,7 @@
 ;; initial
 (setq inhibit-startup-message t)
-(setq initial-scratch-message ";; Happy learning, you can do it.\n\n")
+(setq initial-scratch-message
+      ";;; To follow the path:\n;;; look for the master, follow the master,\n;;; walk with the master, see through the master\n;;; become the master.\n\n")
 (setq initial-major-mode 'lisp-interaction-mode)
 
 (tool-bar-mode -1)

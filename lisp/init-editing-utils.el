@@ -115,5 +115,6 @@
 
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)
+(global-set-key (kbd "<f5>") 'compile)
 
 (provide 'init-editing-utils)
