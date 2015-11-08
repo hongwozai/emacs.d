@@ -20,6 +20,7 @@
             (setq pcomplete-cycle-completions nil
                   eshell-save-history-on-exit nil
                   eshell-buffer-shorthand t)
+            (setq-local show-trailing-whitespace nil)
             (defalias 'ff #'find-file)))
 
 ;;; term
