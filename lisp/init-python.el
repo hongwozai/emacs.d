@@ -2,7 +2,7 @@
 (require-package 'anaconda-mode)
 (require-package 'company-anaconda)
 
-(setq hong/python-version "2.7")
+(setq hong/python-version "2")
 (setq hong/python-program (concat "python" hong/python-version))
 (setq hong/ipython-program (concat "ipython" hong/python-version))
 
@@ -27,5 +27,7 @@
 ;;; flake8 with python
 (setq flycheck-python-flake8-executable
       (concat hong/python-program " -m flake8"))
+(setq flycheck-python-pylint-executable
+      (concat hong/python-program " -m pylint"))
 
 (provide 'init-python)
