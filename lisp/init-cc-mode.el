@@ -45,6 +45,7 @@
     (mapcar #'(lambda (x) (substring x 2))
             (remove-if #'(lambda (x) (not (eql (elt x 1) ?I))) gtk))))
 (defun hong/my-gtk-config ()
+  (interactive)
   (setq flycheck-clang-include-path
         (append flycheck-clang-include-path (hong/gtk-headers)))
   (setq company-clang-arguments
