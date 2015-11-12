@@ -62,7 +62,6 @@
   (font-lock-add-keywords 'c-mode '("typeof" "__attribute__" "__asm__"))
   )
 
-(add-hook 'after-init-hook 'hong/my-compile-common-config)
 (add-hook 'c-mode-common-hook
           (lambda ()
             (hong/my-cc-common-config)
