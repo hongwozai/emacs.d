@@ -21,6 +21,7 @@
 (require 'init-flycheck)
 (require 'init-complete)
 (require 'init-template)
+(require 'init-compile)
 
 (require 'init-chinese)
 (require 'init-org-mode)
