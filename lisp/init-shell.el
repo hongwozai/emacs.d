@@ -69,4 +69,12 @@
 (defalias 'sh 'shell)
 (defalias 'mt 'multi-term)
 
+;;; shell-command
+(defun hong/run-shell-command (command)
+  (interactive)
+  (when (commandp 'multi-term)
+    (multi-term)
+    (term-send-raw-string (concat command "\n")))
+  )
+
 (provide 'init-shell)
