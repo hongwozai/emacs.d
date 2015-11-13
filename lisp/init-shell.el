@@ -33,6 +33,7 @@
 (global-set-key (kbd "M-]") 'multi-term-next)
 (add-hook 'term-mode-hook
           (lambda ()
+            (setq multi-term-switch-after-close nil)
             (setq multi-term-dedicated-select-after-open-p t)
             (setq-local show-trailing-whitespace nil)
             (setq term-unbind-key-list '("C-x"  "<ESC>"))

@@ -1,6 +1,6 @@
 ;;; ===================== compile ==================
 (defun hong/my-compile-common-config ()
-    ;; compile
+  ;; compile
   (setq compile-command "make")
   (setq compilation-window-height 12)
   (setq compilation-read-command nil)
@@ -13,16 +13,22 @@
               (message "NO COMPILATION ERRORS!")))))
   (hong/select-buffer-window compile "*compilation*")
   )
+
 (add-hook 'after-init-hook 'hong/my-compile-common-config)
+(global-set-key (kbd "<f5>") 'compile)
 
 ;;; ==================== auto test =================
-(defun hong/run-make-test ()
-  (interactive)
-  (hong/run-shell-command "make test"))
+(defun hong/detect-test-file-p (files)
+  (unless (null files)
+    (or (file-exists-p (car files))
+        (hong/detect-test-file (cdr files)))))
 
 (defun hong/run-autotest ()
   (interactive)
-  (hong/run-make-test))
+  (if (hong/detect-test-file-p '("makefile" "Makefile"))
+      (hong/run-shell-command "make test")
+    (message "no makefile, make test don't run!!"))
+  )
 
 (global-set-key (kbd "<f6>") 'hong/run-autotest)
 
