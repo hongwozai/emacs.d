@@ -10,8 +10,8 @@
           (if (string-match "exited abnormally" str)
               (message "compilation errors, press C-x ` to visit'")
             (when (string-match "*compilation*" (buffer-name buf))
+              (winner-undo)
               (message "NO COMPILATION ERRORS!")))))
-  (hong/select-buffer-window compile "*compilation*")
   )
 
 (add-hook 'after-init-hook 'hong/my-compile-common-config)
@@ -21,7 +21,7 @@
 (defun hong/detect-test-file-p (files)
   (unless (null files)
     (or (file-exists-p (car files))
-        (hong/detect-test-file (cdr files)))))
+        (hong/detect-test-file-p (cdr files)))))
 
 (defun hong/run-autotest ()
   (interactive)

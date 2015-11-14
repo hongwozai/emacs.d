@@ -35,4 +35,14 @@
               '(("\\.cmake\\'" . cmake-mode))
               auto-mode-alist))
 
+;;; graphviz
+(eval-after-load "org"
+  '(progn
+    (add-to-list 'org-src-lang-modes  '("dot" . graphviz-dot))))
+;;; BUG: graphviz org-mode eval-after-load
+(require-package 'graphviz-dot-mode)
+(hong/select-buffer-window graphviz-dot-preview "*preview*")
+(setq graphviz-dot-auto-indent-on-braces t)
+(setq graphviz-dot-toggle-completions t)
+
 (provide 'init-misc)
