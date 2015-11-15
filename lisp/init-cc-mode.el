@@ -51,7 +51,8 @@
         c-basic-offset  4)
   ;; related file
   (setq-local cc-search-directories
-              (append cc-search-directories '("../inc" "../include")))
+              '("../inc" "../include" "../src" "../source"
+                "." "/usr/include" "/usr/local/include/*"))
   )
 (defun hong/my-c-mode-config ()
   "C/C++ only"
