@@ -34,7 +34,4 @@
         " [No match]" " [Matched]" " [Not readable]"
         " [Too big]" " [Confirm]"))
 
-;;; imenu
-(require-package 'imenu-anywhere)
-
 (provide 'init-ido)
