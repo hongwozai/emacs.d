@@ -12,6 +12,7 @@
             (when (string-match "*compilation*" (buffer-name buf))
               (winner-undo)
               (message "NO COMPILATION ERRORS!")))))
+  (hong/select-buffer-window compile "*compilation*")
   )
 
 (add-hook 'after-init-hook 'hong/my-compile-common-config)
