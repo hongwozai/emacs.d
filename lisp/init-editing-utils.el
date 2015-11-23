@@ -116,4 +116,13 @@
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)
 
+;;; .dir-locals.el
+;;; eg. ((nil . ((indent-tabs-mode . t)
+;;;              (fill-column . 80)))
+;;;      (c-mode . (c-file-style . "BSD"))
+;;;      ("src/imported" . ((nil . ((VAR . "VALUE)))))) ;;; subdir
+;;; M-x add-dir-local-variable
+;;; .dir-locals.el can "eval", eg. ((nil . ((eval . (setq VAR "VALUE")))))
+(setq enable-local-variables :all enable-local-eval t)
+
 (provide 'init-editing-utils)
