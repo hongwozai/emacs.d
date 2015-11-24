@@ -19,6 +19,7 @@
 (global-set-key (kbd "<f5>") 'compile)
 
 ;;; ==================== auto test =================
+(defvar hong/run-auto-command "make autotest")
 (defun hong/detect-test-file-p (files)
   (unless (null files)
     (or (file-exists-p (car files))
@@ -27,8 +28,10 @@
 (defun hong/run-autotest ()
   (interactive)
   (if (hong/detect-test-file-p '("makefile" "Makefile"))
-      (hong/run-shell-command "make test")
-    (message "no makefile, make test don't run!!"))
+      (hong/run-shell-command hong/run-auto-command)
+    (if (hong/detect-test-file-p '("../makefile" "../Makefile"))
+        (hong/run-shell-command hong/run-auto-command)
+        (message "no makefile, make test don't run!!")))
   )
 
 (global-set-key (kbd "<f6>") 'hong/run-autotest)
