@@ -22,6 +22,7 @@
                   eshell-save-history-on-exit nil
                   eshell-buffer-shorthand t)
             (setq-local show-trailing-whitespace nil)
+            (add-to-list 'eshell-visual-commands "ssh")
             (defalias 'ff #'find-file)))
 
 ;;; term
