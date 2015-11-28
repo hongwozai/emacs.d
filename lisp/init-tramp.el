@@ -12,4 +12,7 @@ buffer is not visiting a file."
 ;;; ssh is faster than scp
 (setq tramp-default-method "ssh")
 
+;;; faster
+(setq tramp-chunksize 1000)
+
 (provide 'init-tramp)
