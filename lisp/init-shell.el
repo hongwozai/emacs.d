@@ -18,16 +18,18 @@
             (define-key eshell-mode-map (kbd "C-n")
               'eshell-next-matching-input-from-input)
             (setq pcomplete-cycle-completions nil
+                  eshell-cmpl-cycle-completions nil
                   eshell-save-history-on-exit nil
                   eshell-buffer-shorthand t)
             (setq-local show-trailing-whitespace nil)
+            (add-to-list 'eshell-visual-commands "ssh")
             (defalias 'ff #'find-file)))
 
 ;;; term
 (require-package 'multi-term)
 ;;; zsh bash not set TERM=xterm-256color, otherwise not display normally
-(setq multi-term-program
-      (or (executable-find "/bin/zsh") "/bin/bash"))
+;;; zsh tramp zle not support. see wiki Tramp hangs #3
+(setq multi-term-program "/bin/bash")
 ;;; term-mode-hook term-raw-map !!! must be term-raw-map
 (global-set-key (kbd "M-[") 'multi-term-prev)
 (global-set-key (kbd "M-]") 'multi-term-next)

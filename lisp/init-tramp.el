@@ -9,7 +9,10 @@ buffer is not visiting a file."
                          (ido-read-file-name "Find file(as root): ")))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
-;;; ssh is faster than scp
+;;; ssh is faster than scp. scpx or sshx. see Tramp hangs
 (setq tramp-default-method "ssh")
+
+;;; faster see wiki Tramp hangs #2
+(setq tramp-chunksize 1000)
 
 (provide 'init-tramp)
