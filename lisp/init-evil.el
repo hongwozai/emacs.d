@@ -58,10 +58,22 @@
 (setq elscreen-display-tab nil)
 (setq elscreen-tab-display-control nil)
 (setq elscreen-tab-display-kill-screen nil)
-
-;;; evil tabs
-(require-package 'evil-tabs)
-(global-evil-tabs-mode t)
+;;; vim tab
+(elscreen-start)
+(evil-define-command evil-tab-)
+(evil-define-command evil-tab-sensitive-quit ()
+  (interactive)
+  (if (> (elscreen-get-number-of-screens) 1)
+      (elscreen-kill)
+    (evil-quit)))
+(evil-ex-define-cmd "q[uit]" 'evil-tab-sensitive-quit)
+(evil-ex-define-cmd "tabnew" 'elscreen-create)
+(evil-ex-define-cmd "tabc[lose]" 'elscreen-kill)
+(evil-ex-define-cmd "tabclone" 'elscreen-clone)
+(evil-ex-define-cmd "tabs[elect]" 'elscreen-select-and-goto)
+(evil-ex-define-cmd "tabo[nly]" 'elscreen-kill-others)
+(define-key evil-normal-state-map "gt" 'elscreen-next)
+(define-key evil-normal-state-map "gT" 'elscreen-previous)
 ;;; dynamic display tabs
 (defadvice elscreen-create (before hong/elscreen-create activate)
   (if (= 1 (elscreen-get-number-of-screens))
