@@ -40,7 +40,7 @@
             (setq term-buffer-maximum-size 0)
             (setq multi-term-scroll-to-bottom-on-output 'all)
             (setq-local show-trailing-whitespace nil)
-            (setq term-unbind-key-list '("C-x"  "<ESC>"))
+            (setq term-unbind-key-list '("C-x"))
             (setq term-bind-key-alist
                   '(("C-r" . term-send-reverse-search-history)
                     ("C-y" . term-paste)
@@ -53,7 +53,11 @@
                     ("M-f" . term-send-forward-word)
                     ("M-b" . term-send-backward-word)
                     ("M-x" . execute-extended-command)
-                    ("TAB" . (lambda () (interactive) (term-send-raw-string "\t")))))))
+                    ("TAB" . (lambda () (interactive)
+                               (term-send-raw-string "\t")))
+                    ("<escape>" . (lambda () (interactive)
+                                    (term-send-raw-string "")))))
+            ))
 
 ;;; shell
 (setq shell-file-name "/bin/bash")
