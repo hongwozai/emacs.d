@@ -35,6 +35,8 @@
           (lambda ()
             (setq multi-term-switch-after-close nil)
             (setq multi-term-dedicated-select-after-open-p t)
+            (setq term-buffer-maximum-size 0)
+            (setq multi-term-scroll-to-bottom-on-output 'all)
             (setq-local show-trailing-whitespace nil)
             (setq term-unbind-key-list '("C-x"  "<ESC>"))
             (setq term-bind-key-alist
