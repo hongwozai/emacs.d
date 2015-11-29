@@ -35,7 +35,7 @@
 
 ;;; cursor
 (blink-cursor-mode 0)
-(global-hl-line-mode t)
+;; (global-hl-line-mode t)
 
 ;; syntax hightlight
 (global-font-lock-mode t)
