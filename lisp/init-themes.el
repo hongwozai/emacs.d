@@ -3,7 +3,7 @@
 (load-theme 'zenburn t)
 
 ;;; mode-line
-(defvar hong/mode-line-normal "#657b83")
+(defvar hong/mode-line-normal "DimGrey")
 (defvar hong/mode-line-inactive "DimGrey")
 
 (custom-theme-set-faces

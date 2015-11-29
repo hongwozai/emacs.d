@@ -38,8 +38,8 @@
                '(:eval (format "%c" (if buffer-read-only ?\- ?\+)))
                '(:eval (format "%s" (buffer-size)))
                "  "
-               '(:eval (propertize "%b " 'face 'bold-italic
-                                   'help-echo (buffer-file-name)))
+               '(:eval (format "[%s] " (elscreen-get-current-screen)))
+               mode-line-buffer-identification
                '(:eval (format "[%s]" (projectile-project-name)))
                '(:eval (propertize " %m" 'face 'italic))
                "  "
@@ -49,14 +49,16 @@
                mode-line-end-spaces
                ))
 
-(lexical-let ((default-color (cons "#657b83" "#fdf6e3")))
+;;; #657b83 fdf6e3
+(lexical-let ((default-color (cons "DimGrey" "#ffffff")))
   (add-hook 'post-command-hook
             (lambda ()
-              (let ((color (cond ((minibufferp) default-color)
-                                 ((evil-insert-state-p) '("#e80000" . "#ffffff"))
-                                 ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                                 (t default-color))))
+              (let ((color
+                     (cond ((minibufferp) default-color)
+                           ((evil-insert-state-p) '("#e80000" . "#ffffff"))
+                           ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+                           ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+                           (t default-color))))
                 (set-face-foreground 'mode-line (cdr color))
                 (set-face-background 'mode-line (car color))))))
 

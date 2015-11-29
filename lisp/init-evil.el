@@ -52,6 +52,23 @@
 (require-package 'evil-matchit)
 (global-evil-matchit-mode 1)
 
+;;; elscreen
+;;; elscreen needs mode-line-format
+(setq elscreen-display-tab nil)
+(setq elscreen-tab-display-control nil)
+(setq elscreen-tab-display-kill-screen nil)
+
+;;; evil tabs
+(require-package 'evil-tabs)
+(global-evil-tabs-mode t)
+;;; dynamic display tabs
+(defadvice elscreen-create (before hong/elscreen-create activate)
+  (if (= 1 (elscreen-get-number-of-screens))
+      (setq elscreen-display-tab t)))
+
+(defadvice elscreen-kill (after hong/elscreen-kill activate)
+  (if (= 1 (elscreen-get-number-of-screens))
+      (elscreen-toggle-display-tab)))
 ;;; ===================== evil leader custom key =================
 (require-package 'evil-leader)
 (global-evil-leader-mode)

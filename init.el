@@ -6,8 +6,8 @@
 (require 'init-elpa)
 
 (require 'init-themes)
-(require 'init-frame)
 (require 'init-evil)
+(require 'init-frame)
 (require 'init-window)
 (require 'init-editing-utils)
 
