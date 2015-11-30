@@ -60,7 +60,6 @@
 (setq elscreen-tab-display-kill-screen nil)
 ;;; vim tab
 (elscreen-start)
-(evil-define-command evil-tab-)
 (evil-define-command evil-tab-sensitive-quit ()
   (interactive)
   (if (> (elscreen-get-number-of-screens) 1)

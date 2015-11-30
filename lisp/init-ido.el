@@ -34,4 +34,8 @@
         " [No match]" " [Matched]" " [Not readable]"
         " [Too big]" " [Confirm]"))
 
+;;; ido ignore buffers
+(setq ido-ignore-buffers '("\\` " "^\*/" "^\*.*output" "^\*.*err" "^\*.*mode"
+                           "^\*.*process.*" "^\*.*[Ll]og.*" "^\*.*trace*"))
+
 (provide 'init-ido)
