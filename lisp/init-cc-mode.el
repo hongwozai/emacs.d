@@ -64,6 +64,9 @@
   (setq c-eldoc-includes "-I./ -I../")
   ;; keywords
   (font-lock-add-keywords 'c-mode '("typeof" "__attribute__" "__asm__"))
+  (font-lock-add-keywords
+   nil
+   '(("\\<\\([0-9]+\\)\\>" 1 'font-lock-constant-face t)))
   )
 
 (add-hook 'c-mode-common-hook

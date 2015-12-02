@@ -40,6 +40,7 @@
                "  "
                '(:eval (format "[%s] " (elscreen-get-current-screen)))
                mode-line-buffer-identification
+               "  "
                '(:eval (format "[%s]" (projectile-project-name)))
                '(:eval (propertize " %m" 'face 'italic))
                "  "
