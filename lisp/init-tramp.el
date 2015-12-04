@@ -17,4 +17,7 @@ buffer is not visiting a file."
 (setq tramp-ssh-controlmaster-options
       "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 
+;;; experiment
+(setq enable-remote-dir-locals t)
+
 (provide 'init-tramp)
