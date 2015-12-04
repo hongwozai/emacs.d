@@ -13,6 +13,8 @@ buffer is not visiting a file."
 (setq tramp-default-method "ssh")
 
 ;;; faster see wiki Tramp hangs #2
-(setq tramp-chunksize 1000)
+(setq tramp-chunksize 8192)
+(setq tramp-ssh-controlmaster-options
+      "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 
 (provide 'init-tramp)
