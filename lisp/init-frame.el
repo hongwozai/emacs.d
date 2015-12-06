@@ -42,7 +42,8 @@
                mode-line-buffer-identification
                "  "
                '(:eval (format "[%s]" (projectile-project-name)))
-               '(:eval (propertize " %m" 'face 'italic))
+               " "
+               '(:eval (propertize "%m" 'face 'italic))
                "  "
                mode-line-position
                ;;global-mode-string, org-timer-set-timer in org-mode need this
