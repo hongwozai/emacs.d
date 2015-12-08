@@ -67,7 +67,7 @@
   (font-lock-add-keywords
    'c-mode
    '(("\\<\\([-v]?[0-9\.]+\\)" 1 'font-lock-string-face)
-     ("\\<\\(if\\|for\\|while\\)\\>" 1 'font-lock-keyword-face)
+     ("\\_<\\(if\\|for\\|while\\)\\_>" 1 'font-lock-keyword-face)
      ("\\<\\(_?[A-Z0-9_]+\\)" 1 'font-lock-constant-face)
      ("\\<\\(\\sw+\\) ?(" 1 'font-lock-function-name-face)
      ))
