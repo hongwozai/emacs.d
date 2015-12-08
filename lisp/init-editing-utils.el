@@ -105,6 +105,7 @@
 
 ;;; avy
 (require-package 'avy)
+(setq avy-background t)
 ;;; zenburn avy theme ugly, restore default
 (custom-theme-set-faces
  'zenburn
@@ -115,6 +116,7 @@
  `(avy-background-face
    ((t (:foreground "grey40"))))
  )
+
 ;; show pair
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
