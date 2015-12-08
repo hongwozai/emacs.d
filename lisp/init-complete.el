@@ -21,14 +21,11 @@
      (push 'company-c-headers company-backends)
      ;; can't work with TRAMP
      (setq company-backends (delete 'company-ropemacs company-backends))
-     (setq company-require-match nil)
-     ;; press SPACE will accept the highlighted candidate and insert a space
-     (setq company-auto-complete nil)
      (setq company-idle-delay    0.2)
-     (setq company-dabbrev-downcase    nil)
-     (setq company-dabbrev-ignore-case nil)
+     (setq company-minimum-prefix-length 2)
+     (setq company-tooltip-flip-when-above t)
      (setq company-show-numbers t)
-     ;; (setq company-begin-commands '(self-insert-command))
+     (setq company-begin-commands '(self-insert-command))
      (setq company-clang-insert-arguments nil)
      (setq company-global-modes
            '(not eshell-mode comint-mode gud-mode))

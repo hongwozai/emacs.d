@@ -38,4 +38,16 @@
 (setq ido-ignore-buffers '("\\` " "^\*/" "^\*.*output" "^\*.*err" "^\*.*mode"
                            "^\*.*process.*" "^\*.*[Ll]og.*" "^\*.*trace*"))
 
+;;; ido vertical-mode
+(require-package 'ido-vertical-mode)
+(setq ido-vertical-show-count t)
+(ido-vertical-mode 1)
+
+(setq ido-use-faces t)
+(set-face-attribute 'ido-vertical-first-match-face nil
+                    :foreground "orange")
+
+;;; imenu
+(set-default 'imenu-auto-rescan t)
+
 (provide 'init-ido)
