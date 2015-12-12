@@ -24,6 +24,7 @@
      (setq company-idle-delay    0.2)
      (setq company-minimum-prefix-length 2)
      (setq company-tooltip-flip-when-above t)
+     (setq company-tooltip-align-annotations t)
      (setq company-show-numbers t)
      (setq company-begin-commands '(self-insert-command))
      (setq company-clang-insert-arguments nil)

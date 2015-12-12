@@ -1,7 +1,7 @@
 ;;; php
 (require-package 'php-mode)
 
-;;; web mode
+;;; =========================== web mode =================
 (require-package 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
@@ -16,7 +16,27 @@
 (setq web-mode-engines-alist
       '(("php"    . "\\.phtml\\'")))
 
-;;; javascript
+(setq web-mode-markup-indent-offset 2)
+(setq web-mode-css-indent-offset    2)
+(setq web-mode-code-indent-offset   2)
+
+(setq web-mode-enable-auto-pairing  t)
+(setq web-mode-enable-css-colorization t)
+(setq web-mode-enable-block-face    t)
+(setq web-mode-enable-current-element-highlight t)
+
+;;; emmet-mode
+(require-package 'emmet-mode)
+(add-hook 'web-mode-hook 'emmet-mode)
+
+;;; company-web
+(require-package 'company-web)
+(add-hook 'web-mode-hook
+          (lambda ()
+            (set (make-local-variable 'company-backends)
+                 '(company-web-html company-yasnippet company-files))))
+
+;;; ========================= javascript ================
 (require-package 'js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 

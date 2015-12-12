@@ -10,7 +10,7 @@ buffer is not visiting a file."
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 ;;; ssh is faster than scp. scpx or sshx. see Tramp hangs
-(setq tramp-default-method "ssh")
+(setq tramp-default-method "scp")
 
 ;;; faster see wiki Tramp hangs #2
 (setq tramp-chunksize 8192)
