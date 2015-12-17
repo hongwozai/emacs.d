@@ -1,15 +1,15 @@
-(add-hook 'org-mode-hook 'org-indent-mode)
+(require-package 'org-bullets)
+(add-hook 'org-mode-hook
+          '(lambda ()
+             (setq-local truncate-lines nil)
+             (org-indent-mode)
+             (org-bullets-mode)
+             (iimage-mode)
+             (org-display-inline-images)))
 
 ;;; org source block highlight
 (setq org-src-fontify-natively t)
 (setq org-agenda-include-diary nil)
-(add-hook 'org-mode-hook
-          '(lambda () (setq-local truncate-lines nil)))
-
-;;; org picture (insert file: link)
-(add-hook 'org-mode-hook
-          '(lambda () (iimage-mode)
-             (org-display-inline-images)))
 
 (defun hong/org-insert-image ()
   (interactive)

@@ -106,16 +106,6 @@
 ;;; avy
 (require-package 'avy)
 (setq avy-background t)
-;;; zenburn avy theme ugly, restore default
-(custom-theme-set-faces
- 'zenburn
- `(avy-lead-face
-   ((t (:foreground "white" :background "#e52b50"))))
- `(avy-lead-face-0
-   ((t (:foreground "white" :background "#4f57f9"))))
- `(avy-background-face
-   ((t (:foreground "grey40"))))
- )
 
 ;; show pair
 (show-paren-mode t)

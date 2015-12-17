@@ -1,21 +1,9 @@
 ;; color theme
-(require-package 'zenburn-theme)
-(load-theme 'zenburn t)
+(require-package 'spacemacs-theme)
 
-;;; mode-line
-(defvar hong/mode-line-normal "DimGrey")
-(defvar hong/mode-line-inactive "DimGrey")
+;;; only graphic color
+(flet ((display-graphic-p (&optional what) t))
+  (load-theme 'spacemacs-dark t))
 
-(custom-theme-set-faces
- 'zenburn
- `(mode-line
-   ((t (:box (:line-width 1 :color ,hong/mode-line-normal :style nil)
-             :foreground "#ffffff" :background ,hong/mode-line-normal
-             :overline ,hong/mode-line-normal :inverse-video nil))))
- `(mode-line-inactive
-   ((t (:box (:line-width 1 :color ,hong/mode-line-inactive :style nil)
-             :foreground "#ffffff" :background ,hong/mode-line-inactive
-             :overline ,hong/mode-line-inactive :inverse-video nil))))
- )
 
 (provide 'init-themes)
