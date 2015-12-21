@@ -22,4 +22,8 @@
      (setq pyim-use-tooltip nil)              ; don't use tooltip
      (setq pyim-dicts '((:name "pinyin" :file "~/.eim/pyim-bigdict.pyim" :coding utf-8-unix)))))
 
+;;; fcitx
+(require-package 'fcitx)
+(fcitx-default-setup)
+
 (provide 'init-chinese)
