@@ -51,7 +51,8 @@
                mode-line-end-spaces
                ))
 
-;;; #657b83 fdf6e3
+
+;;; mode-line color
 (add-hook
  'after-init-hook
  (lambda ()
@@ -70,6 +71,25 @@
                    (set-face-background 'mode-line (car color)))))))
  )
 
+;;; speedbar
+(require-package 'sr-speedbar)
+(setq sr-speedbar-right-side nil)
+(setq sr-speedbar-width 25)
+(setq sr-speedbar-max-width 25)
+(setq sr-speedbar-default-width 25)
+(setq speedbar-use-images t)
 
+;;; resizing fixed width
+(defadvice sr-speedbar-open (after hong/sr-speedbar-fixwidth activate)
+  (with-current-buffer sr-speedbar-buffer-name
+    (setq window-size-fixed 'width)))
+;;; bury speedbar buffer
+(defadvice sr-speedbar-close (after hong/sr-speedbar-bury activate)
+  (bury-buffer sr-speedbar-buffer-name))
+
+(global-set-key (kbd "<f3>") 'sr-speedbar-toggle)
+(add-hook 'speedbar-mode-hook
+          (lambda ()
+            (define-key speedbar-mode-map (kbd "q") 'sr-speedbar-toggle)))
 
 (provide 'init-frame)
