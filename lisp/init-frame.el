@@ -56,7 +56,7 @@
 (add-hook
  'after-init-hook
  (lambda ()
-   (lexical-let ((default-color (cons (face-background 'mode-line)
+   (lexical-let ((default-color (cons "#222226"
                                       (face-foreground 'mode-line))))
      (add-hook 'post-command-hook
                (lambda ()
@@ -90,6 +90,8 @@
 (global-set-key (kbd "<f3>") 'sr-speedbar-toggle)
 (add-hook 'speedbar-mode-hook
           (lambda ()
+            (define-key speedbar-mode-map (kbd "n") 'evil-search-next)
+            (define-key speedbar-mode-map (kbd "N") 'evil-search-previous)
             (define-key speedbar-mode-map (kbd "q") 'sr-speedbar-toggle)))
 
 (provide 'init-frame)
