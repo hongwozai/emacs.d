@@ -19,7 +19,12 @@
              (setq-local company-backends
                          (cons 'company-anaconda company-backends))
              (eldoc-mode)
-             (setq electric-indent-chars (delq ?: electric-indent-chars))
+             ;; copy from prelude module-python
+             (setq-local electric-layout-rules
+                         '((?: . (lambda ()
+                                   (and (zerop (first (syntax-ppss)))
+                                        (python-info-statement-starts-block-p)
+                                        'after)))))
              (highlight-indentation-mode)))
 
 (add-hook 'inferior-python-mode-hook 'hong/exit)
