@@ -19,7 +19,7 @@
              (setq-local company-backends
                          (cons 'company-anaconda company-backends))
              (eldoc-mode)
-             (setq electric-indent-chars (delq ?: electric-indent-chars))
+             ;; (setq electric-indent-chars (delq ?: electric-indent-chars))
              (highlight-indentation-mode)))
 
 (add-hook 'inferior-python-mode-hook 'hong/exit)
