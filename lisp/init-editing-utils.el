@@ -111,6 +111,10 @@
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
 
+;;; highlight symbol
+(require-package 'highlight-symbol)
+(add-hook 'prog-mode-hook 'highlight-symbol-mode)
+
 ;;; highlight indent
 (require-package 'highlight-indentation)
 
