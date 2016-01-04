@@ -36,7 +36,9 @@
 
 ;;; ido ignore buffers
 (setq ido-ignore-buffers '("\\` " "^\*/" "^\*.*output" "^\*.*err" "^\*.*mode"
-                           "^\*.*process.*" "^\*.*[Ll]og.*" "^\*.*trace*"))
+                           "^\*.*process.*" "^\*.*[Ll]og.*" "^\*.*trace*"
+                           "^\*SPEEDBAR" "^\*Messages*" "^\*Help*" "^\*buff*"
+                           "^\*ag*" "^\*Completions*"))
 
 ;;; ido vertical-mode
 (require-package 'ido-vertical-mode)

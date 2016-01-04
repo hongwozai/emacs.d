@@ -7,12 +7,6 @@
 
 (setq flycheck-emacs-lisp-load-path 'inherit)
 
-;; color
-(eval-after-load 'flycheck
-  '(progn (custom-set-faces
-           '(flycheck-error ((((class color)) (:background "#FF6E64" :underline nil))))
-           '(flycheck-warning ((((class color)) (:breakline "Orange")))))))
-
 ;;; flycheck errors
 (hong/select-buffer-window flycheck-list-errors "*Flycheck errors*")
 
