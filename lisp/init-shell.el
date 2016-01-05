@@ -20,9 +20,28 @@
             (setq pcomplete-cycle-completions nil
                   eshell-cmpl-cycle-completions nil
                   eshell-save-history-on-exit nil
-                  eshell-buffer-shorthand t)
+                  eshell-buffer-shorthand t
+                  )
             (setq-local show-trailing-whitespace nil)
-            (add-to-list 'eshell-visual-commands "ssh")
+            (mapc (lambda (x) (push x eshell-visual-commands))
+                  '("ssh" "htop" "less" "tmux" "top" "vim"))
+
+            ;; auto end
+            (defun hong//eshell-auto-end ()
+              (when (and (eq major-mode 'eshell-mode)
+                         (not (eq (line-end-position) (point-max))))
+                (end-of-buffer)))
+            (add-hook 'evil-insert-state-entry-hook
+                      'hong//eshell-auto-end nil t)
+
+            ;; company
+            (defun hong//toggle-eshell-directory ()
+              (if (file-remote-p default-directory)
+                  (setq-local company-idle-delay nil)
+                (setq-local company-idle-delay 0.2)))
+            (add-hook 'eshell-directory-change-hook
+                      'hong//toggle-eshell-directory)
+            (setq-local company-backends '(company-capf))
             (defalias 'ff #'find-file)))
 
 ;;; term
@@ -36,6 +55,15 @@
 (global-set-key (kbd "M-]") 'multi-term-next)
 (add-hook 'term-mode-hook
           (lambda ()
+            (evil-define-key 'normal term-raw-map "p" 'term-paste)
+            (evil-define-key 'insert term-raw-map (kbd "C-r")
+              'term-send-reverse-search-history)
+            (evil-define-key 'insert term-raw-map (kbd "C-c C-d")
+              'term-send-eof)
+            (evil-define-key 'insert term-raw-map (kbd "C-k")
+              '(lambda () (interactive) (term-send-raw-string "")))
+            (evil-define-key 'insert term-raw-map (kbd "C-e")
+              '(lambda () (interactive) (term-send-raw-string "")))
             (setq multi-term-switch-after-close nil)
             (setq multi-term-dedicated-select-after-open-p t)
             (setq term-buffer-maximum-size 10000)

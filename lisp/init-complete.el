@@ -21,7 +21,7 @@
      (push 'company-c-headers company-backends)
      ;; can't work with TRAMP
      (setq company-backends (delete 'company-ropemacs company-backends))
-     (setq company-idle-delay    0.2)
+     (setq company-idle-delay 0.2)
      (setq company-minimum-prefix-length 2)
      (setq company-tooltip-flip-when-above t)
      (setq company-tooltip-align-annotations t)
@@ -29,7 +29,10 @@
      (setq company-begin-commands '(self-insert-command))
      (setq company-clang-insert-arguments nil)
      (setq company-global-modes
-           '(not eshell-mode comint-mode gud-mode))
+           '(not gud-mode))
 ))
+(eval-after-load 'comint-mode
+  '(progn
+     (setq-local company-backends '(company-capf))))
 
 (provide 'init-complete)

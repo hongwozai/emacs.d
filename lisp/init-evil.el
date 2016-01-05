@@ -5,8 +5,7 @@
 (setq evil-move-cursor-back t)
 
 ;;; initial state change
-(dolist (mode '(term-mode
-                eshell-mode shell-mode gud-mode
+(dolist (mode '(shell-mode gud-mode
                 minibuffer-inactive-mode
                 messages-buffer-mode bs-mode
                 special-mode process-menu-mode
