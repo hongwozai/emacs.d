@@ -74,10 +74,11 @@
 ;;; speedbar
 (require-package 'sr-speedbar)
 (setq sr-speedbar-right-side nil)
-(setq sr-speedbar-width 30)
-(setq sr-speedbar-max-width 30)
-(setq sr-speedbar-default-width 30)
+(setq sr-speedbar-width 27)
+(setq sr-speedbar-max-width 27)
+(setq sr-speedbar-default-width 27)
 (setq speedbar-use-images t)
+(setq speedbar-show-unknown-files t)
 
 ;;; resizing fixed width
 (defadvice sr-speedbar-open (after hong/sr-speedbar-fixwidth activate)
