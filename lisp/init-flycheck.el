@@ -3,7 +3,7 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-(setq flycheck-check-syntax-automatically '(save mode-enable))
+;; (setq flycheck-check-syntax-automatically '(save mode-enable))
 
 (setq flycheck-emacs-lisp-load-path 'inherit)
 
