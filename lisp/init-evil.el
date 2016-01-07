@@ -24,8 +24,8 @@
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-(define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-0)
+(define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 
 ;;; ======================== evil plugin ==========================
@@ -47,7 +47,7 @@
 
 ;;; evil escape
 (require-package 'evil-escape)
-(setq-default evil-escape-key-sequence "jk")
+(setq-default evil-escape-key-sequence "kj")
 (evil-escape-mode)
 
 ;;; evil matchit
@@ -128,11 +128,7 @@
   "xk"  'ido-kill-buffer
   "xo"  'other-window
   "xs" 'save-buffer
-  "xvs" 'git-gutter:stage-hunk
-  "xvr" 'git-gutter:revert-hunk
-  "xv=" 'git-gutter:popup-hunk
   "xz" 'suspend-frame
-  "z"  'evil-emacs-state
   "."  'evil-ex)
 
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
