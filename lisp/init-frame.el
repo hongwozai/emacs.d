@@ -38,7 +38,6 @@
                '(:eval (format "%c" (if buffer-read-only ?\- ?\+)))
                '(:eval (format "%s" (buffer-size)))
                "  "
-               '(:eval (format "[%s] " (elscreen-get-current-screen)))
                mode-line-buffer-identification
                "  "
                '(:eval (format "[%s]" (projectile-project-name)))
