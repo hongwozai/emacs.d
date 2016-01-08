@@ -51,25 +51,6 @@
                ))
 
 
-;;; mode-line color
-(add-hook
- 'after-init-hook
- (lambda ()
-   (lexical-let ((default-color (cons "#222226"
-                                      (face-foreground 'mode-line))))
-     (add-hook 'post-command-hook
-               (lambda ()
-                 (let
-                     ((color
-                       (cond ((minibufferp) default-color)
-                             ((evil-insert-state-p) '("#e80000" . "#ffffff"))
-                             ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                             ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                             (t default-color))))
-                   (set-face-foreground 'mode-line (cdr color))
-                   (set-face-background 'mode-line (car color)))))))
- )
-
 ;;; speedbar
 (require-package 'sr-speedbar)
 (setq sr-speedbar-right-side nil)
