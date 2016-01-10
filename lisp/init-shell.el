@@ -74,7 +74,6 @@
                   '(("C-r" . term-send-reverse-search-history)
                     ("C-y" . term-paste)
                     ("M-y" . yank-pop)
-                    ("C-c C-c" . (lambda () (interactive) (term-send-raw-string "")))
                     ("C-p" . term-send-up)
                     ("C-n" . term-send-down)
                     ("M-DEL" . term-send-backward-kill-word)

@@ -3,11 +3,14 @@
 
 (require-package 'find-file-in-project)
 (require-package 'projectile)
+
 ;;; projectile
 (projectile-global-mode)
 (setq projectile-enable-caching nil)
 (setq projectile-file-exists-remote-cache-expire nil)
 
+;;; find-file-in-project
+(setq ffip-prefer-ido-mode t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my-project
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -1,6 +1,5 @@
 ;; color theme
 (require-package 'zenburn-theme)
-(require-package 'highlight-numbers)
 
 ;;; only graphic color
 (flet ((display-graphic-p (&optional what) t))
@@ -64,7 +63,5 @@
                    (set-face-background 'mode-line (car color)))))))
  )
 
-
-(add-hook 'prog-mode-hook 'highlight-numbers-mode)
 
 (provide 'init-themes)
