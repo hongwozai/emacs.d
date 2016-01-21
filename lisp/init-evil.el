@@ -10,7 +10,7 @@
                 minibuffer-inactive-mode
                 messages-buffer-mode bs-mode
                 special-mode process-menu-mode
-                sql-interactive-mode
+                sql-interactive-mode diff-mode
                 anaconda-nav-mode ibuffer-mode
                 comint-mode image-mode
                 flycheck-error-list-mode))

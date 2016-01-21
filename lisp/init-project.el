@@ -11,6 +11,7 @@
 
 ;;; find-file-in-project
 (setq ffip-prefer-ido-mode t)
+(setq ffip-project-file '(".svn" ".git" ".hg" "Makefile" ".dir-local.el"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my-project
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

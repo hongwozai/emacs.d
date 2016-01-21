@@ -2,7 +2,7 @@
 (setq debug-on-error nil)
 
 ;;; initiate gc allocate
-(setq-default gc-cons-threshold 100000000
+(setq-default gc-cons-threshold (* 1024 1024 24)
               gc-cons-percentage 0.5)
 
 ;;; common lisp support
