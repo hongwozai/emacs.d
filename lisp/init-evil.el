@@ -21,6 +21,7 @@
 ;;; messages-buffer-mode can't set emacs state in emacs start
 (kill-buffer "*Messages*")
 
+(define-key evil-normal-state-map (kbd "C-t") 'ffip)
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-0)
