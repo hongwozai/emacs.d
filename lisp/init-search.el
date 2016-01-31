@@ -1,6 +1,7 @@
 ;;; =================== grep =========================
 (setq-default grep-hightlight-matches     t
               grep-scroll-output          t)
+(hong/select-buffer-window grep "*grep*")
 
 (when (executable-find "ag")
   (require-package 'ag)

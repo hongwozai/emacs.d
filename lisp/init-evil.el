@@ -23,7 +23,6 @@
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-(define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-0)
 (define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 
@@ -45,9 +44,9 @@
 (global-evil-jumper-mode)
 
 ;;; evil escape
-;; (require-package 'evil-escape)
-;; (setq-default evil-escape-key-sequence "kj")
-;; (evil-escape-mode)
+(require-package 'evil-escape)
+(setq-default evil-escape-key-sequence "kj")
+(evil-escape-mode)
 
 ;;; evil matchit
 (require-package 'evil-matchit)
@@ -97,7 +96,6 @@
   "pe"  'projectile-recentf
   "pk"  'projectile-kill-buffers
   "pp"  'projectile-switch-project
-  "pn"  'hong/new-project
   "pR"  'projectile-regenerate-tags
   "po"  'projectile-multi-occur
   "ps"  'projectile-ag
