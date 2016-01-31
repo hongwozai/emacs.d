@@ -2,7 +2,7 @@
 (require-package 'zenburn-theme)
 
 ;;; only graphic color
-(flet ((display-graphic-p (&optional what) t))
+(cl-flet ((display-graphic-p (&optional what) t))
   (load-theme 'zenburn t))
 
 ;;; theme change

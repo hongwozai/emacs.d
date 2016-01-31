@@ -18,10 +18,9 @@
 
 (dolist (mode '(diff-mode occur-mode yari-mode))
   (evil-set-initial-state mode 'motion))
-;;; messages-buffer-mode can't set emacs state in emacs start
+;;; *Messages* can't set emacs state in emacs start
 (kill-buffer "*Messages*")
 
-(define-key evil-normal-state-map (kbd "C-t") 'ffip)
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-0)
@@ -46,9 +45,9 @@
 (global-evil-jumper-mode)
 
 ;;; evil escape
-(require-package 'evil-escape)
-(setq-default evil-escape-key-sequence "kj")
-(evil-escape-mode)
+;; (require-package 'evil-escape)
+;; (setq-default evil-escape-key-sequence "kj")
+;; (evil-escape-mode)
 
 ;;; evil matchit
 (require-package 'evil-matchit)
@@ -58,7 +57,7 @@
 (require-package 'evil-leader)
 (global-evil-leader-mode)
 
-(evil-leader/set-leader ",")
+(evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
   "al"  'avy-goto-line
   "aw"  'avy-goto-word-0
