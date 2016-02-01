@@ -56,7 +56,7 @@
 (require-package 'evil-leader)
 (global-evil-leader-mode)
 
-(evil-leader/set-leader "<SPC>")
+(evil-leader/set-leader ",")
 (evil-leader/set-key
   "al"  'avy-goto-line
   "aw"  'avy-goto-word-0
