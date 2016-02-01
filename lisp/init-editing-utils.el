@@ -50,6 +50,19 @@
      (define-key dired-mode-map " " 'avy-goto-word-1)
      ))
 
+;;; dired single
+(require-package 'dired-single)
+(defun my-dired-init ()
+  (define-key dired-mode-map [return] 'dired-single-buffer)
+  (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
+  (define-key dired-mode-map "^"
+        (function
+         (lambda nil (interactive) (dired-single-buffer "..")))))
+
+(if (boundp 'dired-mode-map)
+        (my-dired-init)
+  (add-hook 'dired-load-hook 'my-dired-init))
+
 ;;; recentf
 (require 'recentf)
 
