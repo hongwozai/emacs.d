@@ -67,10 +67,7 @@
   "dj"  'dired-jump
   "en"  'next-error
   "ep"  'previous-error
-  "fl"  'flycheck-list-errors
   "ff"  'ffip
-  "fn"  'flycheck-next-error
-  "fp"  'flycheck-previous-error
   "gc"  'ggtags-create-tags
   "gd"  'ggtags-find-definition
   "gt"  'ggtags-find-tag-dwim
