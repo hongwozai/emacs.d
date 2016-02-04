@@ -1,24 +1,16 @@
 ;;; flx-ido
-(require-package 'flx-ido)
 (require-package 'ido-ubiquitous)
 (require-package 'smex)
 
 (require 'ido)
 (ido-mode 1)
 (ido-everywhere t)
-(flx-ido-mode 1)
-(setq flx-ido-threshold 10000)
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-enable-flex-matching t)
 (setq ido-use-faces nil)
 (setq ido-use-virtual-buffers t)
 ;;; ido disable automerge work directories , use M-s
 (setq ido-auto-merge-work-directories-length -1)
-
-;;; flx match highlight
-(setq flx-ido-use-faces t)
-(set-face-foreground 'flx-highlight-face "red")
-(set-face-underline  'flx-highlight-face "red")
 
 (ido-ubiquitous-mode 1)
 (setq org-completion-use-ido t)
