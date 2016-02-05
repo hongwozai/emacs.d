@@ -1,5 +1,6 @@
 ;;debug
 (setq debug-on-error nil)
+(setq debug-on-quit nil)
 
 ;;; initiate gc allocate
 (setq-default gc-cons-threshold (* 1024 1024 24)

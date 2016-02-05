@@ -19,10 +19,11 @@
 (dolist (mode '(diff-mode occur-mode yari-mode))
   (evil-set-initial-state mode 'motion))
 ;;; *Messages* can't set emacs state in emacs start
-(kill-buffer "*Messages*")
+(evil-define-key 'normal messages-buffer-mode-map "q" 'quit-window)
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+(define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-0)
 (define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 
@@ -58,72 +59,35 @@
 
 (evil-leader/set-leader ",")
 (evil-leader/set-key
-  "al"  'avy-goto-line
-  "aw"  'avy-goto-word-0
-  "bl"  'ibuffer
-  "bm"  'bookmark-bmenu-list
-  "bs"  'bookmark-set
+  "b"   'hydra-mark-or-buf-menu/body
+  "f"   'hydra-open-files-menu/body
+  "h"   'hydra-help-menu/body
+  "s"   'hydra-search-menu/body
+  "w"   'hydra-window-menu/body
+  "o"   'org-agenda
+
   "cd"  'yasdcv-translate-at-point
-  "dj"  'dired-jump
+  "ds"  'sudo-edit
   "en"  'next-error
   "ep"  'previous-error
-  "ff"  'ffip
   "gc"  'ggtags-create-tags
   "gd"  'ggtags-find-definition
   "gt"  'ggtags-find-tag-dwim
   "gr"  'ggtags-find-reference
   "gn"  'ggtags-next-mark
   "gp"  'ggtags-prev-mark
-  "hf"  'describe-function
-  "hv"  'describe-variable
-  "hk"  'describe-key
-  "hm"  'describe-mode
-  "hi"  'info
-  "hs"  'hs-toggle-hiding
   "im"  'imenu
-  "kb"  'kill-this-buffer
-  "kw"  'kill-buffer-and-window
   "mf"  'mark-defun
   "mp"  'mark-paragraph
   "mb"  'mark-whole-buffer
-  "o"  'org-agenda
-  "pf"  'projectile-find-file
-  "pb"  'projectile-switch-to-buffer
-  "pd"  'projectile-dired
-  "pe"  'projectile-recentf
-  "pk"  'projectile-kill-buffers
-  "pp"  'projectile-switch-project
-  "pR"  'projectile-regenerate-tags
-  "po"  'projectile-multi-occur
-  "ps"  'projectile-ag
-  "pS"  'projectile-save-project-buffers
-  "pr"  'projectile-remove-known-project
-  "sc"  'shell-command
-  "sd" 'sudo-edit
-  "sr" 'sr-speedbar-toggle
-  "sa" 'ag
-  "so" 'occur
-  "wc" 'evil-window-delete
-  "ws" 'evil-window-split
-  "wv" 'evil-window-vsplit
-  "wg" 'golden-ratio
-  "wh" 'evil-window-left
-  "wj" 'evil-window-down
-  "wk" 'evil-window-up
-  "wl" 'evil-window-right
-  "wo" 'delete-other-windows
-  "wu" 'winner-undo
-  "x4f"  'ido-find-file-other-window
-  "x4b"  'ido-switch-buffer-other-window
   "xb"  'ido-switch-buffer
-  "xc" 'save-buffers-kill-terminal
-  "xe" 'eval-last-sexp
+  "xc"  'save-buffers-kill-terminal
+  "xe"  'eval-last-sexp
   "xf"  'ido-find-file
   "xk"  'ido-kill-buffer
-  "xo"  'other-window
-  "xs" 'save-buffer
-  "xz" 'suspend-frame
-  "."  'evil-ex)
+  "xs"  'save-buffer
+  "xz"  'suspend-frame
+  "."   'evil-ex)
 
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)

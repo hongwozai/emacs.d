@@ -33,7 +33,22 @@
           '(lambda () (setq prettify-symbols-alist '(("lambda" . 955)))))
 
 ;;; ===================== lisp ==================
+;;; elisp
+(require-package 'elisp-slime-nav)
+(dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook
+                                     lisp-interaction-mode-hook))
+  (add-hook hook 'turn-on-elisp-slime-nav-mode))
 
+(dolist (map '(emacs-lisp-mode-map ielm-mode-map lisp-interaction-mode-map))
+  (eval `(evil-define-key 'normal ,map
+           (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point))
+  (eval `(evil-define-key 'normal ,map
+           (kbd "M-.") 'elisp-slime-nav-find-elisp-thing-at-point))
+  (eval `(evil-define-key 'normal ,map
+           (kbd "M-,") 'pop-tag-mark))
+  )
+
+;;; scheme
 (defvar scheme-program-list '("racket" "mit-scheme" "guile"))
 (defun hong/run-scheme (program)
   (interactive
@@ -49,7 +64,7 @@
 (setq inferior-lisp-program "sbcl")
 (add-hook 'lisp-mode-hook
           (lambda ()
-            ;; C-c C-d h clhs帮助
+            ;; C-c C-d h clhs
             (when (file-exists-p "~/quicklisp/clhs-use-local.el")
               (load "~/quicklisp/clhs-use-local.el" t))))
 (slime-setup '(slime-fancy slime-company))

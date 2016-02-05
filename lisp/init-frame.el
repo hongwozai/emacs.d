@@ -18,7 +18,7 @@
 
 
 (defvar show-minor-modes
-  '(projectile-mode slime-mode))
+  '(slime-mode))
 (defun purge-minor-modes ()
   (interactive)
   (setf minor-mode-alist
@@ -40,8 +40,6 @@
                "  "
                mode-line-buffer-identification
                "  "
-               '(:eval (format "[%s]" (projectile-project-name)))
-               " "
                '(:eval (propertize "%m" 'face 'italic))
                "  "
                mode-line-position

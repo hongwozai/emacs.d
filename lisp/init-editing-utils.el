@@ -65,6 +65,7 @@
 
 ;;; recentf
 (require 'recentf)
+(setq recentf-max-saved-items 1000)
 
 ;; hs minor mode
 (add-hook 'prog-mode-hook 'hs-minor-mode)
@@ -142,5 +143,8 @@
 ;;; M-x add-dir-local-variable
 ;;; .dir-locals.el can "eval", eg. ((nil . ((eval . (setq VAR "VALUE")))))
 (setq enable-local-variables :all enable-local-eval t)
+
+;;; hydra key binding
+(require-package 'hydra)
 
 (provide 'init-editing-utils)

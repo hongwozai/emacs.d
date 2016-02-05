@@ -1,7 +1,8 @@
 ;;; =================== grep =========================
 (setq-default grep-hightlight-matches     t
-              grep-scroll-output          t)
+              grep-scroll-output          nil)
 (hong/select-buffer-window grep "*grep*")
+(hong/select-buffer-window rgrep "*grep*")
 
 (when (executable-find "ag")
   (require-package 'ag)
@@ -10,6 +11,12 @@
   (setq-default ag-reuse-window nil)
 
   (hong/select-buffer-window ag "*ag search*")
+
+  (defun hong/ag-current-dir ()
+    (interactive)
+    (ag/search (ag/read-from-minibuffer "Search string")
+               (expand-file-name "."))
+    (select-window (get-buffer-window "*ag search*")))
   )
 
 ;;; =================== occur =========================
@@ -39,5 +46,41 @@
               (hong/occur-next-or-prev 'prev))
             (define-key evil-motion-state-local-map (kbd "RET")
               #'occur-mode-goto-occurrence-other-window)))
+
+(defun hong/multi-occur-same-major-mode ()
+  (interactive)
+  (defun hong//common-mode-buffers (the-mode)
+    (delq nil (mapcar (lambda (buf)
+                        (when (buffer-live-p buf)
+                          (with-current-buffer buf
+                            (and (eq major-mode the-mode)
+                                 buf))))
+                      (buffer-list))))
+  (multi-occur (hong//common-mode-buffers major-mode)
+               (read-regexp "Collect strings matching regexp: "))
+  (select-window (get-buffer-window "*Occur*"))
+  )
+
+;;; ========================= key bindings ============================
+(defhydra hydra-search-menu (:color pink
+                                    :pre (message "Please input command")
+                                    :hint nil)
+  "
+   ^Actions^                  ^Misc^
+^^^^^-------------------------------------------------------
+  _a_: ag
+  _o_: occur                 _m_: moccur in same major-mode
+  _r_: rgrep
+  _s_: swiper
+^
+^
+  "
+  ("a" ag :color blue)
+  ("o" occur :color blue)
+  ("r" rgrep :color blue)
+  ("s" swiper :color blue)
+  ("m" hong/multi-occur-same-major-mode :color blue)
+  ("c" nil "cancel")
+  ("q" nil "cancel"))
 
 (provide 'init-search)
