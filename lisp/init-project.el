@@ -48,7 +48,8 @@
                       dirs " "))
          (prompt-string (concat "Find find in " dir-string ": "))
          (command-string (concat "find -L " dir-string
-                                 (concat " " (or command "-type f"))))
+                                 (concat " " (or command "-type f"))
+                                 " 2>/dev/null"))
          (dir-isone (eq (length dirs) 1))
          (dirname-length (length dir-string)))
 
