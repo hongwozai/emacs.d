@@ -14,11 +14,9 @@
             (set-face-bold 'minibuffer-prompt t)
             (set-face-bold 'isearch t)
             (set-face-bold 'tooltip t)
-            (set-face-bold 'company-tooltip-selection t)
             (set-face-bold 'eldoc-highlight-function-argument t)
             (set-face-bold 'ido-first-match t)
             (set-face-bold 'ido-only-match t)
-            (set-face-bold 'ido-vertical-match-face t)
             ))
 
 (defvar hong/mode-line-normal "#2B2B2B")

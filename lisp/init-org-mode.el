@@ -1,9 +1,7 @@
-(require-package 'org-bullets)
 (add-hook 'org-mode-hook
           '(lambda ()
              (setq-local truncate-lines nil)
              (org-indent-mode)
-             (org-bullets-mode)
              (iimage-mode)
              (org-display-inline-images)))
 

@@ -6,7 +6,7 @@
 
 ;;; initial state change
 (dolist (mode '(term-mode
-                shell-mode gud-mode
+                shell-mode
                 minibuffer-inactive-mode
                 messages-buffer-mode bs-mode
                 special-mode process-menu-mode

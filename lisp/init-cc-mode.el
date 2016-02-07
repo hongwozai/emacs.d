@@ -7,6 +7,7 @@
 (autoload 'ggtags-create-tags "ggtags" nil t)
 (autoload 'ggtags-find-project "ggtags" nil t)
 (autoload 'ggtags-find-definition "ggtags" nil t)
+(autoload 'ggtags-find-reference "ggtags" nil t)
 (autoload 'ggtags-find-tag-dwim "ggtags" nil t)
 
 ;;; c-eldoc
@@ -15,10 +16,6 @@
 ;;; doxygen
 (autoload 'doxygen-insert-function-comment "doxygen" "insert comment for the function at point" t)
 (autoload 'doxygen-insert-file-comment "doxygen" "insert comment for file" t)
-
-;;; ===================== gdb ==================
-(setq gdb-many-windows t)
-(setq gdb-show-main   t)
 
 ;;; ===================== gtk config ==================
 (defun hong/gtk-headers ()
@@ -52,6 +49,7 @@
               '("." "../inc" "../include" "../src" "../source"
                 "/usr/include" "/usr/local/include/*"))
   )
+
 (defun hong/my-c-mode-config ()
   "C/C++ only"
   ;; c-eldoc
@@ -60,18 +58,24 @@
   (setq c-eldoc-buffer-regenerate-time 120)
   (setq c-eldoc-cpp-command "/usr/bin/cpp")
   (setq c-eldoc-includes "-I./ -I../")
+
   ;; keywords
   (font-lock-add-keywords 'c-mode '("typeof" "__attribute__" "__asm__"))
+
+  ;; key bindings
+  (define-key c-mode-map (kbd "<f5>") 'hong/run-make-with-target)
+  (define-key c-mode-map (kbd "<f6>") 'gdb)
+  (define-key c++-mode-map (kbd "<f5>") 'hong/run-make-with-target)
+  (define-key c++-mode-map (kbd "<f6>") 'gdb)
   )
 
 (add-hook 'c-mode-common-hook
-          (lambda ()
-            (hong/my-cc-common-config)))
+          (lambda () (hong/my-cc-common-config)))
+
 (add-hook 'c++-mode-hook
-          (lambda ()
-            (hong/my-c-mode-config)))
+          (lambda () (hong/my-c-mode-config)))
+
 (add-hook 'c-mode-hook
-          (lambda ()
-            (hong/my-c-mode-config)))
+          (lambda () (hong/my-c-mode-config)))
 
 (provide 'init-cc-mode)

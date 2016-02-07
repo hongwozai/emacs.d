@@ -150,7 +150,7 @@
   _j_: down window             _o_: delete other window
   _k_: up window               _u_: restore window layout
   _l_: right window            _r_: swap window(rotate updown)
-  ^^                           _h_: horizontal window
+  ^^                           _s_: horizontal window
   ^^                           _v_: vertical window
   "
   ("h" evil-window-left :color blue)
@@ -163,8 +163,7 @@
   ("s" evil-window-split :color blue)
   ("r" evil-window-rotate-downwards :color blue)
   ("v" evil-window-vsplit :color blue)
-  ("c" nil "cancel")
-  ("q" nil "quit" :color blue))
+  ("q" nil "cancel" :color blue))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my buffer, bookmark function
@@ -207,7 +206,7 @@
 ^^^^^^^^--------------------------------------------------------------
   _f_: describe function            _i_: Info
   _k_: describe key                 _l_: list-colors-display
-  _v_: describe varibale
+  _v_: describe varibale            _p_: list-process
   _m_: describe mode
   _e_: view-echo-area-messages
   _n_: view-emacs-news
@@ -224,7 +223,11 @@
   ("h" help-for-help :color blue)
   ("i" info :color blue)
   ("l" list-colors-display :color blue)
+  ("p" list-processes :color blue)
   ("c" nil "cancel")
   ("q" nil "quit"))
+
+(evil-define-key 'motion help-mode-map (kbd "L") 'help-go-back)
+(evil-define-key 'motion help-mode-map (kbd "R") 'help-go-forward)
 
 (provide 'init-project)

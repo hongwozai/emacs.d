@@ -44,6 +44,15 @@
                            "^\*SPEEDBAR" "^\*Help*" "^\*buff*"
                            "^\*ag*" "^\*Completions*"))
 
+;;; ido create dir
+(defun hong/ido-create-dir ()
+  (interactive)
+  (make-directory (concat ido-current-directory ido-text))
+  (ido-reread-directory)
+  )
+
+(define-key ido-file-completion-map (kbd "M-i") 'hong/ido-create-dir)
+
 ;;; ido vertical-mode
 (require-package 'ido-vertical-mode)
 (setq ido-vertical-show-count t)

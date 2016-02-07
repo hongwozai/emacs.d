@@ -1,4 +1,3 @@
-;;; 本文件与init-project.el都是关于工作流的函数
 ;;; ===================== compile ==================
 (defun hong/my-compile-common-config ()
   ;; compile
@@ -18,9 +17,8 @@
   )
 
 (add-hook 'after-init-hook 'hong/my-compile-common-config)
-(global-set-key (kbd "<f5>") 'compile)
 
-;;; ==================== auto test =================
+;;; ==================== auto compile =================
 (defun hong/find-makefile-from-current ()
 
   (defun get-parent-directory (path)
@@ -76,6 +74,27 @@
     )
   )
 
-(global-set-key (kbd "<f6>") 'hong/run-make-with-target)
+;;; =========================== auto gud =============================
+(setq gdb-many-windows nil)
+(setq gdb-show-main   t)
+
+(add-hook 'gdb-mode-hook
+          '(lambda ()
+             (company-mode)
+             (hong/exit)
+             ))
+
+;;; set no dedicated windows
+(defadvice gdb-display-buffer (after undedicated-gdb-display-buffer
+                                     activate)
+  (set-window-dedicated-p ad-return-value nil))
+(defadvice gdb-set-window-buffer (after
+                                  undedicated-gdb-display-buffer
+                                  (name &optional ignore-dedi window)
+                                  activate)
+  (set-window-dedicated-p window nil))
+
+;;; ======================= key binding ========================
+(global-set-key (kbd "<f5>") 'compile)
 
 (provide 'init-compile)

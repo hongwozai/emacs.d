@@ -44,8 +44,8 @@
 (require 'dired)
 (eval-after-load 'dired
   '(progn
-     (setq dired-recursive-copies t)
-     (setq dired-recursive-deletes t)
+     (setq dired-recursive-copies 'always)
+     (setq dired-recursive-deletes 'always)
      (define-key dired-mode-map "/" 'dired-isearch-filenames)
      (define-key dired-mode-map " " 'avy-goto-word-1)
      ))

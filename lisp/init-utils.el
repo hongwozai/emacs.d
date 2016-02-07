@@ -47,6 +47,8 @@
            (describe-mode . "*Help*")
            (describe-coding-system . "*Help*")
            (describe-variable . "*Help*")
-           (shell-command . "*Shell Command Output*")))
+           (shell-command . "*Shell Command Output*")
+           (list-colors-display . "*Colors*")
+           (list-processes . "*Process List*")))
 
 (provide 'init-utils)

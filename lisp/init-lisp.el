@@ -40,6 +40,8 @@
   (add-hook hook 'turn-on-elisp-slime-nav-mode))
 
 (dolist (map '(emacs-lisp-mode-map ielm-mode-map lisp-interaction-mode-map))
+  (eval `(evil-define-key 'insert ,map
+           (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point))
   (eval `(evil-define-key 'normal ,map
            (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point))
   (eval `(evil-define-key 'normal ,map
