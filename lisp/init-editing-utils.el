@@ -129,9 +129,6 @@
 (require-package 'highlight-symbol)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
-;;; highlight indent
-(require-package 'highlight-indentation)
-
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)
 
