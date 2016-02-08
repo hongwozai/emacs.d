@@ -7,6 +7,7 @@
 (ido-mode 1)
 (ido-everywhere t)
 
+(setq ido-max-prospects 18)
 (setq ido-max-window-height 0.5)
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-enable-flex-matching t)
@@ -51,7 +52,11 @@
   (ido-reread-directory)
   )
 
-(define-key ido-file-completion-map (kbd "M-i") 'hong/ido-create-dir)
+(add-hook
+ 'ido-setup-hook
+ (lambda ()
+   (define-key ido-file-completion-map (kbd "M-i") 'hong/ido-create-dir)
+   ))
 
 ;;; ido vertical-mode
 (require-package 'ido-vertical-mode)

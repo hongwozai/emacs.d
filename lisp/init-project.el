@@ -46,7 +46,7 @@
   (let* ((dir-string (mapconcat
                       (lambda (str) (file-name-as-directory (expand-file-name str)))
                       dirs " "))
-         (prompt-string (concat "Find find in " dir-string ": "))
+         (prompt-string (concat "Find file in " dir-string ": "))
          (command-string (concat "find -L " dir-string
                                  (concat " " (or command "-type f"))
                                  " 2>/dev/null"))
@@ -58,12 +58,12 @@
                 (ido-completing-read
                  prompt-string
                  (delq nil
-                         (mapcar (lambda (str) (if (< dirname-length (length str))
-                                              (substring str dirname-length)
-                                            nil))
-                                 (split-string
-                                  (shell-command-to-string command-string)
-                                  "[\n\t\r ]+")))))
+                       (mapcar (lambda (str) (if (< dirname-length (length str))
+                                            (substring str dirname-length)
+                                          nil))
+                               (split-string
+                                (shell-command-to-string command-string)
+                                "[\n\t\r ]+")))))
       (ido-completing-read
        prompt-string
        (split-string
@@ -88,18 +88,20 @@
                       '("/etc/")
                       (hong//build-find-command t nil nil '("*/.git/*"))))))
 
+;;; C-j instantly find file(when no input, dired)
 (defun hong/open-workspace-directory ()
   (interactive)
-  (cd
-   (hong/find-file-in-dir
-    '("~/workspace/")
-    (hong//build-find-command nil nil nil
-                              '("*/.*" "*/elpa*"))))
-  (find-file
-   (hong/find-file-in-dir
-    '("./")
-    (hong//build-find-command t nil nil
-                              '("*/.*"))))
+  (let ((cur-workspace
+         (hong/find-file-in-dir
+          '("~/workspace/")
+          (hong//build-find-command nil nil nil
+                                    '("*/.*" "*/elpa*")))))
+    (find-file
+     (hong/find-file-in-dir
+      (list cur-workspace)
+      (hong//build-find-command t nil nil
+                                '("*/.*"))))
+    )
   )
 
 (defun hong/open-recentf-file ()
@@ -227,7 +229,7 @@
   ("c" nil "cancel")
   ("q" nil "quit"))
 
-(evil-define-key 'motion help-mode-map (kbd "L") 'help-go-back)
-(evil-define-key 'motion help-mode-map (kbd "R") 'help-go-forward)
+(evil-define-key 'motion help-mode-map (kbd "l") 'help-go-back)
+(evil-define-key 'motion help-mode-map (kbd "r") 'help-go-forward)
 
 (provide 'init-project)

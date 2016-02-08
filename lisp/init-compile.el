@@ -2,17 +2,9 @@
 (defun hong/my-compile-common-config ()
   ;; compile
   (setq compile-command "make")
-  (setq compilation-window-height 12)
   (setq compilation-read-command nil)
   ;; (setq compilation-auto-jump-to-first-error t)
   (setq compilation-finish-function nil)
-  ;; (setq compilation-finish-function
-  ;;       (lambda (buf str)
-  ;;         (if (string-match "exited abnormally" str)
-  ;;             (message "compilation errors, press C-x ` to visit'")
-  ;;           (when (string-match "*compilation*" (buffer-name buf))
-  ;;             (winner-undo)
-  ;;             (message "NO COMPILATION ERRORS!")))))
   (hong/select-buffer-window compile "*compilation*")
   )
 
