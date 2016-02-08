@@ -4,6 +4,7 @@
 
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 ;; (setq flycheck-check-syntax-automatically '(save mode-enable))
+(setq flycheck-idle-change-delay 1)
 
 (setq flycheck-emacs-lisp-load-path 'inherit)
 

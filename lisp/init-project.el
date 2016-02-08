@@ -89,11 +89,13 @@
                       (hong//build-find-command t nil nil '("*/.git/*"))))))
 
 ;;; C-j instantly find file(when no input, dired)
+(setq hong/workspace-directory '("~/workspace/"))
+
 (defun hong/open-workspace-directory ()
   (interactive)
   (let ((cur-workspace
          (hong/find-file-in-dir
-          '("~/workspace/")
+          hong/workspace-directory
           (hong//build-find-command nil nil nil
                                     '("*/.*" "*/elpa*")))))
     (find-file
