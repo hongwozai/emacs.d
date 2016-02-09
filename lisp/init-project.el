@@ -19,9 +19,9 @@
   (delete-process
    (get-process
     (completing-read "Kill Process: "
-                         (delete-if (lambda (str) (equal (substring str 0 6) "server"))
-                                    (mapcar #'process-name (process-list)))
-                         ))))
+                     (delete-if (lambda (str) (equal (substring str 0 6) "server"))
+                                (mapcar #'process-name (process-list)))
+                     ))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my open files function
@@ -62,26 +62,23 @@
          (command-string (concat "find -L " dir-string
                                  (concat " " (or command "-type f"))
                                  " 2>/dev/null"))
-         (dir-isone (eq (length dirs) 1))
-         (dirname-length (length dir-string)))
+         (isone (eq (length dirs) 1))
+         (dirname-length (length dir-string))
+         (output (split-string
+                  (shell-command-to-string command-string)
+                  "[\n\t\r ]+"))
+         (output-string
+          (if isone
+              (delq nil
+                    (mapcar (lambda (str) (if (< dirname-length (length str))
+                                         (substring str dirname-length)
+                                       nil))
+                            output))
+            output)
+          )
+         (file-string (completing-read prompt-string output-string)))
 
-    (if dir-isone
-        (concat dir-string
-                (completing-read
-                 prompt-string
-                 (delq nil
-                       (mapcar (lambda (str) (if (< dirname-length (length str))
-                                            (substring str dirname-length)
-                                          nil))
-                               (split-string
-                                (shell-command-to-string command-string)
-                                "[\n\t\r ]+")))))
-      (completing-read
-       prompt-string
-       (split-string
-        (shell-command-to-string command-string)
-        "[\n\t\r ]+"))
-      )
+    (if isone (concat dir-string file-string) file-string)
     ))
 
 (defun hong/open-emacs-configure-file ()
@@ -108,24 +105,17 @@
   (let ((cur-workspace
          (hong/find-file-in-dir
           hong/workspace-directory
-          (hong//build-find-command nil nil nil
-                                    '("*/.*" "*/elpa*")))))
-    (find-file
-     (hong/find-file-in-dir
-      (list cur-workspace)
-      (hong//build-find-command t nil nil
-                                '("*/.*"))))
-    )
-  )
+          (hong//build-find-command nil nil nil '("*/.*" "*/elpa*")))))
+    (find-file (hong/find-file-in-dir
+                (list cur-workspace)
+                (hong//build-find-command t nil nil '("*/.*"))))
+    ))
 
 (defun hong/open-recentf-file ()
   (interactive)
   (unless recentf-mode
     (recentf-mode 1))
-  (find-file
-   (completing-read "Find recentf files: "
-                        recentf-list))
-  )
+  (find-file (completing-read "Find recentf files: " recentf-list)))
 
 ;;; need ffip
 (defun hong/close-project-file ()
@@ -155,9 +145,7 @@
           (mapc (lambda (buf-name) (kill-buffer (get-file-buffer buf-name)))
                 project-files)
           (message (format "Kill Buffer %d" project-file-count)))
-        )
-      )
-    ))
+        ))))
 
 (defhydra hydra-open-files-menu (:color pink
                                         :pre (message "Please input command")
