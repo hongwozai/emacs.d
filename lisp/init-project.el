@@ -14,14 +14,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my process function
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun hong/ido-kill-process ()
+(defun hong/kill-process ()
   (interactive)
   (delete-process
    (get-process
-    (ido-completing-read "Kill Process: "
-                          (delete-if (lambda (str) (equal (substring str 0 6) "server"))
-                                     (mapcar #'process-name (process-list)))
-                          ))))
+    (completing-read "Kill Process: "
+                         (delete-if (lambda (str) (equal (substring str 0 6) "server"))
+                                    (mapcar #'process-name (process-list)))
+                         ))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my open files function
@@ -67,7 +67,7 @@
 
     (if dir-isone
         (concat dir-string
-                (ido-completing-read
+                (completing-read
                  prompt-string
                  (delq nil
                        (mapcar (lambda (str) (if (< dirname-length (length str))
@@ -76,7 +76,7 @@
                                (split-string
                                 (shell-command-to-string command-string)
                                 "[\n\t\r ]+")))))
-      (ido-completing-read
+      (completing-read
        prompt-string
        (split-string
         (shell-command-to-string command-string)
@@ -123,7 +123,7 @@
   (unless recentf-mode
     (recentf-mode 1))
   (find-file
-   (ido-completing-read "Find recentf files: "
+   (completing-read "Find recentf files: "
                         recentf-list))
   )
 
@@ -147,7 +147,7 @@
                             files)))
              (project-file-count (length project-files))
              (read-chars (read-char-choice (format "Kill Project %s's %d Buffer [Yy/Nn]: "
-                                               project-root project-file-count)
+                                                   project-root project-file-count)
                                            '(?Y ?y ?N ?n))))
         (if (or (eq ?N read-chars)
                 (eq ?n read-chars))
@@ -155,7 +155,7 @@
           (mapc (lambda (buf-name) (kill-buffer (get-file-buffer buf-name)))
                 project-files)
           (message (format "Kill Buffer %d" project-file-count)))
-          )
+        )
       )
     ))
 
@@ -170,7 +170,6 @@
   _r_: open recentf files
   _s_: open system configure files
   _w_: open workspace files
-  _n_: create files (C-j ok)
 ^
 ^
 "
@@ -178,7 +177,6 @@
   ("f" ffip :color blue)
   ("r" hong/open-recentf-file :color blue)
   ("w" hong/open-workspace-directory :color blue)
-  ("n" ido-find-file :color blue)
   ("s" hong/open-system-configure-file :color blue)
   ("k" hong/close-project-file :color blue)
   ("c" nil "cancel")
