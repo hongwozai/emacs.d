@@ -20,6 +20,8 @@
   (evil-set-initial-state mode 'motion))
 ;;; *Messages* can't set emacs state in emacs start
 (evil-define-key 'normal messages-buffer-mode-map "q" 'quit-window)
+(evil-define-key 'normal fundamental-mode-map "q" 'quit-window)
+(evil-define-key 'motion fundamental-mode-map "q" 'quit-window)
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)

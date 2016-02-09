@@ -72,6 +72,7 @@
             (setq term-unbind-key-list '("C-x"))
             (setq term-bind-key-alist
                   '(("C-r" . term-send-reverse-search-history)
+                    ("C-d" . term-send-eof)
                     ("C-y" . term-paste)
                     ("M-y" . yank-pop)
                     ("C-p" . term-send-up)

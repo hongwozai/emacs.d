@@ -12,6 +12,18 @@
      (add-to-list 'ffip-prune-patterns "*/.*/*")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; my process function
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun hong/ido-kill-process ()
+  (interactive)
+  (delete-process
+   (get-process
+    (ido-completing-read "Kill Process: "
+                          (delete-if (lambda (str) (equal (substring str 0 6) "server"))
+                                     (mapcar #'process-name (process-list)))
+                          ))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my open files function
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; find dirs \( -path 'PATH' -o -path 'PATH' \) -a prune -o
@@ -211,7 +223,7 @@
   _f_: describe function            _i_: Info
   _k_: describe key                 _l_: list-colors-display
   _v_: describe varibale            _p_: list-process
-  _m_: describe mode
+  _m_: describe mode                _a_: apropos
   _e_: view-echo-area-messages
   _n_: view-emacs-news
   _h_: help-for-help
@@ -228,6 +240,7 @@
   ("i" info :color blue)
   ("l" list-colors-display :color blue)
   ("p" list-processes :color blue)
+  ("a" apropos :color blue)
   ("c" nil "cancel")
   ("q" nil "quit"))
 
