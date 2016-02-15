@@ -117,36 +117,6 @@
     (recentf-mode 1))
   (find-file (completing-read "Find recentf files: " recentf-list)))
 
-;;; need ffip
-(defun hong/close-project-file ()
-  (interactive)
-  (let* ((files (delq nil (mapcar #'buffer-file-name (buffer-list))))
-         (project-root (ffip-project-root)))
-    (if (null project-root)
-        (message "NO PROJECT!")
-      (let* ((project-expand-root (expand-file-name project-root))
-             (root-length (length project-expand-root))
-             (project-files
-              (delq nil
-                    (mapcar (lambda (name) (if (< (length name) root-length)
-                                          nil
-                                        (if (equal (substring name 0 root-length)
-                                                   project-expand-root)
-                                            name
-                                          nil)))
-                            files)))
-             (project-file-count (length project-files))
-             (read-chars (read-char-choice (format "Kill Project %s's %d Buffer [Yy/Nn]: "
-                                                   project-root project-file-count)
-                                           '(?Y ?y ?N ?n))))
-        (if (or (eq ?N read-chars)
-                (eq ?n read-chars))
-            (message "No Kill!")
-          (mapc (lambda (buf-name) (kill-buffer (get-file-buffer buf-name)))
-                project-files)
-          (message (format "Kill Buffer %d" project-file-count)))
-        ))))
-
 (defhydra hydra-open-files-menu (:color pink
                                         :pre (message "Please input command")
                                         :hint nil)
