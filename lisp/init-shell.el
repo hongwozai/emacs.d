@@ -55,6 +55,8 @@
 (global-set-key (kbd "M-]") 'multi-term-next)
 (add-hook 'term-mode-hook
           (lambda ()
+            (setq-local evil-move-cursor-back nil)
+            (setq-local evil-escape-inhibit t)
             (evil-define-key 'normal term-raw-map "p" 'term-paste)
             (evil-define-key 'insert term-raw-map (kbd "C-r")
               'term-send-reverse-search-history)
