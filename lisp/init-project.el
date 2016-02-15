@@ -18,7 +18,9 @@
   (delete-process
    (get-process
     (completing-read "Kill Process: "
-                     (delete-if (lambda (str) (equal (substring str 0 6) "server"))
+                     (delete-if (lambda (str) (equal (if (< (length str) 6)
+                                                    nil
+                                                  (substring str 0 6)) "server"))
                                 (mapcar #'process-name (process-list)))
                      ))))
 
