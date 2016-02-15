@@ -63,9 +63,9 @@
   (font-lock-add-keywords 'c-mode '("typeof" "__attribute__" "__asm__"))
 
   ;; key bindings
-  (define-key c-mode-map (kbd "<f5>") 'hong/run-make-with-target)
+  (define-key c-mode-map (kbd "<f5>") 'compile)
   (define-key c-mode-map (kbd "<f6>") 'gdb)
-  (define-key c++-mode-map (kbd "<f5>") 'hong/run-make-with-target)
+  (define-key c++-mode-map (kbd "<f5>") 'compile)
   (define-key c++-mode-map (kbd "<f6>") 'gdb)
   )
 
