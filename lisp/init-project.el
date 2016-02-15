@@ -6,7 +6,6 @@
 (require-package 'find-file-in-project)
 (eval-after-load 'find-file-in-project
   '(progn
-     (setq ffip-prefer-ido-mode t)
      (setq ffip-project-file '(".svn" ".git" ".hg" "Makefile"
                                "makefile" ".dir-local.el"))
      (add-to-list 'ffip-prune-patterns "*/.*/*")))

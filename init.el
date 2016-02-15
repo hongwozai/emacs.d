@@ -11,10 +11,10 @@
 (require 'init-window)
 (require 'init-editing-utils)
 
+(require 'init-ido)
 (require 'init-tramp)
 (require 'init-shell)
 (require 'init-search)
-(require 'init-ido)
 
 (require 'init-project)
 (require 'init-git)
