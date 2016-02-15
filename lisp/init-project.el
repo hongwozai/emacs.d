@@ -86,7 +86,7 @@
     (find-file
      (hong/find-file-in-dir
       (list conf)
-      (hong//build-find-command t '("*.el") '("*/snippets/*") '("*/.git/*"))
+      (hong//build-find-command t '("*.el" "*.sh") '("*/snippets/*") '("*/.git/*" "*/elpa*"))
       ))))
 
 (defun hong/open-system-configure-file ()
