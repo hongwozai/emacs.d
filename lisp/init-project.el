@@ -234,6 +234,7 @@
 (evil-define-key 'motion help-mode-map (kbd "l") 'help-go-back)
 (evil-define-key 'motion help-mode-map (kbd "r") 'help-go-forward)
 (evil-define-key 'motion Info-mode-map (kbd "l") 'Info-history-back)
-(evil-define-key 'motion Info-mode-map (kbd "w") 'evil-forward-WORD-begin)
+(evil-define-key 'motion Info-mode-map (kbd "w") 'evil-forward-word-begin)
+(evil-define-key 'motion Info-mode-map (kbd "b") 'evil-backward-word-begin)
 
 (provide 'init-project)
