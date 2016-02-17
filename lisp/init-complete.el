@@ -11,7 +11,6 @@
 ;; company
 (require-package 'company)
 (require-package 'company-c-headers)
-(require-package 'slime-company)
 
 (add-hook 'after-init-hook #'global-company-mode)
 
@@ -21,8 +20,6 @@
      (push 'company-c-headers company-backends)
      ;; can't work with TRAMP
      (setq company-backends (delete 'company-ropemacs company-backends))
-     (setq company-idle-delay 0.2)
-     (setq company-minimum-prefix-length 2)
      (setq company-tooltip-flip-when-above t)
      (setq company-tooltip-align-annotations t)
      (setq company-show-numbers t)

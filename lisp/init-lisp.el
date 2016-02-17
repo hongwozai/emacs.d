@@ -63,6 +63,8 @@
 
 ;;; slime
 (require-package 'slime)
+(require-package 'slime-company)
+
 (setq inferior-lisp-program "sbcl")
 (add-hook 'lisp-mode-hook
           (lambda ()

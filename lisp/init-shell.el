@@ -10,7 +10,7 @@
 (require-package 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
 
-;;; eshell
+;;; ========================== eshell =================================
 (add-hook 'eshell-mode-hook
           (lambda ()
             (define-key eshell-mode-map (kbd "C-p")
@@ -44,7 +44,26 @@
             (setq-local company-backends '(company-capf))
             (defalias 'ff #'find-file)))
 
-;;; term
+;;; ============================= shell ====================================
+;;; bash completion in shell mode
+(require-package 'bash-completion)
+(autoload 'bash-completion-dynamic-complete "bash-completion" "BASH complete" )
+
+;;; shell
+(setq shell-file-name "/bin/bash")
+(add-hook 'shell-mode-hook 'hong/exit)
+(add-hook 'shell-mode-hook
+          (lambda ()
+            (define-key shell-mode-map (kbd "C-p") 'comint-previous-input)
+            (define-key shell-mode-map (kbd "C-n") 'comint-next-input)))
+
+;;; comint mode
+(add-hook 'comint-mode-hook
+          (lambda ()
+            (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
+            (define-key comint-mode-map (kbd "C-n") 'comint-next-input)))
+
+;;; ============================= term =====================================
 (require-package 'multi-term)
 ;;; zsh bash not set TERM=xterm-256color, otherwise not display normally
 ;;; zsh tramp zle not support. see wiki Tramp hangs #3
@@ -92,20 +111,7 @@
                                     (term-send-raw-string "")))))
             ))
 
-;;; shell
-(setq shell-file-name "/bin/bash")
-(add-hook 'shell-mode-hook 'hong/exit)
-(add-hook 'shell-mode-hook
-          (lambda ()
-            (define-key shell-mode-map (kbd "C-p") 'comint-previous-input)
-            (define-key shell-mode-map (kbd "C-n") 'comint-next-input)))
-
-;;; comint mode
-(add-hook 'comint-mode-hook
-          (lambda ()
-            (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
-            (define-key comint-mode-map (kbd "C-n") 'comint-next-input)))
-
+;;; ============================== misc ==================================
 ;;; shotcuts key
 (global-set-key (kbd "<f2>") 'eshell)
 (defalias 'sh 'shell)
