@@ -46,7 +46,10 @@
   '(progn
      (setq dired-recursive-copies 'always)
      (setq dired-recursive-deletes 'always)
-     (define-key dired-mode-map "/" 'dired-isearch-filenames)
+     (add-hook 'dired-mode-hook
+               (lambda () (setq-local dired-isearch-filenames t)))
+     (define-key dired-mode-map "/" 'isearch-forward)
+     (define-key dired-mode-map "?" 'isearch-backward)
      (define-key dired-mode-map " " 'avy-goto-word-1)
      ))
 
@@ -56,11 +59,11 @@
   (define-key dired-mode-map [return] 'dired-single-buffer)
   (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
   (define-key dired-mode-map "^"
-        (function
-         (lambda nil (interactive) (dired-single-buffer "..")))))
+    (function
+     (lambda nil (interactive) (dired-single-buffer "..")))))
 
 (if (boundp 'dired-mode-map)
-        (my-dired-init)
+    (my-dired-init)
   (add-hook 'dired-load-hook 'my-dired-init))
 
 ;;; recentf
