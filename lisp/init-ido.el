@@ -6,7 +6,7 @@
 (ido-mode 1)
 (ido-everywhere t)
 
-(setq ido-max-prospects 18)
+(setq ido-max-prospects 19)
 (setq ido-max-window-height 0.5)
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-enable-flex-matching t)
