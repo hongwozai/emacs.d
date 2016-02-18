@@ -12,11 +12,7 @@
             (set-face-bold 'font-lock-function-name-face t)
             (set-face-bold 'font-lock-type-face t)
             (set-face-bold 'minibuffer-prompt t)
-            (set-face-bold 'isearch t)
             (set-face-bold 'tooltip t)
-            (set-face-bold 'eldoc-highlight-function-argument t)
-            (set-face-bold 'ido-first-match t)
-            (set-face-bold 'ido-only-match t)
             ))
 
 (defvar hong/mode-line-normal "#2B2B2B")
