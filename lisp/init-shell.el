@@ -51,6 +51,7 @@
 
 ;;; shell
 (setq shell-file-name "/bin/bash")
+(setq explicit-shell-file-name "/bin/bash")
 (add-hook 'shell-mode-hook 'hong/exit)
 (add-hook 'shell-mode-hook
           (lambda ()
@@ -65,10 +66,7 @@
 
 ;;; ============================= term =====================================
 (require-package 'multi-term)
-;;; zsh bash not set TERM=xterm-256color, otherwise not display normally
-;;; zsh tramp zle not support. see wiki Tramp hangs #3
-(setq multi-term-program
-      (or (executable-find "/bin/zsh") "/bin/bash"))
+(setq multi-term-program "/bin/bash")
 ;;; term-mode-hook term-raw-map !!! must be term-raw-map
 (global-set-key (kbd "M-[") 'multi-term-prev)
 (global-set-key (kbd "M-]") 'multi-term-next)
@@ -116,13 +114,5 @@
 (global-set-key (kbd "<f2>") 'eshell)
 (defalias 'sh 'shell)
 (defalias 'mt 'multi-term)
-
-;;; shell-command
-(defun hong/run-shell-command (command)
-  (interactive)
-  (when (commandp 'multi-term)
-    (multi-term)
-    (term-send-raw-string (concat command "\n")))
-  )
 
 (provide 'init-shell)

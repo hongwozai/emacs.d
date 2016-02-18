@@ -39,6 +39,11 @@
                                      lisp-interaction-mode-hook))
   (add-hook hook 'turn-on-elisp-slime-nav-mode))
 
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-buffer)
+            (define-key emacs-lisp-mode-map (kbd "C-c C-f") 'eval-defun)))
+
 (dolist (map '(emacs-lisp-mode-map ielm-mode-map lisp-interaction-mode-map))
   (eval `(evil-define-key 'insert ,map
            (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point))
