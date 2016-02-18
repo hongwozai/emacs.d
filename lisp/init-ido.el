@@ -22,8 +22,7 @@
 (flx-ido-mode 1)
 (setq flx-ido-threshold 10240)
 (setq flx-ido-use-faces t)
-(set-face-foreground 'flx-highlight-face "red")
-(set-face-underline  'flx-highlight-face "red")
+(set-face-background 'flx-highlight-face "#e99ce8")
 
 ;;; ido decorations
 (setq ido-decorations
