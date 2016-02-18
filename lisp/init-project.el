@@ -60,9 +60,9 @@
                       (lambda (str) (file-name-as-directory (expand-file-name str)))
                       dirs " "))
          (prompt-string (concat "Find file in " dir-string ": "))
-         (command-string (concat "find -L " dir-string
-                                 (concat " " (or command "-type f"))
-                                 " 2>/dev/null"))
+         (command-string (format "find -L %s %s 2>/dev/null"
+                                 dir-string
+                                 (concat " " (or command "-type f"))))
          (isone (eq (length dirs) 1))
          (dirname-length (length dir-string))
          (output (split-string
@@ -85,18 +85,13 @@
 (defun hong/open-emacs-configure-file ()
   (interactive)
   (let ((conf "~/.emacs.d/"))
-    (find-file
-     (hong/find-file-in-dir
-      (list conf)
-      (hong//build-find-command t '("*.el" "*.sh") '("*/snippets/*") '("*/.git/*" "*/elpa*"))
-      ))))
-
-(defun hong/open-system-configure-file ()
-  (interactive)
-  (find-file (concat "/sudo:root@localhost:"
-                     (hong/find-file-in-dir
-                      '("/etc/")
-                      (hong//build-find-command t nil nil '("*/.git/*"))))))
+    (find-file (hong/find-file-in-dir
+                (list conf)
+                (hong//build-find-command t
+                                          '("*.el" "*.sh")
+                                          '("*/snippets/*")
+                                          '("*/.git/*" "*/elpa*"))
+                ))))
 
 ;;; C-j instantly find file(when no input, dired)
 (setq hong/workspace-directory '("~/workspace/"))
@@ -127,7 +122,6 @@
   _e_: open emacs configure files       _k_: close project files's buffer
   _f_: open project files
   _r_: open recentf files
-  _s_: open system configure files
   _w_: open workspace files
 ^
 ^
@@ -136,7 +130,6 @@
   ("f" ffip :color blue)
   ("r" hong/open-recentf-file :color blue)
   ("w" hong/open-workspace-directory :color blue)
-  ("s" hong/open-system-configure-file :color blue)
   ("k" hong/close-project-file :color blue)
   ("c" nil "cancel")
   ("h" split-window-horizontally "horizon window")

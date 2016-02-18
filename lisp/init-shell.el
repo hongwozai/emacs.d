@@ -38,7 +38,7 @@
             (defun hong//toggle-eshell-directory ()
               (if (file-remote-p default-directory)
                   (setq-local company-idle-delay nil)
-                (setq-local company-idle-delay 0.2)))
+                (setq-local company-idle-delay 0.5)))
             (add-hook 'eshell-directory-change-hook
                       'hong//toggle-eshell-directory)
             (setq-local company-backends '(company-capf))

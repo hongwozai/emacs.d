@@ -11,7 +11,7 @@
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-enable-flex-matching t)
 (setq ido-use-faces nil)
-(setq ido-use-virtual-buffers t)
+(setq ido-use-virtual-buffers nil)
 ;;; ido disable automerge work directories , use M-s
 (setq ido-auto-merge-work-directories-length -1)
 
@@ -33,8 +33,8 @@
 ;;; ido ignore buffers
 (setq ido-ignore-buffers '("\\` " "^\*/" "^\*.*output" "^\*.*err" "^\*.*mode"
                            "^\*.*process.*" "^\*.*[Ll]og.*" "^\*.*trace*"
-                           "^\*SPEEDBAR" "^\*Help*" "^\*buff*"
-                           "^\*ag*" "^\*Completions*"))
+                           "^\*SPEEDBAR" "^\*Help.*" "^\*buff.*"
+                           "^\*ag.*" "^\*Completions.*" "^\*tramp.*" ".* of .*"))
 
 ;;; ido create dir
 (defun hong/ido-create-dir ()
@@ -46,7 +46,11 @@
 (add-hook 'ido-setup-hook
           (lambda ()
             (define-key ido-file-completion-map (kbd "M-i")
-              'hong/ido-create-dir)))
+              'hong/ido-create-dir)
+            (define-key ido-common-completion-map (kbd "C-n") 'ido-next-match)
+            (define-key ido-common-completion-map (kbd "C-p") 'ido-prev-match)
+            ))
+
 
 ;;; imenu
 (set-default 'imenu-auto-rescan t)
