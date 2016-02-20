@@ -22,8 +22,8 @@
 (defun hong/exit ()
   (let ((process (ignore-errors (get-buffer-process (current-buffer)))))
     (when process
-      (set-process-sentinel process
-                           'hong/exit-prompt))))
+      (set-process-sentinel process 'hong/exit-prompt))))
+
 (defun hong/exit-prompt (process state)
   (if (string-match "\\(exited\\|finished\\)" state)
       (progn
