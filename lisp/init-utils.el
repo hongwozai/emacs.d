@@ -57,12 +57,17 @@
          (url (read-string "Query: " addr)))
     (browse-url url)))
 
-(defun hong/query-baidu ()
-  (interactive)
-  (hong/query-browse "https://www.baidu.com/s?wd="))
+(defmacro def-hong/query (&rest args)
+  `(progn
+     ,@(mapcar (lambda (pair)
+                 `(defun ,(intern (concat "hong/query-" (symbol-name (car pair)))) ()
+                    (interactive)
+                    (hong/query-browse ,(cdr pair))))
+               args)))
 
-(defun hong/query-iciba ()
-  (interactive)
-  (hong/query-browse "http://www.iciba.com/"))
+(def-hong/query
+  (baidu . "https://www.baidu.com/s?wd=")
+  (iciba . "http://www.iciba.com/")
+  (bing  . "https://www.bing.com/search?qs=n&q="))
 
 (provide 'init-utils)
