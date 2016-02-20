@@ -18,7 +18,7 @@
                collecting (expand-file-name dir lisp-dir))
          load-path)))
 
-;;; autoexit
+;;; =============================  autoexit ================================
 (defun hong/exit ()
   (let ((process (ignore-errors (get-buffer-process (current-buffer)))))
     (when process
@@ -32,7 +32,7 @@
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
 
-;;; select window
+;;; ===========================  select window =============================
 (defmacro hong/select-buffer-window (cmd buffer-name)
   `(defadvice ,cmd (after ,(gensym) activate)
      (ignore-errors (select-window (get-buffer-window ,buffer-name)))))
@@ -50,5 +50,19 @@
            (shell-command . "*Shell Command Output*")
            (list-colors-display . "*Colors*")
            (list-processes . "*Process List*")))
+
+;;; =========================== browse url =================================
+(defun hong/query-browse (&optional www)
+  (let* ((addr www)
+         (url (read-string "Query: " addr)))
+    (browse-url url)))
+
+(defun hong/query-baidu ()
+  (interactive)
+  (hong/query-browse "https://www.baidu.com/s?wd="))
+
+(defun hong/query-iciba ()
+  (interactive)
+  (hong/query-browse "http://www.iciba.com/"))
 
 (provide 'init-utils)
