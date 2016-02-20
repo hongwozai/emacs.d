@@ -1,21 +1,8 @@
 ;;; go language
-(require-package 'go-mode)
-(require-package 'go-eldoc)
-(add-hook 'go-mode-hook 'go-eldoc-setup)
-
-;;; bison
-(require-package 'bison-mode)
-(eval-after-load 'bison-mode
-  '(progn
-     (setq bison-all-electricity-off t)
-     (setq bison-rule-separator-column 8)
-     (setq bison-rule-enumeration-column 16)
-     (setq bison-decl-type-column 8)
-     (setq bison-decl-token-column 0)
-     (define-key bison-mode-map [remap bison-indent-line]
-       '(lambda () (interactive)
-          (save-excursion (move-beginning-of-line 1)
-                          (insert "    "))))))
+(when (executable-find "/usr/bin/go")
+  (require-package 'go-mode)
+  (require-package 'go-eldoc)
+  (add-hook 'go-mode-hook 'go-eldoc-setup))
 
 ;;; antlr
 (autoload 'antlr-mode "antlr-mode" nil t)
@@ -29,20 +16,22 @@
               auto-mode-alist))
 
 ;; cmake
-(require-package 'cmake-mode)
-(setq auto-mode-alist
-      (append '(("CMakeLists\\.txt\\'" . cmake-mode))
-              '(("\\.cmake\\'" . cmake-mode))
-              auto-mode-alist))
+(when (executable-find "/usr/bin/cmake")
+  (require-package 'cmake-mode)
+  (setq auto-mode-alist
+        (append '(("CMakeLists\\.txt\\'" . cmake-mode))
+                '(("\\.cmake\\'" . cmake-mode))
+                auto-mode-alist)))
 
 ;;; graphviz
-(eval-after-load "org"
-  '(progn
-    (add-to-list 'org-src-lang-modes  '("dot" . graphviz-dot))))
+(when (executable-find "/usr/bin/dot")
+  (eval-after-load "org"
+    '(progn
+       (add-to-list 'org-src-lang-modes  '("dot" . graphviz-dot))))
 ;;; BUG: graphviz org-mode eval-after-load
-(require-package 'graphviz-dot-mode)
-(hong/select-buffer-window graphviz-dot-preview "*preview*")
-(setq graphviz-dot-auto-indent-on-braces t)
-(setq graphviz-dot-toggle-completions t)
+  (require-package 'graphviz-dot-mode)
+  (hong/select-buffer-window graphviz-dot-preview "*preview*")
+  (setq graphviz-dot-auto-indent-on-braces t)
+  (setq graphviz-dot-toggle-completions t))
 
 (provide 'init-misc)
