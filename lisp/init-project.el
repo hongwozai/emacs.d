@@ -119,7 +119,7 @@
   "
     ^Open^                               ^Misc^
 ^^^^^^^^------------------------------------------------------------------------
-  _e_: open emacs configure files       _k_: close project files's buffer
+  _e_: open emacs configure files
   _f_: open project files
   _r_: open recentf files
   _w_: open workspace files
@@ -130,7 +130,6 @@
   ("f" ffip :color blue)
   ("r" hong/open-recentf-file :color blue)
   ("w" hong/open-workspace-directory :color blue)
-  ("k" hong/close-project-file :color blue)
   ("c" nil "cancel")
   ("h" split-window-horizontally "horizon window")
   ("v" split-window-below "vertical window")
