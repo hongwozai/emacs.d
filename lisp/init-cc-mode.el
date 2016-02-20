@@ -67,11 +67,13 @@
   (define-key c-mode-map (kbd "C-c C-c") 'hong/shell-compile)
   (define-key c-mode-map (kbd "M-,") 'pop-tag-mark)
   (define-key c-mode-map (kbd "M-.") 'ggtags-find-definition)
+  (evil-define-key 'normal c-mode-map (kbd "M-.") 'ggtags-find-definition)
   (define-key c-mode-map (kbd "<f5>") 'compile)
   (define-key c-mode-map (kbd "<f6>") 'gdb)
 
   (define-key c++-mode-map (kbd "M-,") 'pop-tag-mark)
   (define-key c++-mode-map (kbd "M-.") 'ggtags-find-definition)
+  (evil-define-key 'normal c++-mode-map (kbd "M-.") 'ggtags-find-definition)
   (define-key c++-mode-map (kbd "<f5>") 'compile)
   (define-key c++-mode-map (kbd "<f6>") 'gdb)
   )

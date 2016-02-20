@@ -81,8 +81,10 @@
   (interactive)
   (save-selected-window
     (let* ((path (hong/find-makefile-from-current))
-           (rpath (and path (progn (string-match "/.*:\\(.*\\)$" path)
-                                   (match-string 1 path))))
+           (rpath (and path (if (file-remote-p path)
+                                (progn (string-match "/.*:\\(.*\\)$" path)
+                                       (match-string 1 path))
+                              path)))
            (buffer-name "*shell*")
            (command (and path
                          (read-string "Compile Command: " compile-command))))

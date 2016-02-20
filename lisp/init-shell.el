@@ -34,6 +34,12 @@
             (add-hook 'evil-insert-state-entry-hook
                       'hong//eshell-auto-end nil t)
 
+            ;; eshell clear
+            (defun eshell/clear ()
+              (interactive)
+              (let ((inhibit-read-only t))
+                (erase-buffer)))
+
             ;; company
             (defun hong//toggle-eshell-directory ()
               (if (file-remote-p default-directory)
