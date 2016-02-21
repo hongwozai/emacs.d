@@ -15,10 +15,16 @@
 
 (add-hook 'python-mode-hook
           '(lambda ()
-             (anaconda-mode)
+             (anaconda-mode 1)
              (setq-local company-backends
                          (cons 'company-anaconda company-backends))
-             (eldoc-mode)
+             (eldoc-mode 1)
+
+             (evil-define-key 'normal python-mode-map (kbd "M-.")
+               'anaconda-mode-find-definitions)
+
+             (setq-local imenu-create-index-function
+                         #'python-imenu-create-flat-index)
              ;; copy from prelude module-python
              (setq-local electric-layout-rules
                          '((?: . (lambda ()

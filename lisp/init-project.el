@@ -179,9 +179,9 @@
 ^
 "
   ("l" ibuffer :color blue)
-  ("s" ido-switch-buffer :color blue)
+  ("s" switch-to-buffer :color blue)
   ("k" kill-this-buffer :color blue)
-  ("o" ido-switch-buffer-other-window :color blue)
+  ("o" switch-to-buffer-other-window :color blue)
   ("d" dired-jump :color blue)
   ("m" bookmark-bmenu-list :color blue)
   ("n" bookmark-set :color blue)
