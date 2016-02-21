@@ -23,6 +23,9 @@
              (evil-define-key 'normal python-mode-map (kbd "M-.")
                'anaconda-mode-find-definitions)
 
+             (evil-define-key 'normal python-mode-map (kbd "M-,")
+               'anaconda-mode-go-back)
+
              (setq-local imenu-create-index-function
                          #'python-imenu-create-flat-index)
              ;; copy from prelude module-python
