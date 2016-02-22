@@ -77,6 +77,11 @@
           (t (pop-to-buffer buffer-name)
              (shell)))))
 
+(defun hong/change-compile-command ()
+  (interactive)
+  (setq compile-command
+        (read-string "Compile Command: " compile-command)))
+
 (defun hong/shell-compile ()
   (interactive)
   (save-selected-window
@@ -86,8 +91,7 @@
                                        (match-string 1 path))
                               path)))
            (buffer-name "*shell*")
-           (command (and path
-                         (read-string "Compile Command: " compile-command))))
+           (command (and path compile-command)))
       (if path
           (progn
             (hong/shell-run)
