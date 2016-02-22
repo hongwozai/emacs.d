@@ -114,7 +114,6 @@
   (find-file (completing-read "Find recentf files: " recentf-list)))
 
 (defhydra hydra-open-files-menu (:color pink
-                                        :pre (message "Please input command")
                                         :hint nil)
   "
     ^Open^                               ^Misc^
