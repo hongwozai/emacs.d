@@ -56,6 +56,29 @@
 (require-package 'evil-matchit)
 (global-evil-matchit-mode 1)
 
+;;; evil iedit
+(require-package 'iedit)
+(require-package 'evil-iedit-state)
+(autoload 'evil-iedit-state "evil-iedit-state")
+(autoload 'evil-iedit-insert-state "evil-iedit-state")
+
+(define-key evil-normal-state-map (kbd "C-;") 'hong/evil-iedit-state)
+(define-key evil-insert-state-map (kbd "C-;") 'hong/evil-iedit-insert-state)
+
+(defun hong/evil-iedit-state ()
+  (interactive)
+  (iedit-mode)
+  (if (eq evil-state 'iedit)
+      (evil-normal-state)
+    (evil-iedit-state)))
+
+(defun hong/evil-iedit-insert-state ()
+  (interactive)
+  (iedit-mode)
+  (if (eq evil-state 'iedit-insert)
+      (evil-insert-state)
+    (evil-iedit-insert-state))
+  )
 ;;; ===================== evil leader custom key =================
 (require-package 'evil-leader)
 (global-evil-leader-mode)

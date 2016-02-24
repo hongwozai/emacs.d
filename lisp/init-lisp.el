@@ -41,6 +41,7 @@
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
+            (font-lock-add-keywords 'emacs-lisp-mode '("require-package"))
             (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-buffer)
             (define-key emacs-lisp-mode-map (kbd "C-c C-f") 'eval-defun)
             (define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)))
