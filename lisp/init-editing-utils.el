@@ -50,7 +50,7 @@
                (lambda () (setq-local dired-isearch-filenames t)))
      (define-key dired-mode-map "/" 'isearch-forward)
      (define-key dired-mode-map "?" 'isearch-backward)
-     (define-key dired-mode-map " " 'avy-goto-word-1)
+     (define-key dired-mode-map " " 'avy-goto-line)
      ))
 
 ;;; dired single
@@ -65,6 +65,16 @@
 (if (boundp 'dired-mode-map)
     (my-dired-init)
   (add-hook 'dired-load-hook 'my-dired-init))
+
+;;; dired+
+(require-package 'dired+)
+(autoload 'dired "dired+")
+(autoload 'dired-jump "dired+")
+
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (setq-local dired-omit-files "^\\.?#\\|^\\.$\\|^\\.\\.$\\|^\\..*")
+            (dired-omit-mode)))
 
 ;;; recentf
 (require 'recentf)
