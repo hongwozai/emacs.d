@@ -67,7 +67,7 @@
          (dirname-length (length dir-string))
          (output (split-string
                   (shell-command-to-string command-string)
-                  "[\n\t\r ]+"))
+                  "[\n\t\r]+"))
          (output-string
           (if isone
               (delq nil
