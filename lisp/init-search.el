@@ -83,4 +83,7 @@
   ("c" nil "cancel")
   ("q" nil "cancel"))
 
+(when (commandp 'swiper)
+  (define-key prog-mode-map (kbd "C-s") 'swiper))
+
 (provide 'init-search)

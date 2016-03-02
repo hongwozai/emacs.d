@@ -17,11 +17,14 @@
               'eshell-previous-matching-input-from-input)
             (define-key eshell-mode-map (kbd "C-n")
               'eshell-next-matching-input-from-input)
+            (define-key eshell-mode-map (kbd "C-t")
+              'hong/switch-non-terminal-buffer)
+
             (setq pcomplete-cycle-completions nil
                   eshell-cmpl-cycle-completions nil
                   eshell-save-history-on-exit nil
-                  eshell-buffer-shorthand t
-                  )
+                  eshell-buffer-shorthand t)
+
             (setq-local show-trailing-whitespace nil)
             (mapc (lambda (x) (push x eshell-visual-commands))
                   '("ssh" "htop" "less" "tmux" "top" "vim"))
@@ -50,7 +53,7 @@
             (setq-local company-backends '(company-capf))
             (defalias 'ff #'find-file)))
 
-;;; ============================= shell ====================================
+;;; ============================= shell comint =============================
 ;;; bash completion in shell mode
 (require-package 'bash-completion)
 (autoload 'bash-completion-dynamic-complete "bash-completion" "BASH complete" )
@@ -61,14 +64,17 @@
 (add-hook 'shell-mode-hook 'hong/exit)
 (add-hook 'shell-mode-hook
           (lambda ()
+            (define-key shell-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
             (define-key shell-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key shell-mode-map (kbd "C-n") 'comint-next-input)))
 
 ;;; comint mode
 (add-hook 'comint-mode-hook
           (lambda ()
+            (define-key comint-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
             (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
-            (define-key comint-mode-map (kbd "C-n") 'comint-next-input)))
+            (define-key comint-mode-map (kbd "C-n") 'comint-next-input)
+            (setq-local comint-history-isearch t)))
 
 ;;; ============================= term =====================================
 (require-package 'multi-term)
@@ -81,14 +87,6 @@
             (setq-local evil-move-cursor-back nil)
             (setq-local evil-escape-inhibit t)
             (evil-define-key 'normal term-raw-map "p" 'term-paste)
-            (evil-define-key 'insert term-raw-map (kbd "C-r")
-              'term-send-reverse-search-history)
-            (evil-define-key 'insert term-raw-map (kbd "C-c C-d")
-              'term-send-eof)
-            (evil-define-key 'insert term-raw-map (kbd "C-k")
-              '(lambda () (interactive) (term-send-raw-string "")))
-            (evil-define-key 'insert term-raw-map (kbd "C-e")
-              '(lambda () (interactive) (term-send-raw-string "")))
             (setq multi-term-switch-after-close nil)
             (setq multi-term-dedicated-select-after-open-p t)
             (setq term-buffer-maximum-size 0)
@@ -97,6 +95,8 @@
             (setq term-unbind-key-list '("C-x"))
             (setq term-bind-key-alist
                   '(("C-r" . term-send-reverse-search-history)
+                    ("C-t" . hong/switch-non-terminal-buffer)
+                    ("M-:" . eval-expression)
                     ("C-d" . term-send-eof)
                     ("C-y" . term-paste)
                     ("M-y" . yank-pop)
@@ -118,7 +118,30 @@
 ;;; ============================== misc ==================================
 ;;; shotcuts key
 (global-set-key (kbd "<f2>") 'eshell)
+(global-set-key (kbd "<f3>") 'hong/shell-run)
 (defalias 'sh 'shell)
 (defalias 'mt 'multi-term)
+
+(defun hong//list-find-ret (list func)
+  (cond ((funcall func (car list)) (car list))
+        ((null (cdr list)) nil)
+        (t (hong//list-find-ret (cdr list) func))))
+
+(defun hong/switch-non-terminal-buffer ()
+  "switch first no terminal buffer.
+   use ido's ido-buffer-history"
+  (interactive)
+  (let* ((buffer-list (mapcar (lambda (buf) (buffer-name buf)) (buffer-list)))
+         (last-noterm-buffer
+          (hong//list-find-ret
+           buffer-list
+           (lambda (str)
+             (not (string-match
+                   (concat "^\\*terminal\\|^\\*eshell\\|^\\*shell\\|"
+                           "^ ?\\*Minibuf\\|^ ?\\*code.*work\\*$\\|^\\*Message\\|"
+                           "^ ?\\*Echo")
+                   str))))))
+    (and last-noterm-buffer (switch-to-buffer last-noterm-buffer))
+    ))
 
 (provide 'init-shell)
