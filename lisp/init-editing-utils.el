@@ -68,10 +68,11 @@
 
 ;;; dired+
 (require-package 'dired+)
+(eval-after-load 'dired
+  '(progn (require 'dired+)))
 
 (add-hook 'dired-mode-hook
           (lambda ()
-            (require 'dired+)
             (setq-local dired-omit-files
                         "^\\.?#\\|^\\.$\\|^\\.\\.$\\|^\\..*")
             (dired-omit-mode)))
@@ -141,6 +142,10 @@
 ;;; highlight symbol
 (require-package 'highlight-symbol)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
+(add-hook 'highlight-symbol-mode-hook
+          (lambda ()
+            (setq highlight-symbol-idle-delay 0.5)
+            (highlight-symbol-nav-mode)))
 
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)

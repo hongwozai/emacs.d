@@ -73,7 +73,7 @@
 ;;; comint mode
 (add-hook 'comint-mode-hook
           (lambda ()
-            (define-key comint-mode-map (kbd "C-c C-r") 'hong/clear-shell)
+            (define-key comint-mode-map (kbd "C-l") 'hong/clear-shell)
             (define-key comint-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
             (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key comint-mode-map (kbd "C-n") 'comint-next-input)
