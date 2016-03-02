@@ -68,12 +68,12 @@
 
 ;;; dired+
 (require-package 'dired+)
-(autoload 'dired "dired+")
-(autoload 'dired-jump "dired+")
 
 (add-hook 'dired-mode-hook
           (lambda ()
-            (setq-local dired-omit-files "^\\.?#\\|^\\.$\\|^\\.\\.$\\|^\\..*")
+            (require 'dired+)
+            (setq-local dired-omit-files
+                        "^\\.?#\\|^\\.$\\|^\\.\\.$\\|^\\..*")
             (dired-omit-mode)))
 
 ;;; recentf

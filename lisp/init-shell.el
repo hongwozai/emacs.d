@@ -26,6 +26,7 @@
                   eshell-buffer-shorthand t)
 
             (setq-local show-trailing-whitespace nil)
+            (setq-local mode-require-final-newline nil)
             (mapc (lambda (x) (push x eshell-visual-commands))
                   '("ssh" "htop" "less" "tmux" "top" "vim"))
 
@@ -64,6 +65,7 @@
 (add-hook 'shell-mode-hook 'hong/exit)
 (add-hook 'shell-mode-hook
           (lambda ()
+            (setq-local mode-require-final-newline nil)
             (define-key shell-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
             (define-key shell-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key shell-mode-map (kbd "C-n") 'comint-next-input)))
@@ -74,6 +76,7 @@
             (define-key comint-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
             (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key comint-mode-map (kbd "C-n") 'comint-next-input)
+            (setq-local mode-require-final-newline nil)
             (setq-local comint-history-isearch t)))
 
 ;;; ============================= term =====================================
@@ -86,6 +89,7 @@
           (lambda ()
             (setq-local evil-move-cursor-back nil)
             (setq-local evil-escape-inhibit t)
+            (setq-local mode-require-final-newline nil)
             (evil-define-key 'normal term-raw-map "p" 'term-paste)
             (setq multi-term-switch-after-close nil)
             (setq multi-term-dedicated-select-after-open-p t)

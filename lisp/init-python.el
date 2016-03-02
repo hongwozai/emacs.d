@@ -1,5 +1,4 @@
 ;;; complete, checker, doc
-(require-package 'pydoc)
 (require-package 'anaconda-mode)
 (require-package 'company-anaconda)
 
