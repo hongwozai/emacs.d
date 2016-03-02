@@ -73,6 +73,7 @@
 ;;; comint mode
 (add-hook 'comint-mode-hook
           (lambda ()
+            (define-key comint-mode-map (kbd "C-c C-r") 'hong/clear-shell)
             (define-key comint-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
             (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key comint-mode-map (kbd "C-n") 'comint-next-input)
@@ -125,6 +126,7 @@
 (global-set-key (kbd "<f3>") 'hong/shell-run)
 (defalias 'sh 'shell)
 (defalias 'mt 'multi-term)
+(defalias 'mtdo 'multi-term-dedicated-open)
 
 (defun hong//list-find-ret (list func)
   (cond ((funcall func (car list)) (car list))
@@ -147,5 +149,10 @@
                    str))))))
     (and last-noterm-buffer (switch-to-buffer last-noterm-buffer))
     ))
+
+(defun hong/clear-shell ()
+  (interactive)
+  (erase-buffer)
+  (comint-send-input))
 
 (provide 'init-shell)
