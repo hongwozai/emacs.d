@@ -16,7 +16,8 @@
               truncate-lines              nil
               show-trailing-whitespace    t
               scroll-margin               0
-              visible-bell                t)
+              visible-bell                t
+              ring-bell-function          'ignore)
 
 ;;; trailing whitespace
 (dolist (hook '(special-mode-hook
