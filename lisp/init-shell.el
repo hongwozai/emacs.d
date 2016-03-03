@@ -58,6 +58,7 @@
 ;;; bash completion in shell mode
 (require-package 'bash-completion)
 (autoload 'bash-completion-dynamic-complete "bash-completion" "BASH complete" )
+(add-hook 'shell-dynamic-complete-functions 'bash-completion-dynamic-complete)
 
 ;;; shell
 (setq shell-file-name "/bin/bash")
