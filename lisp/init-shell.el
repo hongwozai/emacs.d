@@ -60,7 +60,18 @@
             (add-hook 'eshell-directory-change-hook
                       'hong//toggle-eshell-directory)
             (setq-local company-backends '(company-capf))
-            (defalias 'ff #'find-file)))
+            (defalias 'f #'find-file)
+            (defalias 'd #'dired)
+
+            ;; sudo complete
+            ;; https://github.com/emacs-helm/helm/wiki/Eshell
+            (defun pcomplete/sudo ()
+              (let ((prec (pcomplete-arg 'last -1)))
+                (cond ((string= "sudo" prec)
+                       (while (pcomplete-here*
+                               (funcall pcomplete-command-completion-function)
+                               (pcomplete-arg 'last) t))))))
+            ))
 
 ;;; ============================= shell comint =============================
 ;;; bash completion in shell mode
