@@ -118,6 +118,20 @@
   (let ((ffip-project-root "."))
     (ffip)))
 
+(defun hong/open-tramp-connections ()
+  (interactive)
+  (unless (functionp #'tramp-list-connections)
+    (require 'tramp))
+  (let ((list-conns
+         (mapcar (lambda (vec)
+                   (format "/%s:%s@%s:"
+                           (tramp-file-name-method vec)
+                           (tramp-file-name-user vec)
+                           (tramp-file-name-host vec)))
+                 (tramp-list-connections))))
+    (if (null list-conns)
+        (message "NO TRAMP CONNECTS!!!")
+     (ido-find-file-in-dir (completing-read "Open Tramp: " list-conns)))))
 
 (defhydra hydra-open-files-menu (:color pink :hint nil)
   "
@@ -126,6 +140,7 @@
   _e_: open emacs configure files
   _f_: open project files
   _F_: ffip in everywhere(slow)
+  _t_: ido tramp connection
   _r_: open recentf files
   _w_: open workspace files
 ^
@@ -134,6 +149,7 @@
   ("e" hong/open-emacs-configure-file :color blue)
   ("f" ffip :color blue)
   ("F" hong/open-files :color blue)
+  ("t" hong/open-tramp-connections :color blue)
   ("r" hong/open-recentf-file :color blue)
   ("w" hong/open-workspace-directory :color blue)
   ("c" nil "cancel")
