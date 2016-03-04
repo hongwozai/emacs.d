@@ -49,6 +49,7 @@
      (setq dired-recursive-deletes 'always)
      (add-hook 'dired-mode-hook
                (lambda () (setq-local dired-isearch-filenames t)))
+     (define-key dired-mode-map "H" 'dired-omit-mode)
      (define-key dired-mode-map "/" 'isearch-forward)
      (define-key dired-mode-map "?" 'isearch-backward)
      (define-key dired-mode-map " " 'avy-goto-line)
@@ -81,6 +82,7 @@
 ;;; recentf
 (require 'recentf)
 (setq recentf-max-saved-items 1000)
+(add-hook 'after-init-hook (lambda () (recentf-mode 1)))
 
 ;; hs minor mode
 (add-hook 'prog-mode-hook 'hs-minor-mode)

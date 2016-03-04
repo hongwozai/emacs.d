@@ -113,13 +113,19 @@
     (recentf-mode 1))
   (find-file (completing-read "Find recentf files: " recentf-list)))
 
-(defhydra hydra-open-files-menu (:color pink
-                                        :hint nil)
+(defun hong/open-files ()
+  (interactive)
+  (let ((ffip-project-root "."))
+    (ffip)))
+
+
+(defhydra hydra-open-files-menu (:color pink :hint nil)
   "
     ^Open^                               ^Misc^
 ^^^^^^^^------------------------------------------------------------------------
   _e_: open emacs configure files
   _f_: open project files
+  _F_: ffip in everywhere(slow)
   _r_: open recentf files
   _w_: open workspace files
 ^
@@ -127,6 +133,7 @@
 "
   ("e" hong/open-emacs-configure-file :color blue)
   ("f" ffip :color blue)
+  ("F" hong/open-files :color blue)
   ("r" hong/open-recentf-file :color blue)
   ("w" hong/open-workspace-directory :color blue)
   ("c" nil "cancel")
@@ -137,8 +144,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my window function
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defhydra hydra-window-menu (:color pink
-                                    :hint nil)
+(defhydra hydra-window-menu (:color pink :hint nil)
   "
     ^Windows direction^         ^Window operation^
 ^^^^^^^^--------------------------------------------------------------
@@ -164,8 +170,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my buffer, bookmark function
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defhydra hydra-mark-or-buf-menu (:color pink
-                                         :hint nil)
+(defhydra hydra-mark-or-buf-menu (:color pink :hint nil)
   "
     ^Buffer^                           ^Bookmark^
 ^^^^^^^^--------------------------------------------------------------
@@ -193,8 +198,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my help function
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defhydra hydra-help-menu (:color pink
-                                  :hint nil)
+(defhydra hydra-help-menu (:color pink :hint nil)
   "
     ^describe^                           ^Misc^
 ^^^^^^^^--------------------------------------------------------------
