@@ -24,6 +24,7 @@ buffer is not visiting a file."
 
 ;;; rlogin
 (setq rlogin-program "ssh")
+(setq rlogin-process-connection-type t)
 (setq rlogin-explicit-args
       '("-t" "-t" "-o" "ControlMaster=auto" "-o" "ControlPath='tramp.%%C"
         "-o" "ControlPersist=no"))

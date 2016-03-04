@@ -23,7 +23,6 @@
                   eshell-save-history-on-exit nil
                   eshell-buffer-shorthand t)
 
-
             (setq-local show-trailing-whitespace nil)
             (setq-local mode-require-final-newline nil)
             (mapc (lambda (x) (push x eshell-visual-commands))
@@ -97,6 +96,7 @@
             (define-key comint-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
             (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key comint-mode-map (kbd "C-n") 'comint-next-input)
+            (setq-local comint-prompt-read-only t)
             (setq-local mode-require-final-newline nil)
             (setq-local comint-history-isearch t)))
 
@@ -172,7 +172,8 @@
 
 (defun hong/clear-shell ()
   (interactive)
-  (erase-buffer)
+  (let ((inhibit-read-only t))
+    (erase-buffer))
   (comint-send-input))
 
 (provide 'init-shell)

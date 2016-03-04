@@ -81,7 +81,7 @@
 
 ;;; recentf
 (require 'recentf)
-(setq recentf-max-saved-items 1000)
+(setq recentf-max-saved-items 100)
 (add-hook 'after-init-hook (lambda () (recentf-mode 1)))
 
 ;; hs minor mode
