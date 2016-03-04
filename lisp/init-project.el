@@ -170,6 +170,7 @@
   _l_: right window            _r_: swap window(rotate updown)
   ^^                           _s_: horizontal window
   ^^                           _v_: vertical window
+  ^^                           _t_: window layout change
   "
   ("h" evil-window-left :color blue)
   ("j" evil-window-down :color blue)
@@ -178,10 +179,13 @@
   ("c" evil-window-delete :color blue)
   ("o" delete-other-windows :color blue)
   ("u" winner-undo :color blue)
+  ("t" hong/window-layout-change :color blue)
   ("s" evil-window-split :color blue)
   ("r" evil-window-rotate-downwards :color blue)
   ("v" evil-window-vsplit :color blue)
   ("q" nil "cancel" :color blue))
+
+(define-key evil-emacs-state-map (kbd "C-w") 'hydra-window-menu/body)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my buffer, bookmark function

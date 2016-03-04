@@ -13,7 +13,7 @@
                 sql-interactive-mode diff-mode
                 anaconda-nav-mode ibuffer-mode
                 comint-mode image-mode
-                flycheck-error-list-mode))
+                flycheck-error-list-mode rlogin-mode))
   (evil-set-initial-state mode 'emacs))
 
 (dolist (mode '(diff-mode occur-mode yari-mode

@@ -68,6 +68,7 @@
 (def-hong/query
   (baidu . "https://www.baidu.com/s?wd=")
   (iciba . "http://www.iciba.com/")
-  (bing  . "https://www.bing.com/search?qs=n&q="))
+  (bing  . "https://www.bing.com/search?qs=n&q=")
+  (github . "https://github.com/search?utf8=%E2%9C%93&q="))
 
 (provide 'init-utils)

@@ -13,22 +13,30 @@
 ;;; ========================== eshell =================================
 (add-hook 'eshell-mode-hook
           (lambda ()
-            (define-key eshell-mode-map (kbd "C-p")
-              'eshell-previous-matching-input-from-input)
-            (define-key eshell-mode-map (kbd "C-n")
-              'eshell-next-matching-input-from-input)
-            (define-key eshell-mode-map (kbd "C-t")
-              'hong/switch-non-terminal-buffer)
+            (define-key eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
+            (define-key eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
+            (define-key eshell-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
+            (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
 
             (setq pcomplete-cycle-completions nil
                   eshell-cmpl-cycle-completions nil
                   eshell-save-history-on-exit nil
                   eshell-buffer-shorthand t)
 
+
             (setq-local show-trailing-whitespace nil)
             (setq-local mode-require-final-newline nil)
             (mapc (lambda (x) (push x eshell-visual-commands))
                   '("ssh" "htop" "less" "tmux" "top" "vim"))
+
+            ;; history
+            (defun hong/eshell-find-history ()
+              (interactive)
+              (insert
+               (ido-completing-read "Eshell history: "
+                                    (delete-dups
+                                     (ring-elements eshell-history-ring)))))
+            (define-key eshell-mode-map (kbd "C-s") 'hong/eshell-find-history)
 
             ;; auto end
             (defun hong//eshell-auto-end ()
