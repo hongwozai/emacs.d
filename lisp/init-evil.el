@@ -17,7 +17,8 @@
   (evil-set-initial-state mode 'emacs))
 
 (dolist (mode '(diff-mode occur-mode yari-mode
-                          anaconda-mode-view-mode))
+                          anaconda-mode-view-mode
+                          package-menu-mode))
   (evil-set-initial-state mode 'motion))
 ;;; *Messages* can't set emacs state in emacs start
 (evil-define-key 'normal messages-buffer-mode-map "q" 'quit-window)

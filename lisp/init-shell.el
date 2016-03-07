@@ -174,7 +174,9 @@
 (defun hong/clear-shell ()
   (interactive)
   (let ((inhibit-read-only t))
-    (erase-buffer))
-  (comint-send-input))
+    (unless (eq (line-number-at-pos) 1)
+        (forward-line -1)
+      (delete-region (point-min) (1+ (line-end-position)))))
+  (goto-char (point-max)))
 
 (provide 'init-shell)

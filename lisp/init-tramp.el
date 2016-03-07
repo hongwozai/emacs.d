@@ -28,5 +28,6 @@ buffer is not visiting a file."
 (setq rlogin-explicit-args
       '("-t" "-t" "-o" "ControlMaster=auto" "-o" "ControlPath='tramp.%%C"
         "-o" "ControlPersist=no"))
+(defalias 'ssh 'rlogin)
 
 (provide 'init-tramp)

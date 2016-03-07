@@ -25,8 +25,9 @@
      (setq company-show-numbers t)
      (setq company-begin-commands '(self-insert-command))
      (setq company-clang-insert-arguments nil)
+     ;; shell-mode -> ivy
      (setq company-global-modes
-           '(not gud-mode))
+           '(not gud-mode shell-mode))
 ))
 (eval-after-load 'comint-mode
   '(progn

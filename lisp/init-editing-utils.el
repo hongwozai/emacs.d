@@ -17,6 +17,7 @@
               show-trailing-whitespace    t
               scroll-margin               0
               visible-bell                t
+              mode-require-final-newline  nil
               ring-bell-function          'ignore)
 
 ;;; trailing whitespace
