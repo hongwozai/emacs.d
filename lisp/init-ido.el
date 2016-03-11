@@ -1,6 +1,6 @@
-;;; flx-ido swiper(include ivy)
-(require-package 'flx-ido)
+;;; swiper(include ivy)
 (require-package 'swiper)
+(require-package 'counsel)
 
 (require 'ido)
 (ido-mode 1)
@@ -59,5 +59,8 @@
 (ivy-mode)
 (setq ivy-height 18)
 (setq ivy-format-function 'ivy-format-function-arrow)
+
+;;; counsel
+(add-hook 'after-init-hook 'counsel-mode)
 
 (provide 'init-ido)

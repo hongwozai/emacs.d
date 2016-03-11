@@ -27,7 +27,7 @@
      (setq company-clang-insert-arguments nil)
      ;; shell-mode -> ivy
      (setq company-global-modes
-           '(not gud-mode shell-mode))
+           '(not gud-mode shell-mode rlogin-mode))
 ))
 (eval-after-load 'comint-mode
   '(progn

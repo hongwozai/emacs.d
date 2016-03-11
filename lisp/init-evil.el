@@ -111,7 +111,7 @@
   "xc"  'save-buffers-kill-terminal
   "xe"  'eval-last-sexp
   "xf"  'ido-find-file
-  "xk"  'ido-kill-buffer
+  "xk"  'kill-this-buffer
   "xs"  'save-buffer
   "xz"  'suspend-frame
   "."   'evil-ex)
