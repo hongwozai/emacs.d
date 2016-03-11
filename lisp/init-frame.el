@@ -30,22 +30,33 @@
 
 (add-hook 'after-change-major-mode-hook 'purge-minor-modes)
 
-(setq-default mode-line-format
-              (list
-               mode-line-front-space
-               " "
-               mode-line-mule-info
-               '(:eval (format "%c" (if buffer-read-only ?\- ?\+)))
-               '(:eval (format "%s" (buffer-size)))
-               "  "
-               mode-line-buffer-identification
-               "  "
-               '(:eval (propertize "%m" 'face 'italic))
-               "  "
-               mode-line-position
-               ;;global-mode-string, org-timer-set-timer in org-mode need this
-               (propertize "%M" 'face nil)
-               mode-line-end-spaces
-               ))
+;;; ====================== mode line format ============================
+(defface hong/mode-line-face
+  `((((class color) (background dark))
+     :foreground "black"
+     :background "#F0DFAF"))
+  "face when evil change state")
+
+(defvar hong/mode-line
+  (list
+   mode-line-front-space
+   " "
+   mode-line-mule-info
+   '(:eval (format "%c" (if buffer-read-only ?\- ?\+)))
+   '(:eval (format "%s" (buffer-size)))
+   "  "
+   ;; mode-line-buffer-identification
+   '(:eval (propertize " %b " 'face 'hong/evil-state-face))
+   "  "
+   '(:eval (propertize "%m" 'face 'italic))
+   "  "
+   mode-line-position
+   ;;global-mode-string, org-timer-set-timer in org-mode need this
+   (propertize "%M" 'face nil)
+   mode-line-end-spaces
+   ))
+
+(setq mode-line-format hong/mode-line)
+(setq-default mode-line-format hong/mode-line)
 
 (provide 'init-frame)

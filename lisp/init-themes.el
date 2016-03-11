@@ -30,32 +30,29 @@
 
  ;; mode-line
  `(mode-line
-   ((t (:box (line-width 1 :color ,hong/mode-line-normal :style nil))
-       :foreground "#ffffff" :background ,hong/mode-line-normal
+   ((t :foreground "#ffffff" :background ,hong/mode-line-normal
        :overline ,hong/mode-line-normal :inverse-video nil)))
  `(mode-line-inactive
    ((t :foreground "#ffffff" :background ,hong/mode-line-inactive
        :overline ,hong/mode-line-inactive :inverse-video nil)))
  )
 
-;;; mode-line color
-(add-hook
- 'after-init-hook
- (lambda ()
-   (lexical-let ((default-color (cons hong/mode-line-normal
-                                      (face-foreground 'mode-line))))
-     (add-hook 'post-command-hook
-               (lambda ()
-                 (let
-                     ((color
-                       (cond ((minibufferp) default-color)
-                             ((evil-insert-state-p) '("#e80000" . "#ffffff"))
-                             ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                             ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                             (t default-color))))
-                   (set-face-foreground 'mode-line (cdr color))
-                   (set-face-background 'mode-line (car color)))))))
- )
+;;; ======================== mode line theme ==============================
+(defface hong/evil-state-face
+  `((((class color) (background dark))
+     :foreground "#F0DFAF"
+     :background ,hong/mode-line-normal :weight bold))
+  "face when evil change state")
 
+(defun hong//change-color-with-evil-state ()
+  (let* ((default-color hong/mode-line-normal)
+         (color (cond ((minibufferp) default-color)
+                      ((evil-insert-state-p) "#e80000")
+                      ((evil-emacs-state-p)  "#444488")
+                      ((buffer-modified-p)   "#006fa0")
+                      (t default-color))))
+    (set-face-background 'hong/evil-state-face color)))
+
+(add-hook 'post-command-hook 'hong//change-color-with-evil-state)
 
 (provide 'init-themes)
