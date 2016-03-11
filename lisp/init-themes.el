@@ -38,12 +38,6 @@
  )
 
 ;;; ======================== mode line theme ==============================
-(defface hong/evil-state-face
-  `((((class color) (background dark))
-     :foreground "#F0DFAF"
-     :background ,hong/mode-line-normal :weight bold))
-  "face when evil change state")
-
 (defun hong//change-color-with-evil-state ()
   (let* ((default-color hong/mode-line-normal)
          (color (cond ((minibufferp) default-color)
@@ -51,7 +45,7 @@
                       ((evil-emacs-state-p)  "#444488")
                       ((buffer-modified-p)   "#006fa0")
                       (t default-color))))
-    (set-face-background 'hong/evil-state-face color)))
+    (set-face-background 'mode-line color)))
 
 (add-hook 'post-command-hook 'hong//change-color-with-evil-state)
 

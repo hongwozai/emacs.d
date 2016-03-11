@@ -31,12 +31,6 @@
 (add-hook 'after-change-major-mode-hook 'purge-minor-modes)
 
 ;;; ====================== mode line format ============================
-(defface hong/mode-line-face
-  `((((class color) (background dark))
-     :foreground "black"
-     :background "#F0DFAF"))
-  "face when evil change state")
-
 (defvar hong/mode-line
   (list
    mode-line-front-space
@@ -45,8 +39,7 @@
    '(:eval (format "%c" (if buffer-read-only ?\- ?\+)))
    '(:eval (format "%s" (buffer-size)))
    "  "
-   ;; mode-line-buffer-identification
-   '(:eval (propertize " %b " 'face 'hong/evil-state-face))
+   mode-line-buffer-identification
    "  "
    '(:eval (propertize "%m" 'face 'italic))
    "  "
