@@ -62,5 +62,6 @@
 
 ;;; counsel
 (add-hook 'after-init-hook 'counsel-mode)
+(global-set-key (kbd "C-x C-f") 'ido-find-file)
 
 (provide 'init-ido)

@@ -62,24 +62,23 @@
   )
 
 ;;; ========================= key bindings ============================
-(defhydra hydra-search-menu (:color pink
-                                    :pre (message "Please input command")
-                                    :hint nil)
+(defhydra hydra-search-menu (:color amaranth :hint nil)
   "
    ^Actions^                  ^Misc^
 ^^^^^-------------------------------------------------------
-  _a_: ag
-  _o_: occur                 _m_: moccur in same major-mode
+  _a_: counsel ag            _A_: ag
+  _o_: occur                 _O_: moccur in same major-mode
   _r_: rgrep
   _s_: swiper
 ^
 ^
   "
-  ("a" ag :color blue)
+  ("a" counsel-ag :color blue)
+  ("A" ag :color blue)
   ("o" occur :color blue)
   ("r" rgrep :color blue)
   ("s" swiper :color blue)
-  ("m" hong/multi-occur-same-major-mode :color blue)
+  ("O" hong/multi-occur-same-major-mode :color blue)
   ("c" nil "cancel")
   ("q" nil "cancel"))
 
