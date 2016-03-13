@@ -1,14 +1,24 @@
 ;;; ===================== ggtags eldoc doxygen ==================
 (require-package 'ggtags)
-(eval-after-load 'ggtags
-  '(progn
-     (setq ggtags-update-on-save t)
-     (setq-local imenu-create-index-function #'ggtags-build-imenu-index)))
+
 (autoload 'ggtags-create-tags "ggtags" nil t)
-(autoload 'ggtags-find-project "ggtags" nil t)
+(autoload 'ggtags-find-other-symbol "ggtags" nil t)
 (autoload 'ggtags-find-definition "ggtags" nil t)
 (autoload 'ggtags-find-reference "ggtags" nil t)
 (autoload 'ggtags-find-tag-dwim "ggtags" nil t)
+
+(add-hook 'ggtags-mode-hook
+          (lambda ()
+            (setq ggtags-update-on-save t)
+            (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
+            (define-key ggtags-mode-map (kbd "C-M-.") 'ggtags-find-other-symbol)
+
+            ;; remote file slow in eldoc mode
+            (let ((file (buffer-file-name)))
+              (when (and file (file-remote-p file))
+                (message "remote file")
+                (eldoc-mode -1)))
+            ))
 
 ;;; c-eldoc
 (require-package 'c-eldoc)
@@ -50,7 +60,7 @@
                 "/usr/include" "/usr/local/include/*"))
   )
 
-(defun hong/my-c-mode-config ()
+(defun hong/my-c/c++-mode-config ()
   "C/C++ only"
   ;; c-eldoc
   (autoload 'c-turn-on-eldoc-mode "c-eldoc" "" t)
@@ -61,10 +71,10 @@
 
   ;; keywords
   (font-lock-add-keywords 'c-mode '("typeof" "__attribute__" "__asm__"))
+  )
 
+(defun hong/my-c-mode-config ()
   ;; key bindings
-  (define-key c-mode-map (kbd "C-s") 'swiper)
-  (define-key c-mode-map (kbd "C-c C-p") 'hong/shell-run)
   (define-key c-mode-map (kbd "C-c C-c") 'hong/shell-compile)
   (define-key c-mode-map (kbd "C-c C-s") 'hong/change-compile-command)
   (define-key c-mode-map (kbd "M-,") 'pop-tag-mark)
@@ -72,8 +82,10 @@
   (evil-define-key 'normal c-mode-map (kbd "M-.") 'ggtags-find-definition)
   (define-key c-mode-map (kbd "<f5>") 'compile)
   (define-key c-mode-map (kbd "<f6>") 'gdb)
+  )
 
-  (define-key c++-mode-map (kbd "C-s") 'swiper)
+(defun hong/my-c++-mode-config ()
+  ;; key bindings
   (define-key c++-mode-map (kbd "M-,") 'pop-tag-mark)
   (define-key c++-mode-map (kbd "M-.") 'ggtags-find-definition)
   (evil-define-key 'normal c++-mode-map (kbd "M-.") 'ggtags-find-definition)
@@ -85,9 +97,13 @@
           (lambda () (hong/my-cc-common-config)))
 
 (add-hook 'c++-mode-hook
-          (lambda () (hong/my-c-mode-config)))
+          (lambda ()
+            (hong/my-c/c++-mode-config)
+            (hong/my-c++-mode-config)))
 
 (add-hook 'c-mode-hook
-          (lambda () (hong/my-c-mode-config)))
+          (lambda ()
+            (hong/my-c/c++-mode-config)
+            (hong/my-c-mode-config)))
 
 (provide 'init-cc-mode)

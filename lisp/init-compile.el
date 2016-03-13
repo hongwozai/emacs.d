@@ -75,8 +75,7 @@
     (cond ((and buffer window) (select-window window))
           ((or buffer window) (pop-to-buffer buffer))
           (t (pop-to-buffer buffer-name)
-             (shell)
-             (compilation-shell-minor-mode)))))
+             (shell)))))
 
 (defun hong/change-compile-command ()
   (interactive)
