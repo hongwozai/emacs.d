@@ -12,7 +12,7 @@
   (hong/select-buffer-window yasdcv-translate-at-point "*Stardict Output*")
   )
 
-;;; select start
+;;; online dictionary
 (require-package 'bing-dict)
 
 (defun hong/translate-brief-at-point ()
@@ -27,7 +27,6 @@
 (require-package 'chinese-pyim)
 (require 'chinese-pyim)
 (global-set-key (kbd "C-<SPC>") 'toggle-input-method)
-(global-set-key (kbd "C-;") 'pyim-toggle-full-width-punctuation)
 (eval-after-load 'chinese-pyim
   '(progn
      (setq default-input-method "chinese-pyim")
