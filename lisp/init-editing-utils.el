@@ -48,6 +48,8 @@
   '(progn
      (setq dired-recursive-copies 'always)
      (setq dired-recursive-deletes 'always)
+     (toggle-diredp-find-file-reuse-dir 1)
+     (setq dired-listing-switches "-aluh")
      (add-hook 'dired-mode-hook
                (lambda () (setq-local dired-isearch-filenames t)))
      (define-key dired-mode-map "H" 'dired-omit-mode)

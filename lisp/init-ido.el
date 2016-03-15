@@ -4,7 +4,7 @@
 
 (require 'ido)
 (ido-mode 1)
-(ido-everywhere t)
+(setq ido-everywhere nil)
 
 (setq ido-max-prospects 19)
 (setq ido-max-window-height 0.5)
@@ -44,7 +44,6 @@
             (define-key ido-common-completion-map (kbd "C-n") 'ido-next-match)
             (define-key ido-common-completion-map (kbd "C-p") 'ido-prev-match)
             ))
-
 
 ;;; imenu
 (set-default 'imenu-auto-rescan t)

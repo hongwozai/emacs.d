@@ -178,8 +178,11 @@
   (goto-char (point-max)))
 
 (defadvice shell-command (after hong/shell-command-quit activate)
-  (select-window (get-buffer-window "*Shell Command Output*"))
-  (evil-local-set-key 'normal (kbd "q")
-                      '(lambda () (interactive) (kill-this-buffer) (delete-window))))
+  (let ((window (get-buffer-window "*Shell Command Output*")))
+    (when window
+      (select-window window)
+      (evil-local-set-key 'normal (kbd "q")
+                          '(lambda () (interactive)
+                             (kill-this-buffer) (delete-window))))))
 
 (provide 'init-shell)
