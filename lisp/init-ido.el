@@ -10,19 +10,13 @@
 (setq ido-max-window-height 0.5)
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
+(setq ido-use-faces t)
 (setq ido-use-virtual-buffers nil)
 ;;; ido disable automerge work directories , use M-s
 (setq ido-auto-merge-work-directories-length -1)
 
-(set-face-background 'ido-first-match "Grey15")
-(set-face-background 'ido-only-match "Grey2")
-
-;;; flx ido setting
-(flx-ido-mode 1)
-(setq flx-ido-threshold 10240)
-(setq flx-ido-use-faces t)
-(set-face-background 'flx-highlight-face "#555555")
+(set-face-background 'ido-first-match "#1a4b77")
+(set-face-background 'ido-only-match "#1a4b77")
 
 ;;; ido decorations
 (setq ido-decorations

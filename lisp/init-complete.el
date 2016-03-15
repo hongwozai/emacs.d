@@ -29,8 +29,5 @@
      (setq company-global-modes
            '(not gud-mode shell-mode eshell-mode term-mode))
 ))
-(eval-after-load 'comint-mode
-  '(progn
-     (setq-local company-backends '(company-capf))))
 
 (provide 'init-complete)

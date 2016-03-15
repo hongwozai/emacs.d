@@ -10,13 +10,13 @@
 (add-hook 'ggtags-mode-hook
           (lambda ()
             (setq ggtags-update-on-save t)
+            (setq ggtags-enable-navigation-keys nil)
             (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
             (define-key ggtags-mode-map (kbd "C-M-.") 'ggtags-find-other-symbol)
 
             ;; remote file slow in eldoc mode
             (let ((file (buffer-file-name)))
               (when (and file (file-remote-p file))
-                (message "remote file")
                 (eldoc-mode -1)))
             ))
 

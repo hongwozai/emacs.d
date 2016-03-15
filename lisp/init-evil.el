@@ -27,7 +27,7 @@
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-(define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-0)
+(define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-1)
 (define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 
@@ -43,15 +43,12 @@
 (require-package 'evil-surround)
 (global-evil-surround-mode 1)
 
-;;; evil jumper
-;;; C-i forward jump C-o backward jump
-(require-package 'evil-jumper)
-(global-evil-jumper-mode)
-
 ;;; evil escape
 (require-package 'evil-escape)
 (setq-default evil-escape-key-sequence "kj")
 (evil-escape-mode)
+(add-hook 'minibuffer-setup-hook
+          (lambda () (setq-local evil-escape-inhibit t)))
 
 ;;; evil matchit
 (require-package 'evil-matchit)
@@ -94,6 +91,7 @@
   "o"   'org-agenda
 
   "cd"  'yasdcv-translate-at-point
+  "cs"  'hong/translate-brief-at-point
   "ds"  'sudo-edit
   "en"  'next-error
   "ep"  'previous-error

@@ -15,38 +15,14 @@
             (set-face-bold 'tooltip t)
             ))
 
-(defvar hong/mode-line-normal "#2B2B2B")
-(defvar hong/mode-line-inactive "#383838")
-
 (custom-theme-set-faces
  'zenburn
  ;; avy
- `(avy-lead-face
-   ((t (:foreground "white" :background "#e52b50"))))
- `(avy-lead-face-0
-   ((t (:foreground "white" :background "#4f57f9"))))
- `(avy-background-face
-   ((t (:foreground "grey40"))))
-
- ;; mode-line
- `(mode-line
-   ((t :foreground "#ffffff" :background ,hong/mode-line-normal
-       :overline ,hong/mode-line-normal :inverse-video nil)))
- `(mode-line-inactive
-   ((t :foreground "#ffffff" :background ,hong/mode-line-inactive
-       :overline ,hong/mode-line-inactive :inverse-video nil)))
+ `(avy-lead-face       ((t (:foreground "white" :background "#e52b50"))))
+ `(avy-lead-face-0     ((t (:foreground "white" :background "#4f57f9"))))
+ `(avy-background-face ((t (:foreground "grey40"))))
+ ;; ivy
+ `(ivy-current-match ((t (:background "#1a4b77" :underline nil))))
  )
-
-;;; ======================== mode line theme ==============================
-(defun hong//change-color-with-evil-state ()
-  (let* ((default-color hong/mode-line-normal)
-         (color (cond ((minibufferp) default-color)
-                      ((evil-insert-state-p) "#e80000")
-                      ((evil-emacs-state-p)  "#444488")
-                      ((buffer-modified-p)   "#006fa0")
-                      (t default-color))))
-    (set-face-background 'mode-line color)))
-
-(add-hook 'post-command-hook 'hong//change-color-with-evil-state)
 
 (provide 'init-themes)

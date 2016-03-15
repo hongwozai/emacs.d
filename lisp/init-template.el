@@ -1,6 +1,6 @@
 ;;; yasnippet
 (require-package 'yasnippet)
-(add-hook 'prog-mode-hook #'yas-minor-mode)
+(yas-global-mode 1)
 
 ;; (add-hook 'yas--inhibit-overlay-hooks
 ;;           'yas--on-field-overlay-modification)

@@ -11,12 +11,6 @@
   (setq-default ag-reuse-window nil)
 
   (hong/select-buffer-window ag "*ag search*")
-
-  (defun hong/ag-current-dir ()
-    (interactive)
-    (ag/search (ag/read-from-minibuffer "Search string")
-               (expand-file-name "."))
-    (select-window (get-buffer-window "*ag search*")))
   )
 
 ;;; =================== occur =========================
