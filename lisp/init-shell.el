@@ -177,4 +177,9 @@
       (delete-region (point-min) (1+ (line-end-position)))))
   (goto-char (point-max)))
 
+(defadvice shell-command (after hong/shell-command-quit activate)
+  (select-window (get-buffer-window "*Shell Command Output*"))
+  (evil-local-set-key 'normal (kbd "q")
+                      '(lambda () (interactive) (kill-this-buffer) (delete-window))))
+
 (provide 'init-shell)
