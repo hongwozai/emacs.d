@@ -13,6 +13,15 @@
   )
 
 ;;; select start
+(require-package 'bing-dict)
+
+(defun hong/translate-brief-at-point ()
+  (interactive)
+  (let ((word
+         (if (use-region-p)
+             (buffer-substring-no-properties (region-beginning) (region-end))
+           (thing-at-point 'word t))))
+    (bing-dict-brief word)))
 
 ;;; input method
 (require-package 'chinese-pyim)

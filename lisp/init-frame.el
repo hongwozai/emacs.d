@@ -31,25 +31,22 @@
 (add-hook 'after-change-major-mode-hook 'purge-minor-modes)
 
 ;;; ====================== mode line format ============================
-(defvar hong/mode-line
-  (list
-   mode-line-front-space
-   " "
-   mode-line-mule-info
-   '(:eval (format "%c" (if buffer-read-only ?\- ?\+)))
-   '(:eval (format "%s" (buffer-size)))
-   "  "
-   mode-line-buffer-identification
-   "  "
-   '(:eval (propertize "%m" 'face 'italic))
-   "  "
-   mode-line-position
-   ;;global-mode-string, org-timer-set-timer in org-mode need this
-   (propertize "%M" 'face nil)
-   mode-line-end-spaces
-   ))
+(require-package 'powerline)
+(setq powerline-default-separator nil)
+(powerline-default-theme)
 
-(setq mode-line-format hong/mode-line)
-(setq-default mode-line-format hong/mode-line)
+(defvar hong/mode-line-normal "#2B2B2B")
+(defvar hong/mode-line-inactive "#383838")
+
+(defun hong//change-color-with-evil-state ()
+  (let* ((default-color hong/mode-line-normal)
+         (color (cond ((minibufferp) default-color)
+                      ((evil-insert-state-p) "#e80000")
+                      ((evil-emacs-state-p)  "#444488")
+                      ((buffer-modified-p)   "#006fa0")
+                      (t default-color))))
+    (set-face-background 'mode-line color)))
+
+(add-hook 'post-command-hook 'hong//change-color-with-evil-state)
 
 (provide 'init-frame)

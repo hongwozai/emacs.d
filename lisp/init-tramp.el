@@ -22,12 +22,4 @@ buffer is not visiting a file."
 ;;; experiment
 (setq enable-remote-dir-locals t)
 
-;;; rlogin
-(setq rlogin-program "ssh")
-(setq rlogin-process-connection-type t)
-(setq rlogin-explicit-args
-      '("-t" "-t" "-o" "ControlMaster=auto" "-o" "ControlPath='tramp.%%C"
-        "-o" "ControlPersist=no"))
-(defalias 'ssh 'rlogin)
-
 (provide 'init-tramp)
