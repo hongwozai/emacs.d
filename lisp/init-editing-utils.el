@@ -165,10 +165,6 @@
 ;;; .dir-locals.el can "eval", eg. ((nil . ((eval . (setq VAR "VALUE")))))
 (setq enable-local-variables :all enable-local-eval t)
 
-;;; eldoc
-(add-hook 'eldoc-mode-hook
-          (lambda () (setq eldoc-idle-delay 0)))
-
 ;;; hydra key binding
 (require-package 'hydra)
 

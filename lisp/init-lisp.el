@@ -23,7 +23,7 @@
 ;;; ===================== misc ==================
 ;; eldoc-mode
 (dolist (hook lisp-common-mode-hook)
-  (add-hook hook 'eldoc-mode)
+  (add-hook hook (lambda () (setq-local eldoc-idle-delay 0) (eldoc-mode)))
   (add-hook hook (lambda () (setq-local evil-move-cursor-back nil))))
 
 ;;; pretty symbol
@@ -69,15 +69,17 @@
 (add-hook 'inferior-scheme-mode-hook 'hong/exit)
 
 ;;; slime
-(require-package 'slime)
-(require-package 'slime-company)
+(when (executable-find "/usr/bin/sbcl")
+  (require-package 'slime)
+  (require-package 'slime-company)
 
-(setq inferior-lisp-program "sbcl")
-(add-hook 'lisp-mode-hook
-          (lambda ()
-            ;; C-c C-d h clhs
-            (when (file-exists-p "~/quicklisp/clhs-use-local.el")
-              (load "~/quicklisp/clhs-use-local.el" t))))
-(slime-setup '(slime-fancy slime-company))
+  (setq inferior-lisp-program "sbcl")
+  (add-hook 'lisp-mode-hook
+            (lambda ()
+              ;; C-c C-d h clhs
+              (when (file-exists-p "~/quicklisp/clhs-use-local.el")
+                (load "~/quicklisp/clhs-use-local.el" t))))
+  (slime-setup '(slime-fancy slime-company))
+  )
 
 (provide 'init-lisp)
