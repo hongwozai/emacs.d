@@ -28,7 +28,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my open files function
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; find dirs \( -path 'PATH' -o -path 'PATH' \) -a prune -o
+;;; find dirs \( -path 'PATH' -o -path 'PATH' \) -a -prune -o
 ;;; \( -name 'NAME' -o -name 'NAME' -o -path 'PATH' \) -type f -print
 (defun hong/open-emacs-configure-file ()
   (interactive)
@@ -41,6 +41,29 @@
     (recentf-mode 1))
   ;; use recentf-list
   (ivy-recentf))
+
+(defun hong/find-file ()
+  (interactive)
+  (let* ((cmd "find -L . -path '*/.*' -prune -o -type d -print 2>/dev/null")
+         (collection (split-string
+                      (shell-command-to-string cmd)
+                      "\n"))
+         (collection-strip
+          (if (equal "" (car (last collection)))
+              (setq collection (butlast (cdr collection)))
+            (setq collection (cdr collection))))
+         (len (length collection)))
+    (cond
+     ((= len 0) (let ((ffip-project-root default-directory)) (ffip)))
+     (t
+      (ivy-read "Open File: "
+                (mapcar (lambda (x) (substring x 2)) collection-strip)
+                :action (lambda (dir)
+                          (with-ivy-window
+                            (let ((ffip-project-root dir))
+                              (when dir
+                                (ffip)))))
+                :require-match t)))))
 
 (defun hong/open-tramp-connections ()
   (interactive)
@@ -63,6 +86,7 @@
 ^^^^^^^^------------------------------------------------------------------------
   _e_: emacs configure files       _l_: locate file
   _p_: project files
+  _f_: open files
   _t_: ido tramp connection
   _r_: open recentf files
 ^
@@ -70,6 +94,7 @@
 "
   ("e" hong/open-emacs-configure-file :color blue)
   ("p" ffip :color blue)
+  ("f" hong/find-file :color blue)
   ("t" hong/open-tramp-connections :color blue)
   ("r" hong/open-recentf-file :color blue)
   ("l" counsel-locate :color blue)
