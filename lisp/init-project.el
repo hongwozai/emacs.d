@@ -32,7 +32,7 @@
 ;;; \( -name 'NAME' -o -name 'NAME' -o -path 'PATH' \) -type f -print
 (defun hong/open-emacs-configure-file ()
   (interactive)
-  (letrec ((default-directory "~/.emacs.d/"))
+  (let ((default-directory "~/.emacs.d/"))
     (ffip)))
 
 (defun hong/open-recentf-file ()
@@ -61,9 +61,8 @@
   "
     ^Open^                               ^Misc^
 ^^^^^^^^------------------------------------------------------------------------
-  _e_: open emacs configure files
-  _p_: open project files
-  _f_: locate file
+  _e_: emacs configure files       _l_: locate file
+  _p_: project files
   _t_: ido tramp connection
   _r_: open recentf files
 ^
@@ -71,9 +70,9 @@
 "
   ("e" hong/open-emacs-configure-file :color blue)
   ("p" ffip :color blue)
-  ("f" counsel-locate :color blue)
   ("t" hong/open-tramp-connections :color blue)
   ("r" hong/open-recentf-file :color blue)
+  ("l" counsel-locate :color blue)
   ("c" nil "cancel")
   ("h" split-window-horizontally "horizon window")
   ("v" split-window-below "vertical window")
