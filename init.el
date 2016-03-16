@@ -26,10 +26,13 @@
 (require 'init-chinese)
 (require 'init-org-mode)
 
+;;; program language
 (require 'init-cc-mode)
 (require 'init-lisp)
-(require 'init-python)
-(require 'init-ruby)
+(when (executable-find "python")
+  (require 'init-python))
+(when (executable-find "ruby")
+  (require 'init-ruby))
 (require 'init-web)
 (require 'init-sql)
 

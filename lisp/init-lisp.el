@@ -69,7 +69,7 @@
 (add-hook 'inferior-scheme-mode-hook 'hong/exit)
 
 ;;; slime
-(when (executable-find "/usr/bin/sbcl")
+(when (executable-find "sbcl")
   (require-package 'slime)
   (require-package 'slime-company)
 

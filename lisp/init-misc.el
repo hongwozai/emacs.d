@@ -1,5 +1,5 @@
 ;;; go language
-(when (executable-find "/usr/bin/go")
+(when (executable-find "go")
   (require-package 'go-mode)
   (require-package 'go-eldoc)
   (add-hook 'go-mode-hook 'go-eldoc-setup))
@@ -16,7 +16,7 @@
               auto-mode-alist))
 
 ;; cmake
-(when (executable-find "/usr/bin/cmake")
+(when (executable-find "cmake")
   (require-package 'cmake-mode)
   (setq auto-mode-alist
         (append '(("CMakeLists\\.txt\\'" . cmake-mode))
@@ -24,7 +24,7 @@
                 auto-mode-alist)))
 
 ;;; graphviz
-(when (executable-find "/usr/bin/dot")
+(when (executable-find "dot")
   (eval-after-load "org"
     '(progn
        (add-to-list 'org-src-lang-modes  '("dot" . graphviz-dot))))
