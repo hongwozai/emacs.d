@@ -30,6 +30,8 @@
 (define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-1)
 (define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
+(define-key evil-normal-state-map (kbd "gv") '(lambda () (interactive)
+                                                (er/expand-region 2)))
 
 ;;; ======================== evil plugin ==========================
 ;;; evil-anzu
@@ -37,7 +39,6 @@
 (with-eval-after-load 'evil
   (require 'evil-anzu)
   (global-anzu-mode))
-(set-face-foreground 'anzu-mode-line "gold")
 
 ;;; evil surround
 (require-package 'evil-surround)

@@ -54,7 +54,7 @@
 
             ;; company
             (setq-local company-backends nil)
-            (defalias 'f #'find-file)
+            (defalias 'em #'find-file)
             (defalias 'd #'dired)
 
             ;; sudo complete
@@ -79,6 +79,7 @@
 (add-hook 'shell-mode-hook 'hong/exit)
 (add-hook 'shell-mode-hook
           (lambda ()
+            (setq comint-input-sender #'hong/shell-comint-input-sender)
             (setq-local mode-require-final-newline nil)
             (define-key shell-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
             (define-key shell-mode-map (kbd "C-p") 'comint-previous-input)
@@ -184,5 +185,31 @@
       (evil-local-set-key 'normal (kbd "q")
                           '(lambda () (interactive)
                              (kill-this-buffer) (delete-window))))))
+
+;;; clear, man, em, ssh, exit
+(defun hong/shell-comint-input-sender (proc command)
+  (cond ((string-match "^[ \t]*clear[ \t]*$" command)
+         (comint-send-string proc "\n")
+         (let ((inhibit-read-only t))
+           (erase-buffer)))
+        ((string-match "^[ \t]*man[ \t]*\\(.*\\)" command)
+         (comint-send-string proc "\n")
+         (setq command (match-string 1 command))
+         (funcall #'woman command))
+        ((string-match "^[ \t]*em[ \t]*\\(.*\\)" command)
+         (comint-send-string proc "\n")
+         (setq command (match-string 1 command))
+         (pop-to-buffer (funcall #'find-file-noselect command)))
+        ((string-match "^[ \t]*ssh[ \t]*\\(.*\\)@\\([^:]*\\)" command)
+         (comint-send-string proc (concat command "\n"))
+         (setq-local comint-file-name-prefix
+                     (concat "/" (match-string 1 command) "@"
+                             (match-string 2 command) ":"))
+         (cd-absolute comint-file-name-prefix))
+        ((string-match "^[ \t]*exit[ \t]*" command)
+         (comint-send-string proc (concat command "\n"))
+         (setq-local comint-file-name-prefix "")
+         (cd-absolute "~/"))
+        (t (comint-simple-send proc command))))
 
 (provide 'init-shell)

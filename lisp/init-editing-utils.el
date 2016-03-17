@@ -43,44 +43,40 @@
 (global-font-lock-mode t)
 
 ;;; dired
+(require-package 'dired+)
 (require 'dired)
 (eval-after-load 'dired
   '(progn
+     (require 'dired+)
      (setq dired-recursive-copies 'always)
      (setq dired-recursive-deletes 'always)
      (toggle-diredp-find-file-reuse-dir 1)
      (setq dired-listing-switches "-aluh")
      (add-hook 'dired-mode-hook
                (lambda () (setq-local dired-isearch-filenames t)))
-     (define-key dired-mode-map "H" 'dired-omit-mode)
+     (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
      (define-key dired-mode-map "/" 'isearch-forward)
      (define-key dired-mode-map "?" 'isearch-backward)
      (define-key dired-mode-map " " 'avy-goto-line)
+     (evil-define-key 'normal dired-mode-map "j" 'diredp-next-line)
+     (evil-define-key 'normal dired-mode-map "k" 'diredp-previous-line)
+     (evil-define-key 'normal dired-mode-map "J" 'hong/dired-goto-file)
+     (diredp-toggle-find-file-reuse-dir 1)
      ))
 
-;;; dired single
-(require-package 'dired-single)
-(defun my-dired-init ()
-  (define-key dired-mode-map [return] 'dired-single-buffer)
-  (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
-  (define-key dired-mode-map "^"
-    (function
-     (lambda nil (interactive) (dired-single-buffer "..")))))
 
-(if (boundp 'dired-mode-map)
-    (my-dired-init)
-  (add-hook 'dired-load-hook 'my-dired-init))
-
-;;; dired+
-(require-package 'dired+)
-(eval-after-load 'dired
-  '(progn (require 'dired+)))
+(defun hong/dired-goto-file ()
+  (interactive)
+  (command-execute 'dired-goto-file)
+  (diredp-find-file-reuse-dir-buffer))
 
 (add-hook 'dired-mode-hook
           (lambda ()
             (setq-local dired-omit-files
-                        "^\\.?#\\|^\\.$\\|^\\.\\.$\\|^\\..*")
-            (dired-omit-mode)))
+                        "^\\.?#\\|^\\.$\\|^\\.[^.].*$")
+            (setq dired-omit-verbose nil)
+            (dired-omit-mode)
+            (hl-line-mode 1)))
 
 ;;; recentf
 (require 'recentf)
@@ -109,18 +105,12 @@
      (define-key ibuffer-mode-map (kbd "J") 'ibuffer-jump-to-buffer)
      (define-key ibuffer-mode-map (kbd "K") 'ibuffer-do-kill-lines)
      (setq ibuffer-show-empty-filter-groups nil)
-     (setq ibuffer-saved-filter-groups
-           '(("default"
-              ("org"   (or (mode . org-mode)
-                           (mode . org-agenda-mode)))
-              ("dired" (mode . dired-mode))
-              ("emacs" (or (name . "^\\*scratch\\*$")
-                           (name . "^\\*Messages\\*$"))))))
      (add-hook 'ibuffer-hook
                (lambda ()
                  (ibuffer-vc-set-filter-groups-by-vc-root)
                  (unless (eq ibuffer-sorting-mode 'filename/process)
-                   (ibuffer-do-sort-by-filename/process))))))
+                   (ibuffer-do-sort-by-filename/process))
+                 (hl-line-mode 1)))))
 (setq ibuffer-formats
       '((mark modified read-only vc-status-mini " "
               (name 18 18 :left :elide)

@@ -22,7 +22,10 @@
  `(avy-lead-face-0     ((t (:foreground "white" :background "#4f57f9"))))
  `(avy-background-face ((t (:foreground "grey40"))))
  ;; ivy
- `(ivy-current-match ((t (:background "#1a4b77" :underline nil))))
+ `(ivy-current-match   ((t (:background "#1a4b77" :underline nil))))
+ ;; mode line
+ `(mode-line           ((t (:box nil))))
+ `(mode-line-inactive  ((t (:box nil))))
  )
 
 (provide 'init-themes)

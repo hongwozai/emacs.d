@@ -143,6 +143,7 @@
   _l_: ibuffer                      _m_: bookmark menu
   _d_: dired jump                   _n_: new bookmark in current file
   _o_: switch buffer other window   _j_: bookmark jump
+  _s_: set buffer coding
 ^
 ^
 "
@@ -150,6 +151,7 @@
   ("o" switch-to-buffer-other-window :color blue)
   ("d" dired-jump :color blue)
   ("m" bookmark-bmenu-list :color blue)
+  ("s" revert-buffer-with-coding-system :color blue)
   ("n" bookmark-set :color blue)
   ("j" bookmark-jump :color blue)
   ("c" nil "cancel")
@@ -171,6 +173,7 @@
   _e_: view-echo-area-messages
   _n_: view-emacs-news
   _h_: help-for-help
+  _S_: info lookup symbol
 ^
 ^
 "
@@ -181,6 +184,7 @@
   ("e" view-echo-area-messages :color blue)
   ("n" view-emacs-news :color blue)
   ("h" help-for-help :color blue)
+  ("S" info-lookup-symbol :color blue)
   ("i" info :color blue)
   ("l" list-colors-display :color blue)
   ("p" hong/kill-process :color blue)
