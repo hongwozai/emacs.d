@@ -116,7 +116,7 @@
   _l_: right window            _r_: swap window(rotate updown)
   ^^                           _s_: horizontal window
   ^^                           _v_: vertical window
-  ^^                           _t_: window layout change
+  ^^                           _SPC_: window layout change
   "
   ("h" evil-window-left :color blue)
   ("j" evil-window-down :color blue)
@@ -125,7 +125,7 @@
   ("c" evil-window-delete :color blue)
   ("o" delete-other-windows :color blue)
   ("u" winner-undo :color blue)
-  ("t" hong/window-layout-change :color blue)
+  ("SPC" hong/window-layout-change :color blue)
   ("s" evil-window-split :color blue)
   ("r" evil-window-rotate-downwards :color blue)
   ("v" evil-window-vsplit :color blue)
