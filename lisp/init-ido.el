@@ -15,9 +15,6 @@
 ;;; ido disable automerge work directories , use M-s
 (setq ido-auto-merge-work-directories-length -1)
 
-(set-face-background 'ido-first-match "#1a4b77")
-(set-face-background 'ido-only-match "#1a4b77")
-
 ;;; ido decorations
 (setq ido-decorations
       '("\n-> " "" "\n   " " | ..." "[" "]"

@@ -26,6 +26,11 @@
  ;; mode line
  `(mode-line           ((t (:box nil))))
  `(mode-line-inactive  ((t (:box nil))))
+ ;; ido
+ `(ido-first-match     ((t (:background "#1a4b77"))))
+ `(ido-only-match      ((t (:background "#1a4b77"))))
+ ;; window number
+ `(window-numbering-face ((t (:foreground "goldenrod"))))
  )
 
 (provide 'init-themes)

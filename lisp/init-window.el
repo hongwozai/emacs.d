@@ -5,7 +5,6 @@
 ;; window numbering
 (require-package 'window-numbering)
 (window-numbering-mode)
-(set-face-foreground 'window-numbering-face "goldenrod")
 
 ;;; change layout
 (defun hong/window-layout-change ()
