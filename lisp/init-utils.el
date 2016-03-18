@@ -27,8 +27,7 @@
 (defun hong/exit-prompt (process state)
   (if (string-match "\\(exited\\|finished\\)" state)
       (progn
-        (kill-buffer (process-buffer process))
-        (ignore-errors (delete-window)))))
+        (kill-buffer (process-buffer process)))))
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
 

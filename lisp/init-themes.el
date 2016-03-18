@@ -24,13 +24,15 @@
  ;; ivy
  `(ivy-current-match   ((t (:background "#1a4b77" :underline nil))))
  ;; mode line
- `(mode-line           ((t (:box nil))))
- `(mode-line-inactive  ((t (:box nil))))
+ `(mode-line           ((t (:box (:line-width 1 :color "#4F4F4F" :style nil)))))
+ `(mode-line-inactive  ((t (:box (:line-width 1 :color "#4F4F4F" :style nil)))))
  ;; ido
  `(ido-first-match     ((t (:background "#1a4b77"))))
  `(ido-only-match      ((t (:background "#1a4b77"))))
  ;; window number
  `(window-numbering-face ((t (:foreground "goldenrod"))))
+ ;; linum
+ `(linum ((t (:foreground "Grey" :background "#3F3F3F"))))
  )
 
 (provide 'init-themes)

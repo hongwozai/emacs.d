@@ -123,6 +123,7 @@
 ;;; ===================== self ===========================
 ;;; evil ex cmd
 (evil-ex-define-cmd "ls" 'ibuffer)
+(evil-ex-define-cmd "nu" 'linum-mode)
 
 ;;; evil make compatiable
 (evil-define-command evil-make (arg)
