@@ -16,8 +16,6 @@
 
 (eval-after-load 'company
   '(progn
-     (push 'company-cmake company-backends)
-     (push 'company-c-headers company-backends)
      ;; can't work with TRAMP
      (setq company-backends (delete 'company-ropemacs company-backends))
      (setq company-tooltip-flip-when-above t)
@@ -28,6 +26,16 @@
      ;; shell-mode -> ivy
      (setq company-global-modes
            '(not gud-mode shell-mode eshell-mode term-mode))
+     (setq company-ispell-dictionary
+           (file-truename "~/.emacs.d/english-words.txt"))
 ))
+
+(defun hong/toggle-company-ispell ()
+  (interactive)
+  (cond ((memq 'company-ispell company-backends)
+         (setq company-backends (delete 'company-ispell company-backends))
+         (message "Company ispell disabled."))
+        (t (add-to-list 'company-backends 'company-ispell)
+           (message "Company ispell enabled."))))
 
 (provide 'init-complete)
