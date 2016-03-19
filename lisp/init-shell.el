@@ -163,7 +163,7 @@
            buffer-list
            (lambda (str)
              (not (string-match
-                   (concat "^\\*terminal\\|^\\*eshell\\|^\\*shell\\|"
+                   (concat "^\\*term\\|^\\*eshell\\|^\\*shell\\|"
                            "^ ?\\*Minibuf\\|^ ?\\*code.*work\\*$\\|^\\*Message\\|"
                            "^ ?\\*Echo\\|^\\*\\([0-9]\\{1,3\\}.\\)\\{3\\}[0-9]\\{1,3\\}\\*$")
                    str))))))

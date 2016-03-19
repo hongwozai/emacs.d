@@ -1,7 +1,7 @@
 (defvar lisp-common-mode-hook
   '(emacs-lisp-mode-hook lisp-mode-hook lisp-interaction-mode-hook
                          scheme-mode-hook slime-repl-mode-hook
-                         inferior-scheme-mode-hook
+                         inferior-scheme-mode-hook ielm-mode-hook
                          eval-expression-minibuffer-setup-hook))
 
 ;;; ===================== pair ==================

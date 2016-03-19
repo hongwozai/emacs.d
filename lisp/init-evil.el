@@ -27,8 +27,6 @@
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-(define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-1)
-(define-key evil-normal-state-map (kbd "RET") 'avy-goto-line)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 (define-key evil-normal-state-map (kbd "gv") '(lambda () (interactive)
                                                 (er/expand-region 2)))
@@ -91,6 +89,8 @@
   "w"   'hydra-window-menu/body
   "o"   'org-agenda
 
+  "al"  'avy-goto-line
+  "aw"  'avy-goto-word-1
   "cd"  'yasdcv-translate-at-point
   "cs"  'hong/translate-brief-at-point
   "ds"  'sudo-edit

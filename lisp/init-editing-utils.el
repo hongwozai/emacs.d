@@ -33,7 +33,8 @@
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t
       dired-auto-revert-buffer            t
-      auto-revert-verbose                 nil)
+      auto-revert-verbose                 nil
+      auto-revert-remote-files            nil)
 
 ;;; cursor
 (blink-cursor-mode 0)
