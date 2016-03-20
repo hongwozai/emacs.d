@@ -8,7 +8,6 @@
 (custom-set-variables
  '(git-gutter:handled-backends '(git svn)))
 
-(global-set-key (kbd "C-x C-g") 'git-gutter:toggle)
 (global-set-key (kbd "C-x v =") 'git-gutter:popup-hunk)
 ;; Jump to next/previous hunk
 (global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
