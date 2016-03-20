@@ -33,6 +33,8 @@
 ;;; ====================== mode line format ============================
 (require-package 'powerline)
 (setq powerline-default-separator nil)
+(setq powerline-utf-8-separator-left ?\ )
+(setq powerline-utf-8-separator-right ?\ )
 (powerline-default-theme)
 
 (defvar hong/mode-line-normal "#2B2B2B")
