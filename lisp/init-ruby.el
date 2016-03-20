@@ -35,6 +35,6 @@
     (yas-expand)
     (evil-insert-state)))
 
-(evil-ex-define-cmd "rn" 'hong/ruby-new-file)
+(evil-ex-define-cmd "rb" 'hong/ruby-new-file)
 
 (provide 'init-ruby)

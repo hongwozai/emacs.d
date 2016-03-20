@@ -17,6 +17,8 @@
 (require-package 'markdown-mode)
 (setq auto-mode-alist
       (append '(("\\.md\\'" . markdown-mode))
+              '(("README\\'" . markdown-mode))
+              '(("README\\.txt\\'" . markdown-mode))
               auto-mode-alist))
 
 ;; cmake
