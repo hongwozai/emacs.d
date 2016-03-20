@@ -4,6 +4,10 @@
   (require-package 'go-eldoc)
   (add-hook 'go-mode-hook 'go-eldoc-setup))
 
+;;; haskell language
+(when (executable-find "ghc")
+  (require-package 'haskell-mode))
+
 ;;; antlr
 (autoload 'antlr-mode "antlr-mode" nil t)
 (autoload 'antlr-v4-mode "antlr-mode" nil t)
