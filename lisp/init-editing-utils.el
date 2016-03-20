@@ -159,4 +159,7 @@
 ;;; hydra key binding
 (require-package 'hydra)
 
+;;; kill ring
+(require-package 'browse-kill-ring)
+
 (provide 'init-editing-utils)

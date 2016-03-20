@@ -103,6 +103,7 @@
   "gn"  'ggtags-next-mark
   "gp"  'ggtags-prev-mark
   "im"  'imenu
+  "kr"  'browse-kill-ring
   "mf"  'mark-defun
   "mp"  'mark-paragraph
   "mb"  'mark-whole-buffer
