@@ -54,4 +54,9 @@
 (add-hook 'after-init-hook 'counsel-mode)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 
+(eval-after-load 'counsel
+  '(progn
+     (define-key counsel-find-file-map (kbd "C-j") 'ivy-done)
+     (define-key counsel-find-file-map (kbd "C-m") 'ivy-alt-done)))
+
 (provide 'init-ido)
