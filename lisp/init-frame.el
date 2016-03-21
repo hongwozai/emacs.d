@@ -52,4 +52,19 @@
 
 (add-hook 'post-command-hook 'hong//change-color-with-evil-state)
 
+;;; ==================== scratch unkilled ===============================
+(defun hong/scratch-kill-buffer-query-function ()
+  (interactive)
+  (if (string= "*scratch*" (buffer-name))
+      (let ((bufstr (buffer-string)))
+        (unless (string= bufstr initial-scratch-message)
+                (erase-buffer)
+                (insert initial-scratch-message)
+                (funcall initial-major-mode)
+                (set-buffer-modified-p nil))
+        nil)
+    t))
+
+(add-hook 'kill-buffer-query-functions 'hong/scratch-kill-buffer-query-function)
+
 (provide 'init-frame)
