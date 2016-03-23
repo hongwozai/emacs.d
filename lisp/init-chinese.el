@@ -26,7 +26,6 @@
 ;;; input method
 (require-package 'chinese-pyim)
 (require 'chinese-pyim)
-(global-set-key (kbd "C-<SPC>") 'toggle-input-method)
 (eval-after-load 'chinese-pyim
   '(progn
      (setq default-input-method "chinese-pyim")

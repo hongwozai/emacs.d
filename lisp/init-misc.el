@@ -6,7 +6,12 @@
 
 ;;; haskell language
 (when (executable-find "ghc")
-  (require-package 'haskell-mode))
+  (require-package 'haskell-mode)
+  (setq haskell-font-lock-symbols t)
+  (add-hook 'haskell-mode-hook
+            (lambda ()
+              (turn-on-haskell-doc-mode)
+              (turn-on-haskell-indent))))
 
 ;;; antlr
 (autoload 'antlr-mode "antlr-mode" nil t)

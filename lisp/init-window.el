@@ -1,6 +1,6 @@
-;; winner
-(require 'winner)
-(winner-mode)
+;; winner(two plugin conflict with eyebrowse and winner, so winner not use)
+;; (require 'winner)
+;; (winner-mode)
 
 ;; window numbering
 (require-package 'window-numbering)
@@ -53,11 +53,11 @@
 (hong/workspace-setup-mode-line)
 
 (let ((map eyebrowse-mode-map))
-  (evil-define-key 'normal map (kbd "g1") 'eyebrowse-switch-to-window-config-1)
-  (evil-define-key 'normal map (kbd "g2") 'eyebrowse-switch-to-window-config-2)
-  (evil-define-key 'normal map (kbd "g3") 'eyebrowse-switch-to-window-config-3)
-  (evil-define-key 'normal map (kbd "g4") 'eyebrowse-switch-to-window-config-4)
-  (evil-define-key 'normal map (kbd "g5") 'eyebrowse-switch-to-window-config-5)
+  (global-set-key (kbd "s-1") 'eyebrowse-switch-to-window-config-1)
+  (global-set-key (kbd "s-2") 'eyebrowse-switch-to-window-config-2)
+  (global-set-key (kbd "s-3") 'eyebrowse-switch-to-window-config-3)
+  (global-set-key (kbd "s-4") 'eyebrowse-switch-to-window-config-4)
+  (global-set-key (kbd "s-5") 'eyebrowse-switch-to-window-config-5)
   (define-key map (kbd "C-c C-w") 'eyebrowse-switch-to-window-config)
   )
 
