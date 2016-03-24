@@ -13,6 +13,7 @@ buffer is not visiting a file."
 
 ;;; ssh is faster than scp. scpx or sshx. see Tramp hangs
 (setq tramp-default-method "ssh")
+(setq tramp-verbose 0)
 
 ;;; faster see wiki Tramp hangs #2
 (setq tramp-chunksize 8192)
