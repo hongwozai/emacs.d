@@ -81,9 +81,8 @@
           (lambda ()
             (setq comint-input-sender #'hong/shell-comint-input-sender)
             (setq-local mode-require-final-newline nil)
-            (define-key shell-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
-            (define-key shell-mode-map (kbd "C-p") 'comint-previous-input)
-            (define-key shell-mode-map (kbd "C-n") 'comint-next-input)))
+            (define-key shell-mode-map (kbd "C-t")
+              'hong/switch-non-terminal-buffer)))
 
 ;;; comint mode
 (add-hook 'comint-mode-hook
@@ -92,6 +91,8 @@
             (define-key comint-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
             (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key comint-mode-map (kbd "C-n") 'comint-next-input)
+            (define-key comint-mode-map (kbd "<up>") 'comint-previous-input)
+            (define-key comint-mode-map (kbd "<down>") 'comint-next-input)
             (setq-local comint-prompt-read-only t)
             (setq-local mode-require-final-newline nil)
             (setq-local comint-history-isearch t)))
