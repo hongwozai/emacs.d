@@ -97,9 +97,9 @@
 ;;; ibuffer (list-buffers have bug: auto-recenterring)
 (require-package 'ibuffer-vc)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(require 'ibuffer-vc)
 (eval-after-load 'ibuffer
   '(progn
+     (require 'ibuffer-vc)
      (define-key ibuffer-mode-map (kbd "SPC") 'avy-goto-line)
      (define-key ibuffer-mode-map (kbd "j") 'ibuffer-forward-line)
      (define-key ibuffer-mode-map (kbd "k") 'ibuffer-backward-line)
