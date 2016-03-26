@@ -12,7 +12,7 @@
                 special-mode process-menu-mode
                 sql-interactive-mode diff-mode
                 anaconda-nav-mode ibuffer-mode
-                comint-mode image-mode
+                comint-mode image-mode inferior-python-mode
                 flycheck-error-list-mode rlogin-mode))
   (evil-set-initial-state mode 'emacs))
 
