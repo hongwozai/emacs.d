@@ -87,8 +87,8 @@
 ^^^^^^^^------------------------------------------------------------------------
   _e_: emacs configure files       _l_: locate file
   _p_: project files
-  _f_: open files with dir
-  _F_: open files(slow)
+  _f_: open files(slow)
+  _F_: open files with dir
   _t_: ido tramp connection
   _r_: open recentf files
 ^
@@ -96,8 +96,8 @@
 "
   ("e" hong/open-emacs-configure-file :color blue)
   ("p" ffip :color blue)
-  ("f" hong/find-file :color blue)
-  ("F" (lambda () (interactive) (hong/find-file t)) :color blue)
+  ("f" (lambda () (interactive) (hong/find-file t)) :color blue)
+  ("F" hong/find-file :color blue)
   ("t" hong/open-tramp-connections :color blue)
   ("r" hong/open-recentf-file :color blue)
   ("l" counsel-locate :color blue)
