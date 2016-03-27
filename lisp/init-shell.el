@@ -200,7 +200,7 @@
         ((string-match "^[ \t]*em[ \t]*\\(.*\\)" command)
          (comint-send-string proc "\n")
          (setq command (match-string 1 command))
-         (pop-to-buffer (funcall #'find-file-noselect command)))
+         (display-buffer (funcall #'find-file-noselect command)))
         ((string-match "^[ \t]*ssh[ \t]*\\(.*\\)@\\([^:]*\\)" command)
          (comint-send-string proc (concat command "\n"))
          (setq-local comint-file-name-prefix

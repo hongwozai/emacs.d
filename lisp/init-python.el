@@ -22,18 +22,12 @@
 
              (evil-define-key 'normal python-mode-map (kbd "M-.")
                'anaconda-mode-find-definitions)
-
              (evil-define-key 'normal python-mode-map (kbd "M-,")
                'anaconda-mode-go-back)
 
              (setq-local imenu-create-index-function
                          #'python-imenu-create-flat-index)
-             ;; copy from prelude module-python
-             (setq-local electric-layout-rules
-                         '((?: . (lambda ()
-                                   (and (zerop (first (syntax-ppss)))
-                                        (python-info-statement-starts-block-p)
-                                        'after)))))
+             (setq electric-indent-chars (delq ?: electric-indent-chars))
              ))
 
 (add-hook 'inferior-python-mode-hook 'hong/exit)

@@ -65,7 +65,6 @@
      (diredp-toggle-find-file-reuse-dir 1)
      ))
 
-
 (defun hong/dired-goto-file ()
   (interactive)
   (command-execute 'dired-goto-file)
@@ -88,7 +87,8 @@
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
 ;; ispell
-(setq-default ispell-program-name "aspell")
+(when (executable-find "aspell")
+  (setq-default ispell-program-name "aspell"))
 (setq ispell-dictionary "english")
 
 ;; uniquify buffer-name
@@ -112,6 +112,7 @@
                  (unless (eq ibuffer-sorting-mode 'filename/process)
                    (ibuffer-do-sort-by-filename/process))
                  (hl-line-mode 1)))))
+
 (setq ibuffer-formats
       '((mark modified read-only vc-status-mini " "
               (name 18 18 :left :elide)

@@ -23,6 +23,7 @@
 
 ;;; c-eldoc
 (require-package 'c-eldoc)
+(autoload 'c-turn-on-eldoc-mode "c-eldoc" "" t)
 
 ;;; doxygen
 (autoload 'doxygen-insert-function-comment "doxygen" "insert comment for the function at point" t)
@@ -35,6 +36,7 @@
                (shell-command-to-string cmd))))
     (mapcar #'(lambda (x) (substring x 2))
             (remove-if #'(lambda (x) (not (eql (elt x 1) ?I))) gtk))))
+
 (defun hong/my-gtk-config ()
   (interactive)
   (setq flycheck-clang-include-path
@@ -49,26 +51,30 @@
                 " `pkg-config gtk+-3.0 --cflags`"))
   )
 ;;; ===================== cc mode config ==================
+;;; include c/c++, java etc.
 (defun hong/my-cc-common-config ()
   ;; indent
   (setq c-default-style '((java-mode . "java")
                           (awk-mode . "awk")
                           (other . "k&r"))
         c-basic-offset  4)
-  ;; related file
-  (setq-local cc-search-directories
-              '("." "../inc" "../include" "../src" "../source"
-                "/usr/include" "/usr/local/include/*"))
   )
 
 (defun hong/my-c/c++-mode-config ()
   "C/C++ only"
+  ;; indent
+  (setq c-electric-pound-behavior '(alignleft))
+
   ;; c-eldoc
-  (autoload 'c-turn-on-eldoc-mode "c-eldoc" "" t)
   (c-turn-on-eldoc-mode)
   (setq c-eldoc-buffer-regenerate-time 120)
   (setq c-eldoc-cpp-command "/usr/bin/cpp")
   (setq c-eldoc-includes "-I./ -I../")
+
+  ;; related file
+  (setq-local cc-search-directories
+              '("." "../inc" "../include" "../src" "../source"
+                "/usr/include" "/usr/local/include/*"))
 
   ;; keywords
   (font-lock-add-keywords 'c-mode '("typeof" "__attribute__" "__asm__"))
