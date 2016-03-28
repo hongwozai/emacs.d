@@ -18,7 +18,7 @@
              (anaconda-mode 1)
              (setq-local company-backends
                          (cons 'company-anaconda company-backends))
-             (eldoc-mode 1)
+             (anaconda-eldoc-mode 1)
 
              (evil-define-key 'normal python-mode-map (kbd "M-.")
                'anaconda-mode-find-definitions)
