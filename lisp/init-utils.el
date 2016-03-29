@@ -50,6 +50,15 @@
            (list-colors-display . "*Colors*")
            (list-processes . "*Process List*")))
 
+;;; ========================= system relevant ==============================
+(defun hong/updatedb ()
+  "updatedb need by counsel locate"
+  (interactive)
+  (let ((passwd (read-passwd "Root Password: ")))
+    (shell-command-to-string (format "echo %s | sudo -S updatedb"
+                                     (shell-quote-argument
+                                      (concat "\"" passwd "\""))))))
+
 ;;; =========================== browse url =================================
 (defun hong/query-browse (&optional www)
   (let* ((addr www)

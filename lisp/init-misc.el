@@ -56,6 +56,7 @@
 
 (setq guide-key/guide-key-sequence
       '("C-x 4" "C-x r" "C-x RET" ",g" ",m" ",c"
-        (dired-mode "*")))
+        (dired-mode "*")
+        (ibuffer-mode "%" "*" "/" "s")))
 
 (provide 'init-misc)
