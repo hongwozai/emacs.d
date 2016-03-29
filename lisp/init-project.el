@@ -42,7 +42,7 @@
   ;; use recentf-list
   (ivy-recentf))
 
-(defun hong/find-file (&optional not-directory)
+(defun hong/find-file (&optional with-directory)
   (interactive)
   (let* ((cmd "find -L . -path '*/.*' -prune -o -type d -print 2>/dev/null")
          (collection (split-string
@@ -53,7 +53,7 @@
               (setq collection (butlast (cdr collection)))
             (setq collection (cdr collection))))
          (len (length collection)))
-    (when not-directory (setq len 0))
+    (unless with-directory (setq len 0))
     (cond
      ((= len 0) (let ((ffip-project-root default-directory)) (ffip)))
      (t
@@ -87,8 +87,7 @@
 ^^^^^^^^------------------------------------------------------------------------
   _e_: emacs configure files       _l_: locate file
   _p_: project files
-  _f_: open files(slow)
-  _F_: open files with dir
+  _f_: find all files(slow)
   _t_: ido tramp connection
   _r_: open recentf files
 ^
@@ -96,8 +95,7 @@
 "
   ("e" hong/open-emacs-configure-file :color blue)
   ("p" ffip :color blue)
-  ("f" (lambda () (interactive) (hong/find-file t)) :color blue)
-  ("F" hong/find-file :color blue)
+  ("f" hong/find-file :color blue)
   ("t" hong/open-tramp-connections :color blue)
   ("r" hong/open-recentf-file :color blue)
   ("l" counsel-locate :color blue)
