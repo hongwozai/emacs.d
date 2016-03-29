@@ -1,7 +1,4 @@
-;;; swiper(include ivy)
-(require-package 'swiper)
-(require-package 'counsel)
-
+;;; ================================== ido =====================================
 (require 'ido)
 (ido-mode 1)
 (setq ido-everywhere nil)
@@ -27,25 +24,20 @@
                            "^\*SPEEDBAR" "^\*Help.*" "^\*buff.*"
                            "^\*ag.*" "^\*Completions.*" "^\*tramp.*" ".* of .*"))
 
-;;; ido create dir
-(defun hong/ido-create-dir ()
-  (interactive)
-  (make-directory (concat ido-current-directory ido-text))
-  (ido-reread-directory)
-  )
-
 (add-hook 'ido-setup-hook
           (lambda ()
-            (define-key ido-file-completion-map (kbd "M-i")
-              'hong/ido-create-dir)
+            (define-key ido-file-completion-map (kbd "M-d") 'hong/ido-create-dir)
             (define-key ido-common-completion-map (kbd "C-n") 'ido-next-match)
-            (define-key ido-common-completion-map (kbd "C-p") 'ido-prev-match)
-            ))
+            (define-key ido-common-completion-map (kbd "C-p") 'ido-prev-match)))
 
 ;;; imenu
 (set-default 'imenu-auto-rescan t)
 
-;;; ivy
+;;; ================================ ivy ========================================
+;;; swiper(include ivy)
+(require-package 'swiper)
+(require-package 'counsel)
+
 (ivy-mode)
 (setq ivy-height 18)
 (setq ivy-format-function 'ivy-format-function-arrow)
@@ -56,7 +48,19 @@
 
 (eval-after-load 'counsel
   '(progn
-     (define-key counsel-find-file-map (kbd "C-j") 'ivy-done)
+     (define-key counsel-find-file-map (kbd "M-d") 'hong/ivy-create-dir)
+     (define-key counsel-find-file-map (kbd "C-j") 'ivy-immediate-done)
      (define-key counsel-find-file-map (kbd "C-m") 'ivy-alt-done)))
+
+;;; =============================  misc function ================================
+(defun hong/ido-create-dir ()
+  (interactive)
+  (make-directory (concat ido-current-directory ido-text))
+  (ido-reread-directory))
+
+(defun hong/ivy-create-dir ()
+  (interactive)
+  (make-directory (concat ivy--directory ivy-text))
+  (ivy-alt-done))
 
 (provide 'init-ido)

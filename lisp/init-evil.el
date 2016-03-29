@@ -113,8 +113,7 @@
   "xf"  'ido-find-file
   "xk"  'kill-this-buffer
   "xs"  'save-buffer
-  "xz"  'suspend-frame
-  "."   'evil-ex)
+  "xz"  'suspend-frame)
 
 (evil-leader/set-key-for-mode 'scheme-mode "xe" 'scheme-send-last-sexp)
 (evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)
