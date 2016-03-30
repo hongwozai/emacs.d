@@ -32,10 +32,10 @@
             ;; history
             (defun hong/eshell-find-history ()
               (interactive)
-              (insert
-               (ido-completing-read "Eshell history: "
-                                    (delete-dups
-                                     (ring-elements eshell-history-ring)))))
+              (insert (ido-completing-read
+                       "Eshell history: "
+                       (delete-dups
+                        (ring-elements eshell-history-ring)))))
             (define-key eshell-mode-map (kbd "C-s") 'hong/eshell-find-history)
 
             ;; auto end
