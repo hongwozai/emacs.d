@@ -1,5 +1,7 @@
-(require-package 'magit)
-(global-set-key (kbd "<f9>") 'magit-status)
+;;; magit
+(unless (version< emacs-version "24.4")
+  (require-package 'magit)
+  (global-set-key (kbd "<f9>") 'magit-status))
 
 ;;; git-gutter
 (require-package 'git-gutter)

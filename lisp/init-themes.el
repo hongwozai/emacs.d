@@ -12,8 +12,7 @@
             (set-face-bold 'font-lock-function-name-face t)
             (set-face-bold 'font-lock-type-face t)
             (set-face-bold 'minibuffer-prompt t)
-            (set-face-bold 'tooltip t)
-            ))
+            (set-face-bold 'tooltip t)))
 
 (custom-theme-set-faces
  'zenburn

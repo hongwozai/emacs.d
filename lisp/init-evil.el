@@ -20,6 +20,7 @@
                           anaconda-mode-view-mode
                           package-menu-mode))
   (evil-set-initial-state mode 'motion))
+
 ;;; *Messages* can't set emacs state in emacs start
 (evil-define-key 'normal messages-buffer-mode-map "q" 'quit-window)
 (evil-define-key 'normal fundamental-mode-map "q" 'quit-window)
@@ -34,9 +35,8 @@
 ;;; ======================== evil plugin ==========================
 ;;; evil-anzu
 (require-package 'evil-anzu)
-(with-eval-after-load 'evil
-  (require 'evil-anzu)
-  (global-anzu-mode))
+(require 'evil-anzu)
+(global-anzu-mode)
 
 ;;; evil surround
 (require-package 'evil-surround)

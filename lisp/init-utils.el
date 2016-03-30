@@ -54,10 +54,13 @@
 (defun hong/updatedb ()
   "updatedb need by counsel locate"
   (interactive)
-  (let ((passwd (read-passwd "Root Password: ")))
-    (shell-command-to-string (format "echo %s | sudo -S updatedb"
-                                     (shell-quote-argument
-                                      (concat "\"" passwd "\""))))))
+  (let ((default-directory "/sudo:root@localhost:/"))
+    (message (shell-command-to-string "updatedb"))))
+
+;;; ========================= compatibility ================================
+(when (version< emacs-version "24.4")
+  (defun set-face-bold (face bold-p &optional frame)
+    (set-face-bold-p face bold-p frame)))
 
 ;;; =========================== browse url =================================
 (defun hong/query-browse (&optional www)
