@@ -1,10 +1,10 @@
 ;;; antlr-mode.el --- major mode for ANTLR grammar files
 
-;; Copyright (C) 1999-2014 Free Software Foundation, Inc.
+;; Copyright (C) 1999-2016 Free Software Foundation, Inc.
 
 ;; Author: Christoph Wedler <Christoph.Wedler@sap.com>
 ;; Keywords: languages, ANTLR, code generator
-;; Version: 3.0.7
+;; Version: 3.1.2
 ;; X-URL: http://antlr-mode.sourceforge.net/
 
 ;; This file is part of GNU Emacs.
@@ -35,56 +35,45 @@
 ;; lexers, parsers and tree transformers in Java, C++ or other languages and
 ;; can be found at <http://www.antlr.org/>.
 
-;; Restrictions which are unlikely to be solved:
+;; Topic for the 3.1.x series (ends in a stable version):
+;;
+;;  * Stabilize format of antlr-options-alist, cleanup options/indent code.
+;;  * Special support for `indent-region': faster and better for Python ELP
+;;    profiling in a class init action shows half the time is spent in
+;;    `antlr-next-rule', the other half in `c-guess-basic-syntax'.
+;;    Do not define a indent command, just a function to be put into
+;;    indent-line/region-function.
 
-;;  * ANTLR v4 charsets (lexer rule elements) containing single or double
-;;    quotes bring Emacs's syntax functions out of sync.  You can use comments
-;;    to resync Emacs, e.g. in the v4 example code/actions/CSV.g4, change the
-;;    second last line to
-;;       TEXT : ~[,\n\r"]+ ;             // "];
+;; Topic for 3.2 or later:
+;;
+;;  * ANTLR v3 and v4 support for makefile generation.
+;;  * If possible, set the syntax-table of the inner mode before calling the
+;;    indentation engine of the inner mode (BUT: actions should still end at
+;;    the same place!)
+;;  * In v4, highlight lexer commands after "->"
+;;  * Use native menu bindings instead easymenu (and use :help)
+;;  * More customizable options support: one-line subrule options
+;;  * Support v4 rule element options
+;;  * Support for outline-minor-mode.
+;;  * Planned [C-c C-w].  Produce HTML document with syntax highlighted
+;;    and hyper-links (using htmlize).
+;;  * Planned [C-c C-u].  *Help* for current rule / all rules: Used-By list
+;;  * Eventually [C-c C-j].  Jump to generated coding.
+;;  * Eventually.  Support for one of the multi-mode imenu extensions mentioned
+;;    in https://www.emacswiki.org/emacs-test/ImenuMode - if necessary
 
-;;  * ANTLR v3 multiline strings (<< ... >>, intended for inline templates)
-;;    could bring Emacs's syntax functions out of sync.  You can use comments
-;;    to resync Emacs, similar to the previous bullet point.  This point might
-;;    get fixed in some later version of this mode.
-
-;;  * ANTLR v3 referencing global scopes (scope Name;) make the navigation
-;;    commands stop inside the rule, because the corresponding scope clause
-;;    ends with a semicolon (a rule has then more than one top-level semicolon;
-;;    this could have been avoided in ANTLR by using parentheses around the ID
-;;    list in rule ruleScopeSpec).  The automatic indentation on such a rule
-;;    also does not produce pretty results.
-
+;; The following topics and suggestions are unlikely to be implemented:
+;;
 ;;  * Some constructs of languages (in actions) which are highly un-C-ish might
-;;    bring Emacs (and probably ANTLR) out of sync: e.g. regexp literals in
-;;    Perl, character and percent literals in Ruby.
+;;    bring Emacs (and ANTLR!) out of sync: e.g. regexp literals in Perl,
+;;    character and percent literals in Ruby.
+;;
+;;  * Faster syntax highlighting: sectionize the buffer into Antlr and action
+;;    code and run special highlighting functions on these regions.  UNLIKELY
+;;    due to: code size, this mode would depend on font-lock internals.
 
 ;; Bug fixes, bug reports, improvements, and suggestions for the newest version
 ;; are strongly appreciated.
-
-;; To-do/Wish-list:
-;;  * Next: special syntax highlighting v4 charsets and '..' literals.
-;;  * Next: ANTLR v3 and v4 support for option support and makefile generation.
-;;  * Next: special support for `indent-region': faster and better for Python
-;;    ELP profiling in a class init action shows half the time is spent in
-;;    `antlr-next-rule', the other half in `c-guess-basic-syntax'.
-;;  * Next: support for outline-minor-mode.
-;;
-;;  * Planned [C-c C-w].  Produce HTML document with syntax highlighted
-;;    and hyper-links (using htmlize).
-;;  * Planned [C-c C-u].  Insert/update special comments: each rule lists
-;;    all rules which use the current rule.  With font-lock update.  CHANGE:
-;;    no, as some *Help* result
-;;  * Probably.  Make hiding much more customizable.
-;;  * Probably [C-c C-j].  Jump to generated coding.
-;;  * Planned.  Further support for imenu, i.e., include entries for method
-;;    definitions at beginning of grammar class, DROPPED.
-
-;;  * Planned [C-c C-p].  Pack/unpack rule/subrule & options (one/multi-line),
-;;    DROPPED as there are no subrule options in v4 anymore at the moment.
-;;  * Unlikely.  Faster syntax highlighting: sectionize the buffer into Antlr
-;;    and action code and run special highlighting functions on these regions.
-;;    Problems: code size, this mode would depend on font-lock internals.
 
 ;;; Installation:
 
@@ -110,115 +99,18 @@
 ;;  * examples-v3-master/Python: C/C.g, island-grammar/Simple.g, python/Python.g
 ;;  * Ruby in antlr3-master/samples/standard: ../CPP.g, ../JavaScript.g, C/C.g,
 ;;    python/Python.g
+;;  * grammars-v4-master/
 
 ;;; Code:
 
 (require 'easymenu)
 (require 'cc-mode)
-
-;; Just to get the rid of the byte compiler warning.  The code for
-;; this function and its friends are too complex for their own good.
-(declare-function cond-emacs-xemacs-macfn "antlr-mode" (args &optional msg))
-
-;; General Emacs/XEmacs-compatibility compile-time macros
-(eval-when-compile
-  (require 'cl)
-  (defmacro cond-emacs-xemacs (&rest args)
-    (cond-emacs-xemacs-macfn
-     args "`cond-emacs-xemacs' must return exactly one element"))
-  (defun cond-emacs-xemacs-macfn (args &optional msg)
-    (if (atom args) args
-      (and (eq (car args) :@) (null msg) ; (:@ ...spliced...)
-	   (setq args (cdr args)
-		 msg "(:@ ....) must return exactly one element"))
-      (let ((ignore (if (featurep 'xemacs) :EMACS :XEMACS))
-	    (mode :BOTH) code)
-	(while (consp args)
-	  (if (memq (car args) '(:EMACS :XEMACS :BOTH)) (setq mode (pop args)))
-	  (if (atom args)
-	      (or args (error "Used selector %s without elements" mode))
-	    (or (eq ignore mode)
-		(push (cond-emacs-xemacs-macfn (car args)) code))
-	    (pop args)))
-	(cond (msg (if (or args (cdr code)) (error msg) (car code)))
-	      ((or (null args) (eq ignore mode)) (nreverse code))
-	      (t (nconc (nreverse code) args))))))
-  ;; Emacs/XEmacs-compatibility `defun': remove interactive "_" for Emacs, use
-  ;; existing functions when they are `fboundp', provide shortcuts if they are
-  ;; known to be defined in a specific Emacs branch (for short .elc)
-  ;; TODO: probably use "^" in Emacs...
-  (defmacro defunx (name arglist &rest definition)
-    (let ((xemacsp (featurep 'xemacs)) reuses)
-      (while (memq (car definition)
-		   '(:try :emacs-and-try :xemacs-and-try))
-	(if (eq (pop definition) (if xemacsp :xemacs-and-try :emacs-and-try))
-	    (setq reuses (car definition)
-		  definition nil)
-	  (push (pop definition) reuses)))
-      (if (and reuses (symbolp reuses))
-	  `(defalias ',name ',reuses)
-	(let* ((docstring (if (stringp (car definition)) (pop definition)))
-	       (spec (and (not xemacsp)
-			  (eq (car-safe (car definition)) 'interactive)
-			  (null (cddar definition))
-			  (cadar definition))))
-	  (if (and (stringp spec)
-		   (not (string-equal spec ""))
-		   (eq (aref spec 0) ?_))
-	      (setq definition
-		    (cons (if (string-equal spec "_")
-			      '(interactive)
-			    `(interactive ,(substring spec 1)))
-			  (cdr definition))))
-	  (if (null reuses)
-	      `(defun ,name ,arglist ,docstring
-		 ,@(cond-emacs-xemacs-macfn definition))
-	    ;; no dynamic docstring in this case
-	    `(eval-and-compile		; no warnings in Emacs
-	       (defalias ',name
-		 (cond ,@(mapcar (lambda (func) `((fboundp ',func) ',func))
-				 (nreverse reuses))
-		       (t ,(if definition
-			       `(lambda ,arglist ,docstring
-				  ,@(cond-emacs-xemacs-macfn definition))
-			     'ignore))))))))))
-  (defmacro ignore-errors-x (&rest body)
-    (let ((specials '((scan-sexps . 4) (scan-lists . 5)))
-	  spec nils)
-      (if (and (featurep 'xemacs)
-	       (null (cdr body)) (consp (car body))
-	       (setq spec (assq (caar body) specials))
-	       (>= (setq nils (- (cdr spec) (length (car body)))) 0))
-	  `(,@(car body) ,@(make-list nils nil) t)
-	`(ignore-errors ,@body)))))
-
-;; More compile-time-macros
-(eval-when-compile
-  (defmacro save-buffer-state-x (&rest body) ; similar to EMACS/lazy-lock.el
-    (let ((modified (with-no-warnings (gensym "save-buffer-state-x-modified-"))))
-      `(let ((,modified (buffer-modified-p)))
-	 (unwind-protect
-	     (let ((buffer-undo-list t) (inhibit-read-only t)
-		   ,@(unless (featurep 'xemacs)
-		       '((inhibit-point-motion-hooks t) deactivate-mark))
-		   before-change-functions after-change-functions
-		   buffer-file-name buffer-file-truename)
-	       ,@body)
-	   (and (not ,modified) (buffer-modified-p)
-		(set-buffer-modified-p nil)))))))
-(put 'save-buffer-state-x 'lisp-indent-function 0)
+(require 'cl-lib)
 
 (defvar outline-level)
 (defvar imenu-use-markers)
 (defvar imenu-create-index-function)
 
-;; We cannot use `c-forward-syntactic-ws' directly since it is a macro since
-;; cc-mode-5.30 => antlr-mode compiled with older cc-mode would fail (macro
-;; call) when used with newer cc-mode.  Also, antlr-mode compiled with newer
-;; cc-mode would fail (undefined `c-forward-sws') when used with older cc-mode.
-;; Additional to the `defalias' below, we must set `antlr-c-forward-sws' to
-;; `c-forward-syntactic-ws' when `c-forward-sws' is not defined after requiring
-;; cc-mode.
 (defalias 'antlr-c-forward-sws 'c-forward-sws)
 
 
@@ -234,9 +126,67 @@
   :link '(url-link "http://antlr-mode.sourceforge.net/")
   :prefix "antlr-")
 
-(defconst antlr-version "3.0.7"
+(defconst antlr-version "3.1.2"
   "ANTLR major mode version number.
 Check <http://antlr-mode.sourceforge.net/> for the newest.")
+
+(defcustom antlr-language-limit-n-regexp ; TODO: rename? (also for tool-version)
+  ;; actually, it is in v2 "L" only, in v3/v4 'L' only
+  '(30000 . "\\<language[ \t]*=[ \t]*[\"']?\\([A-Z][A-Za-z_0-9]*\\)[\"']?")
+  "Used to set a reasonable value for `antlr-language'.
+Looks like \(LIMIT \.  REGEXP).  Search for REGEXP from the beginning of
+the buffer to LIMIT and use the first group in the matched string to set
+the language according to `antlr-language-list'."
+  :group 'antlr
+  :type '(cons (choice :tag "Limit" (const :tag "No" nil) (integer :value 0))
+	       regexp))
+
+
+;;;===========================================================================
+;;;  Controlling the tool to use, automatically deduced
+;;;===========================================================================
+
+(defcustom antlr-tool-version nil
+  "The version symbol of the Antlr tool.  Do not customize.
+Set as buffer-local in buffers using `antlr-mode'.  Supported local
+values are `antlr-v2', `antlr-v3' and`antlr-v4'."
+  :group 'antlr
+  :type '(radio (const :tag "Automatic" nil)
+		(sexp :tag "Do not choose this" :value nil)))
+
+(defvar antlr-tool-version-variables
+  '(antlr-tool-mode-name
+    antlr-language-list
+    antlr-syntax-propertize
+    antlr-grammar-header-regexp
+    antlr-options-alists
+    &optional
+    antlr-skip-line-regexp
+    antlr-rule-postlude-skip-alist
+    antlr-rule-postlude-skip-regexp
+    antlr-font-lock-symbol-regexp))
+
+(defvar antlr-tool-mode-name nil)
+
+(defvar antlr-v4-tool-mode-name "Antlr4")
+(defvar antlr-v3-tool-mode-name "Antlr3")
+(defvar antlr-v2-tool-mode-name "Antlr2")
+
+(defvar antlr-language-list nil)
+
+(defvar antlr-v4-language-list
+  '((antlr-java "Java")                 ; +CSharp
+    (antlr-js "JavaScript") (antlr-python "Python2" "Python3")))
+
+(defvar antlr-v3-language-list
+  '((antlr-java "Java") (antlr-cpp "Cpp") (antlr-c "C")
+    (antlr-objc "ObjC")                 ; + CSharp
+    (antlr-js "JavaScript") (antlr-delphi "Delphi") ; + Perl
+    (antlr-python "Python" "Python3") (antlr-ruby "Ruby")))
+
+(defvar antlr-v2-language-list
+  '((antlr-java "Java") (antlr-cpp "Cpp") (antlr-python "Python")
+    (nil "HTML") (nil "Diagnostic")))   ; + CSharp
 
 
 ;;;===========================================================================
@@ -245,26 +195,35 @@ Check <http://antlr-mode.sourceforge.net/> for the newest.")
 
 (defvar antlr-language nil
   "Major mode corresponding to ANTLR's \"language\" option.
-Set via `antlr-language-alist'.  The only useful place to change this
+Set via `antlr-language-list'.  The only useful place to change this
 buffer-local variable yourself is in `antlr-mode-hook' or in the \"local
 variable list\" near the end of the file, see
 `enable-local-variables'.")
 
-(defcustom antlr-language-alist
-  ;; for full support: language-mode must be part of Emacs AND part of ANTLR
-  ;; distribution & examples
-  '((java-mode "Java" nil "\"Java\"" "Java" "'Java'")
-    (c-mode "C" "C" "'C'")
-    ;; Major-mode not included in Emacs: CSharp2, CSharp3, ActionScript
-    (c++-mode "Cpp" "\"Cpp\"" "Cpp" "'Cpp'")
-    (objc-mode "ObjC" "ObjC" "'ObjC'")
-    ;; modes not based on cc-mode:
-    (js-mode "Js" "JavaScript" "'JavaScript")
-    (opascal-mode "Delphi" "Delphi" "'Delphi'")
-    (python-mode "Python" "Python" "'Python'" "Python3" "'Python3'")
-    (ruby-mode "Ruby" "Ruby" "'Ruby'"))
-  ;; No examples / incomplete ANTLR for:
-    ;; (perl-mode "Perl" "Perl5" "'Perl5'")
+(defvar antlr-language-variables
+  '(antlr-language-mode-name
+    antlr-action-mode
+    &optional
+    antlr-init-cc-mode
+    antlr-init-submode
+    antlr-indent-action-line
+    antlr-action-font-lock-keywords
+    antlr-action-names))
+
+;; Languages other than Java are defined at the end
+(defvar antlr-language-mode-name "txt")
+(defvar antlr-java-language-mode-name "Java")
+
+(defvar antlr-action-mode nil)
+(defvar antlr-java-action-mode 'java-mode)
+
+(defvar antlr-init-cc-mode 'java-mode)
+(defvar antlr-java-init-cc-mode 'java-mode)
+
+(defvar antlr-init-submode 'antlr-set-tabs)
+
+(defcustom antlr-language-alist         ; is obsolete now
+  nil
   "List of ANTLR's supported languages.
 Each element in this list looks like
   \(MAJOR-MODE MODELINE-STRING OPTION-VALUE...)
@@ -275,23 +234,7 @@ REGEXP in `antlr-language-limit-n-regexp' is one of the OPTION-VALUEs.
 An OPTION-VALUE of nil denotes the fallback element.  MODELINE-STRING is
 also displayed in the mode line next to \"Antlr\"."
   :group 'antlr
-  :type '(repeat (group :value (java-mode "")
-			(function :tag "Major mode")
-			(string :tag "Mode line string")
-			(repeat :tag "ANTLR language option" :inline t
-				(choice (const :tag "Default" nil)
-					string )))))
-
-(defcustom antlr-language-limit-n-regexp
-  ;; actually, it is in v2 "L" only, in v3/v4 'L' only
-  '(8192 . "\\<language[ \t]*=[ \t]*\\([\"']?[A-Z][A-Za-z_0-9]*[\"']?\\)")
-  "Used to set a reasonable value for `antlr-language'.
-Looks like \(LIMIT \. REGEXP).  Search for REGEXP from the beginning of
-the buffer to LIMIT and use the first group in the matched string to set
-the language according to `antlr-language-alist'."
-  :group 'antlr
-  :type '(cons (choice :tag "Limit" (const :tag "No" nil) (integer :value 0))
-	       regexp))
+  :type '(sexp :tag "Do not customize" :value nil))
 
 
 ;;;===========================================================================
@@ -317,7 +260,7 @@ they are only changed by \\[antlr-indent-command]."
 		(const :tag "Always" t)
 		(sexp :tag "With TAB" :format "%t" :value tab)))
 
-(defcustom antlr-tab-offset-alist
+(defcustom antlr-tab-offset-alist       ; TODO: still advertise?
   '((antlr-mode nil 4 nil)
     (java-mode "antlr" 4 nil))
   "Alist to determine whether to use ANTLR's convention for TABs.
@@ -344,16 +287,17 @@ See `c-set-style' and for details, where the most interesting part in
 (defvar antlr-base-offset-alist '((:header . 0) (:body . 2) (:exception . 1)))
 
 (defcustom antlr-indent-item-regexp
-  "[]}):;|&]" ; & is local ANTLR extension (SGML's and-connector)
+  "[]}):;|]"
   "Regexp matching lines which should be indented by one TAB less.
 See `antlr-indent-line' and command \\[antlr-indent-command]."
   :group 'antlr
   :type 'regexp)
 
-(defcustom antlr-indent-at-bol-alist
+(defcustom antlr-indent-at-bol-alist    ; TODO: make this pure custom option (define language-dependent vars as defaults)
   ;; eval-when-compile not usable with defcustom...
-  '((java-mode . "\\(package\\|import\\)\\>")
-    (c++-mode . "#\\(assert\\|cpu\\|define\\|endif\\|el\\(if\\|se\\)\\|i\\(dent\\|f\\(def\\|ndef\\)?\\|mport\\|nclude\\(_next\\)?\\)\\|line\\|machine\\|pragma\\|system\\|un\\(assert\\|def\\)\\|warning\\)\\>"))
+  '((java-mode . "\\(package\\|import\\)\\_>")
+    (c++-mode . "#\\(assert\\|cpu\\|define\\|endif\\|el\\(if\\|se\\)\\|i\\(dent\\|f\\(def\\|ndef\\)?\\|mport\\|nclude\\(_next\\)?\\)\\|line\\|machine\\|pragma\\|system\\|un\\(assert\\|def\\)\\|warning\\)\\_>")
+    (c-mode . "#\\(assert\\|cpu\\|define\\|endif\\|el\\(if\\|se\\)\\|i\\(dent\\|f\\(def\\|ndef\\)?\\|mport\\|nclude\\(_next\\)?\\)\\|line\\|machine\\|pragma\\|system\\|un\\(assert\\|def\\)\\|warning\\)\\_>"))
   "Alist of regexps matching lines are indented at column 0.
 Each element in this list looks like (MODE . REGEXP) where MODE is a
 function and REGEXP is a regular expression.
@@ -364,6 +308,8 @@ part of a header action, indent the line at column 0 instead according
 to the normal rules of `antlr-indent-line'."
   :group 'antlr
   :type '(repeat (cons (function :tag "Major mode") regexp)))
+
+(defvar antlr-indent-action-line nil)   ; language dependent
 
 ;; adopt indentation to cc-engine
 (defvar antlr-disabling-cc-syntactic-symbols
@@ -379,29 +325,23 @@ to the normal rules of `antlr-indent-line'."
 ;;;  Options: customization
 ;;;===========================================================================
 
+(defcustom antlr-end-of-defun-is-next nil
+  "Non-nil, if rule movement commands normally jump to beginning of rule.
+If non-nil, both `antlr-end-of-rule' and `antlr-end-of-rule' jump
+to beginning of a rule with no or positive prefix arg, and to the
+end of a rule with negative prefix arg.
+
+Default nil means: `antlr-end-of-rule' jumps to beginning of a
+rule, `antlr-end-of-rule' jumps to end of a rule."
+  :group 'antlr
+  :type 'boolean)
+
 (defcustom antlr-options-use-submenus t
   "Non-nil, if the major mode menu should include option submenus.
 If nil, the menu just includes a command to insert options.  Otherwise,
 it includes four submenus to insert file/grammar/rule/subrule options."
   :group 'antlr
   :type 'boolean)
-
-(defcustom antlr-tool-version nil
-  "The version number of the Antlr tool.
-If nil, the version is automatically deduced: the highest v2 version if
-the buffer starts with header {}, and the highest v3 version otherwise.
-
-The value is an integer of the form XYYZZ which stands for vX.YY.ZZ.
-This variable is used to warn about non-supported options and to supply
-version correct option values when using \\[antlr-insert-option].
-
-Don't use a number smaller than 20600 since the stored history of
-Antlr's options starts with v2.06.00, see `antlr-options-alists'.  You
-can make this variable buffer-local."
-  :group 'antlr
-  :type '(radio (const :tag "Automatic" nil)
-		(const :tag "Always" t)
-		(integer :tag "Tool version number" :value 20707)))
 
 (defcustom antlr-options-auto-colon t
   "Non-nil, if `:' is inserted with a rule or subrule options section.
@@ -412,13 +352,13 @@ after the section, ignoring whitespace, comments and the init action."
   :group 'antlr
   :type 'boolean)
 
-(defcustom antlr-options-style nil
+(defcustom antlr-options-style nil      ; TODO: obsolete
   "List of symbols which determine the style of option values.
 If a style symbol is present, the corresponding option value is put into
 quotes, i.e., represented as a string, otherwise it is represented as an
 identifier.
 
-The only style symbol used in the default value of `antlr-options-alist'
+The only style symbol used in the default value of `antlr-options-alists'
 is `language-as-string'.  See also `antlr-read-value'."
   :group 'antlr
   :type '(repeat (symbol :tag "Style symbol")))
@@ -449,15 +389,52 @@ existing `=' won't be changed when changing an option value."
 ;;;===========================================================================
 ;;;  Options: definitions
 ;;;===========================================================================
+;; TODO: clarify exact format, what to do with antlr-c++-mode-extra?
 
 (defvar antlr-options-headings '("file" "grammar" "rule" "subrule")
   "Headings for the four different option kinds.
 The standard value is (\"file\" \"grammar\" \"rule\" \"subrule\").  See
 `antlr-options-alists'")
 
+(defvar antlr-options-alists nil)
+;; TODO: distinguish between "no known option" (options{} is allowed), and
+;; does not exist (file options in v3 and v4)
+
+(defvar antlr-v4-options-alists
+  '(nil
+    (;; grammar options ------------------------------------------------------
+     ("language"
+      ;; The target language for code generation. Default is Java. See Code
+      ;; Generation Targets for list of currently supported target languages.
+      antlr-language-option-extra antlr-read-value
+      "Generated language: " language-as-string
+      (("Java") ("JavaScript") ("Python2") ("Python3"))) ; +CSharp
+     ("tokenVocab"
+      ;; Where ANTLR should get predefined tokens and token types. Tree
+      ;; grammars need it to get the token types from the parser that creates
+      ;; its trees. Default value: Do not import token vocab.
+      nil antlr-read-value "Token vocabulary: ")
+     ("TokenLabelType"                  ; parser and tree only
+      ;; Set the type of all tree labels and tree-valued expressions. Without
+      ;; this option, trees are of type Object. TODO: Cross-reference default
+      ;; impl (org.antlr.runtime.tree.CommonTree in Java)?
+      nil antlr-read-value "Token type: ")
+     ("superClass"                      ; in combined grammar: for parser
+      ;; Set the superclass of the generated recognizer. Default value
+      ;; Lexer/Parser/TreeParser (org.antlr.runtime.Parser in Java)?
+      nil antlr-read-value "Super class: "))
+    nil                                 ; no rule option yet
+    nil                                 ; no subrule options
+    ;; use ??, *?, +? for non-greedy subrules
+    ;; (but there are some greedy options in grammars-v4-master/...)
+     ;; rule element options in v4 are actually different (and have a different
+     ;; syntax): <optionname = value> - not yet supported
+     ;; after op: <assoc=left|right>
+     ;; after sempred: <fail={expr}>
+    ))
+
 ;;; v3:
 ;; https://theantlrguy.atlassian.net/wiki/display/ANTLR3/ANTLR+3+Wiki+Home
-
 
 ;; $ANTLR3/tool/src/main/java/org/antlr/tool/Grammar.java
 ;; https://theantlrguy.atlassian.net/wiki/display/ANTLR3/Grammar+options
@@ -475,12 +452,12 @@ The standard value is (\"file\" \"grammar\" \"rule\" \"subrule\").  See
      ("tokenVocab"
       ;; Where ANTLR should get predefined tokens and token types. Tree
       ;; grammars need it to get the token types from the parser that creates
-      ;; its trees. TODO: Default value? Example?
+      ;; its trees. Default value: Do not import token vocab.
       nil antlr-read-value "Token vocabulary: ")
      ("output"                          ; parser and tree only
       ;; The type of output the generated parser should return. Valid values
       ;; are AST and template. TODO: Briefly, what are the interpretations of
-      ;; these values? Default value?
+      ;; these values? Default value: nothing
       nil antlr-read-value "Output type (AST or template): ")
      ("TokenLabelType"                  ; parser and tree only
       ;; Set the type of all tree labels and tree-valued expressions. Without
@@ -488,16 +465,16 @@ The standard value is (\"file\" \"grammar\" \"rule\" \"subrule\").  See
       ;; impl (org.antlr.runtime.tree.CommonTree in Java)?
       nil antlr-read-value "Token type: ")
      ("superClass"                      ; in combined grammar: for parser
-      ;; Set the superclass of the generated recognizer. TODO: Default value
-      ;; (org.antlr.runtime.Parser in Java)?
+      ;; Set the superclass of the generated recognizer. Default value
+      ;; Lexer/Parser/TreeParser (org.antlr.runtime.Parser in Java)?
       nil antlr-read-value "Super class: ")
-     ("filter"    ; lexer and tree(?) only
+     ("filter"    ; lexer only
       ;; In the lexer, this allows you to try a list of lexer rules in
       ;; order. The first one that matches, wins. This is the token that
       ;; nextToken() returns. If nothing matches, the lexer consumes a single
       ;; character and tries the list of rules again. See Lexical filters for
-      ;; more.
-      nil antlr-read-value "Lexer filter: ")
+      ;; more., Default: false
+      nil antlr-read-boolean "Lexical filter? ")
      ("rewrite"                         ; parser and tree only
       ;; Valid values are true and false. Default is false. Use this option
       ;; when your translator output looks very much like the input. Your
@@ -529,144 +506,103 @@ The standard value is (\"file\" \"grammar\" \"rule\" \"subrule\").  See
       ;; or not rule references succeed so that the same input position cannot
       ;; be parsed more than once by the same rule. This effectively guarantees
       ;; linear parsing when backtracking at the cost of more memory. TODO:
-      ;; Default value (false)?
-      nil antlr-read-boolean "Use automatic backtracking if necessary? "))
+      ;; Default value: false
+      nil antlr-read-boolean "Store backtracking calculations? "))
     (;; rule options ---------------------------------------------------------
      ("backtrack"
       nil antlr-read-boolean "Use automatic backtracking if necessary? ")
      ("memoize"
-      nil antlr-read-boolean "Use automatic backtracking if necessary? "))
+      nil antlr-read-boolean "Store backtracking calculations? "))
     (;; subrule options ------------------------------------------------------
      ("k"
       nil antlr-read-value "Lookahead depth: ")
      ("greedy"                          ; default true
       nil antlr-read-boolean "Make this optional/loop subrule greedy? "))))
 
-(defvar antlr-options-alists
+(defvar antlr-v2-options-alists
   '(;; file options ----------------------------------------------------------
     (("language" antlr-language-option-extra
-      (20600 antlr-read-value
-	     "Generated language: " language-as-string
-	     (("Java") ("Cpp") ("HTML") ("Diagnostic")))
-      (20700 antlr-read-value
-	     "Generated language: " language-as-string
-	     (("Java") ("Cpp") ("HTML") ("Diagnostic") ("Sather"))))
+      (("Java") ("Cpp") ("HTML") ("Diagnostic") ("Python")))
      ("mangleLiteralPrefix" nil
-      (20600 antlr-read-value
-	     "Prefix for literals (default LITERAL_): " t))
+      antlr-read-value "Prefix for literals (default LITERAL_): " t)
      ("namespace" antlr-c++-mode-extra
-      (20700 antlr-read-value
-	     "Wrap generated C++ code in namespace: " t))
+      antlr-read-value "Wrap generated C++ code in namespace: " t)
      ("namespaceStd" antlr-c++-mode-extra
-      (20701 antlr-read-value
-	     "Replace ANTLR_USE_NAMESPACE(std) by: " t))
+      antlr-read-value "Replace ANTLR_USE_NAMESPACE(std) by: " t)
      ("namespaceAntlr" antlr-c++-mode-extra
-      (20701 antlr-read-value
-	     "Replace ANTLR_USE_NAMESPACE(antlr) by: " t))
+      antlr-read-value "Replace ANTLR_USE_NAMESPACE(antlr) by: " t)
      ("genHashLines" antlr-c++-mode-extra
-      (20701 antlr-read-boolean
-	     "Include #line in generated C++ code? "))
+      antlr-read-boolean "Include #line in generated C++ code? ")
      ("noConstructors" antlr-c++-mode-extra ; lexer only
-      (20702 antlr-read-boolean
-	     "Omit default constructors for generated classes? "))
+      antlr-read-boolean "Omit default constructors for generated classes? ")
      )
     ;; grammar options --------------------------------------------------------
     (("k" nil
-      (20600 antlr-read-value
-	     "Lookahead depth: "))
+      antlr-read-value "Lookahead depth: ")
      ("importVocab" nil
-      (20600 antlr-read-value
-	     "Import vocabulary: "))
-     ("exportVocab" nil
-      (20600 antlr-read-value
-	     "Export vocabulary: "))
+      antlr-read-value "Import vocabulary: ")
+     ("exportVocab" nil antlr-read-value
+      "Export vocabulary: ")
      ("testLiterals" nil		; lexer only
-      (20600 antlr-read-boolean
-	     "Test each token against literals table? "))
+      antlr-read-boolean "Test each token against literals table? ")
      ("defaultErrorHandler" nil		; not for lexer
-      (20600 antlr-read-boolean
-	     "Generate default exception handler for each rule? "))
+      antlr-read-boolean "Generate default exception handler for each rule? ")
      ("codeGenMakeSwitchThreshold" nil
-      (20600 antlr-read-value
-	     "Min number of alternatives for 'switch': "))
+      antlr-read-value "Min number of alternatives for 'switch': ")
      ("codeGenBitsetTestThreshold" nil
-      (20600 antlr-read-value
-	     "Min size of lookahead set for bitset test: "))
+      antlr-read-value "Min size of lookahead set for bitset test: ")
      ("analyzerDebug" nil
-      (20600 antlr-read-boolean
-	     "Display debugging info during grammar analysis? "))
+      antlr-read-boolean "Display debugging info during grammar analysis? ")
      ("codeGenDebug" nil
-      (20600 antlr-read-boolean
-	     "Display debugging info during code generation? "))
+      antlr-read-boolean "Display debugging info during code generation? ")
      ("buildAST" nil			; not for lexer
-      (20600 antlr-read-boolean
-	     "Use automatic AST construction/transformation? "))
+      antlr-read-boolean "Use automatic AST construction/transformation? ")
      ("ASTLabelType" nil		; not for lexer
-      (20600 antlr-read-value
-	     "Class of user-defined AST node: " t))
+      antlr-read-value "Class of user-defined AST node: " t)
      ("charVocabulary" nil		; lexer only
-      (20600 nil
-	     "Insert character vocabulary"))
+      nil "Insert character vocabulary")
      ("interactive" nil
-      (20600 antlr-read-boolean
-	     "Generate interactive lexer/parser? "))
+      antlr-read-boolean "Generate interactive lexer/parser? ")
      ("caseSensitive" nil		; lexer only
-      (20600 antlr-read-boolean
-	     "Case significant when matching characters? "))
+      antlr-read-boolean "Case significant when matching characters? ")
      ("caseSensitiveLiterals" nil	; lexer only
-      (20600 antlr-read-boolean
-	     "Case significant when testing literals table? "))
+      antlr-read-boolean "Case significant when testing literals table? ")
      ("classHeaderPrefix" nil
-      (20702 nil
-	     "Initial String for grammar class definition"))
+      nil "Initial String for grammar class definition")
      ("classHeaderSuffix" nil
-      (20600 nil
-	     "Additional string for grammar class definition"))
+      nil "Additional string for grammar class definition")
      ("filter" nil			; lexer only
-      (20600 antlr-read-boolean
-	     "Skip rule (the name, true or false): "
-	     antlr-grammar-tokens))
+      antlr-read-boolean "Skip rule (the name, true or false): "
+      antlr-grammar-tokens)
      ("namespace" antlr-c++-mode-extra
-      (20700 antlr-read-value
-	     "Wrap generated C++ code for grammar in namespace: " t))
+      antlr-read-value "Wrap generated C++ code for grammar in namespace: " t)
      ("namespaceStd" antlr-c++-mode-extra
-      (20701 antlr-read-value
-	     "Replace ANTLR_USE_NAMESPACE(std) by: " t))
+      antlr-read-value "Replace ANTLR_USE_NAMESPACE(std) by: " t)
      ("namespaceAntlr" antlr-c++-mode-extra
-      (20701 antlr-read-value
-	     "Replace ANTLR_USE_NAMESPACE(antlr) by: " t))
+      antlr-read-value "Replace ANTLR_USE_NAMESPACE(antlr) by: " t)
      ("genHashLines" antlr-c++-mode-extra
-      (20701 antlr-read-boolean
-	     "Include #line in generated C++ code? "))
+      antlr-read-boolean "Include #line in generated C++ code? ")
      ("noConstructors" antlr-c++-mode-extra ; lexer only
-      (20702 antlr-read-boolean
-	     "Omit default constructors for generated classes? "))
+      antlr-read-boolean "Omit default constructors for generated classes? ")
      )
     ;; rule options ----------------------------------------------------------
     (("testLiterals" nil		; lexer only
-      (20600 antlr-read-boolean
-	     "Test this token against literals table? "))
+      antlr-read-boolean "Test this token against literals table? ")
      ("defaultErrorHandler" nil		; not for lexer
-      (20600 antlr-read-boolean
-	     "Generate default exception handler for this rule? "))
+      antlr-read-boolean "Generate default exception handler for this rule? ")
      ("ignore" nil			; lexer only
-      (20600 antlr-read-value
-	     "In this rule, ignore tokens of type: " nil
-	     antlr-grammar-tokens))
+      antlr-read-value "In this rule, ignore tokens of type: " nil
+      antlr-grammar-tokens)
      ("paraphrase" nil			; lexer only
-      (20600 antlr-read-value
-	     "In messages, replace name of this token by: " t))
+      antlr-read-value "In messages, replace name of this token by: " t)
      )
     ;; subrule options -------------------------------------------------------
     (("warnWhenFollowAmbig" nil
-      (20600 antlr-read-boolean
-	     "Display warnings for ambiguities with FOLLOW? "))
+      antlr-read-boolean "Display warnings for ambiguities with FOLLOW? ")
      ("generateAmbigWarnings" nil
-      (20600 antlr-read-boolean
-	     "Display warnings for ambiguities? "))
+      antlr-read-boolean "Display warnings for ambiguities? ")
      ("greedy" nil
-      (20700 antlr-read-boolean
-	     "Make this optional/loop subrule greedy? "))
+      antlr-read-boolean "Make this optional/loop subrule greedy? ")
      ))
   "Definitions for Antlr's options of all four different kinds.
 
@@ -713,7 +649,11 @@ AS-STRING is non-nil and is either t or a symbol which is a member of
 ;;;  Run tool, create Makefile dependencies
 ;;;===========================================================================
 
-(defvar antlr-tool-path nil)
+(defvar antlr-tool-path nil             ; TODO: make it a defcustom?
+  "Extra settings for environment variables $PATH and $LD_LIBRARY_PATH.")
+
+(defvar antlr-compilation-mode nil
+  "Mode used for compile output of \\[antlr-run-tool].")
 
 (defcustom antlr-tool-command "java antlr.Tool"
   "Command used in \\[antlr-run-tool] to run the Antlr tool.
@@ -825,7 +765,8 @@ DIRECTORY is the name of the current directory.")
 (defcustom antlr-imenu-name t
   "Non-nil, if a \"Index\" menu should be added to the menubar.
 If it is a string, it is used instead \"Index\".  Requires package
-imenu."
+imenu.  For sorted menu entries, customize variable
+`imenu-sort-function'."
   :group 'antlr
   :type '(choice (const :tag "No menu" nil)
 		 (const :tag "Index menu" t)
@@ -862,17 +803,18 @@ imenu."
 (easy-menu-define antlr-mode-menu antlr-mode-map
   "Major mode menu."
   `("Antlr"
-    ,@(if (cond-emacs-xemacs
-	   :EMACS (and antlr-options-use-submenus
-		       (>= emacs-major-version 21))
-	   :XEMACS antlr-options-use-submenus)
+    ,@(if antlr-options-use-submenus
 	  `(("Insert File Option"
+             :visible (elt antlr-options-alists 0)
 	     :filter ,(lambda (x) (antlr-options-menu-filter 1 x)))
 	    ("Insert Grammar Option"
+             :visible (elt antlr-options-alists 1)
 	     :filter ,(lambda (x) (antlr-options-menu-filter 2 x)))
 	    ("Insert Rule Option"
+             :visible (elt antlr-options-alists 2)
 	     :filter ,(lambda (x) (antlr-options-menu-filter 3 x)))
 	    ("Insert Subrule Option"
+             :visible (elt antlr-options-alists 3)
 	     :filter ,(lambda (x) (antlr-options-menu-filter 4 x)))
 	    "---")
 	'(["Insert Option" antlr-insert-option
@@ -908,7 +850,84 @@ imenu."
 
 
 ;;;===========================================================================
-;;;  font-lock
+;;;  basic syntax
+;;;===========================================================================
+
+(defvar antlr-syntax-propertize nil)
+(defvar antlr-v4-syntax-propertize
+  '(antlr-syntax-propertize-charsets (antlr-syntax-propertize-wholerule)))
+(defvar antlr-v3-syntax-propertize
+  '(antlr-syntax-propertize-template-literals syntax-propertize-multiline ?<))
+(defvar antlr-v2-syntax-propertize nil)
+
+(defvar antlr-skip-line-regexp nil)
+(defvar antlr-v4-skip-line-regexp "[ \t]*import[ \t]+[^][}{)(^\n;]+;")
+(defvar antlr-v3-skip-line-regexp "[ \t]*scope[ \t]+[^][}{)(^\n;]+;")
+
+
+;;;===========================================================================
+;;;  tool- and language-dependent font-lock
+;;;===========================================================================
+
+(defvar antlr-font-lock-symbol-regexp nil)
+(defvar antlr-v4-font-lock-symbol-regexp
+  "^[ \t]*\\(mode\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\sw*\\)?")
+(defvar antlr-v3-font-lock-symbol-regexp
+  "^[ \t]*\\(scope\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\sw*\\)?")
+
+(defcustom antlr-font-lock-literal-regexp
+    ;; actually, in v3/v4 it is 'L' only
+  "\\([\"']\\)\\(\\sw\\(\\sw\\|-\\)*\\|\\(\\s_\\|\\s.\\)+\\|\\s(\\|\\s)\\)\\1"
+  "Regexp matching literals with special syntax highlighting, or nil.
+If nil, there is no special syntax highlighting for some literals.
+Otherwise, it should be a regular expression which must contain at least
+two regexp groups.  The string matched by the second group is highlighted
+with `antlr-literal-face'."
+  :group 'antlr
+  :type '(choice (const :tag "None" nil) regexp))
+
+(defvar antlr-grammar-header-regexp nil)
+
+(defvar antlr-v4-grammar-header-regexp
+  "\\<\\(lexer[ \t]+grammar\\|parser[ \t]+grammar\\|tree[ \t]+grammar\\|grammar\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\(?:\\sw\\|\\s_\\)*\\)[ \t]*;")
+
+(defvar antlr-v3-grammar-header-regexp
+  "\\<\\(lexer[ \t]+grammar\\|parser[ \t]+grammar\\|tree[ \t]+grammar\\|grammar\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\(?:\\sw\\|\\s_\\)*\\)[ \t]*;")
+
+(defvar antlr-v2-grammar-header-regexp
+  "\\<\\(class\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\(?:\\sw\\|\\s_\\)*\\)[ \t]+\\(extends\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\(?:\\sw\\|\\s_\\)*\\)[ \t]*;"
+  "Regexp matching class headers.")
+
+(defvar antlr-action-font-lock-keywords nil)
+;;   "List of font-lock keywords for actions in the grammar.
+;; Each element in this list looks like
+;;   \(MAJOR-MODE KEYWORD...)
+
+;; If `antlr-language' is equal to MAJOR-MODE, the KEYWORDs are the
+;; font-lock keywords according to `font-lock-defaults' used for the code
+;; in the grammar's actions and semantic predicates, see
+;; `antlr-font-lock-maximum-decoration'.")
+(defvar antlr-java-action-font-lock-keywords
+  '(antlr-no-action-keywords
+    java-font-lock-keywords-1 java-font-lock-keywords-2
+    java-font-lock-keywords-3))
+
+(defvar antlr-action-scope-names '("lexer" "parser" "treeparser")
+  "Valid ANTLR action scope names.")
+
+(defvar antlr-action-names t)
+;; see $(ANTLR3)/tool/src/main/java/org/antlr/codegen/$(LANGUAGE)Target.java-isValidActionScope()
+;; or $(ANTLR3.JAR)/antlr3-jar/org/antlr/codegen/templates/, fine-grep for "actions\."
+
+(defvar antlr-java-action-names
+  '("init" "after" "header" "members" "rulecatch" "synpredgate")
+  "Valid ANTLR action names in Java.")
+
+(defvar antlr-token-identifier-p 'antlr-upcase-p)
+
+
+;;;===========================================================================
+;;;  general font-lock
 ;;;===========================================================================
 
 (defcustom antlr-font-lock-maximum-decoration 'inherit
@@ -922,7 +941,7 @@ fontification, see `antlr-font-lock-keywords-alist'.
 
 While calculating the decoration level for actions, `major-mode' is
 bound to `antlr-language'.  For example, with value
-  \((java-mode \. 2) (c++-mode \. 0))
+  \((java-mode \. 2) (c++-mode \.  0))
 Java actions are fontified with level 2 and C++ actions are not
 fontified at all."
   :group 'antlr
@@ -948,45 +967,6 @@ fontified at all."
   ;; would break Emacs-21.0:
   "Empty font-lock keywords for actions.
 Do not change the value of this constant.")
-
-(defvar antlr-font-lock-keywords-alist
-  '((java-mode
-     antlr-no-action-keywords
-     java-font-lock-keywords-1 java-font-lock-keywords-2
-     java-font-lock-keywords-3)
-    (c++-mode
-     antlr-no-action-keywords
-     c++-font-lock-keywords-1 c++-font-lock-keywords-2
-     c++-font-lock-keywords-3)
-    (c-mode
-     antlr-no-action-keywords
-     c-font-lock-keywords-1 c-font-lock-keywords-2
-     c-font-lock-keywords-3)
-    (objc-mode
-     antlr-no-action-keywords
-     objc-font-lock-keywords-1 objc-font-lock-keywords-2
-     objc-font-lock-keywords-3)
-    (js-mode
-     antlr-no-action-keywords
-     ;; do not use `js--font-lock-keywords-3' !
-     js--font-lock-keywords-1 js--font-lock-keywords-2)
-    (opascal-mode
-     antlr-no-action-keywords
-     opascal-font-lock-keywords)
-    (python-mode
-     antlr-no-action-keywords
-     python-font-lock-keywords)
-    (ruby-mode
-     antlr-no-action-keywords
-     ruby-font-lock-keywords))
-  "List of font-lock keywords for actions in the grammar.
-Each element in this list looks like
-  \(MAJOR-MODE KEYWORD...)
-
-If `antlr-language' is equal to MAJOR-MODE, the KEYWORDs are the
-font-lock keywords according to `font-lock-defaults' used for the code
-in the grammar's actions and semantic predicates, see
-`antlr-font-lock-maximum-decoration'.")
 
 (defvar antlr-default-face 'antlr-default)
 (defface antlr-default '((t nil))
@@ -1015,10 +995,16 @@ Do not change."
 (put 'antlr-font-lock-syntax-face 'face-alias 'antlr-syntax)
 (put 'antlr-font-lock-syntax-face 'obsolete-face "22.1")
 
+(defvar antlr-action-face 'antlr-syntax)
+(defface antlr-action
+  '((t :inherit font-lock-builtin-face))
+  "ANTLR action names: @ActionName, @ActionScope::ActionName."
+  :group 'antlr)
+
 (defvar antlr-ruledef-face 'antlr-ruledef)
 (defface antlr-ruledef
   '((t :inherit font-lock-function-name-face))
-  "ANTLR rule references (definition)."
+  "ANTLR parser and treeparser rule symbols (definition)."
   :group 'antlr)
 ;; backward-compatibility alias
 (put 'antlr-font-lock-ruledef-face 'face-alias 'antlr-ruledef)
@@ -1027,7 +1013,7 @@ Do not change."
 (defvar antlr-tokendef-face 'antlr-tokendef)
 (defface antlr-tokendef
   '((t :inherit font-lock-function-name-face))
-  "ANTLR token references (definition)."
+  "ANTLR scanner rule symbols (definition)."
   :group 'antlr)
 ;; backward-compatibility alias
 (put 'antlr-font-lock-tokendef-face 'face-alias 'antlr-tokendef)
@@ -1036,7 +1022,7 @@ Do not change."
 (defvar antlr-ruleref-face 'antlr-ruleref)
 (defface antlr-ruleref
   '((t :inherit font-lock-type-face))
-  "ANTLR rule references (usage)."
+  "ANTLR parser and treeparser rule symbols (usage)."
   :group 'antlr)
 ;; backward-compatibility alias
 (put 'antlr-font-lock-ruleref-face 'face-alias 'antlr-ruleref)
@@ -1045,11 +1031,18 @@ Do not change."
 (defvar antlr-tokenref-face 'antlr-tokenref)
 (defface antlr-tokenref
   '((t :inherit font-lock-constant-face))
-  "ANTLR token references (usage)."
+  "ANTLR scanner rule symbols (usage)."
   :group 'antlr)
 ;; backward-compatibility alias
 (put 'antlr-font-lock-tokenref-face 'face-alias 'antlr-tokenref)
 (put 'antlr-font-lock-tokenref-face 'obsolete-face "22.1")
+
+(defvar antlr-symbol-face 'antlr-symbol)
+(defface antlr-symbol
+  '((t :inherit font-lock-variable-name-face))
+  "ANTLR symbols (definition and usage) for things other than rules.
+Used for grammars, v3 scopes and v4 modes."
+  :group 'antlr)
 
 (defvar antlr-literal-face 'antlr-literal)
 (defface antlr-literal
@@ -1064,106 +1057,78 @@ It is used to highlight strings matched by the first regexp group of
 
 (defvar antlr-attribute-face 'antlr-attribute)
 (defface antlr-attribute '((t :inherit font-lock-preprocessor-face))
-  "ANTLR references to attributes within actions, and scope names."
+  "ANTLR references to attributes within actions."
   :group 'antlr)
-
-(defcustom antlr-font-lock-literal-regexp
-    ;; actually, in v3/v4 it is 'L' only
-  "\\([\"']\\)\\(\\sw\\(\\sw\\|-\\)*\\|\\(\\s_\\|\\s.\\)+\\|\\s(\\|\\s)\\)\\1"
-  "Regexp matching literals with special syntax highlighting, or nil.
-If nil, there is no special syntax highlighting for some literals.
-Otherwise, it should be a regular expression which must contain at least
-two regexp groups.  The string matched by the second group is highlighted
-with `antlr-font-lock-literal-face'."
-  :group 'antlr
-  :type '(choice (const :tag "None" nil) regexp))
-
-(defvar antlr-class-header-regexp
-  "\\(class\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\sw*\\)[ \t]+\\(extends\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\sw*\\)[ \t]*;"
-  "Regexp matching class headers.")
-
-(defvar antlr-action-scope-names '("lexer" "parser" "treeparser")
-  "Valid ANTLR action scope names.")
-
-;; see $(ANTLR3)/tool/src/main/java/org/antlr/codegen/$(LANGUAGE)Target.java-isValidActionScope()
-;; or $(ANTLR3.JAR)/antlr3-jar/org/antlr/codegen/templates/, fine-grep for "actions\."
-(defvar antlr-java-action-names
-  '("init" "after" "header" "members" "rulecatch" "synpredgate")
-  "Valid ANTLR action names in Java, not checked for other languages.")
 
 (defvar antlr-font-lock-late-keywords
   ;; The tokens are already fontified as string/docstrings.  The extra
   ;; fontification of literals must come after the fontification from cc-mode;
   ;; otherwise `c-font-lock-invalid-string' fontifies the final doublequote of
   ;; the last literal in a line with red (warning) - for whatever reason.
-  `((,(lambda (limit)
+  `((,(lambda (limit)                   ; v3, v4: literals are only '...'
         (if antlr-font-lock-literal-regexp
             (antlr-re-search-forward antlr-font-lock-literal-regexp limit)))
      (2 antlr-literal-face t))
     (,(lambda (limit)
         (antlr-re-search-forward "^\\(\\sw+\\)" limit))
-     (1 (if (antlr-upcase-p (char-after (match-beginning 0)))
+     (1 (if (funcall antlr-token-identifier-p (char-after (match-beginning 0)))
             antlr-tokendef-face
           antlr-ruledef-face) t))
     (,(lambda (limit)
-        (antlr-re-search-forward "^\\(lexer[ \t]+grammar\\|parser[ \t]+grammar\\|tree[ \t]+grammar\\|grammar\\|mode\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\sw*\\)" limit))
+        (antlr-re-search-forward antlr-grammar-header-regexp limit))
      (1 antlr-keyword-face t)
-     (2 font-lock-type-face t))
-    (,(lambda (limit)
-        (antlr-re-search-forward antlr-class-header-regexp limit))
-     (1 antlr-keyword-face t)
-     (2 font-lock-type-face t)
-     (3 antlr-keyword-face t)
-     (4 (if (member (match-string 4) '("Lexer" "Parser" "TreeParser"))
+     (2 antlr-symbol-face t)
+     (3 antlr-keyword-face t t)
+     (4 (if (member (match-string-no-properties 4) '("Lexer" "Parser" "TreeParser"))
             antlr-keyword-face
-          font-lock-type-face) t))
+          font-lock-type-face) t t))
     (,(lambda (limit)
         (antlr-re-search-forward
-         "\\<\\(header\\|options\\|tokens\\|exception\\|catch\\|finally\\|returns\\|throws\\|import\\|locals\\)\\>"
+         "\\<\\(header\\|options\\|tokens\\|channels\\|exception\\|catch\\|finally\\|returns\\|throws\\|import\\|locals\\)\\>"
          limit))
      (1 antlr-keyword-face t))
     (,(lambda (limit)
-        (antlr-re-search-forward "\\<\\(scope\\)\\>[ \t]*\\([A-Za-z\300-\326\330-\337]\\sw*\\)?" limit))
+        (when antlr-font-lock-symbol-regexp
+          (antlr-re-search-forward antlr-font-lock-symbol-regexp limit)))
      (1 antlr-keyword-face t)
-     (2 antlr-attribute-face t t))
+     (2 antlr-symbol-face t t))
     (,(lambda (limit)
         (antlr-re-search-forward
          "^\\(private\\|public\\|protected\\|fragment\\)\\>[ \t]*\\(\\sw+\\)?"
          limit))
-     (1 font-lock-keyword-face t)
-     (3 (if (antlr-upcase-p (char-after (match-beginning 3)))
+     (1 antlr-keyword-face t)
+     (2 (if (funcall antlr-token-identifier-p (char-after (match-beginning 2)))
             antlr-tokendef-face
           antlr-ruledef-face) t t))
-    (,(lambda (limit)
-        (antlr-re-search-forward "@\\([A-Za-z\300-\326\330-\337]\\sw*\\)\\(?:::\\([A-Za-z\300-\326\330-\337]\\sw*\\)\\)?" limit))
-     (1 (if (match-beginning 2)
-            (antlr-font-lock-checked-face antlr-action-scope-names 1 font-lock-constant-face)
-          (antlr-font-lock-checked-face (if (eq antlr-language 'java-mode) antlr-java-action-names t)
-                                        1 font-lock-keyword-face))
+    (,(lambda (limit)                   ; v3, v4
+        (antlr-re-search-forward "@\\([A-Za-z\300-\326\330-\337_]\\sw*\\)\\(?:::\\([A-Za-z\300-\326\330-\337_]\\sw*\\)\\)?" limit))
+     (1 (antlr-font-lock-checked-face (if (match-beginning 2)
+                                          antlr-action-scope-names
+                                        antlr-action-names)
+                                      1 antlr-action-face)
         t)
-     (2 (antlr-font-lock-checked-face (if (eq antlr-language 'java-mode) antlr-java-action-names t)
-                                      2 font-lock-keyword-face)
+     (2 (antlr-font-lock-checked-face antlr-action-names 2 antlr-action-face)
         t t))
      (,(lambda (limit)
 	 (antlr-re-search-forward "->\\|[!^]" limit))
+      ;; TODO: in v4, highlight lexer commands after "->"
       (0 antlr-syntax-face t))
     )
   "Late font-lock keywords for ANTLR's normal grammar code.
 See `antlr-font-lock-keywords-alist' for the keywords of actions.")
 
 (defvar antlr-font-lock-additional-keywords
-  `((antlr-invalidate-context-cache)
-    ("\\$\\sw+" (0 antlr-attribute-face))
+  `(("\\$\\sw+" (0 antlr-attribute-face))
     (,(lambda (limit)
         ;; v2: v:ruleref v:"literal", v=ruleref (no highlighting), v3: v=ruleref
-        (if (< antlr-tool-version 30000)
+        (if (eq antlr-tool-version 'antlr-v2)
             (antlr-re-search-forward "\\(\\sw+\\)[ \t]*\\([=:]\\)?" limit)
           (antlr-re-search-forward "\\(\\sw+\\)[ \t]*\\(\\+?=\\)?" limit)))
      (1 (if (match-beginning 2)
-            (if (and (< antlr-tool-version 30000) (eq (char-after (match-beginning 2)) ?=))
+            (if (and (eq antlr-tool-version 'antlr-v2) (eq (char-after (match-beginning 2)) ?=))
                 antlr-default-face
-              font-lock-variable-name-face)
-          (if (antlr-upcase-p (char-after (match-beginning 1)))
+              font-lock-variable-name-face) ; yes, same as vars in [...]
+          (if (funcall antlr-token-identifier-p (char-after (match-beginning 1)))
               antlr-tokenref-face
             antlr-ruleref-face)))
      (2 antlr-default-face nil t))
@@ -1175,10 +1140,8 @@ See `antlr-font-lock-keywords-alist' for the keywords of actions.")
 
 (defvar antlr-font-lock-defaults
   '(antlr-font-lock-keywords
-    nil nil ((?_ . "w") (?\( . ".") (?\) . ".")))
-  "Font-lock defaults used for ANTLR syntax highlighting.
-The SYNTAX-ALIST element is also used to initialize
-`antlr-action-syntax-table'.")
+    nil nil ((?_ . "w")))
+  "Font-lock defaults used for ANTLR syntax highlighting.")
 
 
 ;;;===========================================================================
@@ -1193,20 +1156,6 @@ The SYNTAX-ALIST element is also used to initialize
     (c-populate-syntax-table st)
     st)
   "Syntax table used in `antlr-mode' buffers.")
-
-;; used for "in Java/C++ code" = syntactic-depth>0
-(defvar antlr-action-syntax-table
-  (let ((st (copy-syntax-table antlr-mode-syntax-table))
-        (slist (nth 3 antlr-font-lock-defaults)))
-    (while slist
-      (modify-syntax-entry (caar slist) (cdar slist) st)
-      (setq slist (cdr slist)))
-    st)
-  "Syntax table used for ANTLR action parsing.
-Initialized by `antlr-mode-syntax-table', changed by SYNTAX-ALIST in
-`antlr-font-lock-defaults'.  This table should be selected if you use
-`buffer-syntactic-context' and `buffer-syntactic-context-depth' in order
-not to confuse their context_cache.")
 
 (defvar antlr-mode-abbrev-table nil
   "Abbreviation table used in `antlr-mode' buffers.")
@@ -1227,146 +1176,25 @@ This is no user option.  Used for `antlr-slow-syntactic-context'.")
 
 
 ;;;===========================================================================
-;;;  Syntax functions -- Emacs vs XEmacs dependent, part 1
+;;;  Context cache - TODO: use syntax-ppss instead
 ;;;===========================================================================
 
-;; From help.el (XEmacs-21.1), without `copy-syntax-table'
-(defmacro antlr-with-syntax-table (syntab &rest body)
-  "Evaluate BODY with the syntax table SYNTAB."
-  `(let ((stab (syntax-table)))
-     (unwind-protect
-	 (progn (set-syntax-table ,syntab) ,@body)
-       (set-syntax-table stab))))
-(put 'antlr-with-syntax-table 'lisp-indent-function 1)
-(put 'antlr-with-syntax-table 'edebug-form-spec '(form body))
-
-(defunx antlr-default-directory ()
-  :xemacs-and-try default-directory
-  "Return `default-directory'."
-  default-directory)
-
-;; Check Emacs-21.1 simple.el, `shell-command'.
-(defunx antlr-read-shell-command (prompt &optional initial-input history)
-  :xemacs-and-try read-shell-command
-  "Read a string from the minibuffer, using `shell-command-history'."
-  (read-from-minibuffer prompt initial-input nil nil
-			(or history 'shell-command-history)))
-
-(defunx antlr-with-displaying-help-buffer (thunk &optional _name)
-  :xemacs-and-try with-displaying-help-buffer
-  "Make a help buffer and call `thunk' there."
-  (with-output-to-temp-buffer "*Help*"
-    (save-excursion (funcall thunk))))
-
-
-;;;===========================================================================
-;;;  Context cache
-;;;===========================================================================
-
-(defvar antlr-slow-context-cache nil "Internal.")
-
-;;;(defvar antlr-statistics-full-neg 0)
-;;;(defvar antlr-statistics-full-diff 0)
-;;;(defvar antlr-statistics-full-other 0)
-;;;(defvar antlr-statistics-cache 0)
-;;;(defvar antlr-statistics-inval 0)
-
-(defunx antlr-invalidate-context-cache (&rest _dummies)
-;; checkdoc-params: (dummies)
-  "Invalidate context cache for syntactical context information."
-  :XEMACS				; XEmacs bug workaround
-  (with-current-buffer (get-buffer-create " ANTLR XEmacs bug workaround")
-    (buffer-syntactic-context-depth)
-    nil)
-  :EMACS
-;;;  (incf antlr-statistics-inval)
-  (setq antlr-slow-context-cache nil))
-
-(defunx antlr-syntactic-context ()
+(defun antlr-syntactic-context (&optional ppss)
   "Return some syntactic context information.
 Return `string' if point is within a string, `block-comment' or
-`comment' is point is within a comment or the depth within all
+`comment' if point is within a comment or the depth within all
 parenthesis-syntax delimiters at point otherwise.
-WARNING: this may alter `match-data'."
-  :XEMACS
-  (or (buffer-syntactic-context) (buffer-syntactic-context-depth))
-  :EMACS
-  (let ((orig (point)) diff state
-        (parse-sexp-ignore-comments t)  ;#dynamic
-	;; Arg, Emacs's (buffer-modified-tick) changes with font-lock.  Use
-	;; hack that `loudly' is bound during font-locking => cache use will
-	;; increase from 7% to 99.99% during font-locking.
-	(tick (or (boundp antlr-slow-cache-enabling-symbol)
-		  (buffer-modified-tick))))
-    (if (and (cdr antlr-slow-context-cache)
-	     (>= (setq diff (- orig (cadr antlr-slow-context-cache))) 0)
-	     (eq (current-buffer) (caar antlr-slow-context-cache))
-	     (eq tick (cdar antlr-slow-context-cache)))
-	;; (setq antlr-statistics-cache (1+ antlr-statistics-cache) ...)
-	(setq state (parse-partial-sexp (cadr antlr-slow-context-cache) orig
-					nil nil
-					(cddr antlr-slow-context-cache)))
-      (goto-char (point-min))
-;;;      (cond ((and diff (< diff 0)) (incf antlr-statistics-full-neg))
-;;;	    ((and diff (>= diff 3000)) (incf antlr-statistics-full-diff))
-;;;	    (t (incf antlr-statistics-full-other)))
-      (setq state (parse-partial-sexp (point) orig)))
-    (goto-char orig)
-    (if antlr-slow-context-cache
-	(setcdr antlr-slow-context-cache (cons orig state))
-      (setq antlr-slow-context-cache
-	    (cons (cons (current-buffer) tick)
-		  (cons orig state))))
-    (cond ((nth 3 state) 'string)
-	  ((nth 4 state) 'comment)	; block-comment? -- we don't care
-	  (t (car state)))))
-
-;;;  (incf (aref antlr-statistics 2))
-;;;  (unless (and (eq (current-buffer)
-;;;		   (caar antlr-slow-context-cache))
-;;;	       (eq (buffer-modified-tick)
-;;;		   (cdar antlr-slow-context-cache)))
-;;;    (incf (aref antlr-statistics 1))
-;;;    (setq antlr-slow-context-cache nil))
-;;;  (let* ((orig (point))
-;;;	 (base (cadr antlr-slow-context-cache))
-;;;	 (curr (cddr antlr-slow-context-cache))
-;;;	 (state (cond ((eq orig (car curr)) (cdr curr))
-;;;		      ((eq orig (car base)) (cdr base))))
-;;;	 diff diff2)
-;;;    (unless state
-;;;      (incf (aref antlr-statistics 3))
-;;;      (when curr
-;;;	(if (< (setq diff  (abs (- orig (car curr))))
-;;;	       (setq diff2 (abs (- orig (car base)))))
-;;;	    (setq state curr)
-;;;	  (setq state base
-;;;		diff  diff2))
-;;;	(if (or (>= (1+ diff) (point)) (>= diff 3000))
-;;;	    (setq state nil)))		; start from bod/bob
-;;;      (if state
-;;;	  (setq state
-;;;		(parse-partial-sexp (car state) orig nil nil (cdr state)))
-;;;	(if (>= orig 3000) (beginning-of-defun) (goto-char (point-min)))
-;;;	(incf (aref antlr-statistics 4))
-;;;	(setq cw (list orig (point) base curr))
-;;;	(setq state (parse-partial-sexp (point) orig)))
-;;;      (goto-char orig)
-;;;      (if antlr-slow-context-cache
-;;;	  (setcdr (cdr antlr-slow-context-cache) (cons orig state))
-;;;	(setq antlr-slow-context-cache
-;;;	      (cons (cons (current-buffer) (buffer-modified-tick))
-;;;		    (cons (cons orig state) (cons orig state))))))
-;;;    (cond ((nth 3 state) 'string)
-;;;	  ((nth 4 state) 'comment)	; block-comment? -- we don't care
-;;;	  (t (car state)))))
-
-;;;    (beginning-of-defun)
-;;;    (let ((state (parse-partial-sexp (point) orig)))
-;;;      (goto-char orig)
-;;;      (cond ((nth 3 state) 'string)
-;;;	    ((nth 4 state) 'comment)	; block-comment? -- we don't care
-;;;	    (t (car state))))))
+WARNING: this may alter `match-data'.
+Optional argument PPSS"  ; TODO: warning this valid?
+  ;; does not work for negative depth
+  (or ppss (setq ppss (syntax-ppss)))
+  (cond ((nth 3 ppss) 'string)
+        ((nth 4 ppss) 'comment)
+        (t
+         (let ((poss (nth 9 ppss)))        ; TODO: syntax-ppss-open-positions
+           (while (and poss (memq (char-after (car poss)) '(nil ?\()))
+             (setq poss (cdr poss)))
+           (and poss (length poss)))))) ; depth if inside {} or []
 
 
 ;;;===========================================================================
@@ -1390,39 +1218,145 @@ and `replace-match'."
   (let ((continue t))
     (while (and (re-search-forward regexp bound 'limit)
 		(save-match-data
-		  (if (eq (antlr-syntactic-context) 0)
-		      (setq continue nil)
-		    t))))
+		  (or (antlr-syntactic-context) (setq continue nil)))))
     (if continue nil (point))))
 
-(defun antlr-search-forward (string)
+(defsubst antlr-search-result (line-regexp)
+  (unless (antlr-syntactic-context)
+    (if (and line-regexp
+             (save-excursion
+               (beginning-of-line)
+               (looking-at line-regexp))
+             (<= (point) (match-end 0) (1+ (point))))
+        nil
+      (point))))
+
+(defun antlr-search-forward (string &optional line-regexp)
   "Search forward from point for STRING.
 Set point to the end of the occurrence found, and return point.  Return
 nil if no occurrence was found.  Do not search within comments, strings
-and actions/semantic predicates."
+and actions/semantic predicates.
+Optional argument LINE-REGEXP TODO."
   ;; WARNING: Should only be used with `antlr-action-syntax-table'!
-  (let ((continue t))
-    (while (and (search-forward string nil 'limit)
-		(if (eq (antlr-syntactic-context) 0) (setq continue nil) t)))
-    (if continue nil (point))))
+  (let ((result nil))
+    (while (and (null result) (search-forward string nil 'limit))
+      (setq result (antlr-search-result line-regexp)))
+    result))
 
-(defun antlr-search-backward (string)
+(defun antlr-search-backward (string &optional line-regexp)
   "Search backward from point for STRING.
 Set point to the beginning of the occurrence found, and return point.
 Return nil if no occurrence was found.  Do not search within comments,
-strings and actions/semantic predicates."
+strings and actions/semantic predicates.
+Optional argument LINE-REGEXP TODO."
   ;; WARNING: Should only be used with `antlr-action-syntax-table'!
-  (let ((continue t))
-    (while (and (search-backward string nil 'limit)
-		(if (eq (antlr-syntactic-context) 0) (setq continue nil) t)))
-    (if continue nil (point))))
+  (let ((result nil))
+    (while (and (null result) (search-backward string nil 'limit))
+      (setq result (antlr-search-result line-regexp)))
+    result))
 
 (defsubst antlr-skip-sexps (count)
   "Skip the next COUNT balanced expressions and the comments after it.
 Return position before the comments after the last expression."
-  (goto-char (or (ignore-errors-x (scan-sexps (point) count)) (point-max)))
+  (goto-char (or (ignore-errors (scan-sexps (point) count)) (point-max)))
   (prog1 (point)
     (antlr-c-forward-sws)))
+
+(defun antlr-syntax-propertize-wholerule (start end)
+  (goto-char start)
+  (beginning-of-line)
+  (while (if (bobp) nil (looking-at "[ \t\n}]\\|@init\\_>\\|options\\_>"))
+    (beginning-of-line 0))
+  ;; no need to find the real end of a rule... end-of-line is good
+  (cons (point)
+        (progn (goto-char end)
+               (if (bolp) (point) (line-beginning-position 2)))))
+
+;; font-lock.el and/or syntax.el should say something about the use of
+;; `syntax-ppss' when `font-lock-syntax-table' is set - we should not use the
+;; same cache for calls inside and outside font-lock, don't we?
+
+(defun antlr-syntax-propertize-charsets (start end)
+  (goto-char start)
+  (let ((mode (if (bolp) :start :next)))
+    (while (< (point) end)
+      (let ((context (antlr-syntactic-context)))
+        (cond ((numberp context)
+               (goto-char (or (ignore-errors (scan-lists (point) 1 context))
+                              end)))
+              ((eq mode :start)         ; TODO: only if context = 0
+               (when (looking-at "fragment\\_>")
+                 (forward-char 8)
+                 (skip-chars-forward " \t\n"))
+               (setq mode (if (antlr-upcase-p (char-after))
+                              :scanner
+                            (if (eq (char-syntax (char-after)) ?w)
+                                :end
+                              :next))))
+              ((eq mode :end)
+               (skip-chars-forward "^;" end)
+               (while (and (< (point) end) (antlr-syntactic-context))
+                 (forward-char)
+                 (skip-chars-forward "^;" end))
+               (setq mode :next))
+              ((eq mode :next)
+               (beginning-of-line 2)
+               (while (and (< (point) end) (looking-at "[ \t\n@}]"))
+                 (beginning-of-line 2))
+               (setq mode :start))
+              ((eq mode :scanner)
+               (skip-chars-forward "^:;" end)
+               (while (and (< (point) end) (antlr-syntactic-context))
+                 (forward-char)
+                 (skip-chars-forward "^:;" end))
+               (if (eq (char-after) ?:)
+                   (if (eq (char-after (1+ (point))) ?:)
+                       (forward-char 2) ; "::" for namespace
+                     (setq mode :charset))
+                 (setq mode :next)))
+              ((eq mode :charset)
+               ;; LEXER_CHAR_SET :
+               ;;     '[' ( '\\' ~('\r'|'\n') |	~('\r'|'\n'|'\\'|']') )* ']'
+               (skip-chars-forward "^;[" end)
+               (while (and (< (point) end) (antlr-syntactic-context))
+                 (forward-char)
+                 (skip-chars-forward "^;[" end))
+               (if (not (eq (char-after) ?\[))
+                   (setq mode :next)
+                 (put-text-property (point) (progn (forward-char) (point))
+                                    'syntax-table
+                                    (eval-when-compile
+                                      (string-to-syntax "|")))
+                 (let (char (esc nil))
+                   (while (and (setq char (char-after))
+                               (not (eq char ?\n))
+                               (or esc (not (eq char ?\]))))
+                     (setq esc (if esc nil (eq char ?\\)))
+                     (forward-char)))
+                 (put-text-property (point) (1+ (point))
+                                    'syntax-table
+                                    (eval-when-compile
+                                      (string-to-syntax "|"))))))))))
+
+(defun antlr-syntax-propertize-template-literals (start end)
+  (goto-char start)
+  (while (search-forward "<<" end t)
+    (let ((context (antlr-syntactic-context)))
+      (if context
+          (when (numberp context)
+            (goto-char (or (ignore-errors (scan-lists (point) 1 context))
+                           end)))
+        (let ((pos (- (point) 2)))
+          ;; put the text property on the inner "<>", since multi-line is set
+          ;; to be ok with `c-multiline-string-start-char'
+          (put-text-property (1+ pos) (point) 'syntax-table
+                             (eval-when-compile
+                               (string-to-syntax "|")))
+          (when (search-forward ">>" end 'move)
+            (put-text-property (- (point) 2) (1- (point)) 'syntax-table
+                               (eval-when-compile
+                                 (string-to-syntax "|"))))
+          (put-text-property pos (point) 'syntax-multiline t))))))
 
 
 ;;;===========================================================================
@@ -1433,22 +1367,21 @@ Return position before the comments after the last expression."
   "Return font-lock keywords for current buffer.
 See `antlr-font-lock-additional-keywords', `antlr-language' and
 `antlr-font-lock-maximum-decoration'."
-  (if (eq antlr-font-lock-maximum-decoration 'none)
-      antlr-font-lock-additional-keywords
-    (append antlr-font-lock-additional-keywords
-	    (eval (let ((major-mode antlr-language)) ; dynamic
-                    (font-lock-choose-keywords
-                     (cdr (assq antlr-language antlr-font-lock-keywords-alist))
-                     (if (eq antlr-font-lock-maximum-decoration 'inherit)
-                         font-lock-maximum-decoration
-                       antlr-font-lock-maximum-decoration))))
-            antlr-font-lock-late-keywords)))
+  (append antlr-font-lock-additional-keywords
+          (unless (eq antlr-font-lock-maximum-decoration 'none)
+            (font-lock-eval-keywords
+             (font-lock-choose-keywords
+              antlr-action-font-lock-keywords
+              (if (eq antlr-font-lock-maximum-decoration 'inherit)
+                  font-lock-maximum-decoration
+                antlr-font-lock-maximum-decoration))))
+          antlr-font-lock-late-keywords))
 
 (defun antlr-font-lock-checked-face (strings group face)
   "Return font-lock face for regexp group GROUP.
 If the matched string is an element of STRINGS (or STRINGS is not a list),
 return FACE, otherwise return `font-lock-warning-face'."
-  (if (if (consp strings) (member (match-string group) strings) t)
+  (if (if (consp strings) (member (match-string group) strings) strings)
       face
     font-lock-warning-face))
 
@@ -1457,10 +1390,16 @@ return FACE, otherwise return `font-lock-warning-face'."
 ;;;  imenu support
 ;;;===========================================================================
 
+(defvar antlr-do-syntax-propertize (version< emacs-version "25")
+  "Whether \\[antlr-mode] runs `syntax-propertize' on the complete buffer.
+Running it explicitly at the beginning of the mode might be
+necessary for a correct Index menu and motion commands.")
+
 (defun antlr-grammar-tokens ()
   "Return alist for tokens defined in current buffer."
   (save-excursion (antlr-imenu-create-index-function t)))
 
+;; TODO: version dependent?
 (defun antlr-imenu-create-index-function (&optional tokenrefs-only)
   "Return imenu index-alist for ANTLR grammar files.
 IF TOKENREFS-ONLY is non-nil, just return alist with tokenref names."
@@ -1470,40 +1409,33 @@ IF TOKENREFS-ONLY is non-nil, just return alist with tokenref names."
     ;; Using `imenu-progress-message' would require imenu for compilation, but
     ;; nobody is missing these messages.  The generic imenu function searches
     ;; backward, which is slower and more likely not to work during editing.
-    (antlr-with-syntax-table antlr-action-syntax-table
-      (antlr-invalidate-context-cache)
-      (goto-char (point-min))
-      (antlr-skip-file-prelude t)
-      (while continue
-	(if (looking-at "{") (antlr-skip-sexps 1)) ; TODO: v2 only?
-        (while (looking-at "options\\>\\|\\tokens\\>\\|@\\([A-Za-z\300-\326\330-\337]\\sw*\\)\\(?:::\\([A-Za-z\300-\326\330-\337]\\sw*\\)\\)?")
-          (goto-char (match-end 0))
-          (antlr-c-forward-sws)
-          (when (looking-at "{")
-            (antlr-skip-sexps 1)))
-        (if (looking-at "\\(class\\|lexer[ \t]+grammar\\|parser[ \t]+grammar\\|tree[ \t]+grammar\\|grammar\\|mode\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\sw*\\)")
-            (and (not tokenrefs-only)
-                 (eq (char-after (match-beginning 1)) ?c) ;class
-                 (push (cons (match-string 2)
-                             (if imenu-use-markers
-                                 (copy-marker (match-beginning 2))
-                               (match-beginning 2)))
-		      classes))
-	  (if (looking-at "p\\(ublic\\|rotected\\|rivate\\|fragement\\)")
-	      (antlr-skip-sexps 1))
-	  (when (looking-at "\\sw+")
-	    (if tokenrefs-only
-		(if (antlr-upcase-p (char-after (point)))
-		    (push (list (match-string 0)) items))
-	      (push (cons (match-string 0)
-			  (if imenu-use-markers
-			      (copy-marker (match-beginning 0))
-			    (match-beginning 0)))
-		    items))))
-	(if (setq continue (antlr-search-forward ";"))
-	    (antlr-skip-exception-part t))))
+    (goto-char (point-min))
+    (antlr-skip-file-prelude t)
+    (while continue
+      (if (looking-at "\\(class\\|lexer[ \t]+grammar\\|parser[ \t]+grammar\\|tree[ \t]+grammar\\|grammar\\|mode\\|import\\)[ \t]+\\([A-Za-z\300-\326\330-\337]\\(?:\\sw\\|\\s_\\)*\\)") ; TODO: import is (hopefully) temp
+          (and (not tokenrefs-only)
+               (memq (char-after (match-beginning 1)) '(?c ?m)) ;class, mode
+               (push (cons (match-string 2)
+                           (if imenu-use-markers
+                               (copy-marker (match-beginning 2))
+                             (match-beginning 2)))
+                     classes))
+        (if (looking-at "p\\(ublic\\|rotected\\|rivate\\)\\_>\\|fragment\\_>")
+            (antlr-skip-sexps 1))
+        (when (looking-at "\\(?:\\sw\\|\\s_\\)+")
+          (if tokenrefs-only
+              (if (antlr-upcase-p (char-after (point)))
+                  (push (list (match-string 0)) items))
+            (push (cons (match-string 0)
+                        (if imenu-use-markers
+                            (copy-marker (match-beginning 0))
+                          (match-beginning 0)))
+                  items))))
+      (if (setq continue (antlr-search-forward ";" antlr-skip-line-regexp))
+          (antlr-skip-rule-postlude t)))
     (if classes
-	(cons (cons "Classes" (nreverse classes)) (nreverse items))
+	(cons (cons (if (eq antlr-tool-version 'antlr-v2) "Classes" "Modes")
+                    (nreverse classes)) (nreverse items))
       (nreverse items))))
 
 
@@ -1511,29 +1443,66 @@ IF TOKENREFS-ONLY is non-nil, just return alist with tokenref names."
 ;;;  Parse grammar files (internal functions)
 ;;;===========================================================================
 
-(defun antlr-skip-exception-part (skip-comment)
-  "Skip exception part of current rule, i.e., everything after `;'.
-This also includes the options and tokens part of a grammar class
-header.  If SKIP-COMMENT is non-nil, also skip the comment after that
-part."
-  (let ((pos (point))
-	(class nil))
+;; --- simplified v2 grammar -------------------------------------------------
+;; file: ("header" STRING? ACTION)? OPTIONS? ACTION? class*
+;; class: "class" ID     // moved preable action to file rule
+;;        ("extends" ("Lexer"|"Parser"|"TreeParser") ID?)?  ";"
+;;        OPTIONS? TOKENS? ACTION? rule*
+;; rule: ("protected"|"public"|"private")? ID "!"?
+;;       (ARGS)? ('returns' ARGS)? ('throws' IDs )? OPTIONS? ACTION?
+;;       ":" alts ";" ("exception" ARGS? ("catch" ARGS ACTION)* )*
+
+;; --- simplified v3/v4 grammar ----------------------------------------------
+;; grammar: ('lexer'|'parser'|'tree')? 'grammar' id ';'
+;;          < OPTIONS? TOKENS? (grammar3only|grammar4only) action* >
+;;          rule* ('mode' ID ';' rule* )*          // lexer MODE is v4 only
+;; grammar3only: ('scope' id ACTION)*              // strict sequence in <...>
+;; grammar4only: ('import' IDs ';')? ('channels' ACTION)? // any sequence in <...>
+;; action: '@' (ID '::')? ID ACTION
+;; rule: ('protected'|'public'|'private'|'fragment')? ID '!'?
+;;       (ARGS)? ('returns' ARGS)? ('throws' IDs )? ('locals' ARGS)?
+;;       < OPTIONS? scope3only action* >
+;;       ':' alts ';' ('catch' ARGS ACTION)* ('finally' ACTION)?
+;; scope3only: ('scope' ACTION)? ('scope' IDs ';' )?
+
+(eval-and-compile
+(defconst antlr-rule-postlude-skip-alist ; const for eval-when-compile safety
+  '(("exception" 1 . t) ("import" antlr-skip-import-statement)
+    ("options" 2) ("tokens" 2) ("finally" 2) ("channels" 2)
+    ("catch" 3) ("scope" 3)))
+)
+
+(defvar antlr-rule-postlude-skip-regexp
+  (eval-when-compile
+    (concat (regexp-opt (mapcar #'car antlr-rule-postlude-skip-alist) t)
+            "\\_>\\|@[A-Za-z\300-\326\330-\337_]\\(?:\\sw\\|\\s_\\)*\\(?:::[A-Za-z\300-\326\330-\337_]\\(?:\\sw\\|\\s_\\)*\\)?")))
+
+;; If neccessary, make these var version-dependent
+
+(defun antlr-skip-rule-postlude (skip-comment)
+  "Skip the postlude of a definition, i.e. everything after `;'.
+Definitions are rules, grammar/class and v4 mode definition.  If
+SKIP-COMMENT is non-nil, also skip the whitespace and comment
+after that part.
+
+Point is assumed to be after the `;'.  Always return end position
+before trailing whitespaces and comments"
+  (let ((pos (point)))
     (antlr-c-forward-sws)
-    ;; TODO: skip options and tokens with v2 only
-    (while (looking-at "options\\>\\|tokens\\>")
-      (setq class t)
-      (setq pos (antlr-skip-sexps 2)))
-    (if class
-	;; Problem: an action only belongs to a class def, not a normal rule.
-	;; But checking the current rule type is too expensive => only expect
-	;; an action if we have found an option or tokens part.
-	(if (looking-at "{") (setq pos (antlr-skip-sexps 1)))
-      (while (looking-at "exception\\>\\|catch\\>\\|finally\\>")
-        (let ((c (char-after)))
-          (setq pos (antlr-skip-sexps
-                     (cdr (assq c '((?e . 1) (?c . 3) (?f . 2))))))
-          (when (and (eq c ?e) (looking-at "\\["))
-            (setq pos (antlr-skip-sexps 1))))))
+    (while (looking-at antlr-rule-postlude-skip-regexp)
+      ;; TODO: probably make this version dependent
+      (if (match-end 1)
+          (let ((skip (cdr (assoc (match-string-no-properties 1)
+                                  antlr-rule-postlude-skip-alist))))
+            (if (functionp (car skip))
+                (setq pos (funcall (car skip)))
+              (setq pos (antlr-skip-sexps (or (car skip) 1)))
+              (when (and (cdr skip) (eq (char-after) ?\[))
+                (setq pos (antlr-skip-sexps 1)))))
+        (goto-char (match-end 0))       ; to end of @action / @scope::action
+        (antlr-c-forward-sws)
+        (setq pos (antlr-skip-sexps 1))))
+    (if (eq (char-after) ?\{) (setq pos (antlr-skip-sexps 1))) ; v2
     (or skip-comment (goto-char pos))))
 
 (defun antlr-skip-file-prelude (skip-comment)
@@ -1543,46 +1512,48 @@ Return the start position of the file prelude.
 
 Hack: if SKIP-COMMENT is `header-only' only skip header and return
 position before the comment after the header."
-  (let* ((pos (point))
+  (let* ((pos (point))                  ; should be (point-min)
 	 (pos0 pos))
     (antlr-c-forward-sws)
     (if skip-comment (setq pos0 (point)))
-    (while (looking-at "header\\>[ \t]*\\(\"\\)?")
+    (while (looking-at "header\\_>[ \t]*\\(\"\\)?")
       (setq pos (antlr-skip-sexps (if (match-beginning 1) 3 2))))
     (if (eq skip-comment 'header-only)	; a hack...
 	pos
-      (when (looking-at "options\\>")
+      (when (looking-at "options\\_>")
 	(setq pos (antlr-skip-sexps 2)))
+      (if (eq (char-after) ?\{) (setq pos (antlr-skip-sexps 1)))
       (or skip-comment (goto-char pos))
       pos0)))
 
 (defun antlr-next-rule (arg skip-comment)
   "Move forward to next end of rule.  Do it ARG many times.
-A grammar class header and the file prelude are also considered as a
-rule.  Negative argument ARG means move back to ARGth preceding end of
-rule.  The behavior is not defined when ARG is zero.  If SKIP-COMMENT
-is non-nil, move to beginning of the rule."
+A grammar/class definition and the file prelude of Antlr v2
+grammars are also considered as a rule.  Negative argument ARG
+means move back to ARGth preceding end of rule.  The behavior is
+not defined when ARG is zero.  If SKIP-COMMENT is non-nil, move
+to beginning of the rule."
   ;; WARNING: Should only be used with `antlr-action-syntax-table'!
   ;; PRE: ARG<>0
   (let ((pos (point))
 	(beg (point)))
-    ;; first look whether point is in exception part
-    (if (antlr-search-backward ";")
+    ;; first look whether point is in rule postlude
+    (if (antlr-search-backward ";" antlr-skip-line-regexp)
 	(progn
 	  (setq beg (point))
 	  (forward-char)
-	  (antlr-skip-exception-part skip-comment))
+	  (antlr-skip-rule-postlude skip-comment))
       (antlr-skip-file-prelude skip-comment))
     (if (< arg 0)
-	(unless (and (< (point) pos) (zerop (incf arg)))
+	(unless (and (< (point) pos) (zerop (cl-incf arg)))
 	  ;; if we have moved backward, we already moved one defun backward
 	  (goto-char beg)		; rewind (to ";" / point)
-	  (while (and arg (<= (incf arg) 0))
-	    (if (antlr-search-backward ";")
+	  (while (and arg (<= (cl-incf arg) 0))
+	    (if (antlr-search-backward ";" antlr-skip-line-regexp)
 		(setq beg (point))
 	      (when (>= arg -1)
 		;; try file prelude:
-		(setq pos (antlr-skip-file-prelude skip-comment))
+		(setq pos (antlr-skip-file-prelude skip-comment)) ; header pos
 		(if (zerop arg)
 		    (if (>= (point) beg)
 			(goto-char (if (>= pos beg) (point-min) pos)))
@@ -1591,21 +1562,21 @@ is non-nil, move to beginning of the rule."
 	      (setq arg nil)))
 	  (when arg			; always found a ";"
 	    (forward-char)
-	    (antlr-skip-exception-part skip-comment)))
+	    (antlr-skip-rule-postlude skip-comment)))
       (if (<= (point) pos)		; moved backward?
 	  (goto-char pos)		; rewind
-	(decf arg))			; already moved one defun forward
+	(cl-decf arg))			; already moved one defun forward
       (unless (zerop arg)
-	(while (>= (decf arg) 0)
-	  (antlr-search-forward ";"))
-	(antlr-skip-exception-part skip-comment)))))
+	(while (>= (cl-decf arg) 0)
+	  (antlr-search-forward ";" antlr-skip-line-regexp))
+	(antlr-skip-rule-postlude skip-comment)))))
 
 (defun antlr-outside-rule-p ()
   "Non-nil if point is outside a grammar rule.
 Move to the beginning of the current rule if point is inside a rule."
   ;; WARNING: Should only be used with `antlr-action-syntax-table'!
   (let ((pos (point)))
-    (antlr-next-rule -1 nil)
+    (antlr-next-rule -1 nil)            ; to end of previous rule
     (let ((between (or (bobp) (< (point) pos))))
       (antlr-c-forward-sws)
       (and between (> (point) pos) (goto-char pos)))))
@@ -1621,58 +1592,69 @@ Move to the beginning of the current rule if point is inside a rule."
 A grammar class header and the file prelude are also considered as a
 rule."
   (save-excursion
-    (antlr-with-syntax-table antlr-action-syntax-table
-      (not (antlr-outside-rule-p)))))
+    (not (antlr-outside-rule-p))))
 
-(defunx antlr-end-of-rule (&optional arg)
-  "Move forward to next end of rule.  Do it ARG [default: 1] many times.
-A grammar class header and the file prelude are also considered as a
-rule.  Negative argument ARG means move back to ARGth preceding end of
+(defun antlr-end-of-rule (&optional arg)
+  "Move forward to next/end of rule.  Do it ARG [default: 1] many times.
+A grammar/class header and the file prelude are also considered a
+rule.
+
+If `antlr-end-of-defun-is-next' is nil, move to next end of rule,
+i.e. the end of the current rule with ARG = 1.  Otherwise move
+forward to the ARGth next rule.
+
+Negative argument ARG means move back to ARGth preceding end of
 rule.  If ARG is zero, run `antlr-end-of-body'."
-  (interactive "_p")
+  (interactive "^p")
+  ;; yes, there is a variable `end-of-defun-function', but `end-of-defun' does
+  ;; far too much around the funcall of that variable (Emacs-24.4)
   (if (zerop arg)
       (antlr-end-of-body)
-    (antlr-with-syntax-table antlr-action-syntax-table
-      (antlr-next-rule arg nil))))
+    (antlr-next-rule arg (and antlr-end-of-defun-is-next (> arg 0)))))
 
-(defunx antlr-beginning-of-rule (&optional arg)
+(defun antlr-beginning-of-rule (&optional arg)
   "Move backward to preceding beginning of rule.  Do it ARG many times.
-A grammar class header and the file prelude are also considered as a
-rule.  Negative argument ARG means move forward to ARGth next beginning
-of rule.  If ARG is zero, run `antlr-beginning-of-body'."
-  (interactive "_p")
+A grammar/class header and the file prelude are also considered a
+rule.
+
+Negative argument ARG means move forward to abs(ARG)th next rule:
+beginning of rule if `antlr-end-of-defun-is-next' is nil, and end
+of rule otherwise.
+
+If ARG is zero, run `antlr-beginning-of-body'."
+  (interactive "^p")
   (if (zerop arg)
       (antlr-beginning-of-body)
-    (antlr-with-syntax-table antlr-action-syntax-table
-      (antlr-next-rule (- arg) t))))
+    (antlr-next-rule (- arg) (if antlr-end-of-defun-is-next (> arg 0) t))))
 
-(defunx antlr-end-of-body (&optional msg)
+(defun antlr-end-of-body (&optional msg)
   "Move to position after the `;' of the current rule.
 A grammar class header is also considered as a rule.  With optional
 prefix arg MSG, move to `:'."
-  (interactive "_")
-  (antlr-with-syntax-table antlr-action-syntax-table
-    (let ((orig (point)))
-      (if (antlr-outside-rule-p)
-	  (error "Outside an ANTLR rule"))
-      (let ((bor (point)))
-	(when (< (antlr-skip-file-prelude t) (point))
-	  ;; Yes, we are in the file prelude
-	  (goto-char orig)
-	  (error (or msg "The file prelude is without `;'")))
-	(antlr-search-forward ";")
-	(when msg
-	  (when (< (point)
-		   (progn (goto-char bor)
-			  (or (antlr-search-forward ":") (point-max))))
-	    (goto-char orig)
-	    (error msg))
-	  (antlr-c-forward-sws))))))
+  (interactive "^")
+  (let ((orig (point)))
+    (if (antlr-outside-rule-p)
+        (error "Outside an ANTLR rule"))
+    (let ((bor (point)))              ; beginning of current rule
+      (when (< (antlr-skip-file-prelude t) (point))
+        ;; Yes, we are in the file prelude
+        (goto-char orig)
+        (error (or msg "The file prelude is without `;'")))
+      (antlr-search-forward ";" antlr-skip-line-regexp)
+      (when msg
+        (when (< (point)
+                 (progn (goto-char bor)
+                        (or (antlr-search-forward ":") (point-max))))
+          (goto-char orig)
+          (error msg))
+        (antlr-c-forward-sws)))))
 
-(defunx antlr-beginning-of-body ()
+(defun antlr-beginning-of-body ()
   "Move to the first element after the `:' of the current rule."
-  (interactive "_")
-  (antlr-end-of-body "Class headers and the file prelude are without `:'"))
+  (interactive "^")
+  (antlr-end-of-body (if (eq antlr-tool-version 'antlr-v2)
+                         "Class definitions and the file prelude are without `:'"
+                       "Grammar and mode definitions are without `:'")))
 
 
 ;;;===========================================================================
@@ -1687,11 +1669,9 @@ If non-nil, TRANSFORM is used on literals instead of `downcase-region'."
   (let ((literals 0))
     (save-excursion
       (goto-char (point-min))
-      (antlr-with-syntax-table antlr-action-syntax-table
-	(antlr-invalidate-context-cache)
-	(while (antlr-re-search-forward "\"\\(\\sw\\(\\sw\\|-\\)*\\)\"" nil)
-	  (funcall transform (match-beginning 0) (match-end 0))
-	  (incf literals))))
+      (while (antlr-re-search-forward "\"\\(\\sw\\(\\sw\\|\\s_\\|-\\)*\\)\"" nil) ; TODO: '...'
+        (funcall transform (match-beginning 0) (match-end 0))
+        (cl-incf literals)))
     (message "Transformed %d literals" literals)))
 
 (defun antlr-upcase-literals ()
@@ -1708,7 +1688,7 @@ actions if ARG is 0 or negative.  See `antlr-action-visibility'.
 
 Display a message unless optional argument SILENT is non-nil."
   (interactive "p")
-  (save-buffer-state-x
+  (with-silent-modifications
     (if (> arg 0)
 	(let ((regexp (if (= arg 1) "[]}]" "}"))
 	      (diff (and antlr-action-visibility
@@ -1716,24 +1696,22 @@ Display a message unless optional argument SILENT is non-nil."
 	  (antlr-hide-actions 0 t)
 	  (save-excursion
 	    (goto-char (point-min))
-	    (antlr-with-syntax-table antlr-action-syntax-table
-	      (antlr-invalidate-context-cache)
-	      (while (antlr-re-search-forward regexp nil)
-		(let ((beg (ignore-errors-x (scan-sexps (point) -1))))
-		  (when beg
-		    (if diff		; braces are visible
-			(if (> (point) (+ beg diff))
-			    (add-text-properties (1+ beg) (1- (point))
-						 '(invisible t intangible t)))
-		      ;; if actions is on line(s) of its own, hide WS
-		      (and (looking-at "[ \t]*$")
-			   (save-excursion
-			     (goto-char beg)
-			     (skip-chars-backward " \t")
-			     (and (bolp) (setq beg (point))))
-			   (beginning-of-line 2)) ; beginning of next line
-		      (add-text-properties beg (point)
-					   '(invisible t intangible t))))))))
+            (while (antlr-re-search-forward regexp nil)
+              (let ((beg (ignore-errors (scan-sexps (point) -1))))
+                (when beg
+                  (if diff		; braces are visible
+                      (if (> (point) (+ beg diff))
+                          (add-text-properties (1+ beg) (1- (point))
+                                               '(invisible t intangible t)))
+                    ;; if actions is on line(s) of its own, hide WS
+                    (and (looking-at "[ \t]*$")
+                         (save-excursion
+                           (goto-char beg)
+                           (skip-chars-backward " \t")
+                           (and (bolp) (setq beg (point))))
+                         (beginning-of-line 2)) ; beginning of next line
+                    (add-text-properties beg (point)
+                                         '(invisible t intangible t)))))))
 	  (or silent
 	      (message "Hide all actions (%s arguments)...done"
 		       (if (= arg 1) "including" "excluding"))))
@@ -1746,11 +1724,6 @@ Display a message unless optional argument SILENT is non-nil."
 ;;;===========================================================================
 ;;;  Insert option: command
 ;;;===========================================================================
-
-(defun antlr-options-alists ()
-  (if (< antlr-tool-version 30000)
-      antlr-options-alists
-    antlr-v3-options-alists))
 
 (defun antlr-insert-option (level option &optional location)
   "Insert file/grammar/rule/subrule option near point.
@@ -1811,6 +1784,7 @@ This command might also set the mark like \\[set-mark-command] does, see
   (barf-if-buffer-read-only)
   (or location (setq location (cdr (antlr-option-kind level))))
   (cond ((null level)
+         ;; TODO: better msg if there is (currently) no such option
 	 (error "Cannot deduce what kind of option to insert"))
 	((atom location)
 	 (error "Cannot insert any %s options around here"
@@ -1831,7 +1805,7 @@ This command might also set the mark like \\[set-mark-command] does, see
 	     (goto-char (max (point-min) (car area)))
 	     (re-search-forward (concat "\\(^\\|;\\)[ \t]*\\(\\<"
 					(regexp-quote option)
-					"\\>\\)[ \t\n]*\\(\\(=[ \t]?\\)[ \t]*\\(\\(\\sw\\|\\s_\\)+\\|\"\\([^\n\"\\]\\|[\\][^\n]\\)*\"\\)?\\)?")
+					"\\_>\\)[ \t\n]*\\(\\(=[ \t]?\\)[ \t]*\\(\\(\\sw\\|\\s_\\)+\\|\"\\([^\n\"\\]\\|[\\][^\n]\\)*\"\\)?\\)?")
 				;; 2=name, 3=4+5, 4="=", 5=value
 				(min (point-max) (cdr area))
 				t))
@@ -1859,7 +1833,7 @@ Return \(LEVEL OPTION LOCATION)."
 	 (level (car kind)))
     (if (atom (cdr kind))
 	(list level nil (cdr kind))
-      (let* ((table (elt (antlr-options-alists) (1- level)))
+      (let* ((table (elt antlr-options-alists (1- level)))
 	     (completion-ignore-case t)	;dynamic
 	     (input (completing-read (format "Insert %s option: "
 					     (elt antlr-options-headings
@@ -1877,7 +1851,7 @@ Return \(LEVEL OPTION LOCATION)."
 	      (vector option
 		      (list 'antlr-insert-option level option)
 		      :active active))
-	    (sort (mapcar 'car (elt (antlr-options-alists) (1- level)))
+	    (sort (mapcar 'car (elt antlr-options-alists (1- level)))
 		  'string-lessp))))
 
 
@@ -1917,7 +1891,7 @@ like \(AREA \. PLACE), see `antlr-option-location'."
 	      (cond ((null pos) 'error)
 		    ((looking-at "options[ \t\n]*{")
 		     (goto-char (match-end 0))
-		     (setq pos (ignore-errors-x (scan-lists (point) 1 1)))
+		     (setq pos (ignore-errors (scan-lists (point) 1 1)))
 		     (antlr-option-location orig min0 max0
 					    (point)
 					    (if pos (1- pos) (point-max))
@@ -1941,49 +1915,49 @@ the rule/subrule after the init action.  Otherwise, the point position
 is undefined."
   (widen)
   (if (eq requested 1)
-      1
-    (antlr-with-syntax-table antlr-action-syntax-table
-      (antlr-invalidate-context-cache)
-      (let* ((orig (point))
-	     (outsidep (antlr-outside-rule-p))
-	     bor depth)
-	(if (eq (char-after) ?\{) (antlr-skip-sexps 1))
-	(setq bor (point))		; beginning of rule (after init action)
-	(cond ((eq requested 2)		; grammar options required?
-	       (let (boc)		; beginning of class
-		 (goto-char (point-min))
-		 (while (and (<= (point) bor)
-			     (antlr-re-search-forward antlr-class-header-regexp
-						      nil))
-		   (if (<= (match-beginning 0) bor)
-		       (setq boc (match-end 0))))
-		 (when boc
-		   (goto-char boc)
-		   2)))
-	      ((save-excursion		; in region of file options?
-		 (goto-char (point-min))
-		 (antlr-skip-file-prelude t) ; ws/comment after: OK
-		 (< orig (point)))
-	       (and (null requested) 1))
-	      (outsidep			; outside rule not OK
-	       nil)
-	      ((looking-at antlr-class-header-regexp) ; rule = class def?
-	       (goto-char (match-end 0))
-	       (and (null requested) 2))
-	      ((eq requested 3)		; rule options required?
-	       (goto-char bor)
-	       3)
-	      ((setq depth (antlr-syntactic-grammar-depth orig bor))
-	       (if (> depth 0)		; move out of actions
-		   (goto-char (scan-lists (point) -1 depth)))
-	       (set-syntax-table antlr-mode-syntax-table)
-	       (antlr-invalidate-context-cache)
-	       (if (eq (antlr-syntactic-context) 0) ; not in subrule?
-		   (unless (eq requested 4)
-		     (goto-char bor)
-		     3)
-		 (goto-char (1+ (scan-lists (point) -1 1)))
-		 4)))))))
+      (and (car antlr-options-alists) 1)
+    (let* ((orig (point))
+           (outsidep (antlr-outside-rule-p))
+           bor depth)
+      (setq bor (point))		; beginning of rule
+      (cond ((eq requested 2)		; grammar options required?
+             (let (boc)		; beginning of class
+               (goto-char (point-min))
+               (while (and (<= (point) bor)
+                           (antlr-re-search-forward antlr-grammar-header-regexp nil))
+                 (if (<= (match-beginning 0) bor)
+                     (setq boc (match-end 0))))
+               (when boc
+                 (goto-char boc)
+                 2)))
+            ((and (car antlr-options-alists) ; file options available (v2)
+                  (save-excursion		 ; in region of file options?
+                    (goto-char (point-min))
+                    (antlr-skip-file-prelude t) ; ws/comment after: OK
+                    (< orig (point))))
+             (and (null requested) 1))
+            (outsidep			; outside rule not OK
+             nil)
+            ((looking-at antlr-grammar-header-regexp) ; rule = class def?
+             (goto-char (match-end 0))
+             (and (null requested) 2))
+            ((eq requested 3)		; rule options required?
+             (when (elt antlr-options-alists 2)
+               (goto-char bor)
+               3))
+            ((null (elt antlr-options-alists 3)) ; no subrule options availabe
+             (unless (or requested (null (elt antlr-options-alists 2)))
+               (goto-char bor)
+               3))
+            ((setq depth (antlr-syntactic-grammar-depth orig bor))
+             (if (> depth 0)		; move out of actions
+                 (goto-char (scan-lists (point) -1 depth)))
+             (if (null (antlr-syntactic-context)) ; not in subrule?
+                 (unless (or requested (null (elt antlr-options-alists 2)))
+                   (goto-char bor)
+                   3)
+               (goto-char (1+ (scan-lists (point) -1 1)))
+               4))))))
 
 (defun antlr-option-location (orig min-vis max-vis min-area max-area withp)
   "Return location for the options area.
@@ -2054,7 +2028,7 @@ the option value or nil.
 If the original point position was outside an options area, AREA is nil.
 Otherwise, and if an option specification already exists, AREA is a cons
 cell where the two values determine the area inside the braces."
-  (let* ((spec (cdr (assoc option (elt (antlr-options-alists) (1- level)))))
+  (let* ((spec (cdr (assoc option (elt antlr-options-alists (1- level)))))
 	 (value (antlr-option-spec level option (cdr spec) (consp old))))
     (if (fboundp (car spec)) (funcall (car spec) 'before-input option))
     ;; set mark (unless point was inside options area before)
@@ -2111,30 +2085,7 @@ should correspond to the VALUE-SPEC... in `antlr-options-alists'.
 EXISTSP determines whether the option already exists."
   (if (atom (car specs))
       (cons t specs)
-    (let (value)
-      (while (and specs (>= antlr-tool-version (caar specs)))
-        (setq value (pop specs)))
-      (cond (value)			; found correct spec
-            ((null specs) nil)		; didn't find any specs
-            (existsp (car specs))	; wrong version, but already present
-            ((y-or-n-p (format "Insert v%s %s option %s in v%s? "
-                               (antlr-version-string (caar specs))
-                               (elt antlr-options-headings (1- level))
-                               option
-                               (antlr-version-string antlr-tool-version)))
-             (car specs))
-            (t
-             (error "Didn't insert v%s %s option %s in v%s"
-                    (antlr-version-string (caar specs))
-                    (elt antlr-options-headings (1- level))
-                    option
-                    (antlr-version-string antlr-tool-version)))))))
-
-(defun antlr-version-string (version)
-  "Format the Antlr version number VERSION, see `antlr-tool-version'."
-  (let ((version100 (/ version 100)))
-    (format "%d.%d.%d"
-	    (/ version100 100) (mod version100 100) (mod version 100))))
+    (error "Subversion not supported anymore")))
 
 
 ;;;===========================================================================
@@ -2262,14 +2213,15 @@ If INITIAL-CONTENTS is non-nil, insert it in the minibuffer initially.
 PROMPT is a string to prompt with, normally it ends in a question mark
 and a space.  \"(true or false) \" is appended if TABLE is nil.
 
-Read with completion over \"true\", \"false\" and the keys in TABLE, see
-also `antlr-read-value'.
+Without TABLE, use `y-or-n-p', otherwise read with completion
+over \"true\", \"false\" and the keys in TABLE, see also
+`antlr-read-value'.
 
 Used inside `antlr-options-alists'."
-  (antlr-read-value initial-contents
-		    (if table prompt (concat prompt "(true or false) "))
-		    nil
-		    table '(("false") ("true"))))
+  (if table
+      (antlr-read-value initial-contents prompt
+                        nil table '(("false") ("true")))
+    (if (y-or-n-p prompt) "true" "false")))
 
 (defun antlr-language-option-extra (phase &rest _dummies)
 ;; checkdoc-params: (dummies)
@@ -2279,12 +2231,12 @@ of `antlr-language', keeping the value of variable `font-lock-mode'.
 
 Called in PHASE `after-insertion', see `antlr-options-alists'."
   (when (eq phase 'after-insertion)
-    (let ((new-language (antlr-language-option t)))
+    (let ((new-language (antlr-guess-language)))
       (or (null new-language)
 	  (eq new-language antlr-language)
 	  (let ((font-lock (and (boundp 'font-lock-mode) font-lock-mode)))
 	    (if font-lock (font-lock-mode 0))
-	    (antlr-mode)
+	    (antlr-mode)                ; TODO: do differently
 	    (and font-lock (null font-lock-mode) (font-lock-mode 1)))))))
 
 (defun antlr-c++-mode-extra (phase option &rest _dummies)
@@ -2295,19 +2247,21 @@ Ask user \(\"y or n\"), if a C++ only option is going to be inserted but
 
 Called in PHASE `before-input', see `antlr-options-alists'."
   (and (eq phase 'before-input)
-       (not (eq antlr-language 'c++-mode))
+       (not (eq antlr-language 'antlr-cpp))
        (not (y-or-n-p (format "Insert C++ %s option? " option)))
-       (error "Didn't insert C++ %s option with language %s"
-	      option (cadr (assq antlr-language antlr-language-alist)))))
+       (error "Didn't insert Cpp %s option with language %s"
+	      option antlr-language-mode-name)))
 
 
 ;;;===========================================================================
 ;;;  Compute dependencies
 ;;;===========================================================================
+;; This whole section is probably quite ANTLR-v2 dependent.  Changing this has
+;; no high priority at the moment...
 
 (defun antlr-file-dependencies ()
   "Return dependencies for grammar in current buffer.
-The result looks like \(FILE \(CLASSES \. SUPERS) VOCABS \. LANGUAGE)
+The result looks like \(FILE \(CLASSES \.  SUPERS) VOCABS \.  LANGUAGE)
   where CLASSES = ((CLASS . CLASS-EVOCAB) ...),
         SUPERS  = ((SUPER . USE-EVOCAB-P) ...), and
         VOCABS  = ((EVOCAB ...) . (IVOCAB ...))
@@ -2322,52 +2276,51 @@ its export vocabulary is used as an import vocabulary."
   (unless buffer-file-name
     (error "Grammar buffer does not visit a file"))
   (let (classes export-vocabs import-vocabs superclasses default-vocab)
-    (antlr-with-syntax-table antlr-action-syntax-table
-      (goto-char (point-min))
-      (while (antlr-re-search-forward antlr-class-header-regexp nil)
-	;; parse class definition --------------------------------------------
-	(let* ((class (match-string 2))
-	       (sclass (match-string 4))
-	       ;; export vocab defaults to class name (first grammar in file)
-	       ;; or to the export vocab of the first grammar in file:
-	       (evocab (or default-vocab class))
-	       (ivocab nil))
-	  (goto-char (match-end 0))
-	  (antlr-c-forward-sws)
-	  (while (looking-at "options\\>\\|\\(tokens\\)\\>")
-	    (if (match-beginning 1)
-		(antlr-skip-sexps 2)
-	      (goto-char (match-end 0))
-	      (antlr-c-forward-sws)
-	      ;; parse grammar option sections -------------------------------
-	      (when (eq (char-after (point)) ?\{)
-		(let* ((beg (1+ (point)))
-		       (end (1- (antlr-skip-sexps 1)))
-		       (cont (point)))
+    (goto-char (point-min))
+    (while (antlr-re-search-forward antlr-grammar-header-regexp nil)
+      ;; parse class definition --------------------------------------------
+      (let* ((class (match-string 2))
+             (sclass (match-string 4))
+             ;; export vocab defaults to class name (first grammar in file)
+             ;; or to the export vocab of the first grammar in file:
+             (evocab (or default-vocab class))
+             (ivocab nil))
+        (goto-char (match-end 0))
+        (antlr-c-forward-sws)
+        (while (looking-at "options\\_>\\|\\(tokens\\)\\_>")
+          (if (match-beginning 1)
+              (antlr-skip-sexps 2)
+            (goto-char (match-end 0))
+            (antlr-c-forward-sws)
+            ;; parse grammar option sections -------------------------------
+            (when (eq (char-after (point)) ?\{)
+              (let* ((beg (1+ (point)))
+                     (end (1- (antlr-skip-sexps 1)))
+                     (cont (point)))
 		(goto-char beg)
-		(if (re-search-forward "\\<exportVocab[ \t]*=[ \t]*\\([A-Za-z\300-\326\330-\337]\\sw*\\)" end t)
+		(if (re-search-forward "\\<exportVocab[ \t]*=[ \t]*\\([A-Za-z\300-\326\330-\337]\\(?:\\sw\\|\\s_\\)*\\)" end t)
 		    (setq evocab (match-string 1)))
 		(goto-char beg)
-		(if (re-search-forward "\\<importVocab[ \t]*=[ \t]*\\([A-Za-z\300-\326\330-\337]\\sw*\\)" end t)
+		(if (re-search-forward "\\<importVocab[ \t]*=[ \t]*\\([A-Za-z\300-\326\330-\337]\\(?:\\sw\\|\\s_\\)*\\)" end t)
 		    (setq ivocab (match-string 1)))
 		(goto-char cont)))))
-	  (unless (member sclass '("Parser" "Lexer" "TreeParser"))
-	    (let ((super (assoc sclass superclasses)))
-	      (if super
-		  (or ivocab (setcdr super t))
-		(push (cons sclass (null ivocab)) superclasses))))
-	  ;; remember class with export vocabulary:
-	  (push (cons class evocab) classes)
-	  ;; default export vocab is export vocab of first grammar in file:
-	  (or default-vocab (setq default-vocab evocab))
-	  (or (member evocab export-vocabs) (push evocab export-vocabs))
-	  (or (null ivocab)
-	      (member ivocab import-vocabs) (push ivocab import-vocabs)))))
+        (unless (member sclass '("Parser" "Lexer" "TreeParser"))
+          (let ((super (assoc sclass superclasses)))
+            (if super
+                (or ivocab (setcdr super t))
+              (push (cons sclass (null ivocab)) superclasses))))
+        ;; remember class with export vocabulary:
+        (push (cons class evocab) classes)
+        ;; default export vocab is export vocab of first grammar in file:
+        (or default-vocab (setq default-vocab evocab))
+        (or (member evocab export-vocabs) (push evocab export-vocabs))
+        (or (null ivocab)
+            (member ivocab import-vocabs) (push ivocab import-vocabs))))
     (if classes
-	(list* (file-name-nondirectory buffer-file-name)
-	       (cons (nreverse classes) (nreverse superclasses))
-	       (cons (nreverse export-vocabs) (nreverse import-vocabs))
-	       antlr-language))))
+	(cl-list* (file-name-nondirectory buffer-file-name)
+                  (cons (nreverse classes) (nreverse superclasses))
+                  (cons (nreverse export-vocabs) (nreverse import-vocabs))
+                  antlr-action-mode))))
 
 (defun antlr-directory-dependencies (dirname)
   "Return dependencies for all grammar files in directory DIRNAME.
@@ -2398,7 +2351,7 @@ export vocabulary specified in that file."
                 (let* ((file-deps (antlr-file-dependencies))
                        (file (car file-deps)))
                   (when file-deps
-                    (dolist (class-def (caadr file-deps))
+                    (dolist (class-def (cl-caadr file-deps))
                       (let ((file-evocab (cons file (cdr class-def)))
                             (class-spec (assoc (car class-def) classes)))
                         (if class-spec
@@ -2460,30 +2413,33 @@ called interactively, the buffers are always saved, see also variable
   (let ((default-directory (file-name-directory file))
         (process-environment
          (if antlr-tool-path
-             (cons (concat "PATH=" antlr-tool-path
-                           path-separator (getenv "PATH"))
-                   (cons (concat "LD_LIBRARY_PATH=" antlr-tool-path
-                                 path-separator (getenv "LD_LIBRARY_PATH"))
-                         process-environment))
+             (let ((path (mapconcat 'substitute-env-vars
+                                    antlr-tool-path path-separator)))
+               (cons (concat "PATH=" path path-separator
+                             (getenv "PATH"))
+                     (cons (concat "LD_LIBRARY_PATH=" path path-separator
+                                   (getenv "LD_LIBRARY_PATH"))
+                           process-environment)))
            process-environment))) ;#dynamic
-    (compilation-start command nil (lambda (_mode-name) "*Antlr-Run*"))))
+    ;; the MODE argument is quite a hack...
+    (compilation-start command antlr-compilation-mode (lambda (_mode-name) "*Antlr-Run*"))))
 
 (defun antlr-run-tool-interactive ()
   ;; code in `interactive' is not compiled
   "Interactive specification for `antlr-run-tool'.
 Use prefix argument ARG to return \(COMMAND FILE SAVED)."
-  (let* ((supers (cdadr (save-excursion
-			  (save-restriction
-			    (widen)
-			    (antlr-file-dependencies)))))
+  (let* ((supers (cl-cdadr (save-excursion
+                             (save-restriction
+                               (widen)
+                               (antlr-file-dependencies)))))
 	 (glibs ""))
     (when supers
       (save-some-buffers (not antlr-ask-about-save) nil)
       (setq glibs (car (antlr-superclasses-glibs
 			supers
 			(car (antlr-directory-dependencies
-			      (antlr-default-directory)))))))
-    (list (antlr-read-shell-command
+                              default-directory))))))
+    (list (read-shell-command
            "Run Antlr with: "
            (if (functionp antlr-tool-command)
                (funcall antlr-tool-command buffer-file-name glibs)
@@ -2496,6 +2452,8 @@ Use prefix argument ARG to return \(COMMAND FILE SAVED)."
 ;;;===========================================================================
 ;;;  Makefile creation
 ;;;===========================================================================
+;; This whole section is probably quite ANTLR-v2 dependent.  Changing this has
+;; no high priority at the moment...
 
 (defun antlr-makefile-insert-variable (number pre post)
   "Insert Makefile variable numbered NUMBER according to specification.
@@ -2510,29 +2468,29 @@ Also insert strings PRE and POST before and after the variable."
   "Insert Makefile rules in the current buffer at point.
 IN-MAKEFILE is non-nil, if the current buffer is the Makefile.  See
 command `antlr-show-makefile-rules' for detail."
-  (let* ((dirname (antlr-default-directory))
+  (let* ((dirname default-directory)
 	 (deps0 (antlr-directory-dependencies dirname))
 	 (classes (car deps0))		; CLASS -> (FILE . EVOCAB) ...
 	 (deps (cdr deps0))		; FILE -> (c . s) (ev . iv) . LANGUAGE
 	 (with-error nil)
-	 (gen-sep (or (caddr (cadr antlr-makefile-specification)) " "))
+	 (gen-sep (or (cl-caddr (cadr antlr-makefile-specification)) " "))
 	 (n (and (cdr deps) (cadr antlr-makefile-specification) 0)))
     (or in-makefile (set-buffer standard-output))
     (dolist (dep deps)
-      (let ((supers (cdadr dep))
-	    (lang (cdr (assoc (cdddr dep) antlr-file-formats-alist))))
-	(if n (incf n))
+      (let ((supers (cl-cdadr dep))
+	    (lang (cdr (assoc (cl-cdddr dep) antlr-file-formats-alist))))
+	(if n (cl-incf n))
 	(antlr-makefile-insert-variable n "" " =")
 	(if supers
 	    (insert " "
 		    (format (cadr antlr-special-file-formats)
 			    (file-name-sans-extension (car dep)))))
-	(dolist (class-def (caadr dep))
+	(dolist (class-def (cl-caadr dep))
 	  (let ((sep gen-sep))
 	    (dolist (class-file (cadr lang))
 	      (insert sep (format class-file (car class-def)))
 	      (setq sep " "))))
-	(dolist (evocab (caaddr dep))
+	(dolist (evocab (cl-caaddr dep))
 	  (let ((sep gen-sep))
 	    (dolist (vocab-file (cons (car antlr-special-file-formats)
 				      (car lang)))
@@ -2540,7 +2498,7 @@ command `antlr-show-makefile-rules' for detail."
 	      (setq sep " "))))
 	(antlr-makefile-insert-variable n "\n$(" ")")
 	(insert ": " (car dep))
-	(dolist (ivocab (cdaddr dep))
+	(dolist (ivocab (cl-cdaddr dep))
 	  (insert " " (format (car antlr-special-file-formats) ivocab)))
 	(let ((glibs (antlr-superclasses-glibs supers classes)))
 	  (if (cadr glibs) (setq with-error t))
@@ -2550,14 +2508,14 @@ command `antlr-show-makefile-rules' for detail."
 		(insert " " (format (car antlr-special-file-formats)
 				    (cdr super)))))
 	  (insert "\n\t"
-		  (caddr antlr-makefile-specification)
+		  (cl-caddr antlr-makefile-specification)
 		  (car glibs)
 		  " $<\n"
 		  (car antlr-makefile-specification)))))
     (if n
 	(let ((i 0))
 	  (antlr-makefile-insert-variable nil "" " =")
-	  (while (<= (incf i) n)
+	  (while (<= (cl-incf i) n)
 	    (antlr-makefile-insert-variable i " $(" ")"))
 	  (insert "\n" (car antlr-makefile-specification))))
     (if (bobp)
@@ -2591,7 +2549,8 @@ commentary with value `antlr-help-unknown-file-text' is added.  The
 *Help* buffer always starts with the text in `antlr-help-rules-intro'."
   (interactive)
   (if (null (derived-mode-p 'makefile-mode))
-      (antlr-with-displaying-help-buffer 'antlr-insert-makefile-rules)
+      (with-output-to-temp-buffer (help-buffer)
+        (save-excursion (antlr-insert-makefile-rules)))
     (push-mark)
     (antlr-insert-makefile-rules t)))
 
@@ -2626,7 +2585,7 @@ to a lesser extent, `antlr-tab-offset-alist'."
   (save-restriction
     (let ((orig (point))
 	  (min0 (point-min))
-	  bol boi indent syntax cc-syntax bos)
+	  bol boi indent syntax cc-syntax bos pdepth)
       (widen)
       (beginning-of-line)
       (setq bol (point))
@@ -2635,58 +2594,58 @@ to a lesser extent, `antlr-tab-offset-alist'."
       (skip-chars-forward " \t")
       (setq boi (point))
       ;; check syntax at beginning of indentation ----------------------------
-      (antlr-with-syntax-table antlr-action-syntax-table
-	(antlr-invalidate-context-cache)
-	(setq syntax (antlr-syntactic-context))
-        ;; ok, now we assume the Emacs versions -> TODO: syntax-ppss
-        (setq bos (cadr (cddr antlr-slow-context-cache)))
-	(cond ((symbolp syntax)
-	       (setq indent nil))	; block-comments, strings, (comments) -> cc engine
-	      ((progn
-		 (antlr-next-rule -1 t)
-                 (= (point) boi))
-               (setq indent 0))         ; rule start always at 0
-              ((if (let ((r (antlr-search-forward ":")))
-                     (while (and r (eq (char-after) ?:))
-                       (forward-char)
-                       (setq r (antlr-search-forward ":")))
-                     r)
-                   (< boi (1- (point)))
-                 t)
-	       (setq indent
-                     (or (cdr (assq :header antlr-base-offset-alist)) 0)))
-              ((eq (char-after boi) ?:)
-               (setq indent
-                     (or (cdr (assq :colon antlr-base-offset-alist))
-                         (cdr (assq :body antlr-base-offset-alist))
-                         2)))
-	      ((if (antlr-search-forward ";") (< boi (point)) t)
-	       (setq indent
-                     (or (cdr (assq :body antlr-base-offset-alist)) 2)))
-	      (t
-	       (forward-char)
-	       (antlr-skip-exception-part nil)
-	       (setq indent
-                     (if (> (point) boi)
-                         (or (cdr (assq :exception antlr-base-offset-alist)) 1)
-                       0))))) ; in exception part?
+      (let ((ppss (syntax-ppss)))
+        (setq syntax (or (antlr-syntactic-context ppss) 0))
+        (setq pdepth (car ppss))
+        (setq bos (cadr ppss)))
+      (cond ((symbolp syntax)
+             (setq indent nil))	; block-comments, strings, (comments) -> cc engine
+            ((progn
+               (antlr-next-rule -1 t) ; to start of rule
+               (= (point) boi))
+             (setq indent 0))         ; rule start always at 0
+            ;; TODO: use antlr-skip-to-colon-or-semi
+
+            ((if (let ((r (antlr-search-forward ":")))
+                   (while (and r (eq (char-after) ?:))
+                     (forward-char)
+                     (setq r (antlr-search-forward ":")))
+                   r)
+                 (< boi (1- (point)))
+               t)
+             (setq indent
+                   (or (cdr (assq :header antlr-base-offset-alist)) 0)))
+            ((eq (char-after boi) ?:)
+             (setq indent
+                   (or (cdr (assq :colon antlr-base-offset-alist))
+                       (cdr (assq :body antlr-base-offset-alist))
+                       2)))
+            ((if (antlr-search-forward ";" antlr-skip-line-regexp)
+                 (< boi (point))
+               t)
+             (setq indent
+                   (or (cdr (assq :body antlr-base-offset-alist)) 2)))
+            (t
+             (forward-char)
+             (antlr-skip-rule-postlude nil)
+             (setq indent
+                   (if (> (point) boi)
+                       (or (cdr (assq :exception antlr-base-offset-alist)) 1)
+                     0)))) ; in exception part?
       ;; check whether to use indentation engine of cc-mode ------------------
-      (antlr-invalidate-context-cache)
       (goto-char boi)
       (when (and indent (> syntax 0))
 	(cond ((> syntax 1)		; block in action => use cc-mode (or nothing)
 	       (setq indent nil)
-               (when (memq antlr-language
-                           '(js-mode opascal-mode python-mode ruby-mode))
+               (when antlr-indent-action-line
                  (setq syntax 'non-cc)))
-	      ((and (= indent 0)
-		    (assq antlr-language antlr-indent-at-bol-alist)
-		    (looking-at (cdr (assq antlr-language
+	      ((and (= indent 0)        ; TODO: recheck
+		    (assq antlr-action-mode antlr-indent-at-bol-alist)
+		    (looking-at (cdr (assq antlr-action-mode
 					   antlr-indent-at-bol-alist))))
 	       (setq syntax 'bol))
               ((memq (char-after) '(?\} ?\]))) ; close the block -> usual grammar indent
-              ((memq antlr-language
-                     '(js-mode opascal-mode python-mode ruby-mode))
+              (antlr-indent-action-line
                ;; TODO: parameters, and mode-specific - should we handle options{} and tokens{} extra?
                (setq indent nil syntax 'non-cc))
 	      ((setq cc-syntax (c-guess-basic-syntax))
@@ -2707,51 +2666,7 @@ to a lesser extent, `antlr-tab-offset-alist'."
                    ;; first code in the action -> then we simply indent
                    ;; according to indent-level (then we do not have to check
                    ;; whether the LANGUAGE indents at col 0 (and use C indent)
-                   (cond ((eq antlr-language 'js-mode)
-                          (js-indent-line))
-                         ((eq antlr-language 'opascal-mode)
-                          (narrow-to-region (1+ bos) (point-at-eol))
-                          ;; make Pascal mode only checks the code fragment
-                          ;; after the opening brace, otherwise its indentation
-                          ;; gets confused as {...} are block comments
-                          (opascal-indent-line)
-                          ;; or use low-level `opascal-corrected-indentation' -
-                          ;; but that does not have a docstring, i.e. not
-                          ;; really official ?
-                          (widen)
-                          (unless (memq (char-after (point-at-bol)) '(?\ ?\t))
-                            ;; no indentation -> considered top-level ->
-                            ;; indentation can also be performed by c-cmode
-                            (c-indent-line)))
-                         ((eq antlr-language 'ruby-mode)
-                          (narrow-to-region (1+ bos) (point-at-eol))
-                          (ruby-indent-line)
-                          (widen)
-                          (unless (memq (char-after (point-at-bol)) '(?\ ?\t))
-                            ;; no indentation -> considered top-level ->
-                            ;; indentation can also be performed by cc-mode
-                            (c-indent-line)))
-                         ((eq antlr-language 'python-mode)
-                          ;; Experimental indentation support for Python.  Requires
-                          ;; python.el.patch from the ANTLR download site.
-                          ;; This patch provides a possibility to specifiy a
-                          ;; start buffer position and an extra offset added to
-                          ;; all elements in python-indent-levels
-                          (if (not (and (eq antlr-indent-comment t) ; indent-region
-                                        (boundp 'python-submode-indentation-context)))
-                              (setq syntax 'string)
-                            (let* ((leftouter (save-excursion
-                                                (goto-char bos)
-                                                (current-indentation)))
-                                   (python-submode-indentation-context ;#dynamic
-                                    (list (list (1+ bos))
-                                          (+ leftouter c-basic-offset)))
-                                   (python-indent-trigger-commands ;#dynamic - allow cycling indent
-                                    (cons 'antlr-indent-command python-indent-trigger-commands)))
-                              (syntax-ppss-flush-cache 0)
-                              (narrow-to-region (1+ bos) (point-max))
-                              (python-indent-line))))
-                         ))
+                   (funcall antlr-indent-action-line bos))
                   ((or (numberp syntax)
                        (if (eq syntax 'string) nil (eq antlr-indent-comment t)))
                    (c-indent-line cc-syntax))))
@@ -2759,8 +2674,9 @@ to a lesser extent, `antlr-tab-offset-alist'."
 	(goto-char boi)
 	(unless (symbolp syntax)		; direct indentation
 	  ;;(antlr-invalidate-context-cache)
-	  (incf indent (antlr-syntactic-context))
-	  (and (> indent 0) (looking-at antlr-indent-item-regexp) (decf indent))
+	  (cl-incf indent pdepth)
+	  (and (> indent 0) (looking-at antlr-indent-item-regexp)
+               (cl-decf indent))
 	  (setq indent (* indent c-basic-offset)))
 	;; the usual major-mode indent stuff ---------------------------------
         ;; TODO: use `indent-line-to' instead?
@@ -2803,12 +2719,10 @@ ANTLR's syntax and influences the auto indentation, see
   (interactive "*P")
   (if (or arg
 	  (save-excursion (skip-chars-backward " \t") (not (bolp)))
-	  (antlr-with-syntax-table antlr-action-syntax-table
-	    (antlr-invalidate-context-cache)
-	    (let ((context (antlr-syntactic-context)))
-	      (not (and (numberp context)
-			(or (zerop context)
-			    (memq last-command-event '(?\{ ?\}))))))))
+          (let ((context (antlr-syntactic-context)))
+            (and context
+                 (not (and (numberp context)
+                           (memq last-command-event '(?\{ ?\})))))))
       (self-insert-command (prefix-numeric-value arg))
     (self-insert-command (prefix-numeric-value arg))
     (antlr-indent-line)))
@@ -2818,94 +2732,100 @@ ANTLR's syntax and influences the auto indentation, see
 ;;;  Mode entry
 ;;;===========================================================================
 
-(defun antlr-language-option (search)
-  "Find language in `antlr-language-alist' for language option.
-If SEARCH is non-nil, find element for language option.  Otherwise, find
-the default language."
-  (let ((value
-         (and search
-              (save-excursion
-                (goto-char (point-min))
-                (re-search-forward (cdr antlr-language-limit-n-regexp)
-                                   (+ (point)
-                                      (car antlr-language-limit-n-regexp))
-                                   t))
-              (match-string 1)))
-	(seq antlr-language-alist)
-	r)
-    ;; Like (find VALUE antlr-language-alist :key 'cddr :test 'member)
-    (while seq
-      (setq r (pop seq))
-      (if (member value (cddr r))
-	  (setq seq nil)		; stop
-	(setq r nil)))			; no result yet
-    (car r)))
+(defun antlr-guess-language ()
+  "Find language in `antlr-language-list' for language option.
+If not found, use the default, which is the first element."
+  (save-excursion
+    (goto-char (point-min))
+    (if (re-search-forward (cdr antlr-language-limit-n-regexp)
+                           (+ (point)
+                              (car antlr-language-limit-n-regexp))
+                           t)
+        (car (cl-find (match-string-no-properties 1) antlr-language-list
+                      :key 'cdr :test 'member))
+      (caar antlr-language-list))))
 
-(defun antlr-tool-version ()
-  (antlr-with-syntax-table antlr-action-syntax-table
-    (antlr-invalidate-context-cache)
-    (save-excursion
-      (goto-char (point-min))
-      (if (and (antlr-re-search-forward "^\\(lexer[ \t]+grammar\\|parser[ \t]+grammar\\|tree[ \t]+grammar\\|grammar\\|\\(class\\|header\\)\\)\\>" (+ (point) (car antlr-language-limit-n-regexp)))
-               (match-beginning 2))      ; class or header
-          20707
-        30502))))
+(defun antlr-guess-tool-version ()
+  (save-excursion
+    (goto-char (point-min))
+    (if (and (antlr-re-search-forward "^\\(lexer[ \t]+grammar\\|parser[ \t]+grammar\\|tree[ \t]+grammar\\|grammar\\|\\(class\\|header\\)\\)\\_>" (+ (point) (car antlr-language-limit-n-regexp)))
+             (match-beginning 2))      ; class or header
+        'antlr-v2
+      'antlr-v3)))
+
+(defun antlr-skip-import-statement ()
+  (if (not (and antlr-skip-line-regexp (looking-at antlr-skip-line-regexp)))
+      (antlr-skip-sexps 1)
+    (goto-char (match-end 0))
+    (prog1 (point)
+      (antlr-c-forward-sws))))
+
+(defun antlr-set-local-variables (selector variables)
+  (unless (symbolp selector)
+    (error "Illegal selector %s" selector))
+  (let ((required t))
+    (dolist (var variables)
+      (if (eq var '&optional)
+          (setq required nil)
+        (unless (local-variable-p var)
+          (let ((name (symbol-name var)))
+            (unless (and (string-match "\\`antlr-" name) (boundp var))
+              (error "Illegal element %s" var))
+            (let ((valsym (intern (concat (symbol-name selector)
+                                          (substring name 5)))))
+              (when (or (boundp valsym) required)
+                (set (make-local-variable var) (symbol-value valsym))))))))))
 
 (defun antlr-set-tool-version-and-mode-line ()
   ;; TODO: rename - `antlr-late-mode-init' ?
-  (unless antlr-tool-version
-    (set (make-local-variable 'antlr-tool-version) (antlr-tool-version)))
-  (unless antlr-language
-    (set (make-local-variable 'antlr-language)
-         (or (antlr-language-option t) (antlr-language-option nil))))
-  ;; TODO: currently hard-coded
-  (let* ((lang (assq antlr-language
-                     '((js-mode js)
-                       (opascal-mode opascal)
-                       (python-mode python)
-                       (ruby-mode ruby-mode))))
-         (cc (if lang 'java-mode antlr-language)))
-    (c-init-language-vars-for cc)
-    (c-basic-common-init cc (or antlr-indent-style "gnu")) ; sets `indent-line-function' etc
-    (set (make-local-variable 'indent-line-function) 'antlr-indent-line)
-    (set (make-local-variable 'indent-region-function) nil)	; too lazy
-    (if lang
-        (require (cadr lang))
-      (antlr-set-tabs))
-    (when (and (eq antlr-language 'opascal-mode)
-               (integerp c-basic-offset))
-      (when (equal opascal-compound-block-indent opascal-indent-level)
-        (setq-local opascal-compound-block-indent c-basic-offset))
-      (when (equal opascal-case-label-indent opascal-indent-level)
-        (setq-local opascal-case-label-indent c-basic-offset))
-      (setq-local opascal-indent-level c-basic-offset))
-    (when (eq antlr-language 'ruby-mode)
-      (setq-local ruby-indent-level c-basic-offset)
-      ;; Disable smie as long as we do not have a function for a part of
-      ;; `ruby-mode-variables'
-      (setq-local ruby-use-smie nil)))
-  (when (stringp (cadr (assq antlr-language antlr-language-alist)))
-    (setq mode-name
-          (format "Antlr%d.%s"
-                  (/ antlr-tool-version 10000)
-                  (cadr (assq antlr-language antlr-language-alist))))))
+  ;; set tool-version and tool-version-dependent variables -------------------
+  (if (local-variable-p 'antlr-tool-version)
+      (and (numberp antlr-tool-version) (<= 20000 antlr-tool-version 29999)
+           (setq antlr-tool-version 'antlr-v2)) ; backward compatibility
+    (set (make-local-variable 'antlr-tool-version) (antlr-guess-tool-version)))
+  (antlr-set-local-variables antlr-tool-version antlr-tool-version-variables)
+  ;; set language and language-dependent variables ---------------------------
+  (if (local-variable-p 'antlr-language)
+      (let ((try (assq antlr-language   ; backward compatibility
+                       '((java-mode . antlr-java) (c++-mode . antlr-cpp)))))
+        (and try (setq antlr-language (cdr try))))
+    (set (make-local-variable 'antlr-language) (antlr-guess-language)))
+  (when antlr-language
+    (antlr-set-local-variables antlr-language antlr-language-variables))
+  ;; language-dependent initializations --------------------------------------
+  (c-init-language-vars-for antlr-init-cc-mode)
+  (c-basic-common-init antlr-init-cc-mode ; sets `indent-line-function' etc
+                       (or antlr-indent-style "gnu"))
+  (funcall antlr-init-submode)
+  (set (make-local-variable 'indent-line-function) 'antlr-indent-line)
+  (set (make-local-variable 'indent-region-function) nil) ; TODO
+  ;; syntax-propertize -------------------------------------------------------
+  (when antlr-syntax-propertize
+    (setq-local syntax-propertize-function (car antlr-syntax-propertize))
+    (unless (eq (cadr antlr-syntax-propertize) t)
+      (if (functionp (cadr antlr-syntax-propertize))
+          (add-hook 'syntax-propertize-extend-region-functions
+                    (cadr antlr-syntax-propertize) 'append 'local)
+        (setq-local syntax-propertize-extend-region-functions
+                    (cadr antlr-syntax-propertize))))
+    (when (nth 2 antlr-syntax-propertize)
+      (setq-local c-multiline-string-start-char
+                  (if c-multiline-string-start-char t
+                    (nth 2 antlr-syntax-propertize))))
+    (when antlr-do-syntax-propertize    ; at least for imenu in Emacs-24.5
+      (syntax-propertize (point-max))))
+  (setq mode-name (concat antlr-tool-mode-name "."
+                          antlr-language-mode-name)))
 
 (defvar antlr-after-body-hook '(antlr-set-tool-version-and-mode-line))
 
 ;;;###autoload
 (define-derived-mode antlr-mode prog-mode
-  ;; FIXME: Since it uses cc-mode, it bumps into c-update-modeline's
-  ;; limitation to mode-name being a string.
-  ;; '("Antlr." (:eval (cadr (assq antlr-language antlr-language-alist))))
   "Antlr"
   "Major mode for editing ANTLR grammar files."
   :group 'antlr
   :abbrev-table antlr-mode-abbrev-table
   (c-initialize-cc-mode)		; cc-mode is required
-  (unless (fboundp 'c-forward-sws)	; see above
-    (fset 'antlr-c-forward-sws 'c-forward-syntactic-ws))
-  ;; ANTLR specific ----------------------------------------------------------
-  ;; indentation, for the C engine -------------------------------------------
   (set (make-local-variable 'require-final-newline) mode-require-final-newline)
   (set (make-local-variable 'outline-regexp) "[^#\n\^M]")
   (set (make-local-variable 'outline-level) 'c-outline-level) ;TODO: define own
@@ -2936,12 +2856,13 @@ the default language."
   :group 'antlr
   :syntax-table nil
   :abbrev-table nil
-  (set (make-local-variable 'antlr-tool-version) 40400))
+  (set (make-local-variable 'antlr-tool-version) 'antlr-v4))
 
 ;;;###autoload
 (defun antlr-set-tabs ()
   "Use ANTLR's convention for TABs according to `antlr-tab-offset-alist'.
-Used in `antlr-mode'.  Also a useful function in `java-mode-hook'."
+Used in `antlr-mode' for cc-mode-based languages.
+It is probably better to automatically deduce the TAB setting."
   (if buffer-file-name
       (let ((alist antlr-tab-offset-alist) elem)
 	(while alist
@@ -2949,12 +2870,178 @@ Used in `antlr-mode'.  Also a useful function in `java-mode-hook'."
 	  (and (or (null (car elem)) (eq (car elem) major-mode))
 	       (or (null (cadr elem))
 		   (string-match (cadr elem) buffer-file-name))
-	       (setq tab-width (caddr elem)
-		     indent-tabs-mode (cadddr elem)
+	       (setq tab-width (cl-caddr elem)
+		     indent-tabs-mode (cl-cadddr elem)
 		     alist nil))))))
 
+
+;;;===========================================================================
+;;;  CC-mode languages
+;;;===========================================================================
+
+(defvar antlr-c-language-mode-name "C")
+(defvar antlr-cpp-language-mode-name "Cpp")
+(defvar antlr-objc-language-mode-name "ObjC")
+
+(defvar antlr-c-action-mode 'c-mode)
+(defvar antlr-cpp-action-mode 'c++-mode)
+(defvar antlr-objc-action-mode 'objc-mode)
+
+(defvar antlr-c-init-cc-mode 'c-mode)
+(defvar antlr-cpp-init-cc-mode 'c++-mode)
+(defvar antlr-obj-init-cc-mode 'objc-mode)
+
+(defvar antlr-cpp-action-font-lock-keywords
+  '(antlr-no-action-keywords
+    c++-font-lock-keywords-1 c++-font-lock-keywords-2
+    c++-font-lock-keywords-3))
+(defvar antlr-c-action-font-lock-keywords
+  '(antlr-no-action-keywords
+    c-font-lock-keywords-1 c-font-lock-keywords-2
+    c-font-lock-keywords-3))
+(defvar antlr-objc-action-font-lock-keywords
+  '(antlr-no-action-keywords
+    objc-font-lock-keywords-1 objc-font-lock-keywords-2
+    objc-font-lock-keywords-3))
+
+
+;;;===========================================================================
+;;;  JavaScript
+;;;===========================================================================
+
+(defvar antlr-js-language-mode-name "Js")
+
+(defvar antlr-js-action-mode 'js-mode)
+
+(defvar antlr-js-init-submode 'antlr-init-js)
+
+(defvar antlr-js-action-font-lock-keywords
+  '(antlr-no-action-keywords
+    ;; do not use `js--font-lock-keywords-3' !
+    js--font-lock-keywords-1 js--font-lock-keywords-2))
+
+(defvar antlr-js-indent-action-line 'antlr-js-indent-action-line)
+
+(defun antlr-init-js ()
+  (require 'js))
+
+(defun antlr-js-indent-action-line (_bos)
+  (js-indent-line))
+
+
+;;;===========================================================================
+;;;  Delphi (opascal)
+;;;===========================================================================
+
+(defvar antlr-delphi-language-mode-name "Delphi")
+
+(defvar antlr-delphi-action-mode 'opascal-mode)
+
+(defvar antlr-delphi-init-submode 'antlr-init-delphi)
+
+(defvar antlr-delphi-action-font-lock-keywords
+  '(antlr-no-action-keywords
+    opascal-font-lock-keywords))
+
+(defvar antlr-delphi-indent-action-line 'antlr-delphi-indent-action-line)
+
+(defun antlr-init-delphi ()
+  (require 'opascal)
+  (when (integerp c-basic-offset)
+    (when (equal opascal-compound-block-indent opascal-indent-level)
+      (setq-local opascal-compound-block-indent c-basic-offset))
+    (when (equal opascal-case-label-indent opascal-indent-level)
+      (setq-local opascal-case-label-indent c-basic-offset))
+    (setq-local opascal-indent-level c-basic-offset)))
+
+(defun antlr-delphi-indent-action-line (bos)
+  (narrow-to-region (1+ bos) (point-at-eol))
+  ;; make Pascal mode only checks the code fragment after the opening brace,
+  ;; otherwise its indentation gets confused as {...} are block comments
+  (opascal-indent-line)
+  ;; or use low-level `opascal-corrected-indentation' - but that does not have
+  ;; a docstring, i.e. not really official ?
+  (widen)
+  (unless (memq (char-after (point-at-bol)) '(?\ ?\t))
+    ;; no indentation -> considered top-level -> indentation can also be
+    ;; performed by c-cmode
+    (c-indent-line)))
+
+
+;;;===========================================================================
+;;;  Ruby
+;;;===========================================================================
+
+(defvar antlr-ruby-language-mode-name "Ruby")
+
+(defvar antlr-ruby-action-mode 'ruby-mode)
+
+(defvar antlr-ruby-init-submode 'antlr-init-ruby)
+
+(defvar antlr-ruby-action-font-lock-keywords
+  '(antlr-no-action-keywords
+    ruby-font-lock-keywords))
+
+(defvar antlr-ruby-indent-action-line 'antlr-ruby-indent-action-line)
+
+(defun antlr-init-ruby ()
+  (require 'ruby-mode)
+  (setq-local ruby-indent-level c-basic-offset)
+  ;; Disable smie as long as we do not have a function for a part of
+  ;; `ruby-mode-variables'
+  (setq-local ruby-use-smie nil))
+
+(defun antlr-ruby-indent-action-line (bos)
+  (narrow-to-region (1+ bos) (point-at-eol))
+  (ruby-indent-line)
+  (widen)
+  (unless (memq (char-after (point-at-bol)) '(?\ ?\t))
+    ;; no indentation -> considered top-level -> indentation can also be
+    ;; performed by cc-mode
+    (c-indent-line)))
+
+
+;;;===========================================================================
+;;;  Python
+;;;===========================================================================
+
+(defvar antlr-python-language-mode-name "Python")
+
+(defvar antlr-python-action-mode 'python-mode)
+
+(defvar antlr-python-action-font-lock-keywords
+  '(antlr-no-action-keywords
+    python-font-lock-keywords))
+
+(defvar antlr-python-indent-action-line 'antlr-python-indent-action-line)
+
+(defvar antlr-python-init-submode 'antlr-init-python)
+
+(defun antlr-init-python ()
+  (require 'python))
+
+(defun antlr-python-indent-action-line (bos)
+  (let (leftouter)
+    (save-excursion
+      (goto-char bos)
+      (setq leftouter (current-indentation))
+      (forward-char)
+      (skip-chars-forward " \t")
+      (setq bos (and (eq (char-after) ?\n) (point))))
+    ;; a multi-line Python action does not start in its own line: this is a bad
+    ;; idea -> we do not touch those actions
+    (when (and bos
+               (eq antlr-indent-comment t) ; indent-region
+               (boundp 'prog-indentation-context)) ; Emacs 24.5 or later
+      (let ((syntax-ppss-cache nil) ;#dynamic
+            (syntax-ppss-last nil) ;#dynamic
+            ;; TODO: do we also need to call `syntax-propertize'?
+            ;; and/or bind `syntax-propertize-function'?
+            (prog-indentation-context ;#dynamic
+             (list (+ leftouter c-basic-offset) (list (1+ bos)))))
+        (narrow-to-region (1+ bos) (point-max))
+        (python-indent-line (eq this-command 'antlr-indent-command))))))
+
+
 (provide 'antlr-mode)
-
-;;; Local IspellPersDict: .ispell_antlr
-
 ;;; antlr-mode.el ends here
