@@ -1,4 +1,5 @@
 ;;; shell-script-mode
+(push '("\\.*rc\\'" . sh-mode) auto-mode-alist)
 (push '("\\.zsh\\'" . sh-mode) auto-mode-alist)
 (push '("\\.sh\\'" . sh-mode) auto-mode-alist)
 (push '("\\.bash\\'" . sh-mode) auto-mode-alist)
