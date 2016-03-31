@@ -103,17 +103,21 @@
 ;;; term-mode-hook term-raw-map !!! must be term-raw-map
 (add-hook 'term-mode-hook
           (lambda ()
+            ;; compatiable
             (setq-local evil-move-cursor-back nil)
             (setq-local evil-escape-inhibit t)
             (setq-local mode-require-final-newline nil)
             (setq-local show-trailing-whitespace nil)
-            (evil-define-key 'normal term-raw-map "p" 'term-paste)
-            (define-key term-raw-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
-            (setq term-buffer-maximum-size 0)
-            ;; multi-term
+            ;; term
             (setq multi-term-switch-after-close nil)
             (setq multi-term-dedicated-select-after-open-p t)
             (setq multi-term-scroll-to-bottom-on-output 'all)
+            ;; keybinding
+            (evil-define-key 'normal term-raw-map "p" 'term-paste)
+            (define-key term-raw-map
+              (kbd "C-t") 'hong/switch-non-terminal-buffer)
+            (setq term-buffer-maximum-size 0)
+            ;; multi-term keybinding
             (term-set-escape-char ?\C-c)
             (setq term-unbind-key-list '("C-x" "C-c"))
             (setq term-bind-key-alist
