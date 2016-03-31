@@ -16,9 +16,9 @@ buffer is not visiting a file."
 (setq tramp-verbose 2)
 (setq tramp-connection-timeout 10)
 
-;;; save password
+;;; save password(2 hours)
 (setq password-cache t)
-(setq password-cache-expiry 120)
+(setq password-cache-expiry 7200)
 
 ;;; faster see wiki Tramp hangs #2
 (setq tramp-chunksize 8192)

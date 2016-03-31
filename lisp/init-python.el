@@ -16,18 +16,18 @@
 (add-hook 'python-mode-hook
           '(lambda ()
              (anaconda-mode 1)
+             (anaconda-eldoc-mode 1)
              (setq-local company-backends
                          (cons 'company-anaconda company-backends))
-             (anaconda-eldoc-mode 1)
-
-             (evil-define-key 'normal python-mode-map (kbd "M-.")
-               'anaconda-mode-find-definitions)
-             (evil-define-key 'normal python-mode-map (kbd "M-,")
-               'anaconda-mode-go-back)
-
              (setq-local imenu-create-index-function
                          #'python-imenu-create-flat-index)
              (setq electric-indent-chars (delq ?: electric-indent-chars))
+
+             (evil-define-key 'normal
+               python-mode-map (kbd "M-.") 'anaconda-mode-find-definitions)
+
+             (evil-define-key 'normal
+               python-mode-map (kbd "M-,") 'anaconda-mode-go-back)
              ))
 
 (add-hook 'inferior-python-mode-hook 'hong/exit)

@@ -29,10 +29,10 @@
                 term-mode-hook))
   (add-hook hook #'(lambda () (setq show-trailing-whitespace nil))))
 
-;; Auto refresh buffers
+;; Auto refresh buffers, dired revert have bugs.
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t
-      dired-auto-revert-buffer            t
+      dired-auto-revert-buffer            nil
       auto-revert-verbose                 nil
       auto-revert-remote-files            nil)
 

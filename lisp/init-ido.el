@@ -26,6 +26,7 @@
 
 (add-hook 'ido-setup-hook
           (lambda ()
+            (define-key ido-file-completion-map (kbd "C-d") 'ido-enter-dired)
             (define-key ido-file-completion-map (kbd "M-d") 'hong/ido-create-dir)
             (define-key ido-common-completion-map (kbd "C-n") 'ido-next-match)
             (define-key ido-common-completion-map (kbd "C-p") 'ido-prev-match)))
@@ -48,6 +49,7 @@
 
 (eval-after-load 'counsel
   '(progn
+     (define-key counsel-find-file-map (kbd "C-d") 'ivy-dispatching-done)
      (define-key counsel-find-file-map (kbd "M-d") 'hong/ivy-create-dir)
      (define-key counsel-find-file-map (kbd "C-j") 'ivy-immediate-done)
      (define-key counsel-find-file-map (kbd "C-m") 'ivy-alt-done)))

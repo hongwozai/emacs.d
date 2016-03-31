@@ -1,3 +1,13 @@
+;;; =================== isearch ======================
+;;; occur inside isearch
+(define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
+;;; isearch (.*? replace space, use C-q SPC insert SPC)
+(define-key isearch-mode-map (kbd "SPC")
+  '(lambda () (interactive)
+     (setq isearch-message (concat isearch-message ".*?"))
+     (setq isearch-string (concat isearch-string ".*+"))
+     (isearch-update)))
+
 ;;; =================== grep =========================
 (setq-default grep-hightlight-matches     t
               grep-scroll-output          nil)
@@ -14,8 +24,6 @@
   )
 
 ;;; =================== occur =========================
-;;; occur inside isearch
-(define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
 ;;; occur follow
 (defun hong/occur-next-or-prev (next-or-prev)
   (lexical-let ((nop next-or-prev))

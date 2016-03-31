@@ -60,7 +60,10 @@
 ;;; ========================= compatibility ================================
 (when (version< emacs-version "24.4")
   (defun set-face-bold (face bold-p &optional frame)
-    (set-face-bold-p face bold-p frame)))
+    (set-face-bold-p face bold-p frame))
+
+  (defun set-face-italic (face italic-p &optional frame)
+    (set-face-italic-p face italic-p frame)))
 
 ;;; =========================== browse url =================================
 (defun hong/query-browse (&optional www)
