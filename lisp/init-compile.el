@@ -36,18 +36,6 @@
         ))
     ret))
 
-(defun hong/run-make (&optional with-target)
-  (interactive)
-  (setq make-path (hong/find-makefile-from-current))
-  (if make-path
-      (let* ((target (or (and with-target
-                              (completing-read "Select target: "
-                                               (hong/get-make-targets make-path)))
-                         " ")))
-        (compilation-start (format "cd %s && make %s" make-path target))
-        (select-window (get-buffer-window "*compilation*")))
-    (message "NO MAKEFILE!")))
-
 ;;; comint shell
 (defun hong/shell-run ()
   (interactive)

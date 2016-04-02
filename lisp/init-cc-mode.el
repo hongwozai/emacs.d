@@ -17,16 +17,16 @@
 
 (defun hong/my-gtk-config ()
   (interactive)
-  (setq flycheck-clang-include-path
-        (append flycheck-clang-include-path (hong/gtk-headers)))
-  (setq company-clang-arguments
-        (append company-clang-arguments
-                (mapcar #'(lambda (x) (concat "-I" x)) (hong/gtk-headers))))
-  (setq company-c-headers-path-system
-        (append company-c-headers-path-system (hong/gtk-headers)))
-  (setq c-eldoc-includes
-        (concat c-eldoc-includes
-                " `pkg-config gtk+-3.0 --cflags`"))
+  (setq-local flycheck-clang-include-path
+              (append flycheck-clang-include-path (hong/gtk-headers)))
+  (setq-local company-clang-arguments
+              (append company-clang-arguments
+                      (mapcar #'(lambda (x) (concat "-I" x)) (hong/gtk-headers))))
+  (setq-local company-c-headers-path-system
+              (append company-c-headers-path-system (hong/gtk-headers)))
+  (setq-local c-eldoc-includes
+              (concat c-eldoc-includes
+                      " `pkg-config gtk+-3.0 --cflags`"))
   )
 ;;; ===================== cc mode config ==================
 ;;; include c/c++, java etc.
@@ -61,27 +61,22 @@
   (push 'company-c-headers company-backends)
   )
 
+(defun hong/tags-debug-compile-setup (map)
+  (define-key map (kbd "C-c C-c") 'hong/shell-compile)
+  (define-key map (kbd "C-c C-s") 'hong/change-compile-command)
+  (define-key map (kbd "M-,") 'ggtags-prev-mark)
+  (define-key map (kbd "M-.") 'ggtags-find-definition)
+  (evil-define-key 'normal map (kbd "M-.") 'ggtags-find-definition)
+  (define-key map (kbd "C-M-.") 'ggtags-find-other-symbol)
+  (define-key map (kbd "<f6>") 'gdb))
+
 (defun hong/my-c-mode-config ()
   ;; key bindings
-  (define-key c-mode-map (kbd "C-c C-c") 'hong/shell-compile)
-  (define-key c-mode-map (kbd "C-c C-s") 'hong/change-compile-command)
-  (define-key c-mode-map (kbd "M-,") 'ggtags-prev-mark)
-  (define-key c-mode-map (kbd "M-.") 'ggtags-find-definition)
-  (evil-define-key 'normal c-mode-map (kbd "M-.") 'ggtags-find-definition)
-  (define-key c-mode-map (kbd "C-M-.") 'ggtags-find-other-symbol)
-  (define-key c-mode-map (kbd "<f5>") 'compile)
-  (define-key c-mode-map (kbd "<f6>") 'gdb)
-  )
+  (hong/tags-debug-compile-setup c-mode-map))
 
 (defun hong/my-c++-mode-config ()
   ;; key bindings
-  (define-key c++-mode-map (kbd "M-,") 'ggtags-prev-mark)
-  (define-key c++-mode-map (kbd "M-.") 'ggtags-find-definition)
-  (evil-define-key 'normal c++-mode-map (kbd "M-.") 'ggtags-find-definition)
-  (define-key c++-mode-map (kbd "C-M-.") 'ggtags-find-other-symbol)
-  (define-key c++-mode-map (kbd "<f5>") 'compile)
-  (define-key c++-mode-map (kbd "<f6>") 'gdb)
-  )
+  (hong/tags-debug-compile-setup c++-mode-map))
 
 (add-hook 'c-mode-common-hook
           (lambda () (hong/my-cc-common-config)))
