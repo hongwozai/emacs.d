@@ -14,7 +14,7 @@
 
 ;;; ido decorations
 (setq ido-decorations
-      '("\n-> " "" "\n   " " | ..." "[" "]"
+      '("\n-> " "" "\n   " "\n   ..." "[" "]"
         " [No match]" " [Matched]" " [Not readable]"
         " [Too big]" " [Confirm]"))
 

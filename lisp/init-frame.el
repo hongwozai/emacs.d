@@ -17,8 +17,8 @@
                  "%b"))))
 
 
-(defvar show-minor-modes
-  '(slime-mode))
+(defvar show-minor-modes '(slime-mode))
+
 (defun purge-minor-modes ()
   (interactive)
   (setf minor-mode-alist
@@ -35,13 +35,12 @@
 (setq powerline-default-separator nil)
 (setq powerline-utf-8-separator-left ?\ )
 (setq powerline-utf-8-separator-right ?\ )
+(require 'powerline)
 (powerline-default-theme)
 
-(defvar hong/mode-line-normal "#2B2B2B")
-(defvar hong/mode-line-inactive "#383838")
-
+(defvar mode-line-normal (face-background 'mode-line))
 (defun hong//change-color-with-evil-state ()
-  (let* ((default-color hong/mode-line-normal)
+  (let* ((default-color mode-line-normal)
          (color (cond ((minibufferp) default-color)
                       ((evil-insert-state-p) "#e80000")
                       ((evil-emacs-state-p)  "#444488")

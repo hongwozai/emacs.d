@@ -17,7 +17,7 @@
           (lambda ()
             (define-key eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
             (define-key eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
-            (define-key eshell-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
+            (define-key eshell-mode-map (kbd "C-c t") 'hong/switch-non-terminal-buffer)
             (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
 
             (setq pcomplete-cycle-completions nil
@@ -57,22 +57,13 @@
             (setq-local company-backends nil)
             (defalias 'em #'find-file)
             (defalias 'd #'dired)
-
-            ;; sudo complete
-            ;; https://github.com/emacs-helm/helm/wiki/Eshell
-            (defun pcomplete/sudo ()
-              (let ((prec (pcomplete-arg 'last -1)))
-                (cond ((string= "sudo" prec)
-                       (while (pcomplete-here*
-                               (funcall pcomplete-command-completion-function)
-                               (pcomplete-arg 'last) t))))))
             ))
 
 ;;; ============================= shell comint =============================
 ;;; bash completion in shell mode
-(require-package 'bash-completion)
-(autoload 'bash-completion-dynamic-complete "bash-completion" "BASH complete" )
-(add-hook 'shell-dynamic-complete-functions 'bash-completion-dynamic-complete)
+;; (require-package 'bash-completion)
+;; (autoload 'bash-completion-dynamic-complete "bash-completion" "BASH complete" )
+;; (add-hook 'shell-dynamic-complete-functions 'bash-completion-dynamic-complete)
 
 ;;; shell
 (setq shell-file-name "/bin/bash")
@@ -82,14 +73,14 @@
           (lambda ()
             (setq comint-input-sender #'hong/shell-comint-input-sender)
             (setq-local mode-require-final-newline nil)
-            (define-key shell-mode-map (kbd "C-t")
+            (define-key shell-mode-map (kbd "C-c t")
               'hong/switch-non-terminal-buffer)))
 
 ;;; comint mode
 (add-hook 'comint-mode-hook
           (lambda ()
             (define-key comint-mode-map (kbd "C-l") 'hong/clear-shell)
-            (define-key comint-mode-map (kbd "C-t") 'hong/switch-non-terminal-buffer)
+            (define-key comint-mode-map (kbd "C-c t") 'hong/switch-non-terminal-buffer)
             (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key comint-mode-map (kbd "C-n") 'comint-next-input)
             (define-key comint-mode-map (kbd "<up>") 'comint-previous-input)
@@ -116,14 +107,14 @@
             ;; keybinding
             (evil-define-key 'normal term-raw-map "p" 'term-paste)
             (define-key term-raw-map
-              (kbd "C-t") 'hong/switch-non-terminal-buffer)
+              (kbd "C-c t") 'hong/switch-non-terminal-buffer)
             (setq term-buffer-maximum-size 0)
             ;; multi-term keybinding
             (term-set-escape-char ?\C-c)
             (setq term-unbind-key-list '("C-x" "C-c"))
             (setq term-bind-key-alist
                   '(("C-r" . term-send-reverse-search-history)
-                    ("C-t" . hong/switch-non-terminal-buffer)
+                    ("C-c t" . hong/switch-non-terminal-buffer)
                     ("M-:" . eval-expression)
                     ("C-d" . term-send-eof)
                     ("C-y" . term-paste)

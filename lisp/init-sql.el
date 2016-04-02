@@ -10,7 +10,7 @@
 (setq sql-port     3306)
 
 ;;; M-x sql-mysql login
-(setq sql-mysql-login-params '(user password))
+(setq sql-mysql-login-params '(user password server))
 
 ;;; mysql exit autoclose
 (add-hook 'sql-interactive-mode-hook 'hong/exit)

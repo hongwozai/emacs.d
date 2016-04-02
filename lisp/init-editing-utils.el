@@ -30,15 +30,14 @@
   (add-hook hook #'(lambda () (setq show-trailing-whitespace nil))))
 
 ;; Auto refresh buffers, dired revert have bugs.
+;;; remote file revert have bugs.
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t
       dired-auto-revert-buffer            nil
-      auto-revert-verbose                 nil
-      auto-revert-remote-files            nil)
+      auto-revert-verbose                 nil)
 
 ;;; cursor
 (blink-cursor-mode 0)
-;; (global-hl-line-mode t)
 
 ;; syntax hightlight
 (global-font-lock-mode t)
@@ -58,7 +57,6 @@
      (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
      (define-key dired-mode-map "/" 'isearch-forward)
      (define-key dired-mode-map "?" 'isearch-backward)
-     (define-key dired-mode-map " " 'avy-goto-line)
      (evil-define-key 'normal dired-mode-map "j" 'diredp-next-line)
      (evil-define-key 'normal dired-mode-map "k" 'diredp-previous-line)
      (evil-define-key 'normal dired-mode-map "J" 'hong/dired-goto-file)
@@ -100,7 +98,6 @@
 (eval-after-load 'ibuffer
   '(progn
      (require 'ibuffer-vc)
-     (define-key ibuffer-mode-map (kbd "SPC") 'avy-goto-line)
      (define-key ibuffer-mode-map (kbd "j") 'ibuffer-forward-line)
      (define-key ibuffer-mode-map (kbd "k") 'ibuffer-backward-line)
      (define-key ibuffer-mode-map (kbd "J") 'ibuffer-jump-to-buffer)
@@ -149,16 +146,7 @@
 (global-set-key (kbd "RET") 'newline-and-indent)
 
 ;;; .dir-locals.el
-;;; eg. ((nil . ((indent-tabs-mode . t)
-;;;              (fill-column . 80)))
-;;;      (c-mode . (c-file-style . "BSD"))
-;;;      ("src/imported" . ((nil . ((VAR . "VALUE)))))) ;;; subdir
-;;; M-x add-dir-local-variable
-;;; .dir-locals.el can "eval", eg. ((nil . ((eval . (setq VAR "VALUE")))))
 (setq enable-local-variables :all enable-local-eval t)
-
-;;; hydra key binding
-(require-package 'hydra)
 
 ;;; kill ring
 (require-package 'browse-kill-ring)

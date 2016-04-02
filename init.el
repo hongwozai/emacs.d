@@ -7,6 +7,7 @@
 
 (require 'init-themes)
 (require 'init-evil)
+(require 'init-keybinding)
 (require 'init-frame)
 (require 'init-window)
 (require 'init-editing-utils)
@@ -29,10 +30,8 @@
 ;;; program language
 (require 'init-cc-mode)
 (require 'init-lisp)
-(when (executable-find "python")
-  (require 'init-python))
-(when (executable-find "ruby")
-  (require 'init-ruby))
+(when (executable-find "python") (require 'init-python))
+(when (executable-find "ruby")   (require 'init-ruby))
 (require 'init-web)
 (require 'init-sql)
 

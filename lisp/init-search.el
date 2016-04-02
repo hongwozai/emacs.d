@@ -5,7 +5,7 @@
 (define-key isearch-mode-map (kbd "SPC")
   '(lambda () (interactive)
      (setq isearch-message (concat isearch-message ".*?"))
-     (setq isearch-string (concat isearch-string ".*+"))
+     (setq isearch-string (concat isearch-string ".*?"))
      (isearch-update)))
 
 ;;; =================== grep =========================
@@ -83,8 +83,5 @@
   ("O" hong/multi-occur-same-major-mode :color blue)
   ("c" nil "cancel")
   ("q" nil "cancel"))
-
-(when (commandp 'swiper)
-  (global-set-key (kbd "C-s") 'swiper))
 
 (provide 'init-search)

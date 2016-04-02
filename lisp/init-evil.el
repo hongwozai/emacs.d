@@ -29,8 +29,6 @@
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
-(define-key evil-normal-state-map (kbd "gv") '(lambda () (interactive)
-                                                (er/expand-region 2)))
 
 ;;; ======================== evil plugin ==========================
 ;;; evil-anzu
@@ -46,8 +44,8 @@
 (require-package 'evil-escape)
 (setq-default evil-escape-key-sequence "kj")
 (evil-escape-mode)
-(add-hook 'minibuffer-setup-hook
-          (lambda () (setq-local evil-escape-inhibit t)))
+(dolist (hook '(minibuffer-setup-hook isearch-mode-hook))
+  (add-hook hook (lambda () (setq-local evil-escape-inhibit t))))
 
 ;;; evil matchit
 (require-package 'evil-matchit)

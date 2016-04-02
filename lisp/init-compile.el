@@ -36,24 +36,6 @@
         ))
     ret))
 
-(defun hong/get-make-targets (path)
-  (cd path)
-  (let (targets target)
-    (with-temp-buffer
-      (insert
-       (shell-command-to-string "make -nqp 2>/dev/null"))
-      ;;  after find every target
-      (goto-char (point-min))
-      (while (re-search-forward "^\\([^%$:#\n\t ]+\\):\\([^=]\\|$\\)" nil t)
-        (setq target (match-string 1))
-        (unless (or (save-excursion
-                      (goto-char (match-beginning 0))
-                      (forward-line -1)
-                      (looking-at "^# Not a target:"))
-                    (string-match "^\\." target))
-          (push target targets)))
-      (sort (delete-dups targets) 'string<))))
-
 (defun hong/run-make (&optional with-target)
   (interactive)
   (setq make-path (hong/find-makefile-from-current))
