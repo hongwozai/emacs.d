@@ -23,6 +23,8 @@
 (setq auto-mode-alist
       (append '(("\\.md\\'" . markdown-mode))
               '(("README\\'" . markdown-mode))
+              '(("readme\\'" . markdown-mode))
+              '(("readme\\.txt\\'" . markdown-mode))
               '(("README\\.txt\\'" . markdown-mode))
               auto-mode-alist))
 
