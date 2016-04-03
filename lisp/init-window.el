@@ -20,6 +20,10 @@
       (split-window nil nil direct)
       (switch-to-buffer-other-window other-buffer))))
 
+;;; evil key bindings
+(define-key evil-normal-state-map (kbd "C-w SPC") 'hong/window-layout-change)
+(define-key evil-motion-state-map (kbd "C-w SPC") 'hong/window-layout-change)
+
 ;;; workspace
 (require-package 'eyebrowse)
 (setq eyebrowse-wrap-around   t

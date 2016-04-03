@@ -193,7 +193,7 @@
          (comint-send-string proc "\n")
          (setq command (match-string 1 command))
          (funcall #'woman command))
-        ((string-match "^[ \t]*em[ \t]*\\(.*\\)" command)
+        ((string-match "^[ \t]*em[ \t]+\\(.*\\)" command)
          (comint-send-string proc "\n")
          (setq command (match-string 1 command))
          (display-buffer (funcall #'find-file-noselect command)))
