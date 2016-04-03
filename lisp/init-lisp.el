@@ -27,10 +27,12 @@
   (add-hook hook (lambda () (setq-local evil-move-cursor-back nil))))
 
 ;;; pretty symbol
-(setq prettify-symbols-alist '(("lambda" . 955)))
-(global-prettify-symbols-mode 1)
-(add-hook 'scheme-mode-hook
-          '(lambda () (setq prettify-symbols-alist '(("lambda" . 955)))))
+(unless (version< emacs-version "24.4")
+ (setq prettify-symbols-alist '(("lambda" . 955)))
+ (global-prettify-symbols-mode 1)
+ (add-hook 'scheme-mode-hook
+           '(lambda () (setq prettify-symbols-alist '(("lambda" . 955)))))
+ )
 
 ;;; ===================== lisp ==================
 ;;; elisp
