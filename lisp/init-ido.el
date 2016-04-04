@@ -43,16 +43,19 @@
 (setq ivy-height 18)
 (setq ivy-format-function 'ivy-format-function-arrow)
 
+(eval-after-load 'ivy
+  '(progn
+     (define-key ivy-minibuffer-map (kbd "C-d") 'ivy-dispatching-done)
+     (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-immediate-done)
+     (define-key ivy-minibuffer-map (kbd "C-m") 'ivy-alt-done)))
+
 ;;; counsel
 (add-hook 'after-init-hook 'counsel-mode)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 
 (eval-after-load 'counsel
   '(progn
-     (define-key counsel-find-file-map (kbd "C-d") 'ivy-dispatching-done)
-     (define-key counsel-find-file-map (kbd "M-d") 'hong/ivy-create-dir)
-     (define-key counsel-find-file-map (kbd "C-j") 'ivy-immediate-done)
-     (define-key counsel-find-file-map (kbd "C-m") 'ivy-alt-done)))
+     (define-key counsel-find-file-map (kbd "M-d") 'hong/ivy-create-dir)))
 
 ;;; =============================  misc function ================================
 (defun hong/ido-create-dir ()
