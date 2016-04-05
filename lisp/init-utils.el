@@ -50,9 +50,6 @@
            (list-colors-display . "*Colors*")
            (list-processes . "*Process List*")))
 
-(defadvice split-window (after hong/split-window activate)
-  (select-window ad-return-value))
-
 ;;; ========================= system relevant ==============================
 (defun hong/updatedb ()
   "updatedb need by counsel locate"
