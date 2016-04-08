@@ -13,7 +13,7 @@
                 sql-interactive-mode diff-mode
                 anaconda-nav-mode ibuffer-mode
                 comint-mode image-mode inferior-python-mode
-                interactive-haskell-mode haskell-error-mode
+                haskell-interactive-mode haskell-error-mode
                 flycheck-error-list-mode rlogin-mode))
   (evil-set-initial-state mode 'emacs))
 
