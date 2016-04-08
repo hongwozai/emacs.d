@@ -10,7 +10,9 @@
   (setq haskell-font-lock-symbols t)
   (add-hook 'haskell-mode-hook
             (lambda ()
-              (turn-on-haskell-doc-mode)
+              (setq haskell-tags-on-save t)
+              (haskell-doc-mode)
+              (interactive-haskell-mode)
               (turn-on-haskell-indent))))
 
 ;;; antlr

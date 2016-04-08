@@ -23,7 +23,8 @@
 ;;; \( -name 'NAME' -o -name 'NAME' -o -path 'PATH' \) -type f -print
 (defun hong/open-emacs-configure-file ()
   (interactive)
-  (let ((default-directory "~/.emacs.d/"))
+  (let ((default-directory "~/.emacs.d/")
+        (ffip-patterns '("*.el" "*.sh" "*.md" "*.org")))
     (ffip)))
 
 (defun hong/open-recentf-file ()
