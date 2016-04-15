@@ -149,7 +149,4 @@
 ;;; .dir-locals.el
 (setq enable-local-variables :all enable-local-eval t)
 
-;;; kill ring
-(require-package 'browse-kill-ring)
-
 (provide 'init-editing-utils)
