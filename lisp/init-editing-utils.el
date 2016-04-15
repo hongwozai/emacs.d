@@ -92,6 +92,7 @@
 ;; uniquify buffer-name
 (require 'uniquify)
 
+;;; TODO:ibuffer group
 ;;; ibuffer (list-buffers have bug: auto-recenterring)
 (require-package 'ibuffer-vc)
 (global-set-key (kbd "C-x C-b") 'ibuffer)

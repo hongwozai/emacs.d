@@ -17,7 +17,8 @@
           (lambda ()
             (define-key eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
             (define-key eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
-            (define-key eshell-mode-map (kbd "C-c t") 'hong/switch-non-terminal-buffer)
+            (define-key eshell-mode-map (kbd "M-,") 'hong/switch-non-terminal-buffer)
+            (define-key eshell-mode-map (kbd "C-u") 'hong/clear-before-line)
             (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
 
             (setq pcomplete-cycle-completions nil
@@ -33,19 +34,11 @@
             ;; history
             (defun hong/eshell-find-history ()
               (interactive)
-              (insert (ido-completing-read
+              (insert (ivy-read
                        "Eshell history: "
                        (delete-dups
                         (ring-elements eshell-history-ring)))))
             (define-key eshell-mode-map (kbd "C-s") 'hong/eshell-find-history)
-
-            ;; auto end
-            (defun hong//eshell-auto-end ()
-              (when (and (eq major-mode 'eshell-mode)
-                         (not (eq (line-end-position) (point-max))))
-                (end-of-buffer)))
-            (add-hook 'evil-insert-state-entry-hook
-                      'hong//eshell-auto-end nil t)
 
             ;; eshell clear
             (defun eshell/clear ()
@@ -66,18 +59,16 @@
 (add-hook 'shell-mode-hook 'hong/exit)
 (add-hook 'shell-mode-hook
           (lambda ()
-            (setq comint-input-sender #'hong/shell-comint-input-sender)
-            (setq-local mode-require-final-newline nil)
-            (setq-local comint-move-point-for-output 'others)
-            (define-key shell-mode-map (kbd "C-c t") 'hong/switch-non-terminal-buffer)))
+            (setq comint-input-sender #'hong/shell-comint-input-sender)))
 
 ;;; comint mode
 (add-hook 'comint-mode-hook
           (lambda ()
             (define-key comint-mode-map (kbd "C-l") 'hong/clear-shell)
-            (define-key comint-mode-map (kbd "C-c t") 'hong/switch-non-terminal-buffer)
+            (define-key comint-mode-map (kbd "M-,") 'hong/switch-non-terminal-buffer)
             (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key comint-mode-map (kbd "C-n") 'comint-next-input)
+            (define-key comint-mode-map (kbd "C-u") 'hong/clear-before-line)
             (define-key comint-mode-map (kbd "<up>") 'comint-previous-input)
             (define-key comint-mode-map (kbd "<down>") 'comint-next-input)
             (setq-local comint-prompt-read-only t)
@@ -99,29 +90,17 @@
             ;; term
             (setq multi-term-switch-after-close nil)
             (setq multi-term-dedicated-select-after-open-p t)
-            (setq multi-term-scroll-to-bottom-on-output 'all)
-            ;; keybinding
-            (evil-define-key 'normal term-raw-map "p" 'term-paste)
-            (define-key term-raw-map (kbd "C-c t") 'hong/switch-non-terminal-buffer)
+            (setq multi-term-scroll-to-bottom-on-output 'others)
             (setq term-buffer-maximum-size 0)
             ;; multi-term keybinding
             (term-set-escape-char ?\C-c)
-            (setq term-unbind-key-list '("C-x" "C-c"))
+            (setq term-unbind-key-list '("C-x"))
             (setq term-bind-key-alist
-                  '(("C-r" . term-send-reverse-search-history)
-                    ("C-c t" . hong/switch-non-terminal-buffer)
+                  '(("M-," . hong/switch-non-terminal-buffer)
                     ("M-:" . eval-expression)
-                    ("C-d" . term-send-eof)
                     ("C-y" . term-paste)
-                    ("M-y" . yank-pop)
-                    ("C-p" . term-send-up)
-                    ("C-n" . term-send-down)
                     ("C-DEL" . term-send-raw-meta)
-                    ("M-DEL" . term-send-raw-meta)
                     ("M-d" . term-send-forward-kill-word)
-                    ("M-c" . term-send-raw-meta)
-                    ("M-f" . term-send-forward-word)
-                    ("M-b" . term-send-backward-word)
                     ("M-x" . execute-extended-command)
                     ("M-]" . multi-term-next)
                     ("TAB" . (lambda () (interactive)
@@ -140,27 +119,29 @@
 (defalias 'mt 'multi-term)
 (defalias 'mtdo 'multi-term-dedicated-open)
 
-(defun find-and-return (list func)
-  (cond ((funcall func (car list)) (car list))
-        ((null (cdr list)) nil)
-        (t (find-and-return (cdr list) func))))
-
 (defun hong/switch-non-terminal-buffer ()
   "switch first no terminal buffer.
    use buffer list"
   (interactive)
   (let* ((buffer-list (mapcar (lambda (buf) (buffer-name buf)) (buffer-list)))
          (last-noterm-buffer
-          (find-and-return
-           buffer-list
-           (lambda (str)
-             (not (string-match
-                   (concat "^\\*term\\|^\\*eshell\\|^\\*shell\\|"
-                           "^ ?\\*Minibuf\\|^ ?\\*code.*work\\*$\\|^\\*Message\\|"
-                           "^ ?\\*Echo\\|^\\*\\([0-9]\\{1,3\\}.\\)\\{3\\}[0-9]\\{1,3\\}\\*$")
-                   str))))))
-    (and last-noterm-buffer (switch-to-buffer last-noterm-buffer))
-    ))
+          (catch 'ret
+            (mapcar (lambda (str)
+                      (if (not (string-match
+                                (concat
+                                 "^\\*term\\|^\\*eshell\\|^\\*shell\\|"
+                                 "^ ?\\*Minibuf\\|^ ?\\*code.*work\\*$\\|^\\*Message\\|"
+                                 "^ ?\\*Echo\\|^\\*\\([0-9]\\{1,3\\}.\\)\\{3\\}[0-9]\\{1,3\\}\\*$")
+                                str))
+                          (throw 'ret str)))
+                    buffer-list))))
+    (and last-noterm-buffer (switch-to-buffer last-noterm-buffer))))
+
+(defun hong/clear-before-line ()
+  (interactive)
+  (let ((start (line-beginning-position))
+        (end (point)))
+    (delete-region start end)))
 
 (defun hong/clear-shell ()
   (interactive)
@@ -187,7 +168,7 @@
         ((string-match "^[ \t]*man[ \t]*\\(.*\\)" command)
          (comint-send-string proc "\n")
          (setq command (match-string 1 command))
-         (funcall #'woman command))
+         (funcall #'man command))
         ((string-match "^[ \t]*em[ \t]+\\(.*\\)" command)
          (comint-send-string proc "\n")
          (setq command (match-string 1 command))
