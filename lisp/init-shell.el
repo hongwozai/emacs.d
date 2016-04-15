@@ -60,11 +60,6 @@
             ))
 
 ;;; ============================= shell comint =============================
-;;; bash completion in shell mode
-;; (require-package 'bash-completion)
-;; (autoload 'bash-completion-dynamic-complete "bash-completion" "BASH complete" )
-;; (add-hook 'shell-dynamic-complete-functions 'bash-completion-dynamic-complete)
-
 ;;; shell
 (setq shell-file-name "/bin/bash")
 (setq explicit-shell-file-name "/bin/bash")
@@ -73,8 +68,7 @@
           (lambda ()
             (setq comint-input-sender #'hong/shell-comint-input-sender)
             (setq-local mode-require-final-newline nil)
-            (define-key shell-mode-map (kbd "C-c t")
-              'hong/switch-non-terminal-buffer)))
+            (define-key shell-mode-map (kbd "C-c t") 'hong/switch-non-terminal-buffer)))
 
 ;;; comint mode
 (add-hook 'comint-mode-hook

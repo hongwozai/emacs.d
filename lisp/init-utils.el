@@ -27,6 +27,7 @@
 (defun hong/exit-prompt (process state)
   (if (string-match "\\(exited\\|finished\\)" state)
       (progn
+        (delete-window (get-buffer-window (process-buffer process)))
         (kill-buffer (process-buffer process)))))
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
@@ -64,25 +65,5 @@
 
   (defun set-face-italic (face italic-p &optional frame)
     (set-face-italic-p face italic-p frame)))
-
-;;; =========================== browse url =================================
-(defun hong/query-browse (&optional www)
-  (let* ((addr www)
-         (url (read-string "Query: " addr)))
-    (browse-url url)))
-
-(defmacro def-hong/query (&rest args)
-  `(progn
-     ,@(mapcar (lambda (pair)
-                 `(defun ,(intern (concat "hong/query-" (symbol-name (car pair)))) ()
-                    (interactive)
-                    (hong/query-browse ,(cdr pair))))
-               args)))
-
-(def-hong/query
-  (baidu . "https://www.baidu.com/s?wd=")
-  (iciba . "http://www.iciba.com/")
-  (bing  . "https://www.bing.com/search?qs=n&q=")
-  (github . "https://github.com/search?utf8=%E2%9C%93&q="))
 
 (provide 'init-utils)
