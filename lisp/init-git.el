@@ -19,4 +19,9 @@
 ;; Revert current hunk
 (global-set-key (kbd "C-x v r") 'git-gutter:revert-hunk)
 
+;;; git timemachine
+(require-package 'git-timemachine)
+(add-hook 'git-timemachine-mode-hook
+          (lambda () (evil-emacs-state)))
+
 (provide 'init-git)
