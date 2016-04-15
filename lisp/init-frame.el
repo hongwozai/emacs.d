@@ -17,7 +17,7 @@
                  "%b"))))
 
 
-(defvar show-minor-modes '(slime-mode))
+(defvar show-minor-modes '(slime-mode iedit-mode))
 
 (defun purge-minor-modes ()
   (interactive)
@@ -31,12 +31,33 @@
 (add-hook 'after-change-major-mode-hook 'purge-minor-modes)
 
 ;;; ====================== mode line format ============================
-(require-package 'powerline)
-(setq powerline-default-separator nil)
-(setq powerline-utf-8-separator-left ?\ )
-(setq powerline-utf-8-separator-right ?\ )
-(require 'powerline)
-(powerline-default-theme)
+(defvar hong/mode-line
+  (list
+   mode-line-front-space
+   " "
+   mode-line-mule-info
+   '(:eval (format "%c" (if buffer-read-only ?\- ?\+)))
+   '(:eval (format "%s" (buffer-size)))
+   "  "
+   mode-line-buffer-identification
+   " "
+   '(:propertize ("[%m" minor-mode-alist "]") 'face 'italic)
+   " "
+   '(:eval (propertize (format-mode-line '(vc-mode vc-mode))
+                       'face 'underline))
+   "  "
+   ;;global-mode-string, org-timer-set-timer in org-mode need this
+   '(:propertize "%M" 'face nil)
+   '(:eval (propertize " "
+                       'display
+                       `((space :align-to
+                                (- (+ right-fringe right-margin)
+                                   15)))))
+   "%l:%c  %p"
+   mode-line-end-spaces))
+
+(setq-default mode-line-format hong/mode-line)
+(setq mode-line-format hong/mode-line)
 
 (defvar mode-line-normal (face-background 'mode-line))
 (defun hong//change-color-with-evil-state ()
