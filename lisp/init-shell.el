@@ -68,6 +68,7 @@
           (lambda ()
             (setq comint-input-sender #'hong/shell-comint-input-sender)
             (setq-local mode-require-final-newline nil)
+            (setq-local comint-move-point-for-output 'others)
             (define-key shell-mode-map (kbd "C-c t") 'hong/switch-non-terminal-buffer)))
 
 ;;; comint mode
@@ -81,6 +82,7 @@
             (define-key comint-mode-map (kbd "<down>") 'comint-next-input)
             (setq-local comint-prompt-read-only t)
             (setq-local mode-require-final-newline nil)
+            (setq-local comint-move-point-for-output 'others)
             (setq-local comint-history-isearch t)))
 
 ;;; ============================= term =====================================
@@ -100,8 +102,7 @@
             (setq multi-term-scroll-to-bottom-on-output 'all)
             ;; keybinding
             (evil-define-key 'normal term-raw-map "p" 'term-paste)
-            (define-key term-raw-map
-              (kbd "C-c t") 'hong/switch-non-terminal-buffer)
+            (define-key term-raw-map (kbd "C-c t") 'hong/switch-non-terminal-buffer)
             (setq term-buffer-maximum-size 0)
             ;; multi-term keybinding
             (term-set-escape-char ?\C-c)
