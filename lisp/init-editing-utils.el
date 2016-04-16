@@ -43,7 +43,6 @@
 (global-font-lock-mode t)
 
 ;;; dired
-(require-package 'dired+)
 (require 'dired+)
 (eval-after-load 'dired
   '(progn

@@ -21,7 +21,6 @@
 (push '("\\.g4\\'" . antlr-v4-mode) auto-mode-alist)
 
 ;;; markdown-mode
-(require-package 'markdown-mode)
 (setq auto-mode-alist
       (append '(("\\.md\\'" . markdown-mode))
               '(("README\\'" . markdown-mode))

@@ -36,9 +36,6 @@
 
 ;;; ================================ ivy ========================================
 ;;; swiper(include ivy)
-(require-package 'swiper)
-(require-package 'counsel)
-
 (ivy-mode)
 (setq ivy-height 18)
 (setq ivy-format-function 'ivy-format-function-arrow)

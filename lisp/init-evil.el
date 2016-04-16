@@ -1,5 +1,4 @@
 ;; evil
-(require-package 'evil)
 (evil-mode 1)
 ;;; =================== evil configure =====================
 (setq evil-move-cursor-back t)
@@ -76,9 +75,7 @@
     (evil-iedit-insert-state))
   )
 ;;; ===================== evil leader custom key =================
-(require-package 'evil-leader)
 (global-evil-leader-mode)
-
 (evil-leader/set-leader ",")
 (evil-leader/set-key
   "b"   'hydra-mark-or-buf-menu/body

@@ -77,7 +77,6 @@
             (setq-local comint-history-isearch t)))
 
 ;;; ============================= term =====================================
-(require-package 'multi-term)
 (setq multi-term-program "/bin/bash")
 ;;; term-mode-hook term-raw-map !!! must be term-raw-map
 (add-hook 'term-mode-hook

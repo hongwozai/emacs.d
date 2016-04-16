@@ -9,14 +9,11 @@
 (when (fboundp 'electric-pair-mode)
   (electric-pair-mode))
 
-(require-package 'rainbow-delimiters)
-
 ;; paredit
 (require-package 'paredit)
 (autoload 'enable-paredit-mode "paredit" nil t)
 
 (dolist (hook lisp-common-mode-hook)
-  (add-hook hook 'rainbow-delimiters-mode)
   (add-hook hook '(lambda () (setq-local show-paren-style 'expression)))
   (add-hook hook #'enable-paredit-mode))
 
@@ -36,7 +33,6 @@
 
 ;;; ===================== lisp ==================
 ;;; elisp
-(require-package 'elisp-slime-nav)
 (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook
                                      lisp-interaction-mode-hook))
   (add-hook hook 'turn-on-elisp-slime-nav-mode))

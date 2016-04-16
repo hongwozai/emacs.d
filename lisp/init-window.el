@@ -1,9 +1,8 @@
-;; winner(two plugin conflict with eyebrowse and winner, so winner not use)
-;; (require 'winner)
-;; (winner-mode)
+;; winner
+(require 'winner)
+(winner-mode)
 
 ;; window numbering
-(require-package 'window-numbering)
 (setq window-numbering-mode-line-position 1)
 (window-numbering-mode)
 

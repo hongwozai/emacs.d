@@ -5,7 +5,6 @@
 ;;; find file in project
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ignore hidden file
-(require-package 'find-file-in-project)
 (eval-after-load 'find-file-in-project
   '(progn
      (setq ffip-project-file '(".svn" ".git" ".hg" "Makefile"
@@ -15,27 +14,28 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; gtags
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require-package 'ggtags)
+(when (executable-find "gtags")
+  (require-package 'ggtags)
+  (autoload 'ggtags-create-tags "ggtags" nil t)
+  (autoload 'ggtags-find-other-symbol "ggtags" nil t)
+  (autoload 'ggtags-find-definition "ggtags" nil t)
+  (autoload 'ggtags-find-reference "ggtags" nil t)
+  (autoload 'ggtags-find-tag-dwim "ggtags" nil t)
 
-(autoload 'ggtags-create-tags "ggtags" nil t)
-(autoload 'ggtags-find-other-symbol "ggtags" nil t)
-(autoload 'ggtags-find-definition "ggtags" nil t)
-(autoload 'ggtags-find-reference "ggtags" nil t)
-(autoload 'ggtags-find-tag-dwim "ggtags" nil t)
+  (add-hook 'ggtags-mode-hook
+            (lambda ()
+              (setq ggtags-update-on-save t)
+              (setq ggtags-highlight-tag nil)
+              (setq ggtags-enable-navigation-keys nil)
+              (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
+              (define-key ggtags-mode-map (kbd "C-M-.") 'ggtags-find-other-symbol)
 
-(add-hook 'ggtags-mode-hook
-          (lambda ()
-            (setq ggtags-update-on-save t)
-            (setq ggtags-highlight-tag nil)
-            (setq ggtags-enable-navigation-keys nil)
-            (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
-            (define-key ggtags-mode-map (kbd "C-M-.") 'ggtags-find-other-symbol)
-
-            ;; remote file slow in eldoc mode
-            (let ((file (buffer-file-name)))
-              (when (and file (file-remote-p file))
-                (eldoc-mode -1)))
-            ))
+              ;; remote file slow in eldoc mode
+              (let ((file (buffer-file-name)))
+                (when (and file (file-remote-p file))
+                  (eldoc-mode -1)))
+              ))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; tags jump overlay
@@ -57,17 +57,19 @@
                            (make-overlay start end)
                            'hong--jump-tags-face)))
 
-(defadvice imenu-default-goto-function
-    (after hong--imenu-goto-function activate)
-  (hong--display-current-overlay))
+(defmacro hong--display-line (func)
+  `(defadvice ,func (after ,(gensym) activate)
+     (hong--display-current-overlay)))
 
-(defadvice find-tag (after hong--find-tag-overlay activate)
-  (when ad-return-value
-    (hong--display-current-overlay)))
-
-(defadvice pop-tag-mark (after hong--pop-tag-overlay activate)
-  (when ad-return-value
-    (hong--display-current-overlay)))
+(dolist (var '(imenu-default-goto-function
+               find-tag
+               pop-tag-mark
+               elisp-slime-nav-find-elisp-thing-at-point
+               ggtags-find-definition
+               ggtags-find-other-symbol
+               anaconda-mode-find-definitions
+               anaconda-mode-go-back))
+  (eval `(hong--display-line ,var)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; tags operation

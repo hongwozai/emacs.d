@@ -19,5 +19,22 @@ re-downloaded in order to locate PACKAGE."
         (require-package package min-version t)))))
 
 (package-initialize)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; all package
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(mapc #'require-package
+      '(evil
+        evil-leader
+        zenburn-theme
+        hydra
+        window-numbering
+        dired+
+        swiper
+        counsel
+        multi-term
+        find-file-in-project
+        elisp-slime-nav
+        web-mode
+        markdown-mode))
 
 (provide 'init-elpa)

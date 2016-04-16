@@ -1,6 +1,4 @@
 ;; color theme
-(require-package 'zenburn-theme)
-
 ;;; only graphic color
 (cl-flet ((display-graphic-p (&optional what) t))
   (load-theme 'zenburn t))

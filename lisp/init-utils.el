@@ -38,22 +38,18 @@
   `(defadvice ,cmd (after ,(gensym) activate)
      (ignore-errors (select-window (get-buffer-window ,buffer-name)))))
 
-(defun hong/sw (alist)
-  (when (not (null alist))
-    (eval `(hong/select-buffer-window ,(caar alist) ,(cdar alist)))
-    (hong/sw (cdr alist))))
-
-(hong/sw '((describe-function . "*Help*")
-           (describe-key . "*Help*")
-           (describe-mode . "*Help*")
-           (describe-coding-system . "*Help*")
-           (describe-variable . "*Help*")
-           (shell-command . "*Shell Command Output*")
-           (list-colors-display . "*Colors*")
-           (list-processes . "*Process List*")))
+(dolist (var '((describe-function . "*Help*")
+               (describe-key . "*Help*")
+               (describe-mode . "*Help*")
+               (describe-coding-system . "*Help*")
+               (describe-variable . "*Help*")
+               (shell-command . "*Shell Command Output*")
+               (list-colors-display . "*Colors*")
+               (list-processes . "*Process List*")))
+  (eval `(hong/select-buffer-window ,(car var) ,(cdr var))))
 
 ;;; ========================= system relevant ==============================
-(defun hong/updatedb ()
+(defun hong-updatedb ()
   "updatedb need by counsel locate"
   (interactive)
   (let ((default-directory "/sudo:root@localhost:/"))
