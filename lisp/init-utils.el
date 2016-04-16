@@ -45,7 +45,10 @@
                (describe-variable . "*Help*")
                (shell-command . "*Shell Command Output*")
                (list-colors-display . "*Colors*")
-               (list-processes . "*Process List*")))
+               (list-processes . "*Process List*")
+               (grep . "*grep*")
+               (rgrep . "*grep*")
+               (occur . "*Occur*")))
   (eval `(hong/select-buffer-window ,(car var) ,(cdr var))))
 
 ;;; ========================= system relevant ==============================
@@ -80,5 +83,27 @@
           (setq ret nil))
         ))
     ret))
+
+;;; ========================= overlay ======================================
+(defface hong--jump-tags-face
+  '((t (:foreground "black" :background "DarkSeaGreen3")))
+  "tags jump face"
+  :group 'etags)
+
+(defun hong--overlay-display (delay overlay face)
+  (overlay-put overlay 'face face)
+  (sit-for delay)
+  (delete-overlay overlay))
+
+(defun hong--display-current-overlay ()
+  (let ((start (line-beginning-position))
+        (end (line-end-position)))
+    (hong--overlay-display 1
+                           (make-overlay start end)
+                           'hong--jump-tags-face)))
+
+(defmacro hong--display-line (func)
+  `(defadvice ,func (after ,(gensym) activate)
+     (hong--display-current-overlay)))
 
 (provide 'init-utils)

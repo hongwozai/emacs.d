@@ -40,27 +40,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; tags jump overlay
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defface hong--jump-tags-face
-  '((t (:foreground "black" :background "DarkSeaGreen3")))
-  "tags jump face"
-  :group 'etags)
-
-(defun hong--overlay-display (delay overlay face)
-  (overlay-put overlay 'face face)
-  (sit-for delay)
-  (delete-overlay overlay))
-
-(defun hong--display-current-overlay ()
-  (let ((start (line-beginning-position))
-        (end (line-end-position)))
-    (hong--overlay-display 1
-                           (make-overlay start end)
-                           'hong--jump-tags-face)))
-
-(defmacro hong--display-line (func)
-  `(defadvice ,func (after ,(gensym) activate)
-     (hong--display-current-overlay)))
-
 (dolist (var '(imenu-default-goto-function
                find-tag
                pop-tag-mark

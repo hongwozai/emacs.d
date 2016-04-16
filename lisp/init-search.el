@@ -11,8 +11,6 @@
 ;;; =================== grep =========================
 (setq-default grep-hightlight-matches     t
               grep-scroll-output          nil)
-(hong/select-buffer-window grep "*grep*")
-(hong/select-buffer-window rgrep "*grep*")
 
 (when (executable-find "ag")
   (require-package 'ag)
@@ -32,9 +30,8 @@
         (save-selected-window
           (if (eq nop 'next) (occur-next) (occur-prev))
           (occur-mode-goto-occurrence-other-window)
-          (recenter))))))
-
-(hong/select-buffer-window occur "*Occur*")
+          (recenter)
+          (hong--display-current-overlay))))))
 
 (defadvice isearch-occur (after hong/occur-exit-isearch activate)
   (and (ignore-errors (select-window (get-buffer-window "*Occur*")))
