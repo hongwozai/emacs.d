@@ -1,6 +1,7 @@
 ;;debug
 (setq debug-on-error nil)
 (setq debug-on-quit nil)
+(setq ad-redefinition-action 'accept)
 
 ;;; initiate gc allocate
 (setq-default gc-cons-threshold (* 1024 1024 24)
@@ -65,5 +66,23 @@
 
   (defun set-face-italic (face italic-p &optional frame)
     (set-face-italic-p face italic-p frame)))
+
+;;; ========================= loop find ====================================
+(defun hong--loop-find (func)
+  (let ((path (if buffer-file-name
+                  (file-name-directory buffer-file-name) "/"))
+        (go-on t)
+        (ret nil))
+    (while go-on
+      (if (funcall func path)
+          (progn (setq go-on nil)
+                 (setq ret path))
+        (progn
+          (setq path (file-name-directory (directory-file-name path)))
+          (if (equal path "/")
+              (setq go-on nil))
+          (setq ret nil))
+        ))
+    ret))
 
 (provide 'init-utils)

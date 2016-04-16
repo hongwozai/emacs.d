@@ -37,4 +37,69 @@
                 (eldoc-mode -1)))
             ))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; tags jump overlay
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defface hong--jump-tags-face
+  '((t (:foreground "black" :background "DarkSeaGreen3")))
+  "tags jump face"
+  :group 'etags)
+
+(defun hong--overlay-display (delay overlay face)
+  (overlay-put overlay 'face face)
+  (sit-for delay)
+  (delete-overlay overlay))
+
+(defun hong--display-current-overlay ()
+  (let ((start (line-beginning-position))
+        (end (line-end-position)))
+    (hong--overlay-display 1
+                           (make-overlay start end)
+                           'hong--jump-tags-face)))
+
+(defadvice imenu-default-goto-function
+    (after hong--imenu-goto-function activate)
+  (hong--display-current-overlay))
+
+(defadvice find-tag (after hong--find-tag-overlay activate)
+  (when ad-return-value
+    (hong--display-current-overlay)))
+
+(defadvice pop-tag-mark (after hong--pop-tag-overlay activate)
+  (when ad-return-value
+    (hong--display-current-overlay)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; tags operation
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun tags-generate (directory wildcards)
+  "create or update TAGS"
+  (interactive (list (ido-read-directory-name
+                      "Directory: "
+                      (and (local-variable-if-set-p 'history-directory)
+                           history-directory))
+                     (read-string
+                      "Wildcards: "
+                      (and (local-variable-if-set-p 'history-wildcards)
+                           history-wildcards))))
+  (let* ((exec (or (executable-find "etags") "ctags -e"))
+         (command
+          (format "find %s '(' %s ')' -type f | xargs %s"
+                  directory
+                  (substring
+                   (mapconcat (lambda (str) (format "-name '%s' -o" str))
+                              (split-string wildcards) " ")
+                   0 -2)
+                  exec)))
+    (setq-local history-directory directory)
+    (setq-local history-wildcards wildcards)
+    (setq-local history-command command)
+    (shell-command command)))
+
+(defun tags-update ()
+  (interactive)
+  (if (local-variable-if-set-p 'history-command)
+      (shell-command history-command)
+    (call-interactively #'tags-generate)))
+
 (provide 'init-project)

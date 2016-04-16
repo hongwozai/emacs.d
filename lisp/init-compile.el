@@ -11,30 +11,9 @@
 (add-hook 'after-init-hook 'hong/my-compile-common-config)
 
 ;;; ==================== auto compile =================
-(defun hong/find-makefile-from-current ()
-
-  (defun get-parent-directory (path)
-    (file-name-directory (directory-file-name path)))
-
-  (defun have-makefile (path)
-    (or (file-readable-p (concat path "Makefile"))
-        (file-readable-p (concat path "makefile"))))
-
-  (let ((path (if buffer-file-name (file-name-directory buffer-file-name)
-                "/"))
-        (go-on t)
-        (ret nil))
-    (while go-on
-      (if (have-makefile path)
-          (progn (setq go-on nil)
-                 (setq ret path))
-        (progn
-          (setq path (get-parent-directory path))
-          (if (equal path "/")
-              (setq go-on nil))
-          (setq ret nil))
-        ))
-    ret))
+(defun hong--have-makefile (path)
+  (or (file-readable-p (concat path "Makefile"))
+      (file-readable-p (concat path "makefile"))))
 
 ;;; comint shell
 (defun hong/shell-run ()
@@ -55,7 +34,7 @@
 (defun hong/shell-compile ()
   (interactive)
   (save-selected-window
-    (let* ((path (hong/find-makefile-from-current))
+    (let* ((path (hong--loop-find #'hong--have-makefile))
            (rpath (and path (if (file-remote-p path)
                                 (progn (string-match "/.*:\\(.*\\)$" path)
                                        (match-string 1 path))
