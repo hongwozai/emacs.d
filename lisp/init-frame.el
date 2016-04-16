@@ -16,7 +16,7 @@
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
 
-
+;;; purge minor modes display
 (defvar show-minor-modes '(slime-mode iedit-mode))
 
 (defun purge-minor-modes ()
