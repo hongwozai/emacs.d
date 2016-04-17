@@ -15,6 +15,19 @@ function dictionary_setup() {
     echo "pyim dict finished."
 }
 
+function exec_setup() {
+    echo "setup em..."
+    if [ -f /usr/bin/em ]; then
+        cat <<EOF > /usr/bin/em
+#!/bin/bash
+emacsclient -nw -a "" -c $1
+EOF
+    else
+        echo "em exists."
+    fi
+    echo "em setup finished."
+}
 
 # setup
 dictionary_setup
+exec_setup

@@ -67,6 +67,7 @@
       '("C-x 4" "C-x r" "C-x RET" "C-x v" ",g" ",m" ",c"
         (dired-mode "*")
         (ibuffer-mode "%" "*" "/" "s")
+        (markdown-mode "C-c C-c")
         (sh-mode "C-c")))
 
 (provide 'init-misc)
