@@ -74,6 +74,7 @@
             (hl-line-mode 1)))
 
 ;;; recentf
+(setq recentf-auto-cleanup 'never)
 (require 'recentf)
 (setq recentf-max-saved-items 100)
 (add-hook 'after-init-hook (lambda () (recentf-mode 1)))
@@ -89,9 +90,7 @@
 ;; uniquify buffer-name
 (require 'uniquify)
 
-;;; TODO:ibuffer group
 ;;; ibuffer (list-buffers have bug: auto-recenterring)
-(require-package 'ibuffer-vc)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (eval-after-load 'ibuffer
   '(progn
@@ -121,11 +120,9 @@
               filename-and-process)))
 
 ;; expand-region
-(require-package 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
 ;;; avy
-(require-package 'avy)
 (setq avy-background t)
 
 ;; show pair
@@ -133,7 +130,6 @@
 (setq show-paren-style 'parenthesis)
 
 ;;; highlight symbol
-(require-package 'highlight-symbol)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 (add-hook 'highlight-symbol-mode-hook
           (lambda ()

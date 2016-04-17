@@ -10,7 +10,6 @@
   (electric-pair-mode))
 
 ;; paredit
-(require-package 'paredit)
 (autoload 'enable-paredit-mode "paredit" nil t)
 
 (dolist (hook lisp-common-mode-hook)

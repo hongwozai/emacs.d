@@ -9,9 +9,6 @@
         try-expand-dabbrev-from-kill))
 
 ;; company
-(require-package 'company)
-(require-package 'company-c-headers)
-
 (add-hook 'after-init-hook #'global-company-mode)
 
 (eval-after-load 'company

@@ -8,7 +8,6 @@
 (push '("\\.bash_profile\\'" . sh-mode) auto-mode-alist)
 
 ;;; set path
-(require-package 'exec-path-from-shell)
 (setq exec-path-from-shell-check-startup-files nil)
 (exec-path-from-shell-initialize)
 

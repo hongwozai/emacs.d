@@ -1,3 +1,12 @@
+;;; sql
+(eval-after-load "sql"
+  '(load-library "sql-indent"))
+
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (hong/exit)
+            (toggle-truncate-lines t)))
+
 ;;; go language
 (when (executable-find "go")
   (require-package 'go-mode)
@@ -50,13 +59,10 @@
   (setq graphviz-dot-toggle-completions t))
 
 ;;; guide key
-(require-package 'guide-key)
 (guide-key-mode 1)
-
 (setq guide-key/idle-delay 0.3)
 (setq guide-key/recursive-key-sequence-flag t)
 (setq guide-key/popup-window-position 'bottom)
-
 (setq guide-key/guide-key-sequence
       '("C-x 4" "C-x r" "C-x RET" "C-x v" ",g" ",m" ",c"
         (dired-mode "*")

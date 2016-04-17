@@ -1,7 +1,4 @@
 ;;; complete, checker, doc
-(require-package 'anaconda-mode)
-(require-package 'company-anaconda)
-
 (setq hong/python-version "2")
 (setq hong/python-program (concat "python" hong/python-version))
 (setq hong/ipython-program (concat "ipython" hong/python-version))

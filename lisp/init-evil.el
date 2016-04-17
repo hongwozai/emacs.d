@@ -32,28 +32,21 @@
 
 ;;; ======================== evil plugin ==========================
 ;;; evil-anzu
-(require-package 'evil-anzu)
-(require 'evil-anzu)
 (global-anzu-mode)
 
 ;;; evil surround
-(require-package 'evil-surround)
 (global-evil-surround-mode 1)
 
 ;;; evil escape
-(require-package 'evil-escape)
 (setq-default evil-escape-key-sequence "kj")
 (evil-escape-mode)
 (dolist (hook '(minibuffer-setup-hook isearch-mode-hook))
   (add-hook hook (lambda () (setq-local evil-escape-inhibit t))))
 
 ;;; evil matchit
-(require-package 'evil-matchit)
 (global-evil-matchit-mode 1)
 
 ;;; evil iedit
-(require-package 'iedit)
-(require-package 'evil-iedit-state)
 (autoload 'evil-iedit-state "evil-iedit-state")
 (autoload 'evil-iedit-insert-state "evil-iedit-state")
 

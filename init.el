@@ -30,10 +30,10 @@
 ;;; program language
 (require 'init-cc-mode)
 (require 'init-lisp)
-(when (executable-find "python") (require 'init-python))
-(when (executable-find "ruby")   (require 'init-ruby))
+(require 'init-python)
+(when (executable-find "ruby")
+  (require 'init-ruby))
 (require 'init-web)
-(require 'init-sql)
 
 (require 'init-misc)
 

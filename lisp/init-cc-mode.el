@@ -1,6 +1,5 @@
 ;;; ===================== ggtags eldoc doxygen ==================
 ;;; c-eldoc
-(require-package 'c-eldoc)
 (autoload 'c-turn-on-eldoc-mode "c-eldoc" "" t)
 
 ;;; doxygen

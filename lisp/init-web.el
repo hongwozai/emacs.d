@@ -1,7 +1,4 @@
-;;; php
-(require-package 'php-mode)
-
-;;; =========================== web mode =================
+;;; ======================= web mode ========================
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
@@ -25,18 +22,15 @@
 (setq web-mode-enable-current-element-highlight t)
 
 ;;; emmet-mode
-(require-package 'emmet-mode)
 (add-hook 'web-mode-hook 'emmet-mode)
 
 ;;; company-web
-(require-package 'company-web)
 (add-hook 'web-mode-hook
           (lambda ()
             (set (make-local-variable 'company-backends)
                  '(company-web-html company-yasnippet company-files))))
 
 ;;; ========================= javascript ================
-(require-package 'js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (setq js2-use-font-lock-faces t

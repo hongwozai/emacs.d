@@ -13,8 +13,6 @@
   )
 
 ;;; online dictionary
-(require-package 'bing-dict)
-
 (defun hong/translate-brief-at-point ()
   (interactive)
   (let ((word
@@ -24,13 +22,17 @@
     (bing-dict-brief word)))
 
 ;;; input method
-(require-package 'chinese-pyim)
 (require 'chinese-pyim)
 (eval-after-load 'chinese-pyim
   '(progn
      (setq default-input-method "chinese-pyim")
-     (setq pyim-use-tooltip nil)              ; don't use tooltip
-     (setq pyim-dicts '((:name "pinyin" :file "~/.eim/pyim-bigdict.pyim" :coding utf-8-unix)))))
+     (setq pyim-isearch-enable-pinyin-search t)
+     (setq pyim-use-tooltip 'pos-tip)
+     (setq pyim-guidance-format-function
+           'pyim-guidance-format-function-one-line)
+     (setq pyim-dicts '((:name "pinyin"
+                               :file "~/.eim/pyim-bigdict.pyim"
+                               :coding utf-8-unix)))))
 
 ;;; fcitx
 (when (executable-find "/usr/bin/fcitx")

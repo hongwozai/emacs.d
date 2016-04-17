@@ -24,7 +24,6 @@
 (define-key evil-motion-state-map (kbd "C-w SPC") 'hong/window-layout-change)
 
 ;;; workspace
-(require-package 'eyebrowse)
 (setq eyebrowse-wrap-around   t
       eyebrowse-new-workspace t)
 (eyebrowse-mode)

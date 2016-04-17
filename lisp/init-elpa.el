@@ -32,9 +32,48 @@ re-downloaded in order to locate PACKAGE."
         swiper
         counsel
         multi-term
+        flycheck
+        company
         find-file-in-project
+        ;; evil
+        evil-anzu
+        evil-surround
+        evil-escape
+        evil-matchit
+        evil-iedit-state
+        ;; workspace
+        eyebrowse
+        ;; edit
+        avy
+        yasnippet
+        expand-region
+        highlight-symbol
+        ibuffer-vc
+        exec-path-from-shell
+        bing-dict
+        chinese-pyim
+        guide-key
+        ;; version control
+        magit
+        git-gutter
+        git-timemachine
+        ;; cc-mode
+        c-eldoc
+        company-c-headers
+        ;; python
+        anaconda-mode
+        company-anaconda
+        ;; elisp
         elisp-slime-nav
+        paredit
+        ;; html, js, css, php
         web-mode
+        js2-mode
+        php-mode
+        emmet-mode
+        company-web
+        ;; misc
+        sql-indent
         markdown-mode))
 
 (provide 'init-elpa)
