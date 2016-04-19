@@ -1,4 +1,4 @@
-;; TODO: after-make-frame-functions (lambda (frame))
+;; only graphic TODO: after-make-frame-functions
 (cl-flet ((display-graphic-p (&optional what) t))
   (load-theme 'zenburn t))
 
@@ -6,6 +6,7 @@
 (add-hook 'after-init-hook
           (lambda ()
             (set-face-italic 'font-lock-function-name-face t)
+            (set-face-italic 'font-lock-comment-face t)
             (set-face-bold 'font-lock-type-face t)
             (set-face-bold 'font-lock-keyword-face t)
             (set-face-bold 'minibuffer-prompt t)))
