@@ -28,7 +28,6 @@
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-(define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 
 ;;; ======================== evil plugin ==========================
 ;;; evil-anzu
@@ -46,27 +45,16 @@
 ;;; evil matchit
 (global-evil-matchit-mode 1)
 
-;;; evil iedit
-(autoload 'evil-iedit-state "evil-iedit-state")
-(autoload 'evil-iedit-insert-state "evil-iedit-state")
+;;; evil iedit state
+(autoload 'evil-iedit-state/iedit-mode "evil-iedit-state")
 
-(define-key evil-normal-state-map (kbd "C-;") 'hong/evil-iedit-state)
-(define-key evil-insert-state-map (kbd "C-;") 'hong/evil-iedit-insert-state)
-
-(defun hong/evil-iedit-state ()
-  (interactive)
-  (iedit-mode)
-  (if (eq evil-state 'iedit)
-      (evil-normal-state)
-    (evil-iedit-state)))
-
-(defun hong/evil-iedit-insert-state ()
-  (interactive)
-  (iedit-mode)
-  (if (eq evil-state 'iedit-insert)
-      (evil-insert-state)
-    (evil-iedit-insert-state))
-  )
+(global-set-key (kbd "C-;") 'evil-iedit-state/iedit-mode)
+(eval-after-load 'evil-iedit-state
+  '(progn
+     (define-key evil-iedit-insert-state-map (kbd "C-;")
+       'evil-iedit-state/quit-iedit-mode)
+     (define-key evil-iedit-state-map (kbd "C-;")
+       'evil-iedit-state/quit-iedit-mode)))
 ;;; ===================== evil leader custom key =================
 (global-evil-leader-mode)
 (evil-leader/set-leader ",")
