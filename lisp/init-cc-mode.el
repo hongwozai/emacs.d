@@ -57,7 +57,8 @@
   (font-lock-add-keywords 'c-mode '("typeof" "__attribute__" "__asm__"))
 
   ;; company
-  (push 'company-c-headers company-backends)
+  (setq-local company-backends
+              (append '(company-c-headers) company-backends))
   )
 
 (defun hong/tags-debug-compile-setup (map)
