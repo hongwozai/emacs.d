@@ -46,9 +46,7 @@
                elisp-slime-nav-find-elisp-thing-at-point
                ggtags-find-definition
                ggtags-find-other-symbol
-               ggtags-prev-mark
-               anaconda-mode-find-definitions
-               anaconda-mode-go-back))
+               ggtags-prev-mark))
   (eval `(hong--display-line ,var)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

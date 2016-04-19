@@ -151,7 +151,7 @@
   ("S" info-lookup-symbol :color blue)
   ("i" info :color blue)
   ("l" list-colors-display :color blue)
-  ("p" hong/kill-process :color blue)
+  ("p" hong-kill-process :color blue)
   ("a" apropos :color blue)
   ("c" nil "cancel")
   ("q" nil "quit"))

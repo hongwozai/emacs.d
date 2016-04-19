@@ -26,7 +26,6 @@
 (eval-after-load 'chinese-pyim
   '(progn
      (setq default-input-method "chinese-pyim")
-     (setq pyim-isearch-enable-pinyin-search t)
      (setq pyim-use-tooltip 'pos-tip)
      (setq pyim-guidance-format-function
            'pyim-guidance-format-function-one-line)
