@@ -1,5 +1,4 @@
 ;; TODO: after-make-frame-functions (lambda (frame))
-;;; only graphic color
 (cl-flet ((display-graphic-p (&optional what) t))
   (load-theme 'zenburn t))
 
