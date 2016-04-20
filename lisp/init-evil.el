@@ -49,6 +49,10 @@
 (autoload 'evil-iedit-state/iedit-mode "evil-iedit-state")
 
 (global-set-key (kbd "C-;") 'evil-iedit-state/iedit-mode)
+(eval-after-load 'iedit
+  '(progn
+     (global-set-key (kbd "C-;") 'evil-iedit-state/iedit-mode)))
+
 (eval-after-load 'evil-iedit-state
   '(progn
      (define-key evil-iedit-insert-state-map (kbd "C-;")
