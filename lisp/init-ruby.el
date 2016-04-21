@@ -21,6 +21,7 @@
 ;;; inf-ruby
 (add-hook 'inf-ruby-mode-hook
           (lambda ()
+            (hong/exit)
             (define-key inf-ruby-mode-map (kbd "C-p") 'comint-previous-input)
             (define-key inf-ruby-mode-map (kbd "C-n") 'comint-next-input)))
 
