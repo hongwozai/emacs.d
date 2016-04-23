@@ -69,6 +69,7 @@ re-downloaded in order to locate PACKAGE."
         paredit
         ;; clojure
         clojure-mode
+        cider
         ;; html, js, css, php
         web-mode
         js2-mode
