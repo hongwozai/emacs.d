@@ -27,6 +27,7 @@
   '(progn
      (setq default-input-method "chinese-pyim")
      (setq pyim-use-tooltip 'pos-tip)
+     (setq pyim-page-length 9)
      (setq pyim-guidance-format-function
            'pyim-guidance-format-function-one-line)
      (setq pyim-dicts '((:name "pinyin"
