@@ -2,9 +2,10 @@
   '(emacs-lisp-mode-hook lisp-mode-hook lisp-interaction-mode-hook
                          scheme-mode-hook slime-repl-mode-hook
                          inferior-scheme-mode-hook ielm-mode-hook
-                         eval-expression-minibuffer-setup-hook))
+                         eval-expression-minibuffer-setup-hook
+                         clojure-mode-hook cider-mode-hook))
 
-;;; ===================== pair ==================
+;;; ========================== pair ===============================
 ;; built-in
 (when (fboundp 'electric-pair-mode)
   (electric-pair-mode))
@@ -16,7 +17,7 @@
   (add-hook hook '(lambda () (setq-local show-paren-style 'expression)))
   (add-hook hook #'enable-paredit-mode))
 
-;;; ===================== misc ==================
+;;; ========================== misc ===============================
 ;; eldoc-mode
 (dolist (hook lisp-common-mode-hook)
   (add-hook hook (lambda () (setq-local eldoc-idle-delay 0) (eldoc-mode)))
@@ -30,8 +31,7 @@
            '(lambda () (setq prettify-symbols-alist '(("lambda" . 955)))))
  )
 
-;;; ===================== lisp ==================
-;;; elisp
+;;; ========================= elisp ================================
 (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook
                                      lisp-interaction-mode-hook))
   (add-hook hook 'turn-on-elisp-slime-nav-mode))
@@ -54,7 +54,7 @@
            (kbd "M-,") 'pop-tag-mark))
   )
 
-;;; scheme
+;;; ======================== scheme ================================
 (defvar scheme-program-list '("racket" "mit-scheme" "guile"))
 (defun hong/run-scheme (program)
   (interactive
@@ -65,7 +65,7 @@
     (run-scheme program)))
 (add-hook 'inferior-scheme-mode-hook 'hong/exit)
 
-;;; slime
+;;; ====================== common lisp =============================
 (when (executable-find "sbcl")
   (require-package 'slime)
   (require-package 'slime-company)
@@ -78,5 +78,10 @@
                 (load "~/quicklisp/clhs-use-local.el" t))))
   (slime-setup '(slime-fancy slime-company))
   )
+
+;;;======================== clojure ===============================
+(setq cider-repl-result-prefix ";; =>")
+(setq cider-repl-use-pretty-printing t)
+(add-hook 'cider-mode-hook #'eldoc-mode)
 
 (provide 'init-lisp)

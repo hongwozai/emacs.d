@@ -33,6 +33,7 @@ re-downloaded in order to locate PACKAGE."
         counsel
         multi-term
         flycheck
+        flycheck-pos-tip
         company
         find-file-in-project
         ;; evil
@@ -66,6 +67,8 @@ re-downloaded in order to locate PACKAGE."
         ;; elisp
         elisp-slime-nav
         paredit
+        ;; clojure
+        clojure-mode
         ;; html, js, css, php
         web-mode
         js2-mode
