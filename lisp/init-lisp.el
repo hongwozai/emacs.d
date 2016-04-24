@@ -56,15 +56,11 @@
   )
 
 ;;; ======================== scheme ================================
-(defvar scheme-program-list '("racket" "mit-scheme" "guile"))
-(defun hong/run-scheme (program)
-  (interactive
-   (list (completing-read "scheme-program-name: "
-                          scheme-program-list)))
-  (save-selected-window
-    (select-window (split-window-below))
-    (run-scheme program)))
-
+(add-hook 'scheme-mode-hook
+          (lambda ()
+            (define-key scheme-mode-map (kbd "<f3>")
+              (hong-pop-func
+               (lambda () (run-scheme (read-string "Executable: " "guile")))))))
 (add-hook 'inferior-scheme-mode-hook 'hong/exit)
 ;;; ====================== common lisp =============================
 (when (executable-find "sbcl")
