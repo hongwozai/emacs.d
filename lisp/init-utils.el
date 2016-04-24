@@ -33,6 +33,14 @@
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
 
+;;; =========================== pop window ================================
+(defun hong-pop (func)
+  (select-window (split-window-below))
+  (funcall func))
+
+(defun hong-pop-func (func)
+  (lexical-let ((fun func))
+    (lambda () (interactive) (hong-pop fun))))
 ;;; ===========================  select window =============================
 (defmacro hong/select-buffer-window (cmd buffer-name)
   `(defadvice ,cmd (after ,(gensym) activate)

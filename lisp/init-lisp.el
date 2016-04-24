@@ -41,7 +41,8 @@
             (font-lock-add-keywords 'emacs-lisp-mode '("require-package"))
             (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-buffer)
             (define-key emacs-lisp-mode-map (kbd "C-c C-f") 'eval-defun)
-            (define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)))
+            (define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)
+            (define-key emacs-lisp-mode-map (kbd "<f3>") (hong-pop-func 'ielm))))
 
 (dolist (map '(emacs-lisp-mode-map ielm-mode-map lisp-interaction-mode-map))
   (eval `(evil-define-key 'insert ,map

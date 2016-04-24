@@ -96,6 +96,7 @@
             (setq term-bind-key-alist
                   '(("M-," . hong/switch-non-terminal-buffer)
                     ("M-:" . eval-expression)
+                    ("M-w" . kill-ring-save)
                     ("C-y" . term-paste)
                     ("C-DEL" . term-send-raw-meta)
                     ("M-d" . term-send-forward-kill-word)
