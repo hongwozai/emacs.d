@@ -64,8 +64,8 @@
   (save-selected-window
     (select-window (split-window-below))
     (run-scheme program)))
-(add-hook 'inferior-scheme-mode-hook 'hong/exit)
 
+(add-hook 'inferior-scheme-mode-hook 'hong/exit)
 ;;; ====================== common lisp =============================
 (when (executable-find "sbcl")
   (require-package 'slime)
