@@ -41,6 +41,7 @@
 ;; cmake
 (when (executable-find "cmake")
   (require-package 'cmake-mode)
+  (require-package 'cpputils-cmake)
   (setq auto-mode-alist
         (append '(("CMakeLists\\.txt\\'" . cmake-mode))
                 '(("\\.cmake\\'" . cmake-mode))
