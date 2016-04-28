@@ -6,10 +6,6 @@
                          clojure-mode-hook cider-mode-hook))
 
 ;;; ========================== pair ===============================
-;; built-in
-(when (fboundp 'electric-pair-mode)
-  (electric-pair-mode))
-
 ;; paredit
 (autoload 'enable-paredit-mode "paredit" nil t)
 
