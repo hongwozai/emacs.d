@@ -31,9 +31,14 @@
 (require 'init-cc-mode)
 (require 'init-lisp)
 (require 'init-python)
+(require 'init-web)
+
 (when (executable-find "ruby")
   (require 'init-ruby))
-(require 'init-web)
+(when (executable-find "go")
+  (require 'init-go))
+(when (executable-find "ghc")
+  (require 'init-haskell))
 
 (require 'init-misc)
 

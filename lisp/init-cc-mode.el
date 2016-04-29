@@ -1,7 +1,4 @@
 ;;; ===================== ggtags eldoc doxygen ==================
-;;; c-eldoc
-(autoload 'c-turn-on-eldoc-mode "c-eldoc" "" t)
-
 ;;; doxygen
 (autoload 'doxygen-insert-function-comment "doxygen" "insert comment for the function at point" t)
 (autoload 'doxygen-insert-file-comment "doxygen" "insert comment for file" t)
@@ -23,9 +20,6 @@
                       (mapcar #'(lambda (x) (concat "-I" x)) (hong/gtk-headers))))
   (setq-local company-c-headers-path-system
               (append company-c-headers-path-system (hong/gtk-headers)))
-  (setq-local c-eldoc-includes
-              (concat c-eldoc-includes
-                      " `pkg-config gtk+-3.0 --cflags`"))
   )
 ;;; ===================== cc mode config ==================
 ;;; include c/c++, java etc.
@@ -42,12 +36,6 @@
   ;; indent
   (setq c-electric-pound-behavior '(alignleft))
 
-  ;; c-eldoc
-  (c-turn-on-eldoc-mode)
-  (setq c-eldoc-buffer-regenerate-time 120)
-  (setq c-eldoc-cpp-command "/usr/bin/cpp")
-  (setq c-eldoc-includes "-I./ -I../")
-
   ;; related file
   (setq-local cc-search-directories
               '("." "../inc" "../include" "../src" "../source"
@@ -58,7 +46,7 @@
 
   ;; company
   (setq-local company-backends
-              (append '(company-c-headers) company-backends))
+              '(company-c-headers company-clang company-etags company-gtags))
   )
 
 (defun hong/tags-debug-compile-setup (map)

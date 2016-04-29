@@ -59,7 +59,6 @@ re-downloaded in order to locate PACKAGE."
         git-gutter
         git-timemachine
         ;; cc-mode
-        c-eldoc
         company-c-headers
         ;; python
         anaconda-mode
