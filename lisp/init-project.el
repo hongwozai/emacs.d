@@ -62,7 +62,9 @@
                       "Wildcards: "
                       (and (local-variable-if-set-p 'history-wildcards)
                            history-wildcards))))
-  (let* ((exec (or (executable-find "etags") "ctags -e"))
+  (let* ((exec "etags")
+         (directory (and (file-remote-p directory)
+                         (file-relative-name directory default-directory)))
          (command
           (format "find %s '(' %s ')' -type f | xargs %s"
                   directory
