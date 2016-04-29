@@ -1,4 +1,4 @@
-;;; ===================== compile ==================
+;;; ===================== compile ===============================
 (defun hong/my-compile-common-config ()
   ;; compile
   (setq compile-command "make")
@@ -10,47 +10,11 @@
 
 (add-hook 'after-init-hook 'hong/my-compile-common-config)
 
-;;; ==================== auto compile =================
-(defun hong--have-makefile (path)
-  (or (file-readable-p (concat path "Makefile"))
-      (file-readable-p (concat path "makefile"))))
-
-;;; comint shell
-(defun hong/shell-run ()
-  (interactive)
-  (let* ((buffer-name "*shell*")
-         (buffer (get-buffer buffer-name))
-         (window (and buffer (get-buffer-window buffer))))
-    (cond ((and buffer window) (select-window window))
-          ((or buffer window) (pop-to-buffer buffer))
-          (t (pop-to-buffer buffer-name)
-             (shell)))))
-
-(defun hong/change-compile-command ()
+(defun change-compile-command ()
   (interactive)
   (setq compile-command
-        (read-string "Compile Command: " compile-command)))
-
-(defun hong/shell-compile ()
-  (interactive)
-  (save-selected-window
-    (let* ((path (hong--loop-find #'hong--have-makefile))
-           (rpath (and path (if (file-remote-p path)
-                                (progn (string-match "/.*:\\(.*\\)$" path)
-                                       (match-string 1 path))
-                              path)))
-           (buffer-name "*shell*")
-           (command (and path compile-command)))
-      (if path
-          (progn
-            (hong/shell-run)
-            (comint-send-string (get-buffer-process buffer-name)
-                                (format "cd %s/ && %s \n" rpath command))
-            (setq compile-command command)
-            )
-        (message "NO MAKEFILE")))))
-
-;;; =========================== auto gud =============================
+        (read-shell-command "Compile Command: " compile-command)))
+;;; =========================== gud =============================
 (setq gdb-many-windows nil)
 (setq gdb-show-main   t)
 

@@ -22,7 +22,7 @@
      (setq company-clang-insert-arguments nil)
      ;; shell-mode -> ivy
      (setq company-global-modes
-           '(not gud-mode shell-mode eshell-mode term-mode))
+           '(not shell-mode eshell-mode term-mode))
      (setq company-ispell-dictionary
            (file-truename "~/.emacs.d/english-words.txt"))
 ))

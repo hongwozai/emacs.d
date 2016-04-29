@@ -1,9 +1,9 @@
-;;; ===================== ggtags eldoc doxygen ==================
+;;; ===================== eldoc doxygen =======================
 ;;; doxygen
 (autoload 'doxygen-insert-function-comment "doxygen" "insert comment for the function at point" t)
 (autoload 'doxygen-insert-file-comment "doxygen" "insert comment for file" t)
 
-;;; ===================== gtk config ==================
+;;; ===================== gtk config ===========================
 (defun hong/gtk-headers ()
   (let* ((cmd "pkg-config --cflags gtk+-3.0")
          (gtk (split-string
@@ -21,9 +21,9 @@
   (setq-local company-c-headers-path-system
               (append company-c-headers-path-system (hong/gtk-headers)))
   )
-;;; ===================== cc mode config ==================
+;;; ===================== cc mode config ========================
 ;;; include c/c++, java etc.
-(defun hong/my-cc-common-config ()
+(defun cc-common-config ()
   ;; indent
   (setq c-default-style '((java-mode . "java")
                           (awk-mode . "awk")
@@ -31,7 +31,7 @@
         c-basic-offset  4)
   )
 
-(defun hong/my-c/c++-mode-config ()
+(defun c/c++-mode-config ()
   "C/C++ only"
   ;; indent
   (setq c-electric-pound-behavior '(alignleft))
@@ -50,33 +50,25 @@
   )
 
 (defun hong/tags-debug-compile-setup (map)
-  (define-key map (kbd "C-c C-c") 'hong/shell-compile)
-  (define-key map (kbd "C-c C-s") 'hong/change-compile-command)
+  (define-key map (kbd "C-c C-c") 'project-compile-in-shell)
+  (define-key map (kbd "C-c C-s") 'change-compile-command)
   (define-key map (kbd "M-,") 'ggtags-prev-mark)
   (define-key map (kbd "M-.") 'ggtags-find-definition)
   (evil-define-key 'normal map (kbd "M-.") 'ggtags-find-definition)
   (define-key map (kbd "C-M-.") 'ggtags-find-other-symbol)
   (define-key map (kbd "<f6>") 'gdb))
 
-(defun hong/my-c-mode-config ()
-  ;; key bindings
-  (hong/tags-debug-compile-setup c-mode-map))
-
-(defun hong/my-c++-mode-config ()
-  ;; key bindings
-  (hong/tags-debug-compile-setup c++-mode-map))
-
 (add-hook 'c-mode-common-hook
-          (lambda () (hong/my-cc-common-config)))
+          (lambda () (cc-common-config)))
 
 (add-hook 'c++-mode-hook
           (lambda ()
-            (hong/my-c/c++-mode-config)
-            (hong/my-c++-mode-config)))
+            (c/c++-mode-config)
+            (hong/tags-debug-compile-setup c++-mode-hook)))
 
 (add-hook 'c-mode-hook
           (lambda ()
-            (hong/my-c/c++-mode-config)
-            (hong/my-c-mode-config)))
+            (c/c++-mode-config)
+            (hong/tags-debug-compile-setup c-mode-map)))
 
 (provide 'init-cc-mode)

@@ -50,38 +50,111 @@
   (eval `(hong--display-line ,var)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; tags operation
+;;; project operation(tags, grep, compile)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun tags-generate (directory wildcards)
-  "create or update TAGS"
-  (interactive (list (ido-read-directory-name
-                      "Directory: "
-                      (and (local-variable-if-set-p 'history-directory)
-                           history-directory))
-                     (read-string
+(defvar project-tags-executable "etags")
+(defvar project-ignore-file "*/.git/* */.svn/* */elpa/* */obj*/* */build/*")
+
+(defun project--get-root (&optional iscurr)
+  "Get project root path."
+  (or (ffip-project-root)
+      (if iscurr default-directory)))
+
+(defun project--get-root-no-tramp (&optional iscurr)
+  "For support tramp remote file"
+  (let ((maybe-directory (project--get-root iscurr)))
+    (when maybe-directory
+      (if (file-remote-p maybe-directory)
+          (file-relative-name maybe-directory default-directory)
+        maybe-directory))))
+
+(defun project--is-git ()
+  (file-exists-p (concat (project--get-root) "/" ".git")))
+
+(defun project--build-find (wildcards)
+  (let* ((find-wildcards
+          (substring
+           (mapconcat (lambda (str) (format "-name '%s' -o" str))
+                      (split-string wildcards) " ")
+           0 -2))
+         (ignore-wildcards
+          (substring
+           (mapconcat (lambda (str) (format "-path '%s' -o" str))
+                      (split-string project-ignore-file) " ")
+           0 -2))
+         (find-command
+          (format "'(' %s ')' -prune -o '(' %s ')' -type f"
+                  ignore-wildcards
+                  find-wildcards)))
+    find-command))
+
+(defun project-tags-generate (wildcards)
+  "Create TAGS"
+  (interactive (list (read-shell-command
                       "Wildcards: "
-                      (and (local-variable-if-set-p 'history-wildcards)
-                           history-wildcards))))
-  (let* ((exec "etags")
-         (directory (and (file-remote-p directory)
-                         (file-relative-name directory default-directory)))
+                      (if (local-variable-if-set-p 'history-wildcards)
+                          history-wildcards "*"))))
+  (let* ((directory (project--get-root-no-tramp t))
          (command
-          (format "find %s '(' %s ')' -type f | xargs %s"
+          (format "find %s %s | xargs %s -o %s"
                   directory
-                  (substring
-                   (mapconcat (lambda (str) (format "-name '%s' -o" str))
-                              (split-string wildcards) " ")
-                   0 -2)
-                  exec)))
-    (setq-local history-directory directory)
+                  (project--build-find wildcards)
+                  project-tags-executable
+                  (concat directory "/" "TAGS"))))
     (setq-local history-wildcards wildcards)
-    (setq-local history-command command)
     (shell-command command)))
 
-(defun tags-update ()
+(defun project-grep (wildcards regexp)
+  (interactive
+   (list (unless (project--is-git)
+           (read-shell-command
+            "Wildcards: "
+            (if (local-variable-if-set-p 'history-wildcards)
+                history-wildcards "*")))
+         (let ((word (if (use-region-p)
+                         (buffer-substring-no-properties
+                          (region-beginning)
+                          (region-end)))))
+           (read-regexp
+            (format "Regexp(default %s): " word)
+            word))))
+  ;; git project
+  (if (project--is-git)
+      (let (null-device)
+        (grep (format "git --no-pager grep -n -e '%s'" regexp)))
+    ;; not git project
+    (let* ((directory (project--get-root-no-tramp nil))
+           (command (format "find %s %s -exec grep -nH -e '%s' {} +"
+                            directory
+                            (project--build-find "*")
+                            regexp)))
+      (if (not directory)
+          (message "NOT PROJECT!")
+        (setq-local history-wildcards wildcards)
+        (grep-find command)))))
+
+(defun project-compile ()
   (interactive)
-  (if (local-variable-if-set-p 'history-command)
-      (shell-command history-command)
-    (call-interactively #'tags-generate)))
+  (let ((default-directory (project--get-root t)))
+    (compile compile-command)))
+
+(defun project-compile-in-shell ()
+  (interactive)
+  (save-selected-window
+    (let* ((path (project--get-root))
+           (rpath (and path (if (file-remote-p path)
+                                (progn (string-match "/.*:\\(.*\\)$" path)
+                                       (match-string 1 path))
+                              path)))
+           (buffer-name "*shell*")
+           (command (and path compile-command)))
+      (if path
+          (progn
+            (hong/shell-run)
+            (comint-send-string (get-buffer-process buffer-name)
+                                (format "cd %s/ && %s \n" rpath command))
+            (setq compile-command command)
+            )
+        (message "CANNOT COMPILE!")))))
 
 (provide 'init-project)

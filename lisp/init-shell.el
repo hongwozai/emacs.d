@@ -150,6 +150,16 @@
       (delete-region (point-min) (1+ (line-end-position)))))
   (goto-char (point-max)))
 
+(defun hong/shell-run ()
+  (interactive)
+  (let* ((buffer-name "*shell*")
+         (buffer (get-buffer buffer-name))
+         (window (and buffer (get-buffer-window buffer))))
+    (cond ((and buffer window) (select-window window))
+          ((or buffer window) (pop-to-buffer buffer))
+          (t (pop-to-buffer buffer-name)
+             (shell)))))
+
 (defadvice shell-command (after hong/shell-command-quit activate)
   (let ((window (get-buffer-window "*Shell Command Output*")))
     (when window
