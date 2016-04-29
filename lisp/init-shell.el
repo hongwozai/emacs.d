@@ -170,7 +170,8 @@
          (funcall #'man command))
         ((string-match "^[ \t]*em[ \t]+\\(.*\\)" command)
          (comint-send-string proc "\n")
-         (setq command (match-string 1 command))
+         (setq command (concat comint-file-name-prefix
+                               (match-string 1 command)))
          (display-buffer (funcall #'find-file-noselect command)))
         ((string-match "^[ \t]*ssh[ \t]*\\(.*\\)@\\([^:]*\\)" command)
          (comint-send-string proc (concat command "\n"))
