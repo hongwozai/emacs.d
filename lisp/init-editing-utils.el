@@ -43,22 +43,23 @@
 (global-font-lock-mode t)
 
 ;;; dired
-(require 'dired+)
-(eval-after-load 'dired
-  '(progn
-     (setq dired-recursive-copies 'always)
-     (setq dired-recursive-deletes 'always)
-     (setq dired-listing-switches "-aluh")
-     (add-hook 'dired-mode-hook
-               (lambda () (setq-local dired-isearch-filenames t)))
-     (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
-     (define-key dired-mode-map "/" 'isearch-forward)
-     (define-key dired-mode-map "?" 'isearch-backward)
-     (evil-define-key 'normal dired-mode-map "j" 'diredp-next-line)
-     (evil-define-key 'normal dired-mode-map "k" 'diredp-previous-line)
-     (evil-define-key 'normal dired-mode-map "J" 'hong/dired-goto-file)
-     (diredp-toggle-find-file-reuse-dir 1)
-     ))
+(autoload 'dired-jump "dired" "jump current directory")
+(add-hook 'dired-load-hook
+          (lambda ()
+            (require 'dired+)
+            (setq dired-recursive-copies 'always)
+            (setq dired-recursive-deletes 'always)
+            (setq dired-listing-switches "-aluh")
+            (add-hook 'dired-mode-hook
+                      (lambda () (setq-local dired-isearch-filenames t)))
+            (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
+            (define-key dired-mode-map "/" 'isearch-forward)
+            (define-key dired-mode-map "?" 'isearch-backward)
+            (evil-define-key 'normal dired-mode-map "j" 'diredp-next-line)
+            (evil-define-key 'normal dired-mode-map "k" 'diredp-previous-line)
+            (evil-define-key 'normal dired-mode-map "J" 'hong/dired-goto-file)
+            (diredp-toggle-find-file-reuse-dir 1)
+            ))
 
 (defun hong/dired-goto-file ()
   (interactive)
