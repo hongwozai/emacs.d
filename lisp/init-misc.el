@@ -7,23 +7,6 @@
             (hong/exit)
             (toggle-truncate-lines t)))
 
-;;; go language
-(when (executable-find "go")
-  (require-package 'go-mode)
-  (require-package 'go-eldoc)
-  (add-hook 'go-mode-hook 'go-eldoc-setup))
-
-;;; haskell language
-(when (executable-find "ghc")
-  (require-package 'haskell-mode)
-  (setq haskell-font-lock-symbols t)
-  (add-hook 'haskell-mode-hook
-            (lambda ()
-              (setq haskell-tags-on-save t)
-              (haskell-doc-mode)
-              (interactive-haskell-mode)
-              (turn-on-haskell-indent))))
-
 ;;; antlr
 (autoload 'antlr-mode "antlr-mode" nil t)
 (autoload 'antlr-v4-mode "antlr-mode" nil t)
