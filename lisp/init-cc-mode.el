@@ -64,7 +64,7 @@
 (add-hook 'c++-mode-hook
           (lambda ()
             (c/c++-mode-config)
-            (hong/tags-debug-compile-setup c++-mode-hook)))
+            (hong/tags-debug-compile-setup c++-mode-map)))
 
 (add-hook 'c-mode-hook
           (lambda ()
