@@ -61,18 +61,11 @@ re-downloaded in order to locate PACKAGE."
         git-timemachine
         ;; cc-mode
         company-c-headers
-        ;; python
-        anaconda-mode
-        company-anaconda
         ;; elisp
         elisp-slime-nav
         paredit
-        ;; clojure
-        clojure-mode
-        cider
         ;; html, js, css, php
         web-mode
-        js2-mode
         php-mode
         emmet-mode
         company-web

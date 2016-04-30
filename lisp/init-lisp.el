@@ -34,7 +34,8 @@
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
-            (font-lock-add-keywords 'emacs-lisp-mode '("require-package"))
+            (font-lock-add-keywords 'emacs-lisp-mode
+                                    '("require-package" "maybe-require"))
             (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-buffer)
             (define-key emacs-lisp-mode-map (kbd "C-c C-f") 'eval-defun)
             (define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)))
@@ -51,29 +52,12 @@
   )
 
 ;;; ======================== scheme ================================
+;;; TODO:
 (add-hook 'scheme-mode-hook
           (lambda ()
             (define-key scheme-mode-map (kbd "<f3>")
               (hong-pop-func
                (lambda () (run-scheme (read-string "Executable: " "guile")))))))
 (add-hook 'inferior-scheme-mode-hook 'hong/exit)
-;;; ====================== common lisp =============================
-(when (executable-find "sbcl")
-  (require-package 'slime)
-  (require-package 'slime-company)
-
-  (setq inferior-lisp-program "sbcl")
-  (add-hook 'lisp-mode-hook
-            (lambda ()
-              ;; C-c C-d h clhs
-              (when (file-exists-p "~/quicklisp/clhs-use-local.el")
-                (load "~/quicklisp/clhs-use-local.el" t))))
-  (slime-setup '(slime-fancy slime-company))
-  )
-
-;;;======================== clojure ===============================
-(setq cider-repl-result-prefix ";; =>")
-(setq cider-repl-use-pretty-printing t)
-(add-hook 'cider-mode-hook #'eldoc-mode)
 
 (provide 'init-lisp)

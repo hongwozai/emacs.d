@@ -30,15 +30,15 @@
 ;;; program language
 (require 'init-cc-mode)
 (require 'init-lisp)
-(require 'init-python)
 (require 'init-web)
 
-(when (executable-find "ruby")
-  (require 'init-ruby))
-(when (executable-find "go")
-  (require 'init-go))
-(when (executable-find "ghc")
-  (require 'init-haskell))
+(maybe-require "python" 'init-python)
+(maybe-require "ruby"   'init-ruby)
+(maybe-require "node"   'init-js)
+(maybe-require "java"   'init-clojure)
+(maybe-require "sbcl"   'init-common-lisp)
+(maybe-require "go"     'init-go)
+(maybe-require "ghc"    'init-haskell)
 
 (require 'init-misc)
 

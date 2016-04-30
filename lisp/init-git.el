@@ -9,6 +9,11 @@
 
 ;;; git timemachine
 (add-hook 'git-timemachine-mode-hook
-          (lambda () (evil-emacs-state)))
+          (lambda ()
+            (evil-define-key 'motion git-timemachine-mode-map
+              (kbd "n") 'git-timemachine-show-next-revision
+              (kbd "p") 'git-timemachine-show-previous-revision
+              (kbd "q") 'git-timemachine-quit)
+            (evil-motion-state)))
 
 (provide 'init-git)
