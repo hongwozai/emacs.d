@@ -11,25 +11,18 @@
 (setq exec-path-from-shell-check-startup-files nil)
 (exec-path-from-shell-initialize)
 
-;;; shell like keybinds
-(defmacro shell-like-map-setup (map)
-  `(evil-define-key 'insert ,map
-     (kbd "C-a")    'move-beginning-of-line
-     (kbd "C-e")    'move-end-of-line
-     (kbd "C-r")    'isearch-backward
-     (kbd "C-l")    'clear-shell
-     (kbd "C-k")    'kill-line
-     (kbd "C-u")    'clear-before-line
-     (kbd "C-p")    'comint-previous-input
-     (kbd "C-n")    'comint-next-input
-     (kbd "<up>")   'comint-previous-input
-     (kbd "<down>") 'comint-next-input)
-  )
 ;;; ========================== eshell =================================
 (add-hook 'eshell-load-hook
           (lambda ()
-            (shell-like-map-setup eshell-mode-map)
-            (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-find-history)
+            (evil-define-key 'insert eshell-mode-map
+              (kbd "C-a") 'eshell-bol
+              (kbd "C-e") 'move-end-of-line
+              (kbd "C-l") 'clear-shell
+              (kbd "C-k") 'kill-line
+              (kbd "C-u") 'clear-before-line
+              (kbd "C-r") 'eshell-find-history
+              (kbd "C-p") 'eshell-previous-matching-input-from-input
+              (kbd "C-n") 'eshell-next-matching-input-from-input)
             (evil-define-key 'insert eshell-mode-map (kbd "C-a") 'eshell-bol)
             (setq eshell-save-history-on-exit nil
                   eshell-buffer-shorthand t)
@@ -71,7 +64,17 @@
 ;;; comint mode
 (add-hook 'comint-mode-hook
           (lambda ()
-            (shell-like-map-setup comint-mode-map)
+            (evil-define-key 'insert comint-mode-map
+              (kbd "C-a")    'move-beginning-of-line
+              (kbd "C-e")    'move-end-of-line
+              (kbd "C-r")    'isearch-backward
+              (kbd "C-l")    'clear-shell
+              (kbd "C-k")    'kill-line
+              (kbd "C-u")    'clear-before-line
+              (kbd "C-p")    'comint-previous-input
+              (kbd "C-n")    'comint-next-input
+              (kbd "<up>")   'comint-previous-input
+              (kbd "<down>") 'comint-next-input)
             (add-hook 'evil-insert-state-entry-hook
                       (lambda () (interactive) (goto-char (point-max))) nil t)
             (setq-local comint-prompt-read-only t)
