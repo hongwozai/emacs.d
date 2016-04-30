@@ -53,7 +53,7 @@
 ;;; project operation(tags, grep, compile)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar project-tags-executable "etags")
-(defvar project-ignore-file "*/.git/* */.svn/* */elpa/* */obj*/* */build/*")
+(defvar project-ignore-file "*/.git* */.svn* */elpa* */obj* */build*")
 
 (defun project--get-root (&optional iscurr)
   "Get project root path."
@@ -69,7 +69,7 @@
         maybe-directory))))
 
 (defun project--is-git ()
-  (file-exists-p (concat (project--get-root) "/" ".git")))
+  (file-exists-p (concat (project--get-root) ".git")))
 
 (defun project--build-find (wildcards)
   (let* ((find-wildcards
@@ -100,8 +100,9 @@
                   directory
                   (project--build-find wildcards)
                   project-tags-executable
-                  (concat directory "/" "TAGS"))))
+                  (concat directory "TAGS"))))
     (setq-local history-wildcards wildcards)
+    (message "command %s" command)
     (shell-command command)))
 
 (defun project-grep (wildcards regexp)
