@@ -33,14 +33,6 @@
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
 
-;;; =========================== pop window ================================
-(defun hong-pop (func)
-  (select-window (split-window-below))
-  (funcall func))
-
-(defun hong-pop-func (func)
-  (lexical-let ((fun func))
-    (lambda () (interactive) (hong-pop fun))))
 ;;; ===========================  select window =============================
 (defmacro hong/select-buffer-window (cmd buffer-name)
   `(defadvice ,cmd (after ,(gensym) activate)
@@ -73,24 +65,6 @@
 
   (defun set-face-italic (face italic-p &optional frame)
     (set-face-italic-p face italic-p frame)))
-
-;;; ========================= loop find ====================================
-(defun hong--loop-find (func)
-  (let ((path (if buffer-file-name
-                  (file-name-directory buffer-file-name) "/"))
-        (go-on t)
-        (ret nil))
-    (while go-on
-      (if (funcall func path)
-          (progn (setq go-on nil)
-                 (setq ret path))
-        (progn
-          (setq path (file-name-directory (directory-file-name path)))
-          (if (equal path "/")
-              (setq go-on nil))
-          (setq ret nil))
-        ))
-    ret))
 
 ;;; ========================= overlay ======================================
 (defface hong--jump-tags-face

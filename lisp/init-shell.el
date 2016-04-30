@@ -33,11 +33,14 @@
             (evil-define-key 'insert eshell-mode-map (kbd "C-a") 'eshell-bol)
             (setq eshell-save-history-on-exit nil
                   eshell-buffer-shorthand t)
-            (add-hook 'evil-insert-state-entry-hook
-                      (lambda () (interactive) (goto-char (point-max))))
             ))
 
-(add-hook 'eshell-mode-hook (lambda () (setq-local company-backends nil)))
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (setq-local company-backends nil)
+            (add-hook 'evil-insert-state-entry-hook
+                      (lambda () (interactive) (goto-char (point-max))) nil t)
+            ))
 
 (defalias 'eshell/em #'find-file)
 (defalias 'eshell/d #'dired)
@@ -69,6 +72,8 @@
 (add-hook 'comint-mode-hook
           (lambda ()
             (shell-like-map-setup comint-mode-map)
+            (add-hook 'evil-insert-state-entry-hook
+                      (lambda () (interactive) (goto-char (point-max))) nil t)
             (setq-local comint-prompt-read-only t)
             (setq-local comint-move-point-for-output 'others)
             (setq-local comint-history-isearch t)))
