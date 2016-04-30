@@ -52,12 +52,12 @@
   )
 
 ;;; ======================== scheme ================================
-;;; TODO:
 (add-hook 'scheme-mode-hook
           (lambda ()
             (define-key scheme-mode-map (kbd "<f3>")
-              (hong-pop-func
-               (lambda () (run-scheme (read-string "Executable: " "guile")))))))
+              (lambda () (interactive)
+                (select-window (split-window-below))
+                (run-scheme (read-string "Executable: " "guile"))))))
 (add-hook 'inferior-scheme-mode-hook 'hong/exit)
 
 (provide 'init-lisp)
