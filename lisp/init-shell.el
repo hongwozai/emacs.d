@@ -91,7 +91,8 @@
             (setq multi-term-scroll-to-bottom-on-output 'others)
             (setq term-buffer-maximum-size 0)
             ;; multi-term keybinding
-            (term-set-escape-char ?\C-x)
+            (term-set-escape-char ?\C-c)
+            (setq term-unbind-key-list '("C-x"))
             (setq term-bind-key-alist
                   '(("M-," . hong/switch-non-terminal-buffer)
                     ("M-:" . eval-expression)
