@@ -83,7 +83,7 @@
                       (split-string project-ignore-file) " ")
            0 -2))
          (find-command
-          (format "'(' %s ')' -prune -o '(' %s ')' -type f"
+          (format "'(' %s ')' -prune -o '(' %s ')' -type f -print"
                   ignore-wildcards
                   find-wildcards)))
     find-command))
