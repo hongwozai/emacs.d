@@ -11,45 +11,50 @@
 (setq exec-path-from-shell-check-startup-files nil)
 (exec-path-from-shell-initialize)
 
+;;; shell like keybinds
+(defmacro shell-like-map-setup (map)
+  `(evil-define-key 'insert ,map
+     (kbd "C-a")    'move-beginning-of-line
+     (kbd "C-e")    'move-end-of-line
+     (kbd "C-r")    'isearch-backward
+     (kbd "C-l")    'clear-shell
+     (kbd "C-k")    'kill-line
+     (kbd "C-u")    'clear-before-line
+     (kbd "C-p")    'comint-previous-input
+     (kbd "C-n")    'comint-next-input
+     (kbd "<up>")   'comint-previous-input
+     (kbd "<down>") 'comint-next-input)
+  )
 ;;; ========================== eshell =================================
-(add-hook 'eshell-mode-hook
+(add-hook 'eshell-load-hook
           (lambda ()
-            (define-key eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
-            (define-key eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
-            (define-key eshell-mode-map (kbd "M-,") 'hong/switch-non-terminal-buffer)
-            (define-key eshell-mode-map (kbd "C-u") 'hong/clear-before-line)
-            (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
-
-            (setq pcomplete-cycle-completions nil
-                  eshell-cmpl-cycle-completions nil
-                  eshell-save-history-on-exit nil
+            (shell-like-map-setup eshell-mode-map)
+            (evil-define-key 'insert eshell-mode-map (kbd "C-r") 'eshell-find-history)
+            (evil-define-key 'insert eshell-mode-map (kbd "C-a") 'eshell-bol)
+            (setq eshell-save-history-on-exit nil
                   eshell-buffer-shorthand t)
-
-            (setq-local show-trailing-whitespace nil)
-            (setq-local mode-require-final-newline nil)
-            (mapc (lambda (x) (push x eshell-visual-commands))
-                  '("ssh" "htop" "less" "tmux" "top" "vim"))
-
-            ;; history
-            (defun hong/eshell-find-history ()
-              (interactive)
-              (insert (ivy-read
-                       "Eshell history: "
-                       (delete-dups
-                        (ring-elements eshell-history-ring)))))
-            (define-key eshell-mode-map (kbd "C-s") 'hong/eshell-find-history)
-
-            ;; eshell clear
-            (defun eshell/clear ()
-              (interactive)
-              (let ((inhibit-read-only t))
-                (erase-buffer)))
-
-            ;; company
-            (setq-local company-backends nil)
-            (defalias 'em #'find-file)
-            (defalias 'd #'dired)
+            (add-hook 'evil-insert-state-entry-hook
+                      (lambda () (interactive) (goto-char (point-max))))
             ))
+
+(add-hook 'eshell-mode-hook (lambda () (setq-local company-backends nil)))
+
+(defalias 'eshell/em #'find-file)
+(defalias 'eshell/d #'dired)
+
+;; history
+(defun eshell-find-history ()
+  (interactive)
+  (insert (ivy-read
+           "Eshell history: "
+           (delete-dups
+            (ring-elements eshell-history-ring)))))
+
+;; eshell clear
+(defun eshell/clear ()
+  (interactive)
+  (let ((inhibit-read-only t))
+    (erase-buffer)))
 
 ;;; ============================= shell comint =============================
 ;;; shell
@@ -63,36 +68,25 @@
 ;;; comint mode
 (add-hook 'comint-mode-hook
           (lambda ()
-            (define-key comint-mode-map (kbd "C-l") 'hong/clear-shell)
-            (define-key comint-mode-map (kbd "M-,") 'hong/switch-non-terminal-buffer)
-            (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
-            (define-key comint-mode-map (kbd "C-n") 'comint-next-input)
-            (define-key comint-mode-map (kbd "C-u") 'hong/clear-before-line)
-            (define-key comint-mode-map (kbd "<up>") 'comint-previous-input)
-            (define-key comint-mode-map (kbd "<down>") 'comint-next-input)
+            (shell-like-map-setup comint-mode-map)
             (setq-local comint-prompt-read-only t)
-            (setq-local mode-require-final-newline nil)
             (setq-local comint-move-point-for-output 'others)
             (setq-local comint-history-isearch t)))
 
 ;;; ============================= term =====================================
 (setq multi-term-program "/bin/bash")
-;;; term-mode-hook term-raw-map !!! must be term-raw-map
 (add-hook 'term-mode-hook
           (lambda ()
             ;; compatiable
             (setq-local evil-move-cursor-back nil)
             (setq-local evil-escape-inhibit t)
-            (setq-local mode-require-final-newline nil)
-            (setq-local show-trailing-whitespace nil)
             ;; term
             (setq multi-term-switch-after-close nil)
             (setq multi-term-dedicated-select-after-open-p t)
             (setq multi-term-scroll-to-bottom-on-output 'others)
             (setq term-buffer-maximum-size 0)
             ;; multi-term keybinding
-            (term-set-escape-char ?\C-c)
-            (setq term-unbind-key-list '("C-x"))
+            (term-set-escape-char ?\C-x)
             (setq term-bind-key-alist
                   '(("M-," . hong/switch-non-terminal-buffer)
                     ("M-:" . eval-expression)
@@ -123,26 +117,26 @@
    use buffer list"
   (interactive)
   (let* ((buffer-list (mapcar (lambda (buf) (buffer-name buf)) (buffer-list)))
+         (ignore-buffers
+          (concat
+           "^\\*term\\|^\\*eshell\\|^\\*shell\\|"
+           "^ ?\\*Minibuf\\|^ ?\\*code.*work\\*$\\|^\\*Message\\|"
+           "^ ?\\*Echo\\|^\\*\\([0-9]\\{1,3\\}.\\)\\{3\\}[0-9]\\{1,3\\}\\*$"))
          (last-noterm-buffer
           (catch 'ret
             (mapcar (lambda (str)
-                      (if (not (string-match
-                                (concat
-                                 "^\\*term\\|^\\*eshell\\|^\\*shell\\|"
-                                 "^ ?\\*Minibuf\\|^ ?\\*code.*work\\*$\\|^\\*Message\\|"
-                                 "^ ?\\*Echo\\|^\\*\\([0-9]\\{1,3\\}.\\)\\{3\\}[0-9]\\{1,3\\}\\*$")
-                                str))
+                      (if (not (string-match ignore-buffers str))
                           (throw 'ret str)))
                     buffer-list))))
     (and last-noterm-buffer (switch-to-buffer last-noterm-buffer))))
 
-(defun hong/clear-before-line ()
+(defun clear-before-line ()
   (interactive)
-  (let ((start (line-beginning-position))
+  (let ((start (previous-char-property-change (point)))
         (end (point)))
     (delete-region start end)))
 
-(defun hong/clear-shell ()
+(defun clear-shell ()
   (interactive)
   (let ((inhibit-read-only t))
     (unless (eq (line-number-at-pos) 1)
@@ -178,11 +172,6 @@
          (comint-send-string proc "\n")
          (setq command (match-string 1 command))
          (funcall #'man command))
-        ((string-match "^[ \t]*em[ \t]+\\(.*\\)" command)
-         (comint-send-string proc "\n")
-         (setq command (concat comint-file-name-prefix
-                               (match-string 1 command)))
-         (display-buffer (funcall #'find-file-noselect command)))
         ((string-match "^[ \t]*ssh[ \t]*\\(.*\\)@\\([^:]*\\)" command)
          (comint-send-string proc (concat command "\n"))
          (setq-local comint-file-name-prefix

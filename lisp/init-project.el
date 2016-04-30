@@ -153,8 +153,7 @@
             (hong/shell-run)
             (comint-send-string (get-buffer-process buffer-name)
                                 (format "cd %s/ && %s \n" rpath command))
-            (setq compile-command command)
-            )
+            (setq compile-command command))
         (message "CANNOT COMPILE!")))))
 
 (provide 'init-project)

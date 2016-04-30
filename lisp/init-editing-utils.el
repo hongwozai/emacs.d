@@ -14,20 +14,13 @@
               x-select-enable-clipboard   t
               mouse-yank-at-point         t
               truncate-lines              nil
-              show-trailing-whitespace    t
               scroll-margin               0
               visible-bell                t
               mode-require-final-newline  nil
               ring-bell-function          'ignore)
 
 ;;; trailing whitespace
-(dolist (hook '(special-mode-hook
-                comint-mode-hook
-                Info-mode-hook
-                minibuffer-setup-hook
-                compilation-mode-hook
-                term-mode-hook))
-  (add-hook hook #'(lambda () (setq show-trailing-whitespace nil))))
+(add-hook 'prog-mode-hook (lambda () (setq-local show-trailing-whitespace t)))
 
 ;; Auto refresh buffers, dired revert have bugs.
 ;;; remote file revert have bugs.
@@ -50,21 +43,14 @@
             (setq dired-recursive-copies 'always)
             (setq dired-recursive-deletes 'always)
             (setq dired-listing-switches "-aluh")
-            (add-hook 'dired-mode-hook
-                      (lambda () (setq-local dired-isearch-filenames t)))
+            (setq dired-isearch-filenames t)
             (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
             (define-key dired-mode-map "/" 'isearch-forward)
             (define-key dired-mode-map "?" 'isearch-backward)
             (evil-define-key 'normal dired-mode-map "j" 'diredp-next-line)
             (evil-define-key 'normal dired-mode-map "k" 'diredp-previous-line)
-            (evil-define-key 'normal dired-mode-map "J" 'hong/dired-goto-file)
             (diredp-toggle-find-file-reuse-dir 1)
             ))
-
-(defun hong/dired-goto-file ()
-  (interactive)
-  (command-execute 'dired-goto-file)
-  (diredp-find-file-reuse-dir-buffer))
 
 (add-hook 'dired-mode-hook
           (lambda ()

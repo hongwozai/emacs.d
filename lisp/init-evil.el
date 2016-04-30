@@ -5,13 +5,12 @@
 
 ;;; initial state change
 (dolist (mode '(term-mode
-                shell-mode eshell-mode
                 minibuffer-inactive-mode
                 messages-buffer-mode bs-mode
                 special-mode process-menu-mode
                 sql-interactive-mode diff-mode
                 anaconda-nav-mode ibuffer-mode
-                comint-mode image-mode inferior-python-mode
+                image-mode inferior-python-mode
                 haskell-interactive-mode haskell-error-mode
                 flycheck-error-list-mode rlogin-mode))
   (evil-set-initial-state mode 'emacs))
