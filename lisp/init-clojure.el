@@ -11,6 +11,8 @@
             (shell-like-map-setup cider-repl-mode-map)
             (evil-define-key 'insert cider-repl-mode-map
               (kbd "C-n") 'cider-repl-next-input
-              (kbd "C-p") 'cider-repl-previous-input)))
+              (kbd "C-p") 'cider-repl-previous-input)
+            (add-hook 'evil-insert-state-entry-hook
+                      (lambda () (interactive) (goto-char (point-max))) nil t)))
 
 (provide 'init-clojure)
