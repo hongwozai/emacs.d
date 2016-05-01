@@ -18,9 +18,7 @@
 (setq gdb-many-windows nil)
 (setq gdb-show-main   t)
 
-(add-hook 'gdb-mode-hook
-          '(lambda () (company-mode)
-             (hong/exit)))
+(add-hook 'gdb-mode-hook #'company-mode)
 
 ;;; set no dedicated windows
 (defadvice gdb-display-buffer (after undedicated-gdb-display-buffer
