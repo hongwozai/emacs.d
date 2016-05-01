@@ -5,7 +5,13 @@
 (setq cider-repl-use-pretty-printing t)
 (setq cider-font-lock-dynamically '(macro core function var))
 
-(add-hook 'cider-mode-hook #'eldoc-mode)
+(add-hook 'cider-mode-hook
+          (lambda ()
+            (evil-define-key 'normal cider-mode-map
+              (kbd "M-.") 'cider-find-var
+              (kbd "M-,") 'cider-pop-back)
+            (eldoc-mode)))
+
 (add-hook 'cider-repl-mode-hook
           (lambda ()
             (shell-like-map-setup cider-repl-mode-map)
