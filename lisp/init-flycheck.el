@@ -6,6 +6,7 @@
 (setq flycheck-emacs-lisp-load-path 'inherit)
 
 ;;; flycheck pos-tip
+(setq flycheck-pos-tip-timeout -1)
 (eval-after-load 'flycheck
   '(progn (flycheck-pos-tip-mode)))
 
