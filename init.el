@@ -35,7 +35,7 @@
 (maybe-require "python" 'init-python)
 (maybe-require "ruby"   'init-ruby)
 (maybe-require "node"   'init-js)
-(maybe-require "java"   'init-clojure)
+(maybe-require "lein"   'init-clojure)
 (maybe-require "sbcl"   'init-common-lisp)
 (maybe-require "go"     'init-go)
 (maybe-require "ghc"    'init-haskell)
