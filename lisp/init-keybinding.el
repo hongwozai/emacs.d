@@ -1,19 +1,4 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; my process function
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun hong-kill-process ()
-  (interactive)
-  (let ((process
-         (delete-if (lambda (str) (equal (if (< (length str) 6)
-                                        nil
-                                      (substring str 0 6)) "server"))
-                    (mapcar #'process-name (process-list)))))
-    (if (null process)
-        (message "NO PROCESS!")
-      (delete-process (get-process
-                       (completing-read "Kill Process: " process))))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my open files function
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; find dirs \( -path 'PATH' -o -path 'PATH' \) -a -prune -o
@@ -23,13 +8,6 @@
   (let ((default-directory "~/.emacs.d/")
         (ffip-patterns '("*.el" "*.sh" "*.md" "*.org")))
     (ffip)))
-
-(defun hong/open-recentf-file ()
-  (interactive)
-  (unless recentf-mode
-    (recentf-mode 1))
-  ;; use recentf-list
-  (ivy-recentf))
 
 (defun hong/open-tramp-connections ()
   (interactive)
@@ -60,7 +38,7 @@
   ("e" hong/open-emacs-configure-file :color blue)
   ("p" ffip :color blue)
   ("t" hong/open-tramp-connections :color blue)
-  ("r" hong/open-recentf-file :color blue)
+  ("r" ivy-recentf :color blue)
   ("l" counsel-locate :color blue)
   ("c" nil "cancel")
   ("h" split-window-horizontally "horizon window")
@@ -151,7 +129,7 @@
   ("S" info-lookup-symbol :color blue)
   ("i" info :color blue)
   ("l" list-colors-display :color blue)
-  ("p" hong-kill-process :color blue)
+  ("p" counsel-list-processes :color blue)
   ("a" apropos :color blue)
   ("c" nil "cancel")
   ("q" nil "quit"))
