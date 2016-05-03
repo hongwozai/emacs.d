@@ -10,8 +10,7 @@
                 special-mode process-menu-mode
                 sql-interactive-mode diff-mode
                 anaconda-nav-mode ibuffer-mode
-                image-mode inferior-python-mode
-                haskell-interactive-mode haskell-error-mode
+                image-mode haskell-error-mode
                 flycheck-error-list-mode rlogin-mode
                 cider-stacktrace-mode))
   (evil-set-initial-state mode 'emacs))
