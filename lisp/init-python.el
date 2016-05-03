@@ -3,40 +3,37 @@
 (require-package 'company-anaconda)
 
 ;;; complete, checker, doc
-(setq hong/python-version "2")
-(setq hong/python-program (concat "python" hong/python-version))
-(setq hong/ipython-program (concat "ipython" hong/python-version))
+(setq python-version "2")
+(setq python-interpreter (concat "python" python-version))
 
 (setq interpreter-mode-alist
-      (cons '(hong/python-program . python-mode)
+      (cons '(python-interpreter . python-mode)
             interpreter-mode-alist))
 
-(when (executable-find hong/ipython-program)
-  (setq python-shell-interpreter hong/ipython-program))
+(eval-after-load 'python
+  `(progn
+     (evil-define-key 'normal python-mode-map
+       (kbd "M-.") 'anaconda-mode-find-definitions
+       (kbd "M-,") 'anaconda-mode-go-back)))
 
 (add-hook 'python-mode-hook
-          '(lambda ()
-             (anaconda-mode 1)
-             (anaconda-eldoc-mode 1)
-             (setq-local company-backends
-                         (cons 'company-anaconda company-backends))
-             (setq-local imenu-create-index-function
-                         #'python-imenu-create-flat-index)
-             (setq electric-indent-chars (delq ?: electric-indent-chars))
+          (lambda ()
+            (anaconda-mode 1)
+            (anaconda-eldoc-mode 1)
 
-             (evil-define-key 'normal
-               python-mode-map (kbd "M-.") 'anaconda-mode-find-definitions)
+            (setq-local company-backends
+                        (cons 'company-anaconda company-backends))
+            (setq-local imenu-create-index-function
+                        #'python-imenu-create-flat-index)
+            (setq electric-indent-chars (delq ?: electric-indent-chars))
 
-             (evil-define-key 'normal
-               python-mode-map (kbd "M-,") 'anaconda-mode-go-back)
-             ))
+            ;; flake8 with python
+            (setq-local flycheck-python-flake8-executable
+                        (concat python-interpreter " -m flake8"))
+            (setq-local flycheck-python-pylint-executable
+                        (concat python-interpreter " -m pylint"))
+            ))
 
 (add-hook 'inferior-python-mode-hook 'hong/exit)
-
-;;; flake8 with python
-(setq flycheck-python-flake8-executable
-      (concat hong/python-program " -m flake8"))
-(setq flycheck-python-pylint-executable
-      (concat hong/python-program " -m pylint"))
 
 (provide 'init-python)
