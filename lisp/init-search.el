@@ -30,8 +30,7 @@
         (save-selected-window
           (if (eq nop 'next) (occur-next) (occur-prev))
           (occur-mode-goto-occurrence-other-window)
-          (recenter)
-          (hong--display-current-overlay))))))
+          (recenter))))))
 
 (defadvice isearch-occur (after hong/occur-exit-isearch activate)
   (and (ignore-errors (select-window (get-buffer-window "*Occur*")))

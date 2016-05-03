@@ -38,18 +38,6 @@
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; tags jump overlay
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(dolist (var '(imenu-default-goto-function
-               find-tag
-               pop-tag-mark
-               elisp-slime-nav-find-elisp-thing-at-point
-               ggtags-find-definition
-               ggtags-find-other-symbol
-               ggtags-prev-mark))
-  (eval `(hong--display-line ,var)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; project operation(tags, grep, compile)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar project-tags-executable "etags")
