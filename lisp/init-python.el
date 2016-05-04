@@ -3,8 +3,7 @@
 (require-package 'company-anaconda)
 
 ;;; complete, checker, doc
-(setq python-version "2")
-(setq python-interpreter (concat "python" python-version))
+(setq python-interpreter (or (executable-find "ipython") "python"))
 
 (setq interpreter-mode-alist
       (cons '(python-interpreter . python-mode)
@@ -26,12 +25,6 @@
             (setq-local imenu-create-index-function
                         #'python-imenu-create-flat-index)
             (setq electric-indent-chars (delq ?: electric-indent-chars))
-
-            ;; flake8 with python
-            (setq-local flycheck-python-flake8-executable
-                        (concat python-interpreter " -m flake8"))
-            (setq-local flycheck-python-pylint-executable
-                        (concat python-interpreter " -m pylint"))
             ))
 
 (add-hook 'inferior-python-mode-hook 'hong/exit)
