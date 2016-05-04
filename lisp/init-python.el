@@ -1,6 +1,7 @@
 ;;; anaconda
 (require-package 'anaconda-mode)
 (require-package 'company-anaconda)
+(require-package 'pyvenv)
 
 ;;; complete, checker, doc
 (setq python-interpreter (or (executable-find "ipython") "python"))
@@ -17,6 +18,7 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
+            (pyvenv-mode 1)
             (anaconda-mode 1)
             (anaconda-eldoc-mode 1)
 
