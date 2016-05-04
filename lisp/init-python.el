@@ -4,12 +4,6 @@
 (require-package 'pyvenv)
 
 ;;; complete, checker, doc
-(setq python-interpreter (or (executable-find "ipython") "python"))
-
-(setq interpreter-mode-alist
-      (cons '(python-interpreter . python-mode)
-            interpreter-mode-alist))
-
 (eval-after-load 'python
   `(progn
      (evil-define-key 'normal python-mode-map
