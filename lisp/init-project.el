@@ -115,7 +115,7 @@
     (let* ((directory (project--get-root-no-tramp nil))
            (command (format "find %s %s -exec grep -nH -e '%s' {} +"
                             directory
-                            (project--build-find "*")
+                            (project--build-find wildcards)
                             regexp)))
       (if (not directory)
           (message "NOT PROJECT!")
