@@ -90,7 +90,6 @@
                   project-tags-executable
                   (concat directory "TAGS"))))
     (setq-local history-wildcards wildcards)
-    (message "command %s" command)
     (shell-command command)))
 
 (defun project-grep (wildcards regexp)
