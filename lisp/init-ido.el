@@ -36,7 +36,7 @@
 
 ;;; ================================ ivy ========================================
 ;;; swiper(include ivy)
-(ivy-mode)
+(ivy-mode 1)
 (setq ivy-height 10)
 (setq ivy-format-function 'ivy-format-function-arrow)
 
@@ -44,25 +44,18 @@
   '(progn
      (define-key ivy-minibuffer-map (kbd "C-d") 'ivy-dispatching-done)
      (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-immediate-done)
-     (define-key ivy-minibuffer-map (kbd "C-m") 'ivy-alt-done)))
+     (define-key ivy-minibuffer-map (kbd "C-m") 'ivy-alt-done)
+     (define-key ivy-minibuffer-map (kbd "C-a") 'ivy-toggle-ignore)
+     (setq ivy-extra-directories nil)))
 
 ;;; counsel
 (add-hook 'after-init-hook 'counsel-mode)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
-
-(eval-after-load 'counsel
-  '(progn
-     (define-key counsel-find-file-map (kbd "M-d") 'hong/ivy-create-dir)))
 
 ;;; =============================  misc function ================================
 (defun hong/ido-create-dir ()
   (interactive)
   (make-directory (concat ido-current-directory ido-text))
   (ido-reread-directory))
-
-(defun hong/ivy-create-dir ()
-  (interactive)
-  (make-directory (concat ivy--directory ivy-text))
-  (ivy-alt-done))
 
 (provide 'init-ido)
