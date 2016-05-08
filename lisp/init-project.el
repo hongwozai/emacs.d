@@ -8,7 +8,7 @@
 (eval-after-load 'find-file-in-project
   '(progn
      (setq ffip-project-file '(".svn" ".git" ".hg" "Makefile"
-                               "makefile" ".dir-local.el"))
+                               "makefile" ".dir-locals.el"))
      (add-to-list 'ffip-prune-patterns "*/.*/*")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -71,7 +71,7 @@
                       (split-string project-ignore-file) " ")
            0 -2))
          (find-command
-          (format "'(' %s ')' -prune -o '(' %s ')' -type f -print"
+          (format "'(' %s ')' -prune -o '(' %s ')' -type f"
                   ignore-wildcards
                   find-wildcards)))
     find-command))
