@@ -45,7 +45,6 @@
      (define-key ivy-minibuffer-map (kbd "C-d") 'ivy-dispatching-done)
      (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-immediate-done)
      (define-key ivy-minibuffer-map (kbd "C-m") 'ivy-alt-done)
-     (define-key ivy-minibuffer-map (kbd "C-a") 'ivy-toggle-ignore)
      (setq ivy-extra-directories nil)))
 
 ;;; counsel
