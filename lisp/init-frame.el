@@ -93,7 +93,6 @@
 (setq sr-speedbar-width 25)
 (setq sr-speedbar-max-width 25)
 (setq sr-speedbar-default-width 25)
-(setq sr-speedbar-auto-refresh nil)
 (setq speedbar-show-unknown-files t)
 
 (defalias 'speedbar 'sr-speedbar-toggle)
