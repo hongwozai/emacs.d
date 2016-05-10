@@ -54,7 +54,7 @@
 ;;; ======================== scheme ================================
 (add-hook 'scheme-mode-hook
           (lambda ()
-            (define-key scheme-mode-map (kbd "<f3>")
+            (define-key scheme-mode-map (kbd "<f2>")
               (lambda () (interactive)
                 (select-window (split-window-below))
                 (run-scheme (read-string "Executable: " "guile"))))))

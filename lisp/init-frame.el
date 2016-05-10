@@ -87,4 +87,36 @@
 
 (add-hook 'kill-buffer-query-functions 'hong/scratch-kill-buffer-query-function)
 
+;;; ======================= sr speedbar ===============================
+;;; speedbar
+(setq sr-speedbar-right-side nil)
+(setq sr-speedbar-width 25)
+(setq sr-speedbar-max-width 25)
+(setq sr-speedbar-default-width 25)
+(setq sr-speedbar-auto-refresh nil)
+(setq speedbar-show-unknown-files t)
+
+(defalias 'speedbar 'sr-speedbar-toggle)
+
+;;; resizing fixed width
+(defadvice sr-speedbar-open (after hong/sr-speedbar-fixwidth activate)
+  (with-current-buffer sr-speedbar-buffer-name
+    (setq window-size-fixed 'width)))
+
+;;; bury speedbar buffer
+(defadvice sr-speedbar-close (after hong/sr-speedbar-bury activate)
+  (bury-buffer sr-speedbar-buffer-name))
+
+(global-set-key (kbd "<f3>") 'sr-speedbar-toggle)
+(add-hook 'speedbar-mode-hook
+          (lambda ()
+            (define-key speedbar-mode-map (kbd "n") 'evil-search-next)
+            (define-key speedbar-mode-map (kbd "N") 'evil-search-previous)
+            (define-key speedbar-mode-map (kbd "q") 'sr-speedbar-close)
+            (defun speedbar-set-mode-line-format ()
+              (with-current-buffer speedbar-buffer
+                (setq-local mode-line-format "  SPEEDBAR")
+                (speedbar-mode-line-update)))
+            (setq-local post-command-hook nil)))
+
 (provide 'init-frame)

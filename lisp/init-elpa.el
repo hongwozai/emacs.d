@@ -55,6 +55,7 @@ re-downloaded in order to locate PACKAGE."
         bing-dict
         chinese-pyim
         guide-key
+        sr-speedbar
         ;; version control
         magit
         git-gutter
