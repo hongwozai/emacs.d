@@ -21,7 +21,7 @@
 ;;; ido ignore buffers
 (setq ido-ignore-buffers '("\\` " "^\*/" "^\*.*output" "^\*.*err" "^\*.*mode"
                            "^\*.*process.*" "^\*.*[Ll]og.*" "^\*.*trace*"
-                           "^\*SPEEDBAR" "^\*Help.*" "^\*buff.*"
+                           "^\*SPEEDBAR" "^\*Help.*" "^\*buff.*" "^\*magit.*"
                            "^\*ag.*" "^\*Completions.*" "^\*tramp.*" ".* of .*"))
 
 (add-hook 'ido-setup-hook
@@ -40,11 +40,15 @@
 (setq ivy-height 10)
 (setq ivy-format-function 'ivy-format-function-arrow)
 
+;;; C-c C-o ivy-occur(useful!)
 (eval-after-load 'ivy
   '(progn
      (define-key ivy-minibuffer-map (kbd "C-d") 'ivy-dispatching-done)
      (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-immediate-done)
      (define-key ivy-minibuffer-map (kbd "C-m") 'ivy-alt-done)
+     (evil-define-key 'normal ivy-occur-mode-map
+       (kbd "RET") 'ivy-occur-press
+       (kbd "q") 'quit-window)
      (setq ivy-extra-directories nil)))
 
 ;;; counsel
