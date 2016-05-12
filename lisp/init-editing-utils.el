@@ -120,7 +120,6 @@
 (when (fboundp 'electric-pair-mode)
   (electric-pair-mode))
 
-
 ;;; highlight symbol
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 (add-hook 'highlight-symbol-mode-hook

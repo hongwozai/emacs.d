@@ -7,23 +7,21 @@
           (lambda ()
             (set-face-bold 'minibuffer-prompt t)))
 
-(custom-theme-set-faces
- 'zenburn
- ;; avy
- `(avy-lead-face       ((t (:foreground "white" :background "#e52b50"))))
- `(avy-lead-face-0     ((t (:foreground "white" :background "#4f57f9"))))
- `(avy-background-face ((t (:foreground "grey40"))))
- ;; mode-line
- `(mode-line           ((t (:box (:line-width 1 :color "#4F4F4F" :style nil)
-                                 :foreground "#8FB28F" :background "#2B2B2B"))))
- `(mode-line-inactive  ((t (:box (:line-width 1 :color "#4F4F4F" :style nil)))))
- ;; ivy
- `(ivy-current-match   ((t (:background "#1a4b77" :underline nil))))
- ;; ido
- `(ido-first-match     ((t (:background "#1a4b77"))))
- `(ido-only-match      ((t (:background "#1a4b77"))))
- ;; window number
- `(window-numbering-face ((t (:foreground "goldenrod"))))
- )
+(zenburn-with-color-variables
+  (custom-theme-set-faces
+   'zenburn
+   ;; mode-line
+   `(mode-line           ((t (:box (:line-width 1 :color ,zenburn-bg+1 :style nil)
+                                   :foreground ,zenburn-green+1 :background ,zenburn-bg-1))))
+   `(mode-line-inactive  ((t (:box (:line-width 1 :color ,zenburn-bg-1 :style nil)
+                                   :foreground ,zenburn-fg+1 :background ,zenburn-bg+1))))
+   ;; ivy
+   `(ivy-current-match   ((t (:background "#1a4b77" :underline nil))))
+   ;; ido
+   `(ido-first-match     ((t (:background "#1a4b77"))))
+   `(ido-only-match      ((t (:background "#1a4b77"))))
+   ;; window number
+   `(window-numbering-face ((t (:foreground "goldenrod"))))
+   ))
 
 (provide 'init-themes)
