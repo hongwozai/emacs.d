@@ -91,7 +91,7 @@
   "xc"  'save-buffers-kill-terminal
   "xe"  'eval-last-sexp
   "xf"  'ido-find-file
-  "xk"  'kill-this-buffer
+  "xk"  '(lambda () (interactive) (kill-buffer (current-buffer)))
   "xs"  'save-buffer
   "xz"  'suspend-frame)
 
