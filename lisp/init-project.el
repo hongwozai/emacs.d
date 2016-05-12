@@ -77,20 +77,22 @@
     find-command))
 
 (defun project-tags-generate (wildcards)
-  "Create TAGS"
+  "Create etags TAGS"
   (interactive (list (read-shell-command
                       "Wildcards: "
                       (if (local-variable-if-set-p 'history-wildcards)
                           history-wildcards "*"))))
   (let* ((directory (project--get-root-no-tramp t))
+         (tagfile (concat (file-name-as-directory directory) "TAGS"))
          (command
           (format "find %s %s | xargs %s -o %s"
                   directory
                   (project--build-find wildcards)
                   project-tags-executable
-                  (concat directory "TAGS"))))
+                  tagfile)))
     (setq-local history-wildcards wildcards)
-    (shell-command command)))
+    (if (= 0 (shell-command command))
+        (visit-tags-table tagfile))))
 
 (defun project-grep (wildcards regexp)
   (interactive
