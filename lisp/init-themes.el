@@ -5,9 +5,6 @@
 ;;; theme change
 (add-hook 'after-init-hook
           (lambda ()
-            (set-face-italic 'font-lock-comment-face t)
-            (set-face-bold 'font-lock-type-face t)
-            (set-face-bold 'font-lock-keyword-face t)
             (set-face-bold 'minibuffer-prompt t)))
 
 (custom-theme-set-faces
