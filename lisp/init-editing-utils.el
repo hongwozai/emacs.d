@@ -43,17 +43,22 @@
             (setq dired-recursive-copies 'always)
             (setq dired-recursive-deletes 'always)
             (setq dired-listing-switches "-aluh")
+            (setq-local post-command-hook nil)
             (setq dired-isearch-filenames t)
             (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
             (define-key dired-mode-map "/" 'isearch-forward)
             (define-key dired-mode-map "?" 'isearch-backward)
-            (evil-define-key 'normal dired-mode-map "j" 'diredp-next-line)
-            (evil-define-key 'normal dired-mode-map "k" 'diredp-previous-line)
             (diredp-toggle-find-file-reuse-dir 1)
             ))
 
 (add-hook 'dired-mode-hook
           (lambda ()
+            (evil-define-key 'normal dired-mode-map
+              "j" 'diredp-next-line
+              "k" 'diredp-previous-line
+              "J" '(lambda () (interactive)
+                     (find-alternate-file (read-directory-name "Directory: ")))
+              )
             (setq-local dired-omit-files
                         "^\\.?#\\|^\\.$\\|^\\.[^.].*$")
             (setq dired-omit-verbose nil)
