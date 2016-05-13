@@ -48,7 +48,7 @@
      (define-key ivy-minibuffer-map (kbd "C-m") 'ivy-alt-done)
      (evil-define-key 'normal ivy-occur-mode-map
        (kbd "RET") 'ivy-occur-press
-       (kbd "q") 'quit-window)
+       (kbd "q") 'kill-buffer-and-window)
      (setq ivy-extra-directories nil)))
 
 ;;; counsel
