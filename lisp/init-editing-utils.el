@@ -60,7 +60,7 @@
                      (find-alternate-file (read-directory-name "Directory: ")))
               )
             (setq-local dired-omit-files
-                        "^\\.?#\\|^\\.$\\|^\\.[^.].*$")
+                        "^\\.?#\\|^\\.$\\|^\\..*$")
             (setq dired-omit-verbose nil)
             (dired-omit-mode)
             (hl-line-mode 1)))
