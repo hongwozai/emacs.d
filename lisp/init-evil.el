@@ -6,22 +6,21 @@
 ;;; initial state change
 (dolist (mode '(term-mode
                 minibuffer-inactive-mode
-                messages-buffer-mode bs-mode
-                special-mode process-menu-mode
                 sql-interactive-mode diff-mode
                 anaconda-nav-mode ibuffer-mode
                 image-mode haskell-error-mode
-                flycheck-error-list-mode rlogin-mode
+                flycheck-error-list-mode
                 cider-stacktrace-mode))
   (evil-set-initial-state mode 'emacs))
 
-(dolist (mode '(diff-mode occur-mode yari-mode
-                          anaconda-mode-view-mode
-                          package-menu-mode))
+(dolist (mode '(diff-mode occur-mode yari-mode messages-buffer-mode
+                          anaconda-mode-view-mode special-mode
+                          package-menu-mode process-menu-mode
+                          bookmark-bmenu-mode))
   (evil-set-initial-state mode 'motion))
 
 ;;; *Messages* can't set emacs state in emacs start
-(evil-define-key 'normal messages-buffer-mode-map "q" 'quit-window)
+(with-current-buffer "*Messages*" (evil-motion-state))
 (evil-define-key 'normal fundamental-mode-map "q" 'quit-window)
 (evil-define-key 'motion fundamental-mode-map "q" 'quit-window)
 
