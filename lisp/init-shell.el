@@ -1,3 +1,7 @@
+;;; conf-mode
+(push '(".*config\\'" . conf-mode) auto-mode-alist)
+(push '(".*profile\\'" . conf-mode) auto-mode-alist)
+(push '("ssh.\\{1,2\\}config\\'" . conf-mode) auto-mode-alist)
 ;;; shell-script-mode
 (push '("\\.*rc\\'" . sh-mode) auto-mode-alist)
 (push '("\\.zsh\\'" . sh-mode) auto-mode-alist)
