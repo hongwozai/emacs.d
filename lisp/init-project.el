@@ -1,5 +1,7 @@
 ;; bookmark
 (setq bookmark-save-flag 1)
+(evil-define-key 'motion bookmark-bmenu-mode-map
+  (kbd "RET") 'bookmark-bmenu-this-window)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; find file in project
