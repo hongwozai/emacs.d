@@ -5,11 +5,10 @@
 ;;; find file in project
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ignore hidden file
-(eval-after-load 'find-file-in-project
-  '(progn
-     (setq ffip-project-file '(".svn" ".git" ".hg" "Makefile"
-                               "makefile" ".dir-locals.el"))
-     (add-to-list 'ffip-prune-patterns "*/.*/*")))
+(with-eval-after-load 'find-file-in-project
+  (setq ffip-project-file '(".svn" ".git" ".hg" "Makefile"
+                            "makefile" ".dir-locals.el"))
+  (add-to-list 'ffip-prune-patterns "*/.*/*"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; gtags

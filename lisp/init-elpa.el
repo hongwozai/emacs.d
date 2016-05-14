@@ -39,7 +39,6 @@ re-downloaded in order to locate PACKAGE."
         ;; evil
         evil-anzu
         evil-surround
-        evil-escape
         evil-matchit
         evil-iedit-state
         ;; workspace
@@ -49,7 +48,6 @@ re-downloaded in order to locate PACKAGE."
         smex
         yasnippet
         expand-region
-        highlight-symbol
         ibuffer-vc
         exec-path-from-shell
         bing-dict
@@ -63,6 +61,7 @@ re-downloaded in order to locate PACKAGE."
         company-c-headers
         ;; elisp
         elisp-slime-nav
+        evil-paredit
         paredit
         ;; html, js, css, php
         web-mode

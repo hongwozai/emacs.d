@@ -4,11 +4,10 @@
 (require-package 'pyvenv)
 
 ;;; complete, checker, doc
-(eval-after-load 'python
-  `(progn
-     (evil-define-key 'normal python-mode-map
-       (kbd "M-.") 'anaconda-mode-find-definitions
-       (kbd "M-,") 'anaconda-mode-go-back)))
+(with-eval-after-load 'python
+  (evil-define-key 'normal python-mode-map
+    (kbd "M-.") 'anaconda-mode-find-definitions
+    (kbd "M-,") 'anaconda-mode-go-back))
 
 (add-hook 'python-mode-hook
           (lambda ()

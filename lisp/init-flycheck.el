@@ -7,7 +7,7 @@
 
 ;;; flycheck pos-tip
 (setq flycheck-pos-tip-timeout -1)
-(eval-after-load 'flycheck
-  '(progn (flycheck-pos-tip-mode)))
+(with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode))
 
 (provide 'init-flycheck)

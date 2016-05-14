@@ -1,7 +1,9 @@
-;; evil
-(evil-mode 1)
-;;; =================== evil configure =====================
+;; evil configure
 (setq evil-move-cursor-back t)
+(setq evil-want-C-u-scroll t)
+
+;;; evil mode
+(evil-mode 1)
 
 ;;; initial state change
 (dolist (mode '(term-mode
@@ -25,20 +27,13 @@
 (evil-define-key 'motion fundamental-mode-map "q" 'quit-window)
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
-(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 
 ;;; ======================== evil plugin ==========================
 ;;; evil-anzu
-(global-anzu-mode)
+(with-eval-after-load 'evil (require 'evil-anzu))
 
 ;;; evil surround
 (global-evil-surround-mode 1)
-
-;;; evil escape
-(setq-default evil-escape-key-sequence "kj")
-(evil-escape-mode)
-(dolist (hook '(minibuffer-setup-hook isearch-mode-hook))
-  (add-hook hook (lambda () (setq-local evil-escape-inhibit t))))
 
 ;;; evil matchit
 (global-evil-matchit-mode 1)
@@ -47,16 +42,14 @@
 (autoload 'evil-iedit-state/iedit-mode "evil-iedit-state")
 
 (global-set-key (kbd "C-;") 'evil-iedit-state/iedit-mode)
-(eval-after-load 'iedit
-  '(progn
-     (global-set-key (kbd "C-;") 'evil-iedit-state/iedit-mode)))
+(with-eval-after-load 'iedit
+  (global-set-key (kbd "C-;") 'evil-iedit-state/iedit-mode))
 
-(eval-after-load 'evil-iedit-state
-  '(progn
-     (define-key evil-iedit-insert-state-map (kbd "C-;")
-       'evil-iedit-state/quit-iedit-mode)
-     (define-key evil-iedit-state-map (kbd "C-;")
-       'evil-iedit-state/quit-iedit-mode)))
+(with-eval-after-load 'evil-iedit-state
+  (define-key evil-iedit-insert-state-map (kbd "C-;")
+    'evil-iedit-state/quit-iedit-mode)
+  (define-key evil-iedit-state-map (kbd "C-;")
+    'evil-iedit-state/quit-iedit-mode))
 ;;; ===================== evil leader custom key =================
 (global-evil-leader-mode)
 (evil-leader/set-leader ",")

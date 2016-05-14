@@ -84,20 +84,19 @@
 
 ;;; ibuffer (list-buffers have bug: auto-recenterring)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(eval-after-load 'ibuffer
-  '(progn
-     (require 'ibuffer-vc)
-     (define-key ibuffer-mode-map (kbd "j") 'ibuffer-forward-line)
-     (define-key ibuffer-mode-map (kbd "k") 'ibuffer-backward-line)
-     (define-key ibuffer-mode-map (kbd "J") 'ibuffer-jump-to-buffer)
-     (define-key ibuffer-mode-map (kbd "K") 'ibuffer-do-kill-lines)
-     (setq ibuffer-show-empty-filter-groups nil)
-     (add-hook 'ibuffer-hook
-               (lambda ()
-                 (ibuffer-vc-set-filter-groups-by-vc-root)
-                 (unless (eq ibuffer-sorting-mode 'filename/process)
-                   (ibuffer-do-sort-by-filename/process))
-                 (hl-line-mode 1)))))
+(with-eval-after-load 'ibuffer
+  (require 'ibuffer-vc)
+  (define-key ibuffer-mode-map (kbd "j") 'ibuffer-forward-line)
+  (define-key ibuffer-mode-map (kbd "k") 'ibuffer-backward-line)
+  (define-key ibuffer-mode-map (kbd "J") 'ibuffer-jump-to-buffer)
+  (define-key ibuffer-mode-map (kbd "K") 'ibuffer-do-kill-lines)
+  (setq ibuffer-show-empty-filter-groups nil)
+  (add-hook 'ibuffer-hook
+            (lambda ()
+              (ibuffer-vc-set-filter-groups-by-vc-root)
+              (unless (eq ibuffer-sorting-mode 'filename/process)
+                (ibuffer-do-sort-by-filename/process))
+              (hl-line-mode 1))))
 
 (setq ibuffer-formats
       '((mark modified read-only vc-status-mini " "
@@ -124,13 +123,6 @@
 ;; built-in paren dir
 (when (fboundp 'electric-pair-mode)
   (electric-pair-mode))
-
-;;; highlight symbol
-(add-hook 'prog-mode-hook 'highlight-symbol-mode)
-(add-hook 'highlight-symbol-mode-hook
-          (lambda ()
-            (setq highlight-symbol-idle-delay 0.5)
-            (highlight-symbol-nav-mode)))
 
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)

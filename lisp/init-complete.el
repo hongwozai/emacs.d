@@ -1,6 +1,6 @@
 ;; hippie expand
-(global-set-key (kbd "M-/") 'hippie-expand)
-(setq hippid-expand-try-functions-list
+(setq evil-complete-next-func #'hippie-expand)
+(setq hippie-expand-try-functions-list
       '(try-complete-file-name-partially
         try-complete-file-name
         try-expand-dabbrev
@@ -11,21 +11,19 @@
 ;; company
 (add-hook 'after-init-hook #'global-company-mode)
 
-(eval-after-load 'company
-  '(progn
-     ;; can't work with TRAMP
-     (setq company-backends (delete 'company-ropemacs company-backends))
-     (setq company-tooltip-flip-when-above t)
-     (setq company-tooltip-align-annotations t)
-     (setq company-show-numbers t)
-     (setq company-begin-commands '(self-insert-command))
-     (setq company-clang-insert-arguments nil)
-     ;; shell-mode -> ivy
-     (setq company-global-modes
-           '(not shell-mode eshell-mode term-mode))
-     (setq company-ispell-dictionary
-           (file-truename "~/.emacs.d/english-words.txt"))
-))
+(with-eval-after-load 'company
+  ;; can't work with TRAMP
+  (setq company-backends (delete 'company-ropemacs company-backends))
+  (setq company-tooltip-flip-when-above t)
+  (setq company-tooltip-align-annotations t)
+  (setq company-show-numbers t)
+  (setq company-clang-insert-arguments nil)
+  ;; shell-mode -> ivy
+  (setq company-global-modes
+        '(not shell-mode eshell-mode term-mode))
+  (setq company-ispell-dictionary
+        (file-truename "~/.emacs.d/english-words.txt"))
+)
 
 (defun hong/toggle-company-ispell ()
   (interactive)

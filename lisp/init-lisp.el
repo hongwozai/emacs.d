@@ -11,7 +11,7 @@
 
 (dolist (hook lisp-common-mode-hook)
   (add-hook hook '(lambda () (setq-local show-paren-style 'expression)))
-  (add-hook hook #'enable-paredit-mode))
+  (add-hook hook #'evil-paredit-mode))
 
 ;;; ========================== misc ===============================
 ;; eldoc-mode
@@ -28,8 +28,7 @@
  )
 
 ;;; ========================= elisp ================================
-(dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook
-                                     lisp-interaction-mode-hook))
+(dolist (hook '(emacs-lisp-mode-hook lisp-interaction-mode-hook))
   (add-hook hook 'turn-on-elisp-slime-nav-mode))
 
 (add-hook 'emacs-lisp-mode-hook
@@ -40,15 +39,14 @@
             (define-key emacs-lisp-mode-map (kbd "C-c C-f") 'eval-defun)
             (define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)))
 
-(dolist (map '(emacs-lisp-mode-map ielm-mode-map lisp-interaction-mode-map))
-  (eval `(evil-define-key 'insert ,map
-           (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point))
-  (eval `(evil-define-key 'normal ,map
-           (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point))
-  (eval `(evil-define-key 'normal ,map
-           (kbd "M-.") 'elisp-slime-nav-find-elisp-thing-at-point))
-  (eval `(evil-define-key 'normal ,map
-           (kbd "M-,") 'pop-tag-mark))
+(dolist (map (list emacs-lisp-mode-map
+                   lisp-interaction-mode-map))
+  (evil-define-key 'insert map
+     (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point)
+  (evil-define-key 'normal map
+     (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point
+     (kbd "M-.") 'elisp-slime-nav-find-elisp-thing-at-point
+     (kbd "M-,") 'pop-tag-mark)
   )
 
 ;;; ======================== scheme ================================

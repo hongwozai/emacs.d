@@ -1,6 +1,6 @@
 ;;; sql
-(eval-after-load "sql"
-  '(load-library "sql-indent"))
+(with-eval-after-load "sql"
+  (load-library "sql-indent"))
 
 (add-hook 'sql-interactive-mode-hook
           (lambda ()
@@ -33,9 +33,8 @@
 
 ;;; graphviz
 (when (executable-find "dot")
-  (eval-after-load "org"
-    '(progn
-       (add-to-list 'org-src-lang-modes  '("dot" . graphviz-dot))))
+  (with-eval-after-load "org"
+    (add-to-list 'org-src-lang-modes  '("dot" . graphviz-dot)))
 ;;; BUG: graphviz org-mode eval-after-load
   (require-package 'graphviz-dot-mode)
   (hong/select-buffer-window graphviz-dot-preview "*preview*")

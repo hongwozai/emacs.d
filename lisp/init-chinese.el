@@ -23,16 +23,15 @@
 
 ;;; input method
 (require 'chinese-pyim)
-(eval-after-load 'chinese-pyim
-  '(progn
-     (setq default-input-method "chinese-pyim")
-     (setq pyim-use-tooltip 'pos-tip)
-     (setq pyim-page-length 9)
-     (setq pyim-guidance-format-function
-           'pyim-guidance-format-function-one-line)
-     (setq pyim-dicts '((:name "pinyin"
-                               :file "~/.eim/pyim-bigdict.pyim"
-                               :coding utf-8-unix)))))
+(with-eval-after-load 'chinese-pyim
+  (setq default-input-method "chinese-pyim")
+  (setq pyim-use-tooltip 'pos-tip)
+  (setq pyim-page-length 9)
+  (setq pyim-guidance-format-function
+        'pyim-guidance-format-function-one-line)
+  (setq pyim-dicts '((:name "pinyin"
+                            :file "~/.eim/pyim-bigdict.pyim"
+                            :coding utf-8-unix))))
 
 ;;; fcitx
 (when (executable-find "/usr/bin/fcitx")

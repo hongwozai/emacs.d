@@ -7,10 +7,15 @@
 ;;; include c/c++, java etc.
 (defun cc-common-config ()
   ;; indent
-  (setq c-default-style '((java-mode . "java")
+  (setq c-default-style '((c-mode . "linux")
+                          (java-mode . "java")
                           (awk-mode . "awk")
                           (other . "k&r"))
         c-basic-offset  4)
+
+  ;; auto indent
+  (c-toggle-hungry-state 1)
+  (c-toggle-auto-newline 1)
   )
 
 (defun c/c++-mode-config ()
@@ -29,6 +34,11 @@
   ;; company
   (setq-local company-backends
               '(company-c-headers company-clang company-etags company-gtags))
+
+  ;; company clang not remote
+  (let ((file (buffer-file-name)))
+    (when (and file (file-remote-p file))
+      (delq 'company-clang company-backends)))
   )
 
 (defun hong/tags-debug-compile-setup (map)

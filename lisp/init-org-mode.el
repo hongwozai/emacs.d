@@ -39,10 +39,9 @@
         ("i" "IDEA" entry (file+headline "~/org/note.org" "idea")
          "* %?\n %i\n" :prepend t)))
 
-(eval-after-load 'evil
-  '(progn
-     (evil-declare-key 'normal org-mode-map
-       "q"  'quit-window
-       (kbd "TAB") 'org-cycle)))
+(with-eval-after-load 'evil
+  (evil-declare-key 'normal org-mode-map
+    "q"  'quit-window
+    (kbd "TAB") 'org-cycle))
 
 (provide 'init-org-mode)

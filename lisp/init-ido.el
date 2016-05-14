@@ -16,7 +16,7 @@
 (setq ido-decorations
       '("\n-> " "" "\n   " "\n   ..." "[" "]"
         " [No match]" " [Matched]" " [Not readable]"
-        " [Too big]" " [Confirm]"))
+        " [Too big]" " [Confirm]" "\n-> " ""))
 
 ;;; ido ignore buffers
 (setq ido-ignore-buffers '("\\` " "^\*/" "^\*.*output" "^\*.*err" "^\*.*mode"
@@ -36,20 +36,21 @@
 
 ;;; ================================ ivy ========================================
 ;;; swiper(include ivy)
-(ivy-mode 1)
-(setq ivy-height 10)
+(setq ivy-height 12)
 (setq ivy-format-function 'ivy-format-function-arrow)
+(setq ivy-extra-directories nil)
+
+;;; ivy mode
+(ivy-mode 1)
 
 ;;; C-c C-o ivy-occur(useful!)
-(eval-after-load 'ivy
-  '(progn
-     (define-key ivy-minibuffer-map (kbd "C-d") 'ivy-dispatching-done)
-     (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-immediate-done)
-     (define-key ivy-minibuffer-map (kbd "C-m") 'ivy-alt-done)
-     (evil-define-key 'normal ivy-occur-mode-map
-       (kbd "RET") 'ivy-occur-press
-       (kbd "q") 'kill-buffer-and-window)
-     (setq ivy-extra-directories nil)))
+(with-eval-after-load 'ivy
+  (define-key ivy-minibuffer-map (kbd "C-d") 'ivy-dispatching-done)
+  (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-immediate-done)
+  (define-key ivy-minibuffer-map (kbd "C-m") 'ivy-alt-done)
+  (evil-define-key 'normal ivy-occur-mode-map
+    (kbd "RET") 'ivy-occur-press
+    (kbd "q") 'kill-buffer-and-window))
 
 ;;; counsel
 (add-hook 'after-init-hook 'counsel-mode)

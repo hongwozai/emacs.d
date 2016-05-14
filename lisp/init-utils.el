@@ -39,22 +39,27 @@
      (require feature)))
 
 ;;; =========================== select window =============================
-(defmacro hong/select-buffer-window (cmd buffer-name)
-  `(defadvice ,cmd (after ,(gensym) activate)
-     (ignore-errors (select-window (get-buffer-window ,buffer-name)))))
+(defmacro hong/select-buffer-window (&rest CBS)
+  (setq-local select-list '(progn))
+  (dolist (num (number-sequence 0 (1- (length CBS)) 2))
+    (add-to-list
+     'select-list
+     `(defadvice ,(nth num CBS) (after ,(gensym) activate)
+        (ignore-errors (select-window (get-buffer-window ,(nth (1+ num) CBS)))))
+     t))
+  select-list)
 
-(dolist (var '((describe-function . "*Help*")
-               (describe-key . "*Help*")
-               (describe-mode . "*Help*")
-               (describe-coding-system . "*Help*")
-               (describe-variable . "*Help*")
-               (shell-command . "*Shell Command Output*")
-               (list-colors-display . "*Colors*")
-               (list-processes . "*Process List*")
-               (grep . "*grep*")
-               (rgrep . "*grep*")
-               (occur . "*Occur*")))
-  (eval `(hong/select-buffer-window ,(car var) ,(cdr var))))
+(hong/select-buffer-window describe-function "*Help*"
+                           describe-key  "*Help*"
+                           describe-mode  "*Help*"
+                           describe-coding-system  "*Help*"
+                           describe-variable  "*Help*"
+                           shell-command  "*Shell Command Output*"
+                           list-colors-display  "*Colors*"
+                           list-processes  "*Process List*"
+                           grep  "*grep*"
+                           rgrep  "*grep*"
+                           occur  "*Occur*")
 
 ;;; ========================= system relevant ==============================
 (defun hong-updatedb ()
@@ -69,6 +74,13 @@
     (set-face-bold-p face bold-p frame))
 
   (defun set-face-italic (face italic-p &optional frame)
-    (set-face-italic-p face italic-p frame)))
+    (set-face-italic-p face italic-p frame))
+
+  (defmacro with-eval-after-load (file &rest body)
+    "Execute BODY after FILE is loaded.
+FILE is normally a feature name, but it can also be a file name,
+in case that file does not provide any feature."
+    (declare (indent 1) (debug t))
+    `(eval-after-load ,file (lambda () ,@body))))
 
 (provide 'init-utils)
