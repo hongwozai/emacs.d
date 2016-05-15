@@ -66,8 +66,6 @@
   "cd"  'yasdcv-translate-at-point
   "cs"  'hong/translate-brief-at-point
   "ds"  'sudo-edit
-  "en"  'next-error
-  "ep"  'previous-error
   "gc"  'ggtags-create-tags
   "gd"  'ggtags-find-definition
   "gt"  'ggtags-find-tag-dwim

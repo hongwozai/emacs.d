@@ -126,6 +126,8 @@
 
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)
+(global-set-key (kbd "M-n") 'next-error)
+(global-set-key (kbd "M-p") 'previous-error)
 
 ;;; .dir-locals.el
 (setq enable-local-variables :all enable-local-eval t)
