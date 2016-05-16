@@ -4,6 +4,7 @@
   (setq compile-command "make")
   (setq compilation-read-command nil)
   ;; (setq compilation-auto-jump-to-first-error t)
+  (setq compilation-scroll-output t)
   (setq compilation-finish-function nil)
   (hong/select-buffer-window compile "*compilation*")
   )
