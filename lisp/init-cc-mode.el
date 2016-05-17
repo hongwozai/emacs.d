@@ -28,7 +28,7 @@
                 "/usr/include" "/usr/local/include/*"))
 
   ;; keywords
-  (font-lock-add-keywords 'c-mode '("typeof" "__attribute__" "__asm__"))
+  (font-lock-add-keywords nil '("typeof" "__attribute__" "__asm__") t)
 
   ;; company
   (setq-local company-backends
@@ -40,9 +40,9 @@
       (delq 'company-clang company-backends)))
   )
 
-(defun hong/tags-debug-compile-setup (map)
-  (define-key map (kbd "C-c C-c") 'project-compile-in-shell)
-  (define-key map (kbd "C-c C-s") 'change-compile-command))
+(defun hong/tags-debug-compile-setup ()
+  (local-set-key (kbd "C-c C-c") 'project-compile-in-shell)
+  (local-set-key (kbd "C-c C-s") 'change-compile-command))
 
 (add-hook 'c-mode-common-hook
           (lambda () (cc-common-config)))
@@ -50,11 +50,11 @@
 (add-hook 'c++-mode-hook
           (lambda ()
             (c/c++-mode-config)
-            (hong/tags-debug-compile-setup c++-mode-map)))
+            (hong/tags-debug-compile-setup)))
 
 (add-hook 'c-mode-hook
           (lambda ()
             (c/c++-mode-config)
-            (hong/tags-debug-compile-setup c-mode-map)))
+            (hong/tags-debug-compile-setup)))
 
 (provide 'init-cc-mode)
