@@ -30,7 +30,9 @@
 
 ;;; ======================== evil plugin ==========================
 ;;; evil-anzu
-(with-eval-after-load 'evil (require 'evil-anzu))
+(with-eval-after-load 'evil
+  (global-anzu-mode)
+  (require 'evil-anzu))
 
 ;;; evil surround
 (global-evil-surround-mode 1)
