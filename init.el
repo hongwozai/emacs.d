@@ -39,6 +39,7 @@
 (maybe-require "sbcl"   'init-common-lisp)
 (maybe-require "go"     'init-go)
 (maybe-require "ghc"    'init-haskell)
+(maybe-require "lua"    'init-lua)
 
 (require 'init-misc)
 
