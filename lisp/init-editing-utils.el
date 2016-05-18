@@ -15,6 +15,7 @@
               mouse-yank-at-point         t
               truncate-lines              nil
               scroll-margin               0
+              scroll-step                 1
               visible-bell                t
               mode-require-final-newline  nil
               ring-bell-function          'ignore)
