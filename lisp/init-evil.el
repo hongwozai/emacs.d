@@ -69,11 +69,7 @@
   "cs"  'hong/translate-brief-at-point
   "ds"  'sudo-edit
   "gc"  'ggtags-create-tags
-  "gd"  'ggtags-find-definition
-  "gt"  'ggtags-find-tag-dwim
   "gr"  'ggtags-find-reference
-  "gn"  'ggtags-next-mark
-  "gp"  'ggtags-prev-mark
   "im"  'imenu
   "kr"  'counsel-yank-pop
   "mf"  'mark-defun
