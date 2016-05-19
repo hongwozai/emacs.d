@@ -29,6 +29,7 @@
   (setq pyim-page-length 9)
   (setq pyim-guidance-format-function
         'pyim-guidance-format-function-one-line)
+  (global-set-key (kbd "C-SPC") 'toggle-input-method)
   (setq pyim-dicts '((:name "pinyin"
                             :file "~/.eim/pyim-bigdict.pyim"
                             :coding utf-8-unix))))
