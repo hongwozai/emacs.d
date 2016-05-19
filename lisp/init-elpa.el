@@ -54,6 +54,7 @@ re-downloaded in order to locate PACKAGE."
         chinese-pyim
         guide-key
         ;; version control
+        with-editor
         magit
         git-gutter
         git-timemachine

@@ -6,6 +6,7 @@
   '(lambda () (interactive)
      (setq isearch-message (concat isearch-message ".*?"))
      (setq isearch-string (concat isearch-string ".*?"))
+     (isearch-push-state)
      (isearch-update)))
 
 ;;; =================== grep =========================
