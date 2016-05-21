@@ -44,7 +44,6 @@
             (setq dired-recursive-copies 'always)
             (setq dired-recursive-deletes 'always)
             (setq dired-listing-switches "-aluh")
-            (setq-local post-command-hook nil)
             (setq dired-isearch-filenames t)
             (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
             (define-key dired-mode-map "/" 'isearch-forward)
