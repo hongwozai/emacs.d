@@ -57,4 +57,7 @@
             (c/c++-mode-config)
             (hong/tags-debug-compile-setup)))
 
+(setq auto-mode-alist
+      (cons '("\.h$" . c++-mode) auto-mode-alist))
+
 (provide 'init-cc-mode)
