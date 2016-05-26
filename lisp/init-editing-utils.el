@@ -124,11 +124,6 @@
 (when (fboundp 'electric-pair-mode)
   (electric-pair-mode))
 
-;;; highlight-parentheses
-(setq hl-paren-background-colors '("cyan" "gold"))
-(setq hl-paren-colors '("black" "black"))
-(add-hook 'prog-mode-hook #'highlight-parentheses-mode)
-
 ;; global special key
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "M-n") 'next-error)
