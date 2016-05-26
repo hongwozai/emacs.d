@@ -77,6 +77,8 @@
   "mf"  'mark-defun
   "mp"  'mark-paragraph
   "mb"  'mark-whole-buffer
+  "x4f" 'ido-find-file-other-window
+  "x4b" 'ido-switch-buffer-other-window
   "xb"  'ido-switch-buffer
   "xc"  'save-buffers-kill-terminal
   "xe"  'eval-last-sexp
