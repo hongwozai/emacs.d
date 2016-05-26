@@ -59,7 +59,7 @@
 (setq-default mode-line-format hong/mode-line)
 (setq mode-line-format hong/mode-line)
 
-(defvar mode-line-normal (face-background 'mode-line))
+(defvar mode-line-normal "#2B2B2B")
 (defun hong//change-color-with-evil-state ()
   (let* ((default-color mode-line-normal)
          (color (cond ((minibufferp) default-color)

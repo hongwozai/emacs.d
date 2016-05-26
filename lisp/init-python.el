@@ -22,6 +22,7 @@
             (setq-local imenu-create-index-function
                         #'python-imenu-create-flat-index)
             (setq electric-indent-chars (delq ?: electric-indent-chars))
+            (local-set-key (kbd "<f6>") 'pytest-module)
             ))
 
 ;; pytest
