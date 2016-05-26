@@ -36,6 +36,8 @@
 
 ;;; evil surround
 (global-evil-surround-mode 1)
+(setcdr (assoc ?t evil-surround-pairs-alist)
+        (lambda () (let ((str (read-from-minibuffer "" ""))) (cons str str))))
 
 ;;; evil matchit
 (global-evil-matchit-mode 1)
