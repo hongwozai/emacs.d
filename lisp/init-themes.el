@@ -6,6 +6,8 @@
 (zenburn-with-color-variables
   (custom-theme-set-faces
    'zenburn
+   ;; font-lock
+   `(font-lock-type-face ((t (:foreground "#90AFD3"))))
    ;; mode-line
    `(mode-line
      ((t (:box (:line-width 1 :color ,zenburn-bg+1 :style nil)
