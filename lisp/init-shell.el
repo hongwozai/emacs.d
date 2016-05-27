@@ -28,18 +28,17 @@
 ;;; ========================== eshell =================================
 (add-hook 'eshell-load-hook
           (lambda ()
+            (setq eshell-save-history-on-exit nil
+                  eshell-buffer-shorthand t)))
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
             (shell-like-map-setup eshell-mode-map)
             (evil-define-key 'insert eshell-mode-map
               (kbd "C-a") 'eshell-bol
               (kbd "C-r") 'eshell-find-history
               (kbd "C-p") 'eshell-previous-matching-input-from-input
               (kbd "C-n") 'eshell-next-matching-input-from-input)
-            (setq eshell-save-history-on-exit nil
-                  eshell-buffer-shorthand t)
-            ))
-
-(add-hook 'eshell-mode-hook
-          (lambda ()
             (setq-local company-backends nil)
             (add-hook 'evil-insert-state-entry-hook
                       (lambda () (interactive) (goto-char (point-max))) nil t)
