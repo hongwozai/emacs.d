@@ -103,7 +103,7 @@
                     ("M-:" . eval-expression)
                     ("M-w" . kill-ring-save)
                     ("C-y" . term-paste)
-                    ("C-DEL" . term-send-raw-meta)
+                    ("<C-backspace>" . term-send-raw-meta)
                     ("M-d" . term-send-forward-kill-word)
                     ("M-x" . execute-extended-command)
                     ("M-]" . multi-term-next)
