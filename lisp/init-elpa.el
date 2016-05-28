@@ -49,6 +49,7 @@ re-downloaded in order to locate PACKAGE."
         yasnippet
         expand-region
         ibuffer-vc
+        eshell-prompt-extras
         exec-path-from-shell
         bing-dict
         chinese-pyim

@@ -26,6 +26,11 @@
      (kbd "C-u") 'clear-before-line))
 
 ;;; ========================== eshell =================================
+(with-eval-after-load "esh-opt"
+  (autoload 'epe-theme-lambda "eshell-prompt-extras")
+  (setq eshell-highlight-prompt nil
+        eshell-prompt-function 'epe-theme-lambda))
+
 (add-hook 'eshell-load-hook
           (lambda ()
             (setq eshell-save-history-on-exit nil
