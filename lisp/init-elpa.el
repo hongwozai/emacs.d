@@ -52,7 +52,6 @@ re-downloaded in order to locate PACKAGE."
         exec-path-from-shell
         bing-dict
         chinese-pyim
-        highlight-parentheses
         ;; version control
         with-editor
         magit
