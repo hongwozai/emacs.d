@@ -15,17 +15,7 @@
               (unless (eq ibuffer-sorting-mode 'filename/process)
                 (ibuffer-do-sort-by-filename/process))
               (ibuffer-switch-to-saved-filter-groups "default")
-              (hl-line-mode 1)))
-
-  (define-ibuffer-column size-h
-    (:name "Size" :inline t)
-    (cond
-     ((> (buffer-size) 1000000)
-      (format "%7.1fM" (/ (buffer-size) 1000000.0)))
-     ((> (buffer-size) 1000)
-      (format "%7.1fk" (/ (buffer-size) 1000.0)))
-     (t (format "%8d" (buffer-size)))))
-  )
+              (hl-line-mode 1))))
 
 (setq ibuffer-formats
       '((mark modified read-only vc-status-mini " "
@@ -58,8 +48,7 @@
                              (mode . json-mode)))
          ("Javascript"   (or (mode . js2-mode)))
          ("Lisp"         (or (mode . scheme-mode)
-                             (mode . lisp-mode)
-                             (mode . emacs-lisp-mode)))
+                             (mode . lisp-mode)))
          ("Clojure"      (or (mode . clojure-mode)))
          ("Sql"          (or (mode . sql-interactive-mode)
                              (mode . sql-mode)))
@@ -68,8 +57,10 @@
                              (mode . Info-mode)))
          ("Org"          (or (mode . org-mode)))
          ("Dired"        (or (mode . dired-mode)))
-         ("Emacs Misc"   (or (name . "^\\*scratch\\*$")
-                             (mode . messages-buffer-mode)))
+         ("Emacs"   (or (name . "^\\*scratch\\*$")
+                        (mode . messages-buffer-mode)
+                        (mode . emacs-lisp-mode)
+                        (mode . ielm-mode)))
          )))
 
 (provide 'init-buffer)
