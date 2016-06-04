@@ -8,7 +8,7 @@
 ;;; initial state change
 (dolist (mode '(term-mode
                 minibuffer-inactive-mode
-                sql-interactive-mode diff-mode
+                diff-mode
                 anaconda-nav-mode ibuffer-mode
                 image-mode haskell-error-mode
                 flycheck-error-list-mode

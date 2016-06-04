@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: template
+# key: tem
+# --
+template <class Item>$0
