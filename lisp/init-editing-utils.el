@@ -37,6 +37,7 @@
 (global-font-lock-mode t)
 
 ;;; dired
+(setq-default diredp-hide-details-initially-flag nil)
 (autoload 'dired-jump "dired" "jump current directory")
 (add-hook 'dired-load-hook
           (lambda ()
@@ -45,9 +46,11 @@
             (setq dired-recursive-deletes 'always)
             (setq dired-listing-switches "-aluh")
             (setq dired-isearch-filenames t)
+            (setq dired-dwim-target t)
             (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
             (define-key dired-mode-map "/" 'isearch-forward)
             (define-key dired-mode-map "?" 'isearch-backward)
+            (define-key dired-mode-map "H" 'evil-window-top)
             (diredp-toggle-find-file-reuse-dir 1)
             ))
 
