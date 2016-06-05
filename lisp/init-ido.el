@@ -3,7 +3,7 @@
 (ido-mode 1)
 (setq ido-everywhere t)
 
-(setq ido-max-prospects 10)
+(setq ido-max-prospects 15)
 (setq ido-max-window-height 0.5)
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-enable-flex-matching t)
@@ -37,7 +37,7 @@
 
 ;;; ================================ ivy ========================================
 ;;; swiper(include ivy)
-(setq ivy-height 12)
+(setq ivy-height 17)
 (setq ivy-format-function 'ivy-format-function-arrow)
 (setq ivy-extra-directories nil)
 
