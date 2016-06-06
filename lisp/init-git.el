@@ -24,4 +24,25 @@
               (kbd "q") 'git-timemachine-quit)
             (evil-motion-state)))
 
+(defun hong--show-revision ()
+  (let (collection)
+    (setq collection
+          (mapcar (lambda (rev)
+                    (cons (concat (substring (nth 0 rev) 0 7)
+                                  "|"
+                                  (nth 5 rev)
+                                  "|"
+                                  (nth 6 rev))
+                          rev))
+                  (message "%s" (git-timemachine--revisions))))
+    (ivy-read "commits:"
+              collection
+              :action (lambda (rev) (git-timemachine-show-revision rev)))))
+
+(defun git-timemachine-selected ()
+  (interactive)
+  (unless (featurep 'git-timemachine)
+    (require 'git-timemachine))
+  (git-timemachine--start #'hong--show-revision))
+
 (provide 'init-git)
