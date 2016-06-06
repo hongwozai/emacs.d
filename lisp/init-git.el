@@ -34,7 +34,7 @@
                                   "|"
                                   (nth 6 rev))
                           rev))
-                  (message "%s" (git-timemachine--revisions))))
+                  (git-timemachine--revisions)))
     (ivy-read "commits:"
               collection
               :action (lambda (rev) (git-timemachine-show-revision rev)))))
