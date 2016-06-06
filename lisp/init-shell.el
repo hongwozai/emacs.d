@@ -75,8 +75,10 @@
           (lambda ()
             (shell-like-map-setup comint-mode-map)
             (evil-define-key 'insert comint-mode-map
-              (kbd "C-n") 'comint-next-input
-              (kbd "C-p") 'comint-previous-input)
+              (kbd "C-n")    'comint-next-input
+              (kbd "C-p")    'comint-previous-input
+              (kbd "<up>")   'comint-previous-input
+              (kbd "<down>") 'comint-next-input)
             (add-hook 'evil-insert-state-entry-hook
                       (lambda () (interactive) (goto-char (point-max))) nil t)
             (setq-local comint-prompt-read-only t)

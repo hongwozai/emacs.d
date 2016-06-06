@@ -56,7 +56,8 @@
             (define-key scheme-mode-map (kbd "<f2>")
               (lambda () (interactive)
                 (select-window (split-window-below))
-                (run-scheme (read-string "Executable: " "guile"))))))
+                (run-scheme (read-shell-command "Executable: " "guile"))))))
+
 (add-hook 'inferior-scheme-mode-hook 'hong/exit)
 
 (provide 'init-lisp)
