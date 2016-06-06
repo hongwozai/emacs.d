@@ -35,8 +35,9 @@
 
 ;;; =========================== maybe =============================
 (defun maybe-require (executable feature)
-  (when (executable-find executable)
-     (require feature)))
+  (let ((s (if (listp executable) executable (list executable))))
+    (when (reduce (lambda (x y) (or x y)) (mapcar (lambda (x) (executable-find x)) s))
+      (require feature))))
 
 ;;; =========================== select window =============================
 (defmacro hong/select-buffer-window (&rest CBS)
