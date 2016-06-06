@@ -37,7 +37,8 @@
   ;; company clang not remote
   (let ((file (buffer-file-name)))
     (when (and file (file-remote-p file))
-      (delq 'company-clang company-backends)))
+      (setq-local company-backends
+                  (remove 'company-clang company-backends))))
   )
 
 (defun hong/tags-debug-compile-setup ()
