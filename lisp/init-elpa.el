@@ -63,6 +63,7 @@ re-downloaded in order to locate PACKAGE."
         elisp-slime-nav
         evil-paredit
         paredit
+        rainbow-delimiters
         ;; html, js, css, php
         web-mode
         php-mode
