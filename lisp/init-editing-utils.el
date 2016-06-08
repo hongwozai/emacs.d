@@ -95,6 +95,9 @@
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
 
+;;; rainbow-delimiters
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
 ;; built-in paren dir
 (when (fboundp 'electric-pair-mode)
   (electric-pair-mode))

@@ -12,10 +12,7 @@
 (dolist (hook lisp-common-mode-hook)
   (add-hook hook '(lambda () (setq-local show-paren-style 'expression)))
   (add-hook hook #'evil-paredit-mode)
-  (add-hook hook #'enable-paredit-mode)
-
-  ;; rainbow-delimiters
-  (add-hook hook #'rainbow-delimiters-mode))
+  (add-hook hook #'enable-paredit-mode))
 
 ;;; ========================== misc ===============================
 ;; eldoc-mode
