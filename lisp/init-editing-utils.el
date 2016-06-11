@@ -18,6 +18,7 @@
               scroll-step                 1
               visible-bell                t
               mode-require-final-newline  nil
+              split-width-threshold       81
               ring-bell-function          'ignore)
 
 ;;; trailing whitespace
