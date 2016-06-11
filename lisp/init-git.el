@@ -1,3 +1,4 @@
+;;; =========================== magit =================================
 ;;; with-editor
 (autoload 'with-editor-export-editor "with-editor")
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
@@ -10,12 +11,13 @@
 (unless (version< emacs-version "24.4")
   (global-set-key (kbd "<f9>") 'magit-status))
 
+;;; =========================== show diff =============================
 ;;; git-gutter
 (global-git-gutter-mode +1)
 (custom-set-variables
  '(git-gutter:handled-backends '(git svn)))
 
-;;; git timemachine
+;;; ======================== git timemachine ==========================
 (add-hook 'git-timemachine-mode-hook
           (lambda ()
             (evil-define-key 'motion git-timemachine-mode-map

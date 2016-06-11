@@ -36,37 +36,8 @@
 ;; syntax hightlight
 (global-font-lock-mode t)
 
-;;; dired
-(setq-default diredp-hide-details-initially-flag nil)
-(autoload 'dired-jump "dired" "jump current directory")
-(add-hook 'dired-load-hook
-          (lambda ()
-            (require 'dired+)
-            (setq dired-recursive-copies 'always)
-            (setq dired-recursive-deletes 'always)
-            (setq dired-listing-switches "-aluh")
-            (setq dired-isearch-filenames t)
-            (setq dired-dwim-target t)
-            (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
-            (define-key dired-mode-map "/" 'isearch-forward)
-            (define-key dired-mode-map "?" 'isearch-backward)
-            (define-key dired-mode-map "H" 'evil-window-top)
-            (diredp-toggle-find-file-reuse-dir 1)
-            ))
-
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (evil-define-key 'normal dired-mode-map
-              "j" 'diredp-next-line
-              "k" 'diredp-previous-line
-              "J" '(lambda () (interactive)
-                     (find-alternate-file (read-directory-name "Directory: ")))
-              )
-            (setq-local dired-omit-files
-                        "^\\.?#\\|^\\.$\\|^\\..*$")
-            (setq dired-omit-verbose nil)
-            (dired-omit-mode)
-            (hl-line-mode 1)))
+;;; highlight current line
+(add-hook 'prog-mode-hook #'hl-line-mode)
 
 ;;; recentf
 (setq recentf-auto-cleanup 'never)

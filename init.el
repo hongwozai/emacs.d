@@ -10,6 +10,7 @@
 (require 'init-keybinding)
 (require 'init-frame)
 (require 'init-window)
+(require 'init-dired)
 (require 'init-buffer)
 (require 'init-editing-utils)
 

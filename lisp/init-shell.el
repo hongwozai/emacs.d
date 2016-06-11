@@ -118,6 +118,7 @@
 ;;; ============================== misc ==================================
 ;;; shotcuts key
 (global-set-key (kbd "<f2>") 'hong/shell-run)
+(global-set-key (kbd "<f3>") 'mtdo)
 (global-set-key (kbd "M-[") 'multi-term-prev)
 (global-set-key (kbd "M-]") 'multi-term-next)
 (defalias 'sh 'shell)
