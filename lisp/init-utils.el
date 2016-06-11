@@ -36,7 +36,7 @@
 ;;; =========================== maybe =============================
 (defun maybe-require (executable feature)
   (let ((s (if (listp executable) executable (list executable))))
-    (when (reduce (lambda (x y) (or x y)) (mapcar (lambda (x) (executable-find x)) s))
+    (when (some (lambda (x) (executable-find x)) s)
       (require feature))))
 
 ;;; =========================== select window =============================
