@@ -51,11 +51,18 @@
   (define-key ivy-minibuffer-map (kbd "C-m") 'ivy-alt-done)
   (evil-define-key 'normal ivy-occur-mode-map
     (kbd "RET") 'ivy-occur-press
-    (kbd "q") 'kill-buffer-and-window))
+    (kbd "q") 'kill-buffer-and-window)
+  (evil-define-key 'normal ivy-occur-grep-mode-map
+    (kbd "q") 'bury-buffer))
 
 ;;; counsel
 (add-hook 'after-init-hook 'counsel-mode)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
+
+(defadvice counsel-ag-occur (after hong--counsel-ag-occur activate)
+  (wgrep-ag-setup)
+  (set-buffer-modified-p nil)
+  (goto-char (point-min)))
 
 ;;; =============================  misc function ================================
 (defun hong/ido-create-dir ()
