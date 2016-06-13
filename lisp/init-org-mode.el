@@ -8,6 +8,7 @@
 ;;; org source block highlight
 (setq org-src-fontify-natively t)
 (setq org-agenda-include-diary nil)
+(setq org-image-actual-width '(300))
 
 (defun hong/org-insert-image ()
   (interactive)
