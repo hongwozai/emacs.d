@@ -33,7 +33,10 @@
       '(("default"
          ("C/C++"        (or (mode . c-mode)
                              (mode . c++-mode)
-                             (mode . makefile-mode)))
+                             (mode . makefile-mode)
+                             (mode . makefile-gmake-mode)
+                             (mode . makefile-automake-mode)
+                             (mode . makefile-imake-mode)))
          ("Shell-script" (or (mode . sh-mode)))
          ("Python"       (or (mode . python-mode)
                              (mode . inferior-python-mode)))
