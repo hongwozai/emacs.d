@@ -72,7 +72,7 @@
 ^^^^^-------------------------------------------------------
   _a_: counsel ag            _A_: ag
   _o_: occur                 _O_: moccur in same major-mode
-  _r_: grep                  _R_: counsel git grep
+  _g_: grep                  _G_: counsel git grep
   _s_: swiper
 ^
 ^
@@ -80,8 +80,8 @@
   ("a" counsel-ag :color blue)
   ("A" ag :color blue)
   ("o" occur :color blue)
-  ("r" grep :color blue)
-  ("R" counsel-git-grep :color blue)
+  ("g" grep :color blue)
+  ("G" counsel-git-grep :color blue)
   ("s" swiper :color blue)
   ("O" hong/multi-occur-same-major-mode :color blue)
   ("c" nil "cancel")
