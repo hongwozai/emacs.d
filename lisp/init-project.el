@@ -41,59 +41,27 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; project operation(tags, compile)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar project-tags-executable "etags")
-(defvar project-ignore-file "*/.git* */.svn* */elpa* */obj* */build*")
-
 (defun project--get-root (&optional iscurr)
   "Get project root path."
   (or (ffip-project-root)
       (if iscurr default-directory)))
 
-(defun project--get-root-no-tramp (&optional iscurr)
-  "For support tramp remote file"
-  (let ((maybe-directory (project--get-root iscurr)))
-    (when maybe-directory
-      (if (file-remote-p maybe-directory)
-          (file-relative-name maybe-directory default-directory)
-        maybe-directory))))
-
-(defun project--is-git ()
-  (file-exists-p (concat (project--get-root) ".git")))
-
-(defun project--build-find (wildcards)
-  (let* ((find-wildcards
-          (substring
-           (mapconcat (lambda (str) (format "-name '%s' -o" str))
-                      (split-string wildcards) " ")
-           0 -2))
-         (ignore-wildcards
-          (substring
-           (mapconcat (lambda (str) (format "-path '%s' -o" str))
-                      (split-string project-ignore-file) " ")
-           0 -2))
-         (find-command
-          (format "'(' %s ')' -prune -o '(' %s ')' -type f"
-                  ignore-wildcards
-                  find-wildcards)))
-    find-command))
-
-(defun project-tags-generate (wildcards)
-  "Create etags TAGS"
-  (interactive (list (read-shell-command
-                      "Wildcards: "
-                      (if (local-variable-if-set-p 'history-wildcards)
-                          history-wildcards "*"))))
-  (let* ((directory (project--get-root-no-tramp t))
-         (tagfile (concat (file-name-as-directory directory) "TAGS"))
-         (command
-          (format "find %s %s | xargs %s -o %s"
-                  directory
-                  (project--build-find wildcards)
-                  project-tags-executable
-                  tagfile)))
-    (setq-local history-wildcards wildcards)
-    (if (= 0 (shell-command command))
-        (visit-tags-table tagfile))))
+(defun project-regenerate-tags ()
+  "Regenerate etags TAGS"
+  (interactive)
+  (let* ((command "find -L . '(' -path '*/.*' ')' -prune -o -type f | xargs etags -o TAGS")
+         (minibuffer-setup-hook
+          (append minibuffer-setup-hook
+                  (list (lambda ()
+                          (move-beginning-of-line 1)
+                          (forward-char 9)))))
+         (real-command (progn
+                         (message "Create shell commanp")
+                         (read-shell-command "Command: " command)))
+         )
+    (when (= 0 (shell-command command))
+      (visit-tags-table "TAGS")
+      (message "Generate TAGS Successful!"))))
 
 (defun project-compile ()
   (interactive)
