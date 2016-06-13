@@ -39,6 +39,8 @@
 
 (add-hook 'occur-mode-hook
           (lambda ()
+            (define-key evil-motion-state-local-map (kbd "e")
+              'occur-edit-mode)
             (define-key evil-motion-state-local-map (kbd "n")
               (hong/occur-next-or-prev 'next))
             (define-key evil-motion-state-local-map (kbd "p")
