@@ -46,6 +46,7 @@ re-downloaded in order to locate PACKAGE."
         ;; edit
         avy
         smex
+        wgrep
         yasnippet
         expand-region
         ibuffer-vc
