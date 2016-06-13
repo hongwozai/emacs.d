@@ -39,7 +39,7 @@
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; project operation(tags, grep, compile)
+;;; project operation(tags, compile)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar project-tags-executable "etags")
 (defvar project-ignore-file "*/.git* */.svn* */elpa* */obj* */build*")
@@ -94,35 +94,6 @@
     (setq-local history-wildcards wildcards)
     (if (= 0 (shell-command command))
         (visit-tags-table tagfile))))
-
-(defun project-grep (regexp wildcards)
-  (interactive
-   (list (let ((word (if (use-region-p)
-                         (buffer-substring-no-properties
-                          (region-beginning)
-                          (region-end)))))
-           (read-regexp
-            (format "Regexp(default %s): " word)
-            word))
-         (unless (project--is-git)
-           (read-shell-command
-            "Wildcards: "
-            (if (local-variable-if-set-p 'history-wildcards)
-                history-wildcards "*")))))
-  ;; git project
-  (if (project--is-git)
-      (let (null-device)
-        (grep (format "git --no-pager grep -n -e '%s'" regexp)))
-    ;; not git project
-    (let* ((directory (project--get-root-no-tramp t))
-           (command (format "find %s %s -exec grep -nH -e '%s' {} +"
-                            directory
-                            (project--build-find wildcards)
-                            regexp)))
-      (if (not directory)
-          (message "NOT PROJECT!")
-        (setq-local history-wildcards wildcards)
-        (grep-find command)))))
 
 (defun project-compile ()
   (interactive)
