@@ -13,8 +13,11 @@
 (setq-default grep-hightlight-matches     t
               grep-scroll-output          nil)
 
+(setq grep-command "grep -nH -r -e ")
+
 (when (executable-find "ag")
   (require-package 'ag)
+  (require-package 'wgrep-ag)
   (setq-default ag-highlight-search t)
   (setq-default ag-reuse-buffers t)
   (setq-default ag-reuse-window nil)
