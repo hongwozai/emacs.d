@@ -82,4 +82,16 @@
 ;;; .dir-locals.el
 (setq enable-local-variables :all enable-local-eval t)
 
+;;; hexl edit
+(with-eval-after-load 'hexl
+  (evil-define-key 'normal hexl-mode-map
+    (kbd "j") 'hexl-next-line
+    (kbd "k") 'hexl-previous-line
+    (kbd "h") 'hexl-backward-char
+    (kbd "l") 'hexl-forward-char
+    (kbd "0") 'hexl-beginning-of-line
+    (kbd "$") 'hexl-end-of-line
+    (kbd "gg") 'hexl-beginning-of-line
+    (kbd "G") 'hexl-end-of-line))
+
 (provide 'init-editing-utils)
