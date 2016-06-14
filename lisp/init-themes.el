@@ -17,7 +17,10 @@
      ((,class (:foreground ,zenburn-green+1 :background ,zenburn-bg-1))
       (t :inverse-video t)))
    `(mode-line-inactive
-     ((t (:foreground ,zenburn-fg+1 :background ,zenburn-bg+1))))
+     ((t (:foreground ,zenburn-fg+1 :background ,zenburn-bg+05))))
+
+   ;; hl-line
+   `(hl-line ((t (:background ,zenburn-bg+1))))
 
    ;; ido
    `(ido-first-match ((t (:foreground ,zenburn-bg-1
