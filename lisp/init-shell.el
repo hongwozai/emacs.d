@@ -35,6 +35,7 @@
           (lambda ()
             (shell-like-map-setup eshell-mode-map)
             (evil-define-key 'insert eshell-mode-map
+              (kbd "C-u") 'eshell-clear-before-line
               (kbd "C-a") 'eshell-bol
               (kbd "C-r") 'eshell-find-history
               (kbd "C-p") 'eshell-previous-matching-input-from-input
@@ -63,7 +64,7 @@
   (let ((inhibit-read-only t))
     (erase-buffer)))
 
-;;; backward kill word
+;;;
 (defun hong-backward-kill-word ()
   (interactive)
   (let* ((start (+ (line-beginning-position)
@@ -73,6 +74,13 @@
                   (backward-word)
                   (max (point) start))))
     (kill-region start end)))
+
+(defun eshell-clear-before-line ()
+  (interactive)
+  (let ((start (+ (line-beginning-position)
+                  (length (funcall eshell-prompt-function))))
+        (end (point)))
+    (delete-region start end)))
 
 ;;; ============================= shell comint =============================
 ;;; shell
