@@ -66,7 +66,8 @@
 ;;; backward kill word
 (defun hong-backward-kill-word ()
   (interactive)
-  (let* ((start (previous-char-property-change (point)))
+  (let* ((start (+ (line-beginning-position)
+                   (length (funcall eshell-prompt-function))))
          (end (point))
          (start (save-excursion
                   (backward-word)
