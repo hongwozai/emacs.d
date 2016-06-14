@@ -38,7 +38,9 @@
               (kbd "C-a") 'eshell-bol
               (kbd "C-r") 'eshell-find-history
               (kbd "C-p") 'eshell-previous-matching-input-from-input
-              (kbd "C-n") 'eshell-next-matching-input-from-input)
+              (kbd "C-n") 'eshell-next-matching-input-from-input
+              (kbd "<C-backspace>") 'hong-backward-kill-word
+              (kbd "M-DEL") 'hong-backward-kill-word)
             (setq-local company-backends nil)
             (add-hook 'evil-insert-state-entry-hook
                       (lambda () (interactive) (goto-char (point-max))) nil t)
@@ -60,6 +62,16 @@
   (interactive)
   (let ((inhibit-read-only t))
     (erase-buffer)))
+
+;;; backward kill word
+(defun hong-backward-kill-word ()
+  (interactive)
+  (let* ((start (previous-char-property-change (point)))
+         (end (point))
+         (start (save-excursion
+                  (backward-word)
+                  (max (point) start))))
+    (kill-region start end)))
 
 ;;; ============================= shell comint =============================
 ;;; shell
