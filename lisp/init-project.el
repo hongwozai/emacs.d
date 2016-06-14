@@ -49,17 +49,13 @@
 (defun project-regenerate-tags ()
   "Regenerate etags TAGS"
   (interactive)
-  (let* ((command "find -L . '(' -path '*/.*' ')' -prune -o -type f | xargs etags -o TAGS")
-         (minibuffer-setup-hook
-          (append minibuffer-setup-hook
-                  (list (lambda ()
-                          (move-beginning-of-line 1)
-                          (forward-char 9)))))
-         (real-command (progn
-                         (message "Create shell commanp")
-                         (read-shell-command "Command: " command)))
-         )
-    (when (= 0 (shell-command command))
+  (let* ((dir (file-relative-name (project--get-root t)))
+         (command
+          (concat "find -L " dir " '(' -name '*.cpp' -o -name '*.[ch]' ')'"
+                  "| xargs etags"))
+         (total (cons command 9))
+         (real-command (read-shell-command "Command: " total)))
+    (when (= 0 (shell-command real-command))
       (visit-tags-table "TAGS")
       (message "Generate TAGS Successful!"))))
 

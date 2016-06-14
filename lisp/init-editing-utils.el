@@ -94,4 +94,8 @@
     (kbd "gg") 'hexl-beginning-of-line
     (kbd "G") 'hexl-end-of-line))
 
+;;; minibuffer map
+(define-key minibuffer-local-map (kbd "C-p") 'previous-history-element)
+(define-key minibuffer-local-map (kbd "C-n") 'next-history-element)
+
 (provide 'init-editing-utils)

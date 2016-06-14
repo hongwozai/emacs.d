@@ -13,7 +13,7 @@
 (setq-default grep-hightlight-matches     t
               grep-scroll-output          nil)
 
-(setq grep-command "grep -nH -r -e ")
+(setq grep-command "grep -nH -E -e ")
 
 (when (executable-find "ag")
   (require-package 'ag)
