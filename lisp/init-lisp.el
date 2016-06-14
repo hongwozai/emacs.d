@@ -14,6 +14,10 @@
   (add-hook hook #'evil-paredit-mode)
   (add-hook hook #'enable-paredit-mode))
 
+;;; fix paredit bug.
+(defadvice paredit-forward-delete (before hong-pfd activate)
+  (kill-new (buffer-substring-no-properties (point) (+ 1 (point)))))
+
 ;;; ========================== misc ===============================
 ;; eldoc-mode
 (dolist (hook lisp-common-mode-hook)
