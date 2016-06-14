@@ -26,6 +26,7 @@
               "L" 'hong--dired-bottom-line
               "+" 'hong--dired-create-directory)
 
+            ;; Attention: also ignore .bin .so etc.
             (setq-local dired-omit-files
                         "^\\.?#\\|^\\.$\\|^\\.[^.].+$")
             (setq dired-omit-verbose nil)
