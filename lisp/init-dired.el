@@ -68,7 +68,7 @@
 
 (defun hong--dired-jump-line ()
   (interactive)
-  (let ((ivy-minibuffer-map ivy-minibuffer-map))
+  (let ((ivy-minibuffer-map (copy-tree ivy-minibuffer-map)))
     (define-key ivy-minibuffer-map (kbd "C-m") 'ivy-done)
     (call-interactively #'dired-goto-file)))
 
