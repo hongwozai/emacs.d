@@ -40,14 +40,13 @@
 
 ;;; =================== occur =========================
 ;;; occur follow
-(defun hong/occur-next-or-prev (next-or-prev)
-  (lexical-let ((nop next-or-prev))
+(defun occur-np (np)
+  (lexical-let ((np np))
     (lambda () (interactive)
-      (let ((buf (get-buffer-window (buffer-name))))
-        (save-selected-window
-          (if (eq nop 'next) (occur-next) (occur-prev))
-          (occur-mode-goto-occurrence-other-window)
-          (recenter))))))
+      (save-selected-window
+        (if (eq np 'next) (occur-next) (occur-prev))
+        (occur-mode-goto-occurrence-other-window)
+        (recenter)))))
 
 (defadvice isearch-occur (after hong/occur-exit-isearch activate)
   (and (ignore-errors (select-window (get-buffer-window "*Occur*")))
@@ -55,28 +54,10 @@
 
 (add-hook 'occur-mode-hook
           (lambda ()
-            (define-key evil-motion-state-local-map (kbd "e")
-              'occur-edit-mode)
-            (define-key evil-motion-state-local-map (kbd "n")
-              (hong/occur-next-or-prev 'next))
-            (define-key evil-motion-state-local-map (kbd "p")
-              (hong/occur-next-or-prev 'prev))
-            (define-key evil-motion-state-local-map (kbd "RET")
-              #'occur-mode-goto-occurrence-other-window)))
-
-(defun hong/multi-occur-same-major-mode ()
-  (interactive)
-  (defun hong//common-mode-buffers (the-mode)
-    (delq nil (mapcar (lambda (buf)
-                        (when (buffer-live-p buf)
-                          (with-current-buffer buf
-                            (and (eq major-mode the-mode)
-                                 buf))))
-                      (buffer-list))))
-  (multi-occur (hong//common-mode-buffers major-mode)
-               (read-regexp "Collect strings matching regexp: "))
-  (select-window (get-buffer-window "*Occur*"))
-  )
+            (evil-local-set-key 'motion (kbd "e") 'occur-edit-mode)
+            (evil-local-set-key 'motion (kbd "n") (occur-np 'next))
+            (evil-local-set-key 'motion (kbd "p") (occur-np 'prev))
+            (evil-local-set-key 'motion (kbd "RET") #'occur-mode-goto-occurrence-other-window)))
 
 ;;; ========================= key bindings ============================
 (defhydra hydra-search-menu (:color amaranth :hint nil)
@@ -84,8 +65,8 @@
    ^Actions^                  ^Misc^
 ^^^^^-------------------------------------------------------
   _a_: counsel ag            _A_: ag
-  _o_: occur                 _O_: moccur in same major-mode
-  _g_: rgrep                  _G_: counsel git grep
+  _o_: occur
+  _g_: rgrep                 _G_: counsel git grep
   _s_: swiper
 ^
 ^
@@ -96,7 +77,6 @@
   ("g" rgrep :color blue)
   ("G" counsel-git-grep :color blue)
   ("s" swiper :color blue)
-  ("O" hong/multi-occur-same-major-mode :color blue)
   ("c" nil "cancel")
   ("q" nil "cancel"))
 
