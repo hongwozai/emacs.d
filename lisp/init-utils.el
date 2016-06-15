@@ -19,6 +19,9 @@
                collecting (expand-file-name dir lisp-dir))
          load-path)))
 
+(add-to-list 'custom-theme-load-path
+             (file-truename (concat user-emacs-directory "site-lisp/hwzenburn")))
+
 ;;; =============================  autoexit ================================
 (defun hong/exit ()
   (let ((process (ignore-errors (get-buffer-process (current-buffer)))))
