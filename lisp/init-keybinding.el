@@ -66,6 +66,7 @@
   ("o" delete-other-windows :color blue)
   ("u" winner-undo :color blue)
   ("SPC" hong/window-layout-change :color blue)
+  ("c" evil-window-delete :color blue)
   ("s" evil-window-split :color blue)
   ("r" evil-window-rotate-downwards :color blue)
   ("v" evil-window-vsplit :color blue)
