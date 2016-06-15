@@ -15,6 +15,19 @@
 
 (setq grep-command "grep -nH -E -e ")
 
+(with-eval-after-load 'grep
+  (setq hong-grep-files-aliases
+        '((c-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
+          (c++-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
+          (emacs-lisp-mode . "*.el")))
+
+  (defun grep-read-files (regexp)
+    (read-string "Search Files: "
+                 (let ((str (assoc major-mode hong-grep-files-aliases)))
+                   (if str (cdr str) ".*"))))
+  )
+
+;;; =================== ag ============================
 (when (executable-find "ag")
   (require-package 'ag)
   (require-package 'wgrep-ag)
@@ -72,7 +85,7 @@
 ^^^^^-------------------------------------------------------
   _a_: counsel ag            _A_: ag
   _o_: occur                 _O_: moccur in same major-mode
-  _g_: grep                  _G_: counsel git grep
+  _g_: rgrep                  _G_: counsel git grep
   _s_: swiper
 ^
 ^
@@ -80,7 +93,7 @@
   ("a" counsel-ag :color blue)
   ("A" ag :color blue)
   ("o" occur :color blue)
-  ("g" grep :color blue)
+  ("g" rgrep :color blue)
   ("G" counsel-git-grep :color blue)
   ("s" swiper :color blue)
   ("O" hong/multi-occur-same-major-mode :color blue)

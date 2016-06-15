@@ -12,12 +12,12 @@
 (require 'init-window)
 (require 'init-dired)
 (require 'init-buffer)
+(require 'init-search)
 (require 'init-editing-utils)
 
 (require 'init-ido)
 (require 'init-tramp)
 (require 'init-shell)
-(require 'init-search)
 
 (require 'init-project)
 (require 'init-git)
