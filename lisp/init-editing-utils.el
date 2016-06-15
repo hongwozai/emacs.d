@@ -91,8 +91,8 @@
     (kbd "l") 'hexl-forward-char
     (kbd "0") 'hexl-beginning-of-line
     (kbd "$") 'hexl-end-of-line
-    (kbd "gg") 'hexl-beginning-of-line
-    (kbd "G") 'hexl-end-of-line))
+    (kbd "gg") 'hexl-beginning-of-buffer
+    (kbd "G") 'hexl-end-of-buffer))
 
 ;;; minibuffer map
 (define-key minibuffer-local-map (kbd "C-p") 'previous-history-element)
