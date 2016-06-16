@@ -152,11 +152,11 @@
 
 ;;; ============================== misc ==================================
 ;;; shotcuts key
-(global-set-key (kbd "<f2>") 'eshell)
-(global-set-key (kbd "<f3>") 'mtdo)
+(global-set-key (kbd "<f2>") 'hong/shell-run)
 (global-set-key (kbd "M-[") 'multi-term-prev)
 (global-set-key (kbd "M-]") 'multi-term-next)
 (defalias 'sh 'shell)
+(defalias 'esh 'eshell)
 (defalias 'mt 'multi-term)
 (defalias 'mtdo 'multi-term-dedicated-open)
 
@@ -220,6 +220,12 @@
          (comint-send-string proc "\n")
          (setq command (match-string 1 command))
          (funcall #'man command))
+        ((string-match "^[ \t]*em[ \t]+\\(.*\\)" command)
+         (comint-send-string proc "\n")
+         (setq command (concat comint-file-name-prefix
+                               (match-string 1 command)))
+         (switch-to-buffer-other-window
+          (funcall #'find-file-noselect command)))
         ((string-match "^[ \t]*ssh[ \t]*\\(.*\\)@\\([^:]*\\)" command)
          (comint-send-string proc (concat command "\n"))
          (setq-local comint-file-name-prefix
