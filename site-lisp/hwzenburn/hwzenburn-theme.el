@@ -110,7 +110,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(lazy-highlight ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05))))
 
    `(menu ((t (:foreground ,zenburn-fg :background ,zenburn-bg))))
-   `(minibuffer-prompt ((t (:foreground ,zenburn-yellow))))
+   `(minibuffer-prompt ((t (:foreground ,zenburn-yellow :bold t))))
 ;;;;; mode-line
    `(mode-line
      ((,class (:foreground ,zenburn-green+1

@@ -83,13 +83,20 @@
     (delete-region start end)))
 
 ;;; ============================= shell comint =============================
+;;; shell environment
+(defun hong--setup-shell-environment ()
+  (let ((p (get-buffer-process (buffer-name))))
+    (comint-send-string p "export TERM=xterm-256color\n")
+    (comint-send-string p "alias ls='ls --color=auto'\n")))
+
 ;;; shell
 (setq shell-file-name "/bin/bash")
 (setq explicit-shell-file-name "/bin/bash")
 (add-hook 'shell-mode-hook 'hong/exit)
 (add-hook 'shell-mode-hook
           (lambda ()
-            (setq comint-input-sender #'hong/shell-comint-input-sender)))
+            (setq comint-input-sender #'hong/shell-comint-input-sender)
+            (hong--setup-shell-environment)))
 
 ;;; comint mode
 (add-hook 'comint-mode-hook
@@ -106,6 +113,13 @@
             (setq-local comint-move-point-for-output 'others)
             (setq-local comint-history-isearch t)))
 
+;;; xterm-color
+(with-eval-after-load 'shell
+  (require 'xterm-color)
+  (progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
+         (setq comint-output-filter-functions
+               (remove 'ansi-color-process-output comint-output-filter-functions))
+         (setq font-lock-unfontify-region-function 'xterm-color-unfontify-region)))
 ;;; ============================= term =====================================
 (setq multi-term-program "/bin/bash")
 (add-hook 'term-mode-hook
