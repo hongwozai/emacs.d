@@ -36,13 +36,13 @@
 ;;; ============================= keybindings ==============================
 (defhydra hydra-dired-select-menu (:color amaranth :hint nil)
   "
-    ^Mark^
-^^^^^^^^----------------------------
-  _._: [un]mark extension
-  _%_: regexp
-  _/_: all directory
-  _t_: toggle marks
-  _!_: unmark all mark
+          ^Mark^
+    ^^^^^^^^----------------------------
+      _._: [un]mark extension
+      _%_: regexp
+      _/_: all directory
+      _t_: toggle marks
+      _!_: unmark all mark
 ^
 "
   ("." diredp-mark/unmark-extension)

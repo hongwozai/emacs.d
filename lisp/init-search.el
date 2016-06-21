@@ -59,25 +59,4 @@
             (evil-local-set-key 'motion (kbd "p") (occur-np 'prev))
             (evil-local-set-key 'motion (kbd "RET") #'occur-mode-goto-occurrence-other-window)))
 
-;;; ========================= key bindings ============================
-(defhydra hydra-search-menu (:color amaranth :hint nil)
-  "
-   ^Actions^                  ^Misc^
-^^^^^-------------------------------------------------------
-  _a_: counsel ag            _A_: ag
-  _o_: occur
-  _g_: rgrep                 _G_: counsel git grep
-  _s_: swiper
-^
-^
-  "
-  ("a" counsel-ag :color blue)
-  ("A" ag :color blue)
-  ("o" occur :color blue)
-  ("g" rgrep :color blue)
-  ("G" counsel-git-grep :color blue)
-  ("s" swiper :color blue)
-  ("c" nil "cancel")
-  ("q" nil "cancel"))
-
 (provide 'init-search)

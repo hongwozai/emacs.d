@@ -1,4 +1,4 @@
-;;; ================================== ido =====================================
+;;; ================================== ido ================================
 (require 'ido)
 (ido-mode 1)
 (setq ido-everywhere t)
@@ -35,8 +35,8 @@
 ;;; imenu
 (set-default 'imenu-auto-rescan t)
 
-;;; ================================ ivy ========================================
-;;; swiper(include ivy)
+;;; ================================ ivy ===================================
+;;; ivy
 (setq ivy-height 17)
 (setq ivy-format-function 'ivy-format-function-arrow)
 (setq ivy-extra-directories nil)
@@ -70,4 +70,4 @@
   (make-directory (concat ido-current-directory ido-text))
   (ido-reread-directory))
 
-(provide 'init-ido)
+(provide 'init-fuzzy)

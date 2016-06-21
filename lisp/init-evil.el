@@ -1,10 +1,11 @@
-;; evil configure
+;; ========================= evil configure =======================
 (setq evil-move-cursor-back t)
 (setq evil-want-C-u-scroll t)
 
 ;;; evil mode
 (evil-mode 1)
 
+;;; ========================= evil state ==========================
 ;;; initial state change
 (dolist (mode '(term-mode
                 minibuffer-inactive-mode
@@ -39,9 +40,6 @@
 (setcdr (assoc ?t evil-surround-pairs-alist)
         (lambda () (let ((str (read-from-minibuffer "" ""))) (cons str str))))
 
-;;; evil matchit
-(global-evil-matchit-mode 1)
-
 ;;; evil iedit state
 (autoload 'evil-iedit-state/iedit-mode "evil-iedit-state")
 
@@ -50,50 +48,12 @@
   (global-set-key (kbd "C-;") 'evil-iedit-state/iedit-mode))
 
 (with-eval-after-load 'evil-iedit-state
-  (define-key evil-iedit-insert-state-map (kbd "C-;")
-    'evil-iedit-state/quit-iedit-mode)
-  (define-key evil-iedit-state-map (kbd "C-;")
-    'evil-iedit-state/quit-iedit-mode))
-;;; ===================== evil leader custom key =================
-(global-evil-leader-mode)
-(evil-leader/set-leader ",")
-(evil-leader/set-key
-  "b"   'hydra-mark-or-buf-menu/body
-  "f"   'hydra-open-files-menu/body
-  "h"   'hydra-help-menu/body
-  "s"   'hydra-search-menu/body
-  "w"   'hydra-window-menu/body
-  "o"   'org-agenda
+  (define-key evil-iedit-insert-state-map
+    (kbd "C-;") 'evil-iedit-state/quit-iedit-mode)
+  (define-key evil-iedit-state-map
+    (kbd "C-;") 'evil-iedit-state/quit-iedit-mode))
 
-  "al"  'avy-goto-line
-  "aw"  'avy-goto-word-1
-  "cd"  'yasdcv-translate-at-point
-  "cs"  'hong/translate-brief-at-point
-  "ds"  'sudo-edit
-  "gc"  'ggtags-create-tags
-  "gr"  'ggtags-find-reference
-  "im"  'imenu
-  "kr"  'counsel-yank-pop
-  "mf"  'mark-defun
-  "mp"  'mark-paragraph
-  "mb"  'mark-whole-buffer
-  "x4f" 'ido-find-file-other-window
-  "x4b" 'ido-switch-buffer-other-window
-  "xb"  'ido-switch-buffer
-  "xc"  'save-buffers-kill-terminal
-  "xe"  'eval-last-sexp
-  "xf"  'ido-find-file
-  "xk"  '(lambda () (interactive) (kill-buffer (current-buffer)))
-  "xs"  'save-buffer
-  "xz"  'suspend-frame)
-
-(evil-leader/set-key-for-mode 'scheme-mode  "xe" 'scheme-send-last-sexp)
-(evil-leader/set-key-for-mode 'lisp-mode    "xe" 'slime-eval-last-expression)
-(evil-leader/set-key-for-mode 'clojure-mode "xe" 'cider-eval-last-sexp)
-(evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
-(evil-leader/set-key-for-mode 'ruby-mode "cr" 'ruby-send-region)
-
-;;; ===================== self ===========================
+;;; ======================== evil misc =============================
 ;;; evil ex cmd
 (evil-ex-define-cmd "ls" 'ibuffer)
 (evil-ex-define-cmd "nu" 'linum-mode)

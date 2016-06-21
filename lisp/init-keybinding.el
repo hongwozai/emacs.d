@@ -1,136 +1,92 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; my open files function
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; find dirs \( -path 'PATH' -o -path 'PATH' \) -a -prune -o
-;;; \( -name 'NAME' -o -name 'NAME' -o -path 'PATH' \) -type f -print
-(defun hong/open-emacs-configure-file ()
-  (interactive)
-  (let ((default-directory "~/.emacs.d/")
-        (ffip-patterns '("*.el" "*.sh" "*.md" "*.org")))
-    (ffip)))
+;;; ===================== evil leader custom key =================
+(global-evil-leader-mode)
+(evil-leader/set-leader ",")
+(evil-leader/set-key
+  "o"   'org-agenda
 
-(defun hong/open-tramp-connections ()
-  (interactive)
-  (unless (functionp #'tramp-list-connections)
-    (require 'tramp))
-  (let ((list-conns
-         (mapcar (lambda (vec)
-                   (format "/%s:%s@%s:"
-                           (tramp-file-name-method vec)
-                           (tramp-file-name-user vec)
-                           (tramp-file-name-host vec)))
-                 (tramp-list-connections))))
-    (if (null list-conns)
-        (message "NO TRAMP CONNECTS!!!")
-      (ido-find-file-in-dir (ivy-read "Open Tramp: " list-conns)))))
+  ;; avy
+  "al"  'avy-goto-line
+  "aw"  'avy-goto-word-1
 
-(defhydra hydra-open-files-menu (:color amaranth :hint nil)
-  "
-    ^Open^                               ^Misc^
-^^^^^^^^------------------------------------------------------------------------
-  _e_: emacs configure files       _l_: locate file
-  _p_: project files
-  _t_: ido tramp connection
-  _r_: open recentf files
-^
-^
-"
-  ("e" hong/open-emacs-configure-file :color blue)
-  ("p" ffip :color blue)
-  ("t" hong/open-tramp-connections :color blue)
-  ("r" ivy-recentf :color blue)
-  ("l" counsel-locate :color blue)
-  ("h" split-window-horizontally "horizon window")
-  ("v" split-window-below "vertical window")
-  ("q" nil "quit" :color blue))
+  ;; chinese
+  "cd"  'yasdcv-translate-at-point
+  "cs"  'hong/translate-brief-at-point
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; my window function
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defhydra hydra-window-menu (:color amaranth :hint nil)
-  "
-    ^Windows direction^         ^Window operation^
-^^^^^^^^--------------------------------------------------------------
-  _h_: left window             _c_: delete this window
-  _j_: down window             _o_: delete other window
-  _k_: up window               _u_: restore window layout
-  _l_: right window            _r_: swap window(rotate updown)
-  ^^                           _s_: horizontal window
-  ^^                           _v_: vertical window
-  ^^                           _SPC_: window layout change
-  "
-  ("h" evil-window-left :color blue)
-  ("j" evil-window-down :color blue)
-  ("k" evil-window-up :color blue)
-  ("l" evil-window-right :color blue)
-  ("o" delete-other-windows :color blue)
-  ("u" winner-undo :color blue)
-  ("SPC" hong/window-layout-change :color blue)
-  ("c" evil-window-delete :color blue)
-  ("s" evil-window-split :color blue)
-  ("r" evil-window-rotate-downwards :color blue)
-  ("v" evil-window-vsplit :color blue)
-  ("q" nil "cancel" :color blue))
+  ;; file
+  "fr"  'ivy-recentf
+  "fl"  'counsel-locate
+  "fp"  'ffip
+  "fo"  'ido-find-file-other-window
 
-(define-key evil-emacs-state-map (kbd "C-w") 'hydra-window-menu/body)
+  ;; gtags
+  "gc"  'ggtags-create-tags
+  "gr"  'ggtags-find-reference
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; my buffer, bookmark function
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defhydra hydra-mark-or-buf-menu (:color amaranth :hint nil)
-  "
-    ^Buffer^                           ^Bookmark^
-^^^^^^^^--------------------------------------------------------------
-  _l_: ibuffer                      _m_: bookmark menu
-  _d_: dired jump                   _n_: new bookmark in current file
-  _o_: switch buffer other window   _j_: bookmark jump
-  _s_: set buffer coding
-^
-^
-"
-  ("l" ibuffer :color blue)
-  ("o" switch-to-buffer-other-window :color blue)
-  ("d" dired-jump :color blue)
-  ("m" bookmark-bmenu-list :color blue)
-  ("s" revert-buffer-with-coding-system :color blue)
-  ("n" bookmark-set :color blue)
-  ("j" bookmark-jump :color blue)
-  ("h" split-window-horizontally "horizon window")
-  ("v" split-window-below "vertical window")
-  ("q" nil "quit"))
+  ;; buffer and bookmark
+  "bl"  'ibuffer
+  "bd"  'dired-jump
+  "bo"  'ido-switch-to-buffer-other-window
+  "bs"  'revert-buffer-with-coding-system
+  "bn"  'bookmark-set
+  "bj"  'bookmark-jump
+  "bm"  'bookmark-bmenu-list
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; my help function
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defhydra hydra-help-menu (:color amaranth :hint nil)
-  "
-    ^describe^                           ^Misc^
-^^^^^^^^--------------------------------------------------------------
-  _f_: describe function            _i_: Info
-  _k_: describe key                 _l_: list-colors-display
-  _v_: describe varibale            _p_: list-process
-  _m_: describe mode                _a_: apropos
-  _e_: view-echo-area-messages
-  _n_: view-emacs-news
-  _h_: help-for-help
-  _S_: info lookup symbol
-^
-^
-"
-  ("f" counsel-describe-function :color blue)
-  ("k" describe-key :color blue)
-  ("v" counsel-describe-variable :color blue)
-  ("m" describe-mode :color blue)
-  ("e" view-echo-area-messages :color blue)
-  ("n" view-emacs-news :color blue)
-  ("h" help-for-help :color blue)
-  ("S" info-lookup-symbol :color blue)
-  ("i" info :color blue)
-  ("l" list-colors-display :color blue)
-  ("p" counsel-list-processes :color blue)
-  ("a" apropos :color blue)
-  ("q" nil "quit"))
+  "sd"  'sudo-edit
+  ;; search
+  "sa"  'counsel-ag
+  "sA"  'ag
+  "so"  'occur
+  "sg"  'rgrep
+  "sG"  'counsel-git-grep
+  "ss"  'counsel-grep-or-swiper
 
+  ;; window
+  "wu"  'winner-undo
+
+  ;; help
+  "ha"  'apropos
+  "hf"  'counsel-describe-function
+  "hv"  'counsel-describe-variable
+  "hm"  'describe-mode
+  "hk"  'describe-key
+  "hi"  'Info
+  "hp"  'list-process
+  "hS"  'counsel-info-lookup-symbol
+
+  "im"  'imenu
+  "kr"  'counsel-yank-pop
+  "mf"  'mark-defun
+  "xb"  'ido-switch-buffer
+  "xc"  'save-buffers-kill-terminal
+  "xe"  'eval-last-sexp
+  "xf"  'ido-find-file
+  "xk"  '(lambda () (interactive) (kill-buffer (current-buffer)))
+  "xs"  'save-buffer
+  "xz"  'suspend-frame)
+
+(evil-leader/set-key-for-mode 'scheme-mode  "xe" 'scheme-send-last-sexp)
+(evil-leader/set-key-for-mode 'lisp-mode    "xe" 'slime-eval-last-expression)
+(evil-leader/set-key-for-mode 'clojure-mode "xe" 'cider-eval-last-sexp)
+(evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
+(evil-leader/set-key-for-mode 'ruby-mode "cr" 'ruby-send-region)
+
+;;; ============================ window key ================================
+(define-prefix-command 'window-prefix-map)
+(define-key window-prefix-map (kbd "h")   'evil-window-left)
+(define-key window-prefix-map (kbd "j")   'evil-window-down)
+(define-key window-prefix-map (kbd "k")   'evil-window-up)
+(define-key window-prefix-map (kbd "l")   'evil-window-right)
+(define-key window-prefix-map (kbd "c")   'evil-window-delete)
+(define-key window-prefix-map (kbd "o")   'delete-other-windows)
+(define-key window-prefix-map (kbd "s")   'evil-window-split)
+(define-key window-prefix-map (kbd "v")   'evil-window-vsplit)
+(define-key window-prefix-map (kbd "v")   'evil-window-rotate-downwards)
+(define-key window-prefix-map (kbd "SPC") 'hong/window-layout-change)
+
+(global-set-key (kbd "C-w") 'window-prefix-map)
+(define-key evil-emacs-state-map (kbd "C-w") 'window-prefix-map)
+
+;;; ========================= help key =====================================
 (evil-define-key 'motion help-mode-map (kbd "L") 'help-go-back)
 (evil-define-key 'motion help-mode-map (kbd "R") 'help-go-forward)
 (evil-define-key 'motion Info-mode-map (kbd "L") 'Info-history-back)

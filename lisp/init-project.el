@@ -27,9 +27,8 @@
             (lambda ()
               (setq ggtags-update-on-save t)
               (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
-              (evil-local-set-key 'normal (kbd "C-]") 'ggtags-find-definition)
-              (evil-local-set-key 'normal (kbd "C-t") 'ggtags-prev-mark)
-              (define-key ggtags-mode-map (kbd "C-M-.") 'ggtags-find-other-symbol)
+              ;; (evil-local-set-key 'normal (kbd "M-.") 'ggtags-find-definition)
+              ;; (evil-local-set-key 'normal (kbd "M-,") 'ggtags-prev-mark)
 
               ;; remote file slow in eldoc mode
               (let ((file (buffer-file-name)))

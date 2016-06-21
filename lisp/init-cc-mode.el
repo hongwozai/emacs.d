@@ -42,6 +42,8 @@
   )
 
 (defun hong/tags-debug-compile-setup ()
+  (evil-local-set-key 'normal (kbd "M-.") 'ggtags-find-definition)
+  (evil-local-set-key 'normal (kbd "M-,") 'ggtags-prev-mark)
   (local-set-key (kbd "C-c C-c") 'project-compile-in-shell)
   (local-set-key (kbd "C-c C-s") 'change-compile-command))
 

@@ -25,12 +25,13 @@ re-downloaded in order to locate PACKAGE."
 (mapc #'require-package
       '(evil
         evil-leader
-        zenburn-theme
         hydra
         window-numbering
         dired+
+        ivy
         swiper
         counsel
+        xterm-color
         multi-term
         flycheck
         flycheck-pos-tip
@@ -39,17 +40,16 @@ re-downloaded in order to locate PACKAGE."
         ;; evil
         evil-anzu
         evil-surround
-        evil-matchit
         evil-iedit-state
         ;; workspace
         eyebrowse
         ;; edit
         avy
+        vlf
         smex
         wgrep
         yasnippet
         expand-region
-        ibuffer-vc
         exec-path-from-shell
         bing-dict
         chinese-pyim
@@ -59,6 +59,7 @@ re-downloaded in order to locate PACKAGE."
         git-gutter
         git-timemachine
         ;; cc-mode
+        etags-select
         company-c-headers
         ;; elisp
         elisp-slime-nav

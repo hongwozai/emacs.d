@@ -1,7 +1,7 @@
-;;; environment
+;;; ======================== environment ================================
 (set-language-environment "utf-8")
 
-;;; input method
+;;; ======================== dictionary =================================
 (when (executable-find "/usr/bin/sdcv")
   (require-package 'chinese-yasdcv)
   (setq yasdcv-sdcv-dicts '(("langdaoyh" "朗道英汉字典5.0" "langdao" t)
@@ -12,7 +12,6 @@
   (hong/select-buffer-window yasdcv-translate-at-point "*Stardict Output*")
   )
 
-;;; online dictionary
 (defun hong/translate-brief-at-point ()
   (interactive)
   (let ((word
@@ -21,7 +20,7 @@
            (thing-at-point 'word t))))
     (bing-dict-brief word)))
 
-;;; input method
+;;; ======================= input method =================================
 (require 'chinese-pyim)
 (with-eval-after-load 'chinese-pyim
   (setq default-input-method "chinese-pyim")
