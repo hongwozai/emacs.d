@@ -9,6 +9,7 @@ function dictionary_setup() {
     echo "unzip and copy ..."
     mkdir -p ~/.eim
     unzip ~/Downloads/pyimdict.zip -d ~/.eim
+    gzip -d ~/.eim/chinese-pyim-bigdict-gh-pages/pyim-bigdict.pyim.gz
     mv ~/.eim/chinese-pyim-bigdict-gh-pages/pyim-bigdict.pyim \
        ~/.eim/pyim-bigdict.pyim
     rmdir ~/.eim/chinese-pyim-bigdict-gh-pages
@@ -17,10 +18,10 @@ function dictionary_setup() {
 
 function exec_setup() {
     echo "setup em..."
-    if [ -f /usr/bin/em ]; then
+    if ! [ -f /usr/bin/em ]; then
         cat <<EOF > /usr/bin/em
 #!/bin/bash
-emacsclient -nw -a "" -c $1
+env LANG='zh_CN.UTF8' emacsclient -nw -a "" -c $1
 EOF
     else
         echo "em exists."
