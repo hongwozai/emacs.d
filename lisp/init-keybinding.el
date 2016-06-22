@@ -50,7 +50,7 @@
   "hm"  'describe-mode
   "hk"  'describe-key
   "hi"  'Info
-  "hp"  'list-process
+  "hp"  'counsel-list-processes
   "hS"  'counsel-info-lookup-symbol
 
   "im"  'imenu
