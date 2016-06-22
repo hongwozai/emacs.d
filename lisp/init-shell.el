@@ -17,7 +17,7 @@
 
 ;;; map
 (defmacro shell-like-map-setup (map)
-  `(evil-define-key 'insert ,map
+  `(evil-define-key 'emacs ,map
      (kbd "C-a") 'move-beginning-of-line
      (kbd "C-e") 'move-end-of-line
      (kbd "C-r") 'isearch-backward
@@ -34,7 +34,7 @@
 (add-hook 'eshell-mode-hook
           (lambda ()
             (shell-like-map-setup eshell-mode-map)
-            (evil-define-key 'insert eshell-mode-map
+            (evil-define-key 'emacs eshell-mode-map
               (kbd "C-u") 'eshell-clear-before-line
               (kbd "C-a") 'eshell-bol
               (kbd "C-r") 'eshell-find-history
@@ -96,13 +96,14 @@
 (add-hook 'shell-mode-hook
           (lambda ()
             (setq comint-input-sender #'hong/shell-comint-input-sender)
-            (hong--setup-shell-environment)))
+            ;; (hong--setup-shell-environment)
+            ))
 
 ;;; comint mode
 (add-hook 'comint-mode-hook
           (lambda ()
             (shell-like-map-setup comint-mode-map)
-            (evil-define-key 'insert comint-mode-map
+            (evil-define-key 'emacs comint-mode-map
               (kbd "C-n")    'comint-next-input
               (kbd "C-p")    'comint-previous-input
               (kbd "<up>")   'comint-previous-input
@@ -112,6 +113,14 @@
             (setq-local comint-prompt-read-only t)
             (setq-local comint-move-point-for-output 'others)
             (setq-local comint-history-isearch t)))
+
+;;; with-editor
+(autoload 'with-editor-export-editor "with-editor")
+(add-hook 'shell-mode-hook
+          (lambda ()
+            (hong--setup-shell-environment)
+            (with-editor-export-editor)
+            (comint-send-string (get-buffer-process (buffer-name)) "\n")))
 
 ;;; xterm-color
 (with-eval-after-load 'shell
@@ -155,9 +164,9 @@
 (global-set-key (kbd "<f2>") 'hong/shell-run)
 (global-set-key (kbd "M-[") 'multi-term-prev)
 (global-set-key (kbd "M-]") 'multi-term-next)
-(defalias 'sh 'shell)
-(defalias 'esh 'eshell)
-(defalias 'mt 'multi-term)
+(defalias 'sh   'shell)
+(defalias 'esh  'eshell)
+(defalias 'mt   'multi-term)
 (defalias 'mtdo 'multi-term-dedicated-open)
 
 (defun hong/switch-non-terminal-buffer ()

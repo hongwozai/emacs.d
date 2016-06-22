@@ -1,12 +1,4 @@
 ;;; =========================== magit =================================
-;;; with-editor
-(autoload 'with-editor-export-editor "with-editor")
-(add-hook 'eshell-mode-hook 'with-editor-export-editor)
-(add-hook 'shell-mode-hook
-          (lambda ()
-            (with-editor-export-editor)
-            (comint-send-string (get-buffer-process (buffer-name)) "\n")))
-
 ;;; magit
 (unless (version< emacs-version "24.4")
   (global-set-key (kbd "<f9>") 'magit-status))

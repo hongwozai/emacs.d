@@ -24,7 +24,7 @@
   (defun grep-read-files (regexp)
     (read-string "Search Files: "
                  (let ((str (assoc major-mode hong-grep-files-aliases)))
-                   (if str (cdr str) ".*"))))
+                   (if str (cdr str) "*"))))
   )
 
 ;;; =================== ag ============================

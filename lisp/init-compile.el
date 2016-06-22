@@ -1,3 +1,32 @@
+;;; ====================== compile func ==========================
+(defun project--get-root (&optional iscurr)
+  "Get project root path."
+  (or (ffip-project-root)
+      (if iscurr default-directory)))
+
+(defun project-compile ()
+  (interactive)
+  (let ((default-directory (project--get-root t)))
+    (compile compile-command)))
+
+(defun project-compile-in-shell ()
+  (interactive)
+  (save-selected-window
+    (let* ((path (project--get-root))
+           (rpath (and path (if (file-remote-p path)
+                                (progn (string-match "/.*:\\(.*\\)$" path)
+                                       (match-string 1 path))
+                              path)))
+           (buffer-name "*shell*")
+           (command (and path compile-command)))
+      (if path
+          (progn
+            (hong/shell-run)
+            (comint-send-string (get-buffer-process buffer-name)
+                                (format "cd %s/ && %s \n" rpath command))
+            (setq compile-command command))
+        (message "CANNOT COMPILE!")))))
+
 ;;; ===================== compile ===============================
 (defun hong/my-compile-common-config ()
   ;; compile
@@ -23,13 +52,11 @@
 (add-hook 'gdb-mode-hook #'company-mode)
 
 ;;; set no dedicated windows
-(defadvice gdb-display-buffer (after undedicated-gdb-display-buffer
-                                     activate)
+(defadvice gdb-display-buffer (after ugdb activate)
   (set-window-dedicated-p ad-return-value nil))
-(defadvice gdb-set-window-buffer (after
-                                  undedicated-gdb-display-buffer
-                                  (name &optional ignore-dedi window)
-                                  activate)
+
+(defadvice gdb-set-window-buffer
+    (after ugdb2 (name &optional ignore-dedi window) activate)
   (set-window-dedicated-p window nil))
 
 ;;; ======================= key binding ========================

@@ -39,6 +39,7 @@ re-downloaded in order to locate PACKAGE."
         find-file-in-project
         ;; evil
         evil-anzu
+        evil-matchit
         evil-surround
         evil-iedit-state
         ;; workspace
@@ -49,6 +50,7 @@ re-downloaded in order to locate PACKAGE."
         smex
         wgrep
         yasnippet
+        which-key
         expand-region
         exec-path-from-shell
         bing-dict

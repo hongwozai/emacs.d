@@ -82,6 +82,11 @@
 ;;; .dir-locals.el
 (setq enable-local-variables :all enable-local-eval t)
 
+;; bookmark
+(setq bookmark-save-flag 1)
+(evil-define-key 'motion bookmark-bmenu-mode-map
+  (kbd "RET") 'bookmark-bmenu-this-window)
+
 ;;; hexl edit
 (with-eval-after-load 'hexl
   (evil-define-key 'normal hexl-mode-map
@@ -97,5 +102,8 @@
 ;;; minibuffer map
 (define-key minibuffer-local-map (kbd "C-p") 'previous-history-element)
 (define-key minibuffer-local-map (kbd "C-n") 'next-history-element)
+
+;;; key hint
+(add-hook 'after-init-hook #'which-key-mode)
 
 (provide 'init-editing-utils)

@@ -9,10 +9,13 @@
 ;;; initial state change
 (dolist (mode '(term-mode
                 minibuffer-inactive-mode
-                diff-mode geiser-debug-mode
-                anaconda-nav-mode ibuffer-mode
+                diff-mode ibuffer-mode
+                eshell-mode shell-mode comint-mode
+                sql-interactive-mode slime-repl-mode
+                inferior-python-mode inf-ruby-mode
                 image-mode haskell-error-mode
                 flycheck-error-list-mode
+                anaconda-nav-mode cider-mode
                 cider-stacktrace-mode))
   (evil-set-initial-state mode 'emacs))
 
@@ -34,6 +37,9 @@
 (with-eval-after-load 'evil
   (global-anzu-mode)
   (require 'evil-anzu))
+
+;;; evil matchit
+(global-evil-matchit-mode 1)
 
 ;;; evil surround
 (global-evil-surround-mode 1)

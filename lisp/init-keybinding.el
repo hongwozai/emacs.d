@@ -25,7 +25,7 @@
   ;; buffer and bookmark
   "bl"  'ibuffer
   "bd"  'dired-jump
-  "bo"  'ido-switch-to-buffer-other-window
+  "bo"  'ido-switch-buffer-other-window
   "bs"  'revert-buffer-with-coding-system
   "bn"  'bookmark-set
   "bj"  'bookmark-jump
