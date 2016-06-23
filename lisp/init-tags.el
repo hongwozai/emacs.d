@@ -14,17 +14,18 @@
   (let* ((exec ctags-executable)
          ;; default directory
          (dir (file-relative-name
-               (or (ffip-project-root) default-directory)))
+               (read-directory-name "Directory: " (ffip-project-root))))
          ;; find
          (find-command
           (build-find-command
            (let ((str (assoc major-mode hong-grep-files-aliases)))
              (if str (cdr str) "*"))
-           (read-directory-name "Directory: ")
+           dir
            grep-find-ignored-directories
            grep-find-ignored-files))
          ;; total
          (real-command (concat find-command " | xargs " exec)))
+    (message "find-command: %s" real-command)
     (when (= 0 (shell-command real-command))
       (visit-tags-table "TAGS")
       (message "Generate TAGS Successful!"))))

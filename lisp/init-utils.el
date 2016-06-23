@@ -90,7 +90,7 @@ in case that file does not provide any feature."
 ;;; ========================= build find ===================================
 (defun build-find-command (files dir &optional ignore-dirs ignore-files)
   (grep-expand-template
-   "find . <X> -type f <F>"
+   "find <D> <X> -type f <F>"
    nil
    (concat (shell-quote-argument "(")
            " " find-name-arg " "
