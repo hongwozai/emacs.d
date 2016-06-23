@@ -15,11 +15,15 @@
          ;; default directory
          (dir (file-relative-name
                (read-directory-name "Directory: " (ffip-project-root))))
+         ;; files
+         (files (read-shell-command
+                 "Files: "
+                 (let ((str (assoc major-mode hong-grep-files-aliases)))
+                   (if str (cdr str) "*"))))
          ;; find
          (find-command
           (build-find-command
-           (let ((str (assoc major-mode hong-grep-files-aliases)))
-             (if str (cdr str) "*"))
+           files
            dir
            grep-find-ignored-directories
            grep-find-ignored-files))
