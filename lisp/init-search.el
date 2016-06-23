@@ -14,13 +14,12 @@
               grep-scroll-output          nil)
 
 (setq grep-command "grep -nH -E -e ")
-
-(with-eval-after-load 'grep
-  (setq hong-grep-files-aliases
+(setq hong-grep-files-aliases
         '((c-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
           (c++-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
           (emacs-lisp-mode . "*.el")))
 
+(with-eval-after-load 'grep
   (defun grep-read-files (regexp)
     (read-string "Search Files: "
                  (let ((str (assoc major-mode hong-grep-files-aliases)))

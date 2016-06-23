@@ -9,7 +9,9 @@
 (defun tags-regenerate ()
   "Regenerate etags TAGS"
   (interactive)
-  (let* ((exec tags-executable)
+  (require 'grep)
+  (require 'find-dired)
+  (let* ((exec ctags-executable)
          ;; default directory
          (dir (file-relative-name
                (or (ffip-project-root) default-directory)))
