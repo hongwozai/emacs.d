@@ -4,10 +4,10 @@
 ;;; isearch (.*? replace space, use C-q SPC insert SPC)
 (define-key isearch-mode-map (kbd "SPC")
   '(lambda () (interactive)
-     (setq isearch-message (concat isearch-message ".*?"))
-     (setq isearch-string (concat isearch-string ".*?"))
-     (isearch-push-state)
-     (isearch-update)))
+    (setq isearch-message (concat isearch-message ".*?"))
+    (setq isearch-string (concat isearch-string ".*?"))
+    (isearch-push-state)
+    (isearch-update)))
 
 ;;; =================== grep =========================
 (setq-default grep-hightlight-matches     t
@@ -15,9 +15,9 @@
 
 (setq grep-command "grep -nH -E -e ")
 (setq hong-grep-files-aliases
-        '((c-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
-          (c++-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
-          (emacs-lisp-mode . "*.el")))
+      '((c-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
+        (c++-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
+        (emacs-lisp-mode . "*.el")))
 
 (with-eval-after-load 'grep
   (defun grep-read-files (regexp)
@@ -42,10 +42,11 @@
 (defun occur-np (np)
   (lexical-let ((np np))
     (lambda () (interactive)
-      (save-selected-window
-        (if (eq np 'next) (occur-next) (occur-prev))
-        (occur-mode-goto-occurrence-other-window)
-        (recenter)))))
+       (save-selected-window
+         (if (eq np 'next) (occur-next) (occur-prev))
+         (occur-mode-goto-occurrence-other-window)
+         (recenter)
+         (hl-line-mode 1)))))
 
 (defadvice isearch-occur (after hong/occur-exit-isearch activate)
   (and (ignore-errors (select-window (get-buffer-window "*Occur*")))

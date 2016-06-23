@@ -20,9 +20,9 @@
   (evil-set-initial-state mode 'emacs))
 
 (dolist (mode '(diff-mode occur-mode yari-mode messages-buffer-mode
-                          anaconda-mode-view-mode special-mode
-                          package-menu-mode process-menu-mode
-                          bookmark-bmenu-mode))
+                anaconda-mode-view-mode special-mode
+                package-menu-mode process-menu-mode
+                bookmark-bmenu-mode))
   (evil-set-initial-state mode 'motion))
 
 ;;; *Messages* can't set emacs state in emacs start
@@ -55,9 +55,9 @@
 
 (with-eval-after-load 'evil-iedit-state
   (define-key evil-iedit-insert-state-map
-    (kbd "C-;") 'evil-iedit-state/quit-iedit-mode)
+      (kbd "C-;") 'evil-iedit-state/quit-iedit-mode)
   (define-key evil-iedit-state-map
-    (kbd "C-;") 'evil-iedit-state/quit-iedit-mode))
+      (kbd "C-;") 'evil-iedit-state/quit-iedit-mode))
 
 ;;; ======================== evil misc =============================
 ;;; evil ex cmd
@@ -69,7 +69,7 @@
   (interactive "<sh>")
   (if (not arg)
       (compile "make")
-    (compile (concat "make " arg))))
+      (compile (concat "make " arg))))
 
 ;;; evil *, # search symbol not word
 (define-key evil-motion-state-map "*"

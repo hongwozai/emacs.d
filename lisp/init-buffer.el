@@ -50,8 +50,9 @@
                              (mode . sql-mode)))
          ("Org"          (or (mode . org-mode)))
          ("Dired"        (or (mode . dired-mode)))
+         ("Text"         (or (mode . text-mode)))
          ("Help"         (or (mode . woman-mode)
-                             (mode . man-mode)
+                             (mode . Man-mode)
                              (mode . Info-mode)))
          )))
 

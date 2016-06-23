@@ -15,8 +15,8 @@
   (setq load-path
         (append
          (loop for dir in (directory-files lisp-dir)
-               unless (string-match "^\\." dir)
-               collecting (expand-file-name dir lisp-dir))
+            unless (string-match "^\\." dir)
+            collecting (expand-file-name dir lisp-dir))
          load-path)))
 
 (add-to-list 'custom-theme-load-path

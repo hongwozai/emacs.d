@@ -17,7 +17,7 @@
   (let ((word
          (if (use-region-p)
              (buffer-substring-no-properties (region-beginning) (region-end))
-           (thing-at-point 'word t))))
+             (thing-at-point 'word t))))
     (bing-dict-brief word)))
 
 ;;; ======================= input method =================================
@@ -30,8 +30,8 @@
         'pyim-guidance-format-function-one-line)
   (global-set-key (kbd "C-SPC") 'toggle-input-method)
   (setq pyim-dicts '((:name "pinyin"
-                            :file "~/.eim/pyim-bigdict.pyim"
-                            :coding utf-8-unix))))
+                      :file "~/.eim/pyim-bigdict.pyim"
+                      :coding utf-8-unix))))
 
 ;;; fcitx
 (when (executable-find "/usr/bin/fcitx")

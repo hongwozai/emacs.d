@@ -1,9 +1,9 @@
 (add-hook 'org-mode-hook
           '(lambda ()
-             (setq-local truncate-lines nil)
-             (org-indent-mode)
-             (iimage-mode)
-             (org-display-inline-images)))
+            (setq-local truncate-lines nil)
+            (org-indent-mode)
+            (iimage-mode)
+            (org-display-inline-images)))
 
 ;;; org source block highlight
 (setq org-src-fontify-natively t)
@@ -42,7 +42,7 @@
 
 (with-eval-after-load 'evil
   (evil-declare-key 'normal org-mode-map
-    "q"  'quit-window
-    (kbd "TAB") 'org-cycle))
+                    "q"  'quit-window
+                    (kbd "TAB") 'org-cycle))
 
 (provide 'init-org-mode)

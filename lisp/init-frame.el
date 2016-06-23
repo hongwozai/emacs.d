@@ -14,7 +14,7 @@
 (setq frame-title-format
       '((:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name))
-                 "%b"))))
+                   "%b"))))
 
 ;;; purge minor modes display
 (defvar show-minor-modes '(slime-mode iedit-mode))
@@ -25,7 +25,7 @@
         (mapcar #'(lambda (x)
                     (if (member (car x) show-minor-modes)
                         x
-                      (list (car x) "")))
+                        (list (car x) "")))
                 minor-mode-alist)))
 
 (add-hook 'after-change-major-mode-hook 'purge-minor-modes)
@@ -44,15 +44,15 @@
    '(:propertize ("[%m" minor-mode-alist "]") 'face 'italic)
    " "
    '(:eval (propertize (format-mode-line '(vc-mode vc-mode))
-                       'face 'underline))
+            'face 'underline))
    "  "
    ;;global-mode-string, org-timer-set-timer in org-mode need this
    '(:propertize "%M" 'face nil)
    '(:eval (propertize " "
-                       'display
-                       `((space :align-to
-                                (- (+ right-fringe right-margin)
-                                   15)))))
+            'display
+            `((space :align-to
+                     (- (+ right-fringe right-margin)
+                        15)))))
    "%l:%c  %p"
    mode-line-end-spaces))
 
@@ -83,7 +83,7 @@
           (funcall initial-major-mode)
           (set-buffer-modified-p nil))
         nil)
-    t))
+      t))
 
 (add-hook 'kill-buffer-query-functions 'hong/scratch-kill-buffer-query-function)
 

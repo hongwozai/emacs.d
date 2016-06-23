@@ -27,6 +27,7 @@
   "bd"  'dired-jump
   "bo"  'ido-switch-buffer-other-window
   "bs"  'revert-buffer-with-coding-system
+  "br"  'revert-buffer
   "bn"  'bookmark-set
   "bj"  'bookmark-jump
   "bm"  'bookmark-bmenu-list

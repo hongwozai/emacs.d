@@ -1,7 +1,7 @@
 ;;; ========================= etags ==================================
 ;;; etags-select
 (define-key evil-normal-state-map
-  (kbd "C-]") 'etags-select-find-tag-at-point)
+    (kbd "C-]") 'etags-select-find-tag-at-point)
 
 ;;; tags generate
 (defvar ctags-executable "etags")
@@ -49,7 +49,7 @@
               (setq-local imenu-create-index-function
                           #'ggtags-build-imenu-index)
               (define-key ggtags-mode-map
-                (kbd "C-M-.") 'ggtags-find-other-symbol)
+                  (kbd "C-M-.") 'ggtags-find-other-symbol)
               ;; remote file slow in eldoc mode
               (let ((file (buffer-file-name)))
                 (when (and file (file-remote-p file))

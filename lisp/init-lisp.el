@@ -1,9 +1,9 @@
 (defvar lisp-common-mode-hook
   '(emacs-lisp-mode-hook lisp-mode-hook lisp-interaction-mode-hook
-                         scheme-mode-hook slime-repl-mode-hook
-                         inferior-scheme-mode-hook ielm-mode-hook
-                         eval-expression-minibuffer-setup-hook
-                         clojure-mode-hook cider-mode-hook))
+    scheme-mode-hook slime-repl-mode-hook
+    inferior-scheme-mode-hook ielm-mode-hook
+    eval-expression-minibuffer-setup-hook
+    clojure-mode-hook cider-mode-hook))
 
 ;;; ========================== pair ===============================
 ;; paredit
@@ -26,11 +26,11 @@
 
 ;;; pretty symbol
 (unless (version< emacs-version "24.4")
- (setq prettify-symbols-alist '(("lambda" . 955)))
- (global-prettify-symbols-mode 1)
- (add-hook 'scheme-mode-hook
-           '(lambda () (setq prettify-symbols-alist '(("lambda" . 955)))))
- )
+  (setq prettify-symbols-alist '(("lambda" . 955)))
+  (global-prettify-symbols-mode 1)
+  (add-hook 'scheme-mode-hook
+            '(lambda () (setq prettify-symbols-alist '(("lambda" . 955)))))
+  )
 
 ;;; ========================= elisp ================================
 (dolist (hook '(emacs-lisp-mode-hook lisp-interaction-mode-hook))
@@ -47,11 +47,20 @@
 (dolist (map (list emacs-lisp-mode-map
                    lisp-interaction-mode-map))
   (evil-define-key 'insert map
-     (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point)
+    (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point)
   (evil-define-key 'normal map
-     (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point
-     (kbd "M-.") 'elisp-slime-nav-find-elisp-thing-at-point
-     (kbd "M-,") 'pop-tag-mark)
+    (kbd "M-?") 'elisp-slime-nav-describe-elisp-thing-at-point
+    (kbd "M-.") 'elisp-slime-nav-find-elisp-thing-at-point
+    (kbd "M-,") 'pop-tag-mark)
   )
+
+;;; elisp style
+(setq lisp-indent-function 'common-lisp-indent-function)
+
+(put 'if 'common-lisp-indent-function 2)
+(put 'cl-flet 'common-lisp-indent-function
+     (get 'flet 'common-lisp-indent-function))
+(put 'cl-labels 'common-lisp-indent-function
+     (get 'labels 'common-lisp-indent-function))
 
 (provide 'init-lisp)

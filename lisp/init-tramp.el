@@ -7,9 +7,9 @@ buffer is not visiting a file."
   (if (or arg (not buffer-file-name))
       (find-file (concat "/sudo:root@localhost:"
                          (ido-read-file-name "Find file(as root): ")))
-    (let ((current-point (point)))
-      (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))
-      (goto-char current-point))))
+      (let ((current-point (point)))
+        (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))
+        (goto-char current-point))))
 
 ;;; ssh is faster than scp. scpx or sshx. see Tramp hangs
 (setq tramp-default-method "ssh")

@@ -34,7 +34,7 @@
             (hl-line-mode 1)))
 
 ;;; ============================= keybindings ==============================
-(defhydra hydra-dired-select-menu (:color amaranth :hint nil)
+(defhydra hydra-dired-select-menu (:color pink :hint nil)
   "
           ^Mark^
     ^^^^^^^^----------------------------

@@ -16,7 +16,7 @@
            (rpath (and path (if (file-remote-p path)
                                 (progn (string-match "/.*:\\(.*\\)$" path)
                                        (match-string 1 path))
-                              path)))
+                                path)))
            (buffer-name "*shell*")
            (command (and path compile-command)))
       (if path
@@ -25,7 +25,7 @@
             (comint-send-string (get-buffer-process buffer-name)
                                 (format "cd %s/ && %s \n" rpath command))
             (setq compile-command command))
-        (message "CANNOT COMPILE!")))))
+          (message "CANNOT COMPILE!")))))
 
 ;;; ===================== compile ===============================
 (defun hong/my-compile-common-config ()

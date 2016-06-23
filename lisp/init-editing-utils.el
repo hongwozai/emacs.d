@@ -44,6 +44,8 @@
 (setq recentf-auto-cleanup 'never)
 (require 'recentf)
 (setq recentf-max-saved-items 100)
+(setq recentf-exclude '(".*\\.png$" ".*\\.gz$" ".*\\.jpg$"
+                        "GTAGS" "TAGS" "tags"))
 (add-hook 'after-init-hook (lambda () (recentf-mode 1)))
 
 ;; hs minor mode
@@ -62,6 +64,7 @@
 
 ;;; avy
 (setq avy-background t)
+(setq avy-all-windows nil)
 
 ;; show pair
 (show-paren-mode t)
@@ -99,11 +102,17 @@
     (kbd "gg") 'hexl-beginning-of-buffer
     (kbd "G") 'hexl-end-of-buffer))
 
+;;; minibuffer
+(setq minibuffer-message-timeout 1)
+
 ;;; minibuffer map
 (define-key minibuffer-local-map (kbd "C-p") 'previous-history-element)
 (define-key minibuffer-local-map (kbd "C-n") 'next-history-element)
 
 ;;; key hint
 (add-hook 'after-init-hook #'which-key-mode)
+
+;;; ediff
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (provide 'init-editing-utils)

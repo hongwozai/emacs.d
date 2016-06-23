@@ -154,9 +154,9 @@
                     ("M-x" . execute-extended-command)
                     ("M-]" . multi-term-next)
                     ("TAB" . (lambda () (interactive)
-                               (term-send-raw-string "\t")))
+                                (term-send-raw-string "\t")))
                     ("<escape>" . (lambda () (interactive)
-                                    (term-send-raw-string "")))))
+                                     (term-send-raw-string "")))))
             ))
 
 ;;; ============================== misc ==================================
@@ -217,7 +217,7 @@
       (select-window window)
       (evil-local-set-key 'normal (kbd "q")
                           '(lambda () (interactive)
-                             (kill-this-buffer) (delete-window))))))
+                            (kill-this-buffer) (delete-window))))))
 
 ;;; clear, man, em, ssh, exit
 (defun hong/shell-comint-input-sender (proc command)
