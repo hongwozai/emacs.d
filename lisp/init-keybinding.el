@@ -38,11 +38,13 @@
   "sA"  'ag
   "so"  'occur
   "sg"  'rgrep
-  "sG"  'counsel-git-grep
   "ss"  'counsel-grep-or-swiper
 
   ;; vc
   "vv"  'vc-next-action
+  "vl" 'vc-print-log
+  "vL" 'vc-print-root-log
+  "vs"  'counsel-git-grep
 
   ;; window
   "wu"  'winner-undo
@@ -53,7 +55,7 @@
   "hv"  'counsel-describe-variable
   "hm"  'describe-mode
   "hk"  'describe-key
-  "hi"  'Info
+  "hi"  'info
   "hp"  'counsel-list-processes
   "hS"  'counsel-info-lookup-symbol
 
@@ -68,12 +70,6 @@
   "xk"  '(lambda () (interactive) (kill-buffer (current-buffer)))
   "xs"  'save-buffer
   "xz"  'suspend-frame)
-
-(evil-leader/set-key-for-mode 'scheme-mode  "xe" 'scheme-send-last-sexp)
-(evil-leader/set-key-for-mode 'lisp-mode    "xe" 'slime-eval-last-expression)
-(evil-leader/set-key-for-mode 'clojure-mode "xe" 'cider-eval-last-sexp)
-(evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
-(evil-leader/set-key-for-mode 'ruby-mode "cr" 'ruby-send-region)
 
 ;;; ============================ window key ================================
 (define-prefix-command 'window-prefix-map)

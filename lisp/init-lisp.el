@@ -63,4 +63,7 @@
 (put 'cl-labels 'common-lisp-indent-function
      (get 'labels 'common-lisp-indent-function))
 
+;;; ============================ scheme ================================
+(evil-leader/set-key-for-mode 'scheme-mode  "xe" 'scheme-send-last-sexp)
+
 (provide 'init-lisp)

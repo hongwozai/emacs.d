@@ -36,7 +36,7 @@
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
 
-;;; =========================== maybe =============================
+;;; =========================== maybe =====================================
 (defun maybe-require (executable feature)
   (let ((s (if (listp executable) executable (list executable))))
     (when (some (lambda (x) (executable-find x)) s)

@@ -21,4 +21,7 @@
             (add-hook 'evil-insert-state-entry-hook
                       (lambda () (interactive) (goto-char (point-max))) nil t)))
 
+;;; key
+(evil-leader/set-key-for-mode 'clojure-mode "xe" 'cider-eval-last-sexp)
+
 (provide 'init-clojure)

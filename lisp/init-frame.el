@@ -66,7 +66,8 @@
                       ((evil-insert-state-p) "#e80000")
                       ((evil-emacs-state-p)  "#444488")
                       ((evil-visual-state-p) "#AF005F")
-                      ((buffer-modified-p)   "#006fa0")
+                      ((and (buffer-file-name)
+                            (buffer-modified-p))   "#006fa0")
                       (t default-color))))
     (set-face-background 'mode-line color)))
 

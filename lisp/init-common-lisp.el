@@ -10,4 +10,8 @@
             (when (file-exists-p "~/quicklisp/clhs-use-local.el")
               (load "~/quicklisp/clhs-use-local.el" t))))
 
+;;; key
+(evil-leader/set-key-for-mode 'lisp-mode "xe" 'slime-eval-last-expression)
+(evil-leader/set-key-for-mode 'lisp-mode "ch" 'slime-documentation-lookup)
+
 (provide 'init-common-lisp)

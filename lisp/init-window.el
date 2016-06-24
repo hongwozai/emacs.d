@@ -9,7 +9,7 @@
 ;;; change layout
 (defun hong/window-layout-change ()
   (interactive)
-  (let* ((split-width-threshold 160)
+  (let* ((split-width-threshold nil)
          (layout (car (window-tree)))
          (direct (first layout))
          (other-buffer (save-selected-window

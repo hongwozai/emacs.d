@@ -14,6 +14,9 @@
             (inf-ruby-minor-mode)
             ))
 
+;;; key
+(evil-leader/set-key-for-mode 'ruby-mode "cr" 'ruby-send-region)
+
 ;;; yari
 (autoload 'yari "yari" "" t nil)
 (defalias 'ri 'yari)
