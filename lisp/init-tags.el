@@ -3,6 +3,10 @@
 (define-key evil-normal-state-map
     (kbd "C-]") 'etags-select-find-tag-at-point)
 
+(defadvice etags-select-find-tag-at-point (before hong-esftap activate)
+  (if (eq tags-file-name nil)
+      (call-interactively #'visit-tags-table)))
+
 ;;; tags generate
 (defvar ctags-executable "etags")
 
@@ -29,7 +33,6 @@
            grep-find-ignored-files))
          ;; total
          (real-command (concat find-command " | xargs " exec)))
-    (message "find-command: %s" real-command)
     (when (= 0 (shell-command real-command))
       (visit-tags-table "TAGS")
       (message "Generate TAGS Successful!"))))

@@ -12,10 +12,13 @@
   "cd"  'yasdcv-translate-at-point
   "cs"  'hong/translate-brief-at-point
 
+  ;; debug
+  "dg"  'hydra-gud/body
+
   ;; file
   "fr"  'ivy-recentf
   "fl"  'counsel-locate
-  "fp"  'ffip
+  "ff"  'ffip
   "fo"  'ido-find-file-other-window
 
   ;; gtags
