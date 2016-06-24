@@ -52,7 +52,7 @@
 (maybe-require "lua"    'init-lua)
 
 ;;; misc mode
-(require 'init-misc)
+(require 'init-misc-mode)
 
 ;;; server
 (require 'server)
