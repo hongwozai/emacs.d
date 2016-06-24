@@ -24,13 +24,12 @@
 (require 'chinese-pyim)
 (with-eval-after-load 'chinese-pyim
   (setq default-input-method "chinese-pyim")
-  (setq pyim-use-tooltip 'pos-tip)
+  (setq pyim-use-tooltip 'popup)
   (setq pyim-page-length 9)
-  (setq pyim-guidance-format-function
-        'pyim-guidance-format-function-one-line)
+  (setq pyim-enable-words-predict nil)
   (global-set-key (kbd "C-SPC") 'toggle-input-method)
   (setq pyim-dicts '((:name "pinyin"
-                      :file "~/.eim/pyim-bigdict.pyim"
+                      :file "~/.eim/dict.pyim"
                       :coding utf-8-unix))))
 
 ;;; fcitx

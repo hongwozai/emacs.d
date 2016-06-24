@@ -11,7 +11,7 @@ function dictionary_setup() {
     unzip ~/Downloads/pyimdict.zip -d ~/.eim
     gzip -d ~/.eim/chinese-pyim-bigdict-gh-pages/pyim-bigdict.pyim.gz
     mv ~/.eim/chinese-pyim-bigdict-gh-pages/pyim-bigdict.pyim \
-       ~/.eim/pyim-bigdict.pyim
+       ~/.eim/dict.pyim
     rmdir ~/.eim/chinese-pyim-bigdict-gh-pages
     echo "pyim dict finished."
 }
