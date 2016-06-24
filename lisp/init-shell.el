@@ -29,7 +29,8 @@
 (add-hook 'eshell-load-hook
           (lambda ()
             (setq eshell-save-history-on-exit nil
-                  eshell-buffer-shorthand t)))
+                  eshell-buffer-shorthand t
+                  eshell-hist-ignoredups  t)))
 
 (add-hook 'eshell-mode-hook
           (lambda ()
@@ -49,6 +50,7 @@
 
 (defalias 'eshell/em #'find-file)
 (defalias 'eshell/d #'dired)
+(defalias 'eshell/b #'ibuffer)
 
 ;; history
 (defun eshell-find-history ()
