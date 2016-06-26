@@ -79,8 +79,7 @@
   ("c" gud-cont "continue")
   ("o" gud-finish "finish")
   ("r" gud-run "run")
-  ("z" hong-switch-gud "switch gud" :color blue)
-  ("q" nil "quit"))
+  ("q" hong-switch-gud "quit" :color blue))
 
 ;;; alternate gud print
 (defun hong-gdb-print ()
