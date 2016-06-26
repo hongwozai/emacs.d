@@ -64,7 +64,7 @@
   (set-window-dedicated-p window nil))
 
 ;;; keybindings
-(defhydra hydra-gud (:color amaranth :hint nil)
+(defhydra hydra-gud (:color pink :hint nil)
   ("h" evil-backward-char)
   ("j" evil-next-line)
   ("k" evil-previous-line)
