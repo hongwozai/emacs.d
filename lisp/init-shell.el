@@ -110,6 +110,11 @@
               (kbd "C-p")    'comint-previous-input
               (kbd "<up>")   'comint-previous-input
               (kbd "<down>") 'comint-next-input)
+            (evil-define-key 'emacs comint-mode-map
+              (kbd "ESC") 'evil-normal-state)
+            (evil-define-key 'normal comint-mode-map
+              (kbd "i") 'evil-emacs-state
+              (kbd "a") 'evil-emacs-state)
             (add-hook 'evil-insert-state-entry-hook
                       (lambda () (interactive) (goto-char (point-max))) nil t)
             (setq-local comint-prompt-read-only t)
