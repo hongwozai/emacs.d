@@ -111,7 +111,7 @@
               (kbd "<up>")   'comint-previous-input
               (kbd "<down>") 'comint-next-input)
             (evil-define-key 'emacs comint-mode-map
-              (kbd "ESC") 'evil-normal-state)
+              (kbd "<escape>") 'evil-normal-state)
             (evil-define-key 'normal comint-mode-map
               (kbd "i") 'evil-emacs-state
               (kbd "a") 'evil-emacs-state)
