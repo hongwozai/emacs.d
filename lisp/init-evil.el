@@ -7,7 +7,7 @@
 
 ;;; ========================= evil state ==========================
 ;;; initial state change
-(dolist (mode '(term-mode
+(dolist (mode '(term-mode gud-mode-hook
                 minibuffer-inactive-mode
                 diff-mode ibuffer-mode
                 eshell-mode shell-mode comint-mode
