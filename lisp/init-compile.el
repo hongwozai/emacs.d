@@ -73,22 +73,12 @@
   ("t" gud-tbreak "tbreak")
   ("b" gud-break "break")
   ("d" gud-remove "clear")
-  ("p" hong-gdb-print "print")
   ("n" gud-next "next")
   ("s" gud-step "step")
   ("c" gud-cont "continue")
   ("o" gud-finish "finish")
   ("r" gud-run "run")
   ("q" hong-switch-gud "quit" :color blue))
-
-;;; alternate gud print
-(defun hong-gdb-print ()
-  (interactive)
-  (gud-call
-   (concat "print "
-           (if (use-region-p)
-               (buffer-substring-no-properties (region-beginning) (region-end))
-               (thing-at-point 'symbol t))) ))
 
 ;;; switch
 (defun hong-switch-gud ()
