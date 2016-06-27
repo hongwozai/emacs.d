@@ -18,13 +18,6 @@
         " [No match]" " [Matched]" " [Not readable]"
         " [Too big]" " [Confirm]" "\n-> " ""))
 
-;;; ido ignore buffers(C-a display)
-(setq ido-ignore-buffers '("\\` " "^\*/" "^\*.*output" "^\*.*err" "^\*.*mode"
-                           "^\*.*process.*" "^\*.*[Ll]og.*" "^\*.*trace*"
-                           "^\*SPEEDBAR" "^\*Help.*" "^\*buff.*" "^\*magit.*"
-                           "^\*Ido.*" "^\*Ibuffer.*" "^\*Messages\*" "^\*WoMan.*"
-                           "^\*ag.*" "^\*Completions.*" "^\*tramp.*" ".* of .*"))
-
 (add-hook 'ido-setup-hook
           (lambda ()
             (define-key ido-file-completion-map (kbd "C-d") 'ido-enter-dired)

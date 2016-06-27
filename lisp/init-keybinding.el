@@ -63,7 +63,7 @@
   "la"  'hydra-launch/body
   "kr"  'counsel-yank-pop
   "mf"  'mark-defun
-  "xb"  'ido-switch-buffer
+  "xb"  'ivy-switch-buffer
   "xc"  'save-buffers-kill-terminal
   "xe"  'eval-last-sexp
   "xf"  'ido-find-file
