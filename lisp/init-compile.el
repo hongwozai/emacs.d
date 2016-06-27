@@ -64,7 +64,7 @@
   (set-window-dedicated-p window nil))
 
 ;;; keybindings
-(defhydra hydra-gud (:color amaranth :hint nil)
+(defhydra hydra-gud (:color pink :hint nil)
   ("h" evil-backward-char)
   ("j" evil-next-line)
   ("k" evil-previous-line)
@@ -79,8 +79,7 @@
   ("c" gud-cont "continue")
   ("o" gud-finish "finish")
   ("r" gud-run "run")
-  ("z" hong-switch-gud "switch gud" :color blue)
-  ("q" nil "quit"))
+  ("q" hong-switch-gud "quit" :color blue))
 
 ;;; alternate gud print
 (defun hong-gdb-print ()
