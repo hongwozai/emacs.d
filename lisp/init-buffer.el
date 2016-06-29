@@ -13,6 +13,8 @@
               (unless (eq ibuffer-sorting-mode 'filename/process)
                 (ibuffer-do-sort-by-filename/process))
               (ibuffer-switch-to-saved-filter-groups "default")
+              (setq-local ibuffer-hidden-filter-groups '("Default"))
+              (ibuffer-update nil t)
               (hl-line-mode 1))))
 
 (setq ibuffer-saved-filter-groups
