@@ -81,7 +81,7 @@
 (define-key window-prefix-map (kbd "o")   'delete-other-windows)
 (define-key window-prefix-map (kbd "s")   'evil-window-split)
 (define-key window-prefix-map (kbd "v")   'evil-window-vsplit)
-(define-key window-prefix-map (kbd "v")   'evil-window-rotate-downwards)
+(define-key window-prefix-map (kbd "r")   'evil-window-rotate-downwards)
 (define-key window-prefix-map (kbd "SPC") 'hong/window-layout-change)
 
 (global-set-key (kbd "C-w") 'window-prefix-map)

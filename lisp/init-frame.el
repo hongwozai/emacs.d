@@ -41,10 +41,9 @@
    "  "
    mode-line-buffer-identification
    " "
-   '(:propertize ("[%m" minor-mode-alist "]") 'face 'italic)
-   " "
+   '("[%m" minor-mode-alist "]")
    '(:eval (propertize (format-mode-line '(vc-mode vc-mode))
-            'face 'underline))
+            'face 'italic))
    "  "
    ;;global-mode-string, org-timer-set-timer in org-mode need this
    '(:propertize "%M" 'face nil)

@@ -97,9 +97,7 @@
 (add-hook 'shell-mode-hook 'hong/exit)
 (add-hook 'shell-mode-hook
           (lambda ()
-            (setq comint-input-sender #'hong/shell-comint-input-sender)
-            ;; (hong--setup-shell-environment)
-            ))
+            (setq comint-input-sender #'hong/shell-comint-input-sender)))
 
 ;;; comint mode
 (add-hook 'comint-mode-hook
@@ -115,7 +113,7 @@
             (evil-define-key 'normal comint-mode-map
               (kbd "i") 'evil-emacs-state
               (kbd "a") 'evil-emacs-state)
-            (add-hook 'evil-insert-state-entry-hook
+            (add-hook 'evil-emacs-state-entry-hook
                       (lambda () (interactive) (goto-char (point-max))) nil t)
             (setq-local comint-prompt-read-only t)
             (setq-local comint-move-point-for-output 'others)
@@ -165,6 +163,23 @@
                     ("<escape>" . (lambda () (interactive)
                                      (term-send-raw-string "")))))
             ))
+
+;;; header line
+(add-hook 'term-mode-hook #'term-mode-header-line-setup)
+
+(defun hong--term-mode-buffer-list ()
+  (mapcar
+   (lambda (x) (let ((name (buffer-name x)))
+            (if (eq name (buffer-name))
+                (propertize (format "[%s] " name)
+                            'face
+                            '((:background "#5F5F5F")))
+                (format "[%s] " name))))
+   multi-term-buffer-list))
+
+(defun term-mode-header-line-setup ()
+  (setq-local header-line-format
+              '((:eval (hong--term-mode-buffer-list)))))
 
 ;;; ============================== misc ==================================
 ;;; shotcuts key
