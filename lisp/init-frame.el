@@ -37,22 +37,23 @@
    " "
    mode-line-mule-info
    '(:eval (format "%c" (if buffer-read-only ?\- ?\+)))
-   '(:eval (format "%s" (buffer-size)))
+   "%l:%c"
    "  "
    mode-line-buffer-identification
    " "
    '("[%m" minor-mode-alist "]")
    '(:eval (propertize (format-mode-line '(vc-mode vc-mode))
             'face 'italic))
+   " "
+   '(:eval (if (memq major-mode which-func-display-mode)
+               which-func-format))
    "  "
    ;;global-mode-string, org-timer-set-timer in org-mode need this
    '(:propertize "%M" 'face nil)
    '(:eval (propertize " "
             'display
-            `((space :align-to
-                     (- (+ right-fringe right-margin)
-                        15)))))
-   "%l:%c  %p"
+            `((space :align-to (- (+ right-fringe right-margin) 6)))))
+   "%p"
    mode-line-end-spaces))
 
 (setq-default mode-line-format hong/mode-line)
