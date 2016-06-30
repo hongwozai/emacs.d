@@ -25,6 +25,7 @@
     ("zenburn-red-3"    . "#9C6363")
     ("zenburn-red-4"    . "#8C5353")
     ("zenburn-orange"   . "#DFAF8F")
+    ("zenburn-orange-1" . "Orange1")
     ("zenburn-yellow"   . "#F0DFAF")
     ("zenburn-yellow-1" . "#E0CF9F")
     ("zenburn-yellow-2" . "#D0BF8F")
@@ -105,9 +106,10 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(grep-match-face ((t (:foreground ,zenburn-orange :weight bold))))
    `(match ((t (:background ,zenburn-bg-1 :foreground ,zenburn-orange :weight bold))))
 ;;;;; isearch
-   `(isearch ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg+2))))
+   `(isearch ((t (:foreground ,zenburn-bg-2 :weight bold :background ,zenburn-orange-1))))
    `(isearch-fail ((t (:foreground ,zenburn-fg :background ,zenburn-red-4))))
-   `(lazy-highlight ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05))))
+   ;; `(lazy-highlight ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05))))
+   `(lazy-highlight ((t (:foreground ,zenburn-bg-2 :weight bold :background ,zenburn-orange-1))))
 
    `(menu ((t (:foreground ,zenburn-fg :background ,zenburn-bg))))
    `(minibuffer-prompt ((t (:foreground ,zenburn-yellow :bold t))))
@@ -570,7 +572,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(helm-swoop-target-line-face ((t (:foreground ,zenburn-fg :background ,zenburn-bg+1))))
    `(helm-swoop-target-word-face ((t (:foreground ,zenburn-yellow :background ,zenburn-bg+2 :weight bold))))
 ;;;;; hl-line-mode
-   `(hl-line ((t (:background ,zenburn-bg+05))))
+   `(hl-line ((t (:background ,zenburn-bg-05))))
    `(hl-line-face ((,class (:background ,zenburn-bg-05))
                    (t :weight bold)))
 ;;;;; hl-sexp

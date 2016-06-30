@@ -40,6 +40,9 @@
 ;;; highlight current line
 (add-hook 'prog-mode-hook #'hl-line-mode)
 
+;;; auto highlight symbol
+(global-auto-highlight-symbol-mode)
+
 ;;; recentf
 (setq recentf-auto-cleanup 'never)
 (require 'recentf)

@@ -53,6 +53,7 @@ re-downloaded in order to locate PACKAGE."
         which-key
         expand-region
         exec-path-from-shell
+        auto-highlight-symbol
         bing-dict
         chinese-pyim
         ;; version control

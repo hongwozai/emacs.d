@@ -10,9 +10,12 @@
 (autoload 'enable-paredit-mode "paredit" nil t)
 
 (dolist (hook lisp-common-mode-hook)
-  (add-hook hook '(lambda () (setq-local show-paren-style 'expression)))
   (add-hook hook #'evil-paredit-mode)
-  (add-hook hook #'enable-paredit-mode))
+  (add-hook hook #'enable-paredit-mode)
+  (add-hook hook
+            (lambda ()
+              (setq-local show-paren-style 'expression)
+              (evil-local-set-key 'normal (kbd "D") 'paredit-kill))))
 
 ;;; fix paredit bug.
 (defadvice paredit-forward-delete (before hong-pfd activate)
@@ -36,10 +39,11 @@
 (dolist (hook '(emacs-lisp-mode-hook lisp-interaction-mode-hook))
   (add-hook hook 'turn-on-elisp-slime-nav-mode))
 
+(font-lock-add-keywords 'emacs-lisp-mode
+                        '("require-package" "maybe-require"))
+
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
-            (font-lock-add-keywords 'emacs-lisp-mode
-                                    '("require-package" "maybe-require"))
             (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-buffer)
             (define-key emacs-lisp-mode-map (kbd "C-c C-f") 'eval-defun)
             (define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)))

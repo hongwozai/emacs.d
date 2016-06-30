@@ -8,7 +8,7 @@
 
 ;;; use ffip-project-root
 (defun get-project-root ()
-  (or (ffip-project-root) default-directory))
+  (file-name-as-directory (or (ffip-project-root) default-directory)))
 
 (defun counsel-ag-project ()
   (interactive)
