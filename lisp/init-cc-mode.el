@@ -1,7 +1,8 @@
 ;;; ===================== eldoc doxygen =======================
 ;;; doxygen
-(autoload 'doxygen-insert-function-comment "doxygen" "insert comment for the function at point" t)
-(autoload 'doxygen-insert-file-comment "doxygen" "insert comment for file" t)
+(autoload 'doxygen-insert-function-comment "doxygen" "" t)
+(autoload 'doxygen-insert-file-comment "doxygen" "" t)
+(autoload 'doxygen-insert-comment "doxygen" "" t)
 
 ;;; ===================== cc mode config ========================
 ;;; include c/c++, java etc.
