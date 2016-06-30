@@ -113,6 +113,7 @@
 (add-hook 'after-init-hook #'which-key-mode)
 
 ;;; ediff
+(setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (provide 'init-editing-utils)

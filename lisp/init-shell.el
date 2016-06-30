@@ -42,9 +42,14 @@
               (kbd "C-p") 'eshell-previous-matching-input-from-input
               (kbd "C-n") 'eshell-next-matching-input-from-input
               (kbd "<C-backspace>") 'hong-backward-kill-word
-              (kbd "M-DEL") 'hong-backward-kill-word)
+              (kbd "M-DEL") 'hong-backward-kill-word
+              (kbd "<escape>") 'evil-normal-state)
+            (evil-define-key 'normal eshell-mode-map
+              (kbd "i") 'evil-emacs-state
+              (kbd "a") 'evil-emacs-state
+              (kbd "s") 'evil-emacs-state)
             (setq-local company-backends nil)
-            (add-hook 'evil-insert-state-entry-hook
+            (add-hook 'evil-emacs-state-entry-hook
                       (lambda () (interactive) (goto-char (point-max))) nil t)
             ))
 
@@ -112,7 +117,8 @@
               (kbd "<escape>") 'evil-normal-state)
             (evil-define-key 'normal comint-mode-map
               (kbd "i") 'evil-emacs-state
-              (kbd "a") 'evil-emacs-state)
+              (kbd "a") 'evil-emacs-state
+              (kbd "s") 'evil-emacs-state)
             (add-hook 'evil-emacs-state-entry-hook
                       (lambda () (interactive) (goto-char (point-max))) nil t)
             (setq-local comint-prompt-read-only t)
