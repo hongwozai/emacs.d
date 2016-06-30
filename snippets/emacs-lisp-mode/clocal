@@ -2,9 +2,13 @@
 # name: clocal
 # key: clocal
 # --
-((c-mode . ((c-eldoc-includes . "-I. -I.. -I${1:utils}")
-            (flycheck-clang-include-path . ("$1"))
+((nil (ffip-project-root . "`default-directory`")
+      (ffip-patterns     . ("*.[ch]" "*.cpp" "*.hpp" "*.S" "*.md" "*.org"))
+      (ffip-prune-patterns . ("*/.*/*" "*/.git/*" "*/.svn/*"))
+      (ffip-find-options . "-not -size +64k -not -iwholename '*/dist/*'"))
+
+ (c-mode . ((flycheck-clang-include-path . ("$1"))
             (company-c-headers-path-system . ("/usr/include/"
                                               "/usr/local/include/"
                                               "$1"))))
-)$0
+)

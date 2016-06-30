@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: local
+# key: local
+# --
+((nil (ffip-project-root . "`default-directory`")
+      (ffip-patterns     . ("${1:*.[ch]}"))
+      (ffip-prune-patterns . ("*/.*/*" "*/.git/*" "*/.svn/*"))
+      (ffip-find-options . "-not -size +64k -not -iwholename '*/dist/*'")))

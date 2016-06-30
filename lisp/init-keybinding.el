@@ -2,8 +2,9 @@
 (global-evil-leader-mode)
 (evil-leader/set-leader ",")
 (evil-leader/set-key
-    "o"   (lambda () (interactive)
-             (let ((split-width-threshold nil)) (org-agenda)))
+  "l"  'hydra-launch/body
+  "o"   (lambda () (interactive)
+           (let ((split-width-threshold nil)) (org-agenda)))
 
   ;; avy
   "al"  'avy-goto-line
@@ -19,8 +20,11 @@
   ;; file
   "fr"  'ivy-recentf
   "fl"  'counsel-locate
-  "ff"  'ffip
   "fo"  'ido-find-file-other-window
+  ;; ffip
+  "ff"  'ffip
+  "fc"  'ffip-create-project-file
+  "fs"  'find-file-in-project-by-selected
 
   ;; buffer and bookmark
   "bl"  'ibuffer
@@ -34,7 +38,7 @@
 
   "sd"  'sudo-edit
   ;; search
-  "sa"  'counsel-ag
+  "sa"  'counsel-ag-project
   "sA"  'ag
   "so"  'occur
   "sg"  'rgrep
@@ -60,7 +64,6 @@
   "hS"  'counsel-info-lookup-symbol
 
   "im"  'imenu
-  "la"  'hydra-launch/body
   "kr"  'counsel-yank-pop
   "mf"  'mark-defun
   "xb"  'ivy-switch-buffer
