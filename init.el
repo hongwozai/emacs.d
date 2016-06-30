@@ -16,7 +16,7 @@
 (require 'init-fuzzy)
 (require 'init-frame)
 (require 'init-window)
-(require 'init-buffer)
+(require 'init-ibuffer)
 (require 'init-search)
 (require 'init-chinese)
 (require 'init-flycheck)

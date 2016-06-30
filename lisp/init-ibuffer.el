@@ -58,4 +58,4 @@
                              (mode . Info-mode)))
          )))
 
-(provide 'init-buffer)
+(provide 'init-ibuffer)
