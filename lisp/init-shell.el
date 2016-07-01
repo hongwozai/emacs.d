@@ -156,7 +156,7 @@
             (term-set-escape-char ?\C-c)
             (setq term-unbind-key-list '("C-x"))
             (setq term-bind-key-alist
-                  '(("M-," . hong/switch-non-terminal-buffer)
+                  '(("M-r" . hong/switch-non-terminal-buffer)
                     ("M-:" . eval-expression)
                     ("M-w" . kill-ring-save)
                     ("C-y" . term-paste)
@@ -206,10 +206,13 @@
            "^\\*term\\|^\\*eshell\\|^\\*shell\\|"
            "^ ?\\*Minibuf\\|^ ?\\*code.*work\\*$\\|^\\*Message\\|"
            "^ ?\\*Echo\\|^\\*\\([0-9]\\{1,3\\}.\\)\\{3\\}[0-9]\\{1,3\\}\\*$"))
+         (ignore-modes '(term-mode eshell-mode shell-mode))
          (last-noterm-buffer
           (catch 'ret
             (mapcar (lambda (str)
-                      (if (not (string-match ignore-buffers str))
+                      (if (not (or (string-match ignore-buffers str)
+                                   (memq (with-current-buffer str major-mode)
+                                         ignore-modes)))
                           (throw 'ret str)))
                     buffer-list))))
     (and last-noterm-buffer (switch-to-buffer last-noterm-buffer))))
