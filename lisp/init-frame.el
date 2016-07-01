@@ -33,23 +33,40 @@
 ;;; ====================== mode line format ============================
 (defvar hong/mode-line
   (list
+   ;; after init-window.el
+   '(:eval (propertize (concat
+                        " "
+                        (hong--special-number (eyebrowse--get 'current-slot))
+                        "|"
+                        (window-numbering-get-number-string)
+                        " ")
+            'face '(:foreground "#2b2b2b" :background "#f0dfaf")))
    mode-line-front-space
    " "
    mode-line-mule-info
    '(:eval (format "%c" (if buffer-read-only ?\- ?\+)))
-   "%l:%c"
-   "  "
+   ;; line number
+   '(:eval (propertize "%l" 'face '(:foreground "#f0dfaf")))
+   ":%c  "
+   ;; buffer name
    mode-line-buffer-identification
    " "
-   '("[%m" minor-mode-alist "]")
+   ;; modes
+   '(:eval (propertize (concat "[%m")
+            'face '(:foreground "#dfaf8f")))
+   '("" minor-mode-alist)
+   '(:eval (propertize (concat "]")
+            'face '(:foreground "#dfaf8f")))
+   ;; vc
    '(:eval (propertize (format-mode-line '(vc-mode vc-mode))
-            'face 'italic))
+            'face '(:foreground "#DCA3A3" :slant italic)))
    " "
+   ;; which-func
    '(:eval (if (memq major-mode which-func-display-mode)
                which-func-format))
    "  "
    ;;global-mode-string, org-timer-set-timer in org-mode need this
-   '(:propertize "%M" 'face nil)
+   "%M"
    '(:eval (propertize " "
             'display
             `((space :align-to (- (+ right-fringe right-margin) 6)))))
@@ -61,15 +78,16 @@
 
 (defvar mode-line-normal "#2B2B2B")
 (defun hong//change-color-with-evil-state ()
-  (let* ((default-color mode-line-normal)
+  (let* ((default-color (cons mode-line-normal "#8fb28f"))
          (color (cond ((minibufferp) default-color)
-                      ((evil-insert-state-p) "#e80000")
-                      ((evil-emacs-state-p)  "#444488")
-                      ((evil-visual-state-p) "#AF005F")
+                      ((evil-insert-state-p) '("#e80000" . "#ffffff"))
+                      ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+                      ((evil-visual-state-p) '("#AF005F" . "#ffffff"))
                       ((and (buffer-file-name)
-                            (buffer-modified-p))   "#006fa0")
+                            (buffer-modified-p))   '("#006fa0" . "#ffffff"))
                       (t default-color))))
-    (set-face-background 'mode-line color)))
+    (set-face-background 'mode-line (car color))
+    (set-face-foreground 'mode-line (cdr color))))
 
 (add-hook 'post-command-hook 'hong//change-color-with-evil-state)
 

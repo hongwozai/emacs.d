@@ -61,7 +61,7 @@
   "hk"  'describe-key
   "hi"  'info
   "hp"  'counsel-list-processes
-  "hS"  'counsel-info-lookup-symbol
+  "hS"  'info-lookup-symbol
 
   "im"  'imenu
   "kr"  'counsel-yank-pop

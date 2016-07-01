@@ -87,6 +87,22 @@ in case that file does not provide any feature."
     (declare (indent 1) (debug t))
     `(eval-after-load ,file (lambda () ,@body))))
 
+;;; ============================ convert number ===========================
+(defun hong--special-number (num)
+  "Return the number of the current workspace."
+  (let* ((str (if num (int-to-string num))))
+    (cond
+      ((equal str "1") "➊")
+      ((equal str "2") "➋")
+      ((equal str "3") "➌")
+      ((equal str "4") "➍")
+      ((equal str "5") "➎")
+      ((equal str "6") "❻")
+      ((equal str "7") "➐")
+      ((equal str "8") "➑")
+      ((equal str "9") "➒")
+      ((equal str "0") "➓"))))
+
 ;;; ========================= build find ===================================
 (defun build-find-command (files dir &optional ignore-dirs ignore-files)
   (grep-expand-template

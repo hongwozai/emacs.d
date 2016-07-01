@@ -9,13 +9,13 @@
 ;; paredit
 (autoload 'enable-paredit-mode "paredit" nil t)
 
+(evil-define-key 'normal evil-paredit-mode-map
+  (kbd "D") 'paredit-kill)
+
 (dolist (hook lisp-common-mode-hook)
   (add-hook hook #'evil-paredit-mode)
   (add-hook hook #'enable-paredit-mode)
-  (add-hook hook
-            (lambda ()
-              (setq-local show-paren-style 'expression)
-              (evil-local-set-key 'normal (kbd "D") 'paredit-kill))))
+  (add-hook hook (lambda () (setq-local show-paren-style 'expression))))
 
 ;;; fix paredit bug.
 (defadvice paredit-forward-delete (before hong-pfd activate)
