@@ -10,8 +10,8 @@
 (defun get-project-root ()
   (file-name-as-directory (or (ffip-project-root) default-directory)))
 
-(defun counsel-ag-project ()
-  (interactive)
-  (counsel-ag nil (get-project-root)))
+(defun counsel-ag-project (arg)
+  (interactive "P")
+  (counsel-ag nil (unless arg (get-project-root))))
 
 (provide 'init-project)

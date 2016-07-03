@@ -63,9 +63,8 @@
   "hp"  'counsel-list-processes
   "hS"  'info-lookup-symbol
 
-  "im"  'imenu
+  "im"  'counsel-imenu
   "kr"  'counsel-yank-pop
-  "mf"  'mark-defun
   "xb"  'ivy-switch-buffer
   "xc"  'save-buffers-kill-terminal
   "xe"  'eval-last-sexp
