@@ -71,7 +71,8 @@
   "xf"  'ido-find-file
   "xk"  '(lambda () (interactive) (kill-buffer (current-buffer)))
   "xs"  'save-buffer
-  "xz"  'suspend-frame)
+  "xz"  'suspend-frame
+  "."   'counsel-M-x)
 
 ;;; ============================ window key ================================
 (define-prefix-command 'window-prefix-map)

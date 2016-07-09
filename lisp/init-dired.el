@@ -26,6 +26,7 @@
               "L" 'hong--dired-bottom-line
               "+" 'hong--dired-create-directory)
 
+            (setq-local truncate-lines t)
             ;; Attention: also ignore .bin .so etc.
             (setq-local dired-omit-files
                         "^\\.?#\\|^\\.$\\|^\\.[^.].+$")
