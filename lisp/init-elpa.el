@@ -51,6 +51,7 @@ re-downloaded in order to locate PACKAGE."
         wgrep
         yasnippet
         which-key
+        tramp-term
         expand-region
         exec-path-from-shell
         auto-highlight-symbol

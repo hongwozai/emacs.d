@@ -28,4 +28,13 @@ buffer is not visiting a file."
 ;;; experiment
 (setq enable-remote-dir-locals t)
 
+;;; tramp-term (remote manager)
+(defadvice tramp-term--create-term (after hong-ttct activate)
+  (with-current-buffer ad-return-value
+    (unless (featurep 'multi-term)
+      (require 'multi-term))
+    (setq multi-term-buffer-list
+          (nconc multi-term-buffer-list (list ad-return-value)))
+    (multi-term-internal)))
+
 (provide 'init-tramp)
