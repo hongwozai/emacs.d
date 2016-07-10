@@ -194,6 +194,7 @@
 (defalias 'sh   'shell)
 (defalias 'esh  'eshell)
 (defalias 'mt   'multi-term)
+(defalias 'tt   'tramp-term)
 (defalias 'mtdo 'multi-term-dedicated-open)
 
 (defun hong/switch-non-terminal-buffer ()
