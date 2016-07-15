@@ -2,7 +2,6 @@
 (global-evil-leader-mode)
 (evil-leader/set-leader ",")
 (evil-leader/set-key
-  "l"  'hydra-launch/body
   "o"   (lambda () (interactive)
            (let ((split-width-threshold nil)) (org-agenda)))
 
@@ -108,29 +107,5 @@
 (evil-define-key 'motion Info-mode-map (kbd "R") 'Info-history-forward)
 (evil-define-key 'motion Info-mode-map (kbd "w") 'evil-forward-word-begin)
 (evil-define-key 'motion Info-mode-map (kbd "b") 'evil-backward-word-begin)
-
-;;; ========================== hydra =======================================
-(defhydra hydra-launch (:color blue :hint nil)
-  "
-      ^Launch^
-^ =======================================
-    _b_: iciba
-    _f_: baidu
-    _l_: linux app
-^
-"
-  ("b" (lambda () (interactive) (browse-url-by-word "www.iciba.com/"))
-       :color blue)
-  ("f" (lambda () (interactive) (browse-url-by-word "www.baidu.com/s?wd="))
-       :color blue)
-  ("l" counsel-linux-app :color blue)
-  ("q" nil :color blue))
-
-(defun browse-url-by-word (url)
-  (let ((str (if (use-region-p)
-                 (buffer-substring-no-properties (region-beginning) (region-end))
-                 (thing-at-point 'symbol t))))
-    (browse-url (url-encode-url
-                 (concat url (read-string "Word: " str))))))
 
 (provide 'init-keybinding)
