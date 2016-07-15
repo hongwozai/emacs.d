@@ -19,8 +19,8 @@
             collecting (expand-file-name dir lisp-dir))
          load-path)))
 
-(add-to-list 'custom-theme-load-path
-             (file-truename (concat user-emacs-directory "site-lisp/hwzenburn")))
+(setq custom-theme-directory
+      (concat user-emacs-directory "site-lisp/themes"))
 
 ;;; =============================  autoexit ================================
 (defun hong/exit ()
@@ -102,6 +102,11 @@ in case that file does not provide any feature."
       ((equal str "8") "➑")
       ((equal str "9") "➒")
       ((equal str "0") "➓"))))
+
+;;; ========================= assistant ====================================
+(defmacro with-directory (directory &rest body)
+  `(let ((default-directory ,directory))
+     (progn ,@body)))
 
 ;;; ========================= build find ===================================
 (defun build-find-command (files dir &optional ignore-dirs ignore-files)
