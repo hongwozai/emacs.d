@@ -46,6 +46,7 @@ re-downloaded in order to locate PACKAGE."
         eyebrowse
         ;; edit
         avy
+        ace-link
         vlf
         smex
         wgrep

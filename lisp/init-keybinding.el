@@ -103,9 +103,11 @@
 ;;; ========================= help key =====================================
 (evil-define-key 'motion help-mode-map (kbd "L") 'help-go-back)
 (evil-define-key 'motion help-mode-map (kbd "R") 'help-go-forward)
+(evil-define-key 'motion help-mode-map (kbd "o") 'ace-link)
 (evil-define-key 'motion Info-mode-map (kbd "L") 'Info-history-back)
 (evil-define-key 'motion Info-mode-map (kbd "R") 'Info-history-forward)
 (evil-define-key 'motion Info-mode-map (kbd "w") 'evil-forward-word-begin)
 (evil-define-key 'motion Info-mode-map (kbd "b") 'evil-backward-word-begin)
+(evil-define-key 'motion Info-mode-map (kbd "o") 'ace-link)
 
 (provide 'init-keybinding)
