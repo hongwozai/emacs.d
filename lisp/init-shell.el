@@ -25,6 +25,9 @@
      (kbd "C-k") 'kill-line
      (kbd "C-u") 'clear-before-line))
 
+(evil-leader/set-key-for-mode 'sh-mode
+    "cr" 'sh-execute-region)
+
 ;;; ========================== eshell =================================
 (add-hook 'eshell-load-hook
           (lambda ()
