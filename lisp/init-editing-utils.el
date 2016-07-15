@@ -45,6 +45,7 @@
 
 ;;; recentf
 (setq recentf-auto-cleanup 'never)
+(setq recentf-filename-handlers 'abbreviate-file-name)
 (require 'recentf)
 (setq recentf-max-saved-items 100)
 (setq recentf-exclude '(".*\\.png$" ".*\\.gz$" ".*\\.jpg$"

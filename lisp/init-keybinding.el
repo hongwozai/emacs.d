@@ -25,6 +25,7 @@
   "fl"  'counsel-locate
   "fo"  'ido-find-file-other-window
   ;; ffip
+  "fd"  'ivy-recentf-directory
   "ff"  'ffip
   "fc"  'ffip-create-project-file
   "fs"  'find-file-in-project-by-selected
