@@ -25,6 +25,11 @@
             (local-set-key (kbd "<f6>") 'pytest-module)
             ))
 
+(evil-leader/set-key-for-mode 'python-mode
+    "cc" 'python-shell-send-buffer
+    "cf" 'python-shell-send-defun
+    "cr" 'python-shell-send-region)
+
 ;; pytest
 (with-eval-after-load 'pytest
   (hong/select-buffer-window pytest-run "*pytest*"

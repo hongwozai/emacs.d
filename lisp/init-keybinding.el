@@ -13,6 +13,9 @@
   ;; chinese
   "cd"  'yasdcv-translate-at-point
   "cs"  'hong/translate-brief-at-point
+  "cc"  'eval-buffer
+  "cf"  'eval-defun
+  "cr"  'eval-region
 
   ;; debug
   "dg"  'hydra-gud/body
@@ -52,6 +55,14 @@
 
   ;; window
   "wu"  'winner-undo
+  "wc"  'evil-window-delete
+  "wv"  'evil-window-vsplit
+  "ws"  'evil-window-split
+  "wo"  'delete-other-windows
+  "wh"  'evil-window-left
+  "wl"  'evil-window-right
+  "wk"  'evil-window-up
+  "wj"  'evil-window-down
 
   ;; help
   "ha"  'apropos
