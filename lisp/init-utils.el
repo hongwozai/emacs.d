@@ -108,6 +108,10 @@ in case that file does not provide any feature."
   `(let ((default-directory ,directory))
      (progn ,@body)))
 
+;;; search and replace
+(defalias 's2n 'string-to-number)
+(defalias 'lineno 'line-number-at-pos)
+
 ;;; ========================= build find ===================================
 (defun build-find-command (files dir &optional ignore-dirs ignore-files)
   (grep-expand-template
