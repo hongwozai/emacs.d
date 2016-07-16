@@ -24,7 +24,7 @@
 (require 'chinese-pyim)
 (with-eval-after-load 'chinese-pyim
   (setq default-input-method "chinese-pyim")
-  (setq pyim-use-tooltip 'popup)
+  (setq pyim-use-tooltip 'pos-tip)
   (setq pyim-page-length 9)
   (setq pyim-enable-words-predict nil)
   (global-set-key (kbd "C-SPC") 'toggle-input-method)
