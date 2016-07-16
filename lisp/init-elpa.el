@@ -2,10 +2,14 @@
 (require 'package)
 
 ;;; Also use Melpa for most packages
-;; (setq package-archives
-;;      '(("melpa-stable" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/melpa-stable")))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(setq package-archives
+      '(("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+        ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+        ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")))
+
+;;; offical Melpa (and Gnu)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+;; (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
 
 (defun require-package (package &optional min-version no-refresh)
