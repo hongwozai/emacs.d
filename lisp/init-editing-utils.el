@@ -49,7 +49,7 @@
 (require 'recentf)
 (setq recentf-max-saved-items 100)
 (setq recentf-exclude '(".*\\.png$" ".*\\.gz$" ".*\\.jpg$"
-                        "GTAGS" "TAGS" "tags"))
+                        "GTAGS" "TAGS" "tags" ".*pyim.*"))
 (add-hook 'after-init-hook (lambda () (recentf-mode 1)))
 
 ;; hs minor mode
