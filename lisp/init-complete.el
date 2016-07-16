@@ -1,13 +1,3 @@
-;; hippie expand
-(setq evil-complete-next-func #'hippie-expand)
-(setq hippie-expand-try-functions-list
-      '(try-complete-file-name-partially
-        try-complete-file-name
-        try-expand-dabbrev
-        try-expand-dabbrev-visible
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill))
-
 ;; company
 (add-hook 'after-init-hook #'global-company-mode)
 

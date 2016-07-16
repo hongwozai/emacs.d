@@ -1,3 +1,4 @@
+(require 'evil-leader)
 ;;; ===================== evil leader custom key =================
 (global-evil-leader-mode)
 (evil-leader/set-leader ",")
@@ -12,6 +13,7 @@
   ;; chinese
   "cd"  'yasdcv-translate-at-point
   "cs"  'hong/translate-brief-at-point
+  "c;"  'comment-dwim
   "cc"  'eval-buffer
   "cf"  'eval-defun
   "cr"  'eval-region

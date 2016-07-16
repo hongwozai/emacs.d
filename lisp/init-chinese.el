@@ -1,6 +1,3 @@
-;;; ======================== environment ================================
-(set-language-environment "utf-8")
-
 ;;; ======================== dictionary =================================
 (when (executable-find "/usr/bin/sdcv")
   (require-package 'chinese-yasdcv)

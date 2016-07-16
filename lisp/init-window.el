@@ -1,11 +1,12 @@
-;;  ========================== winner ==================================
+;;; ========================== winner ==================================
 (require 'winner)
 (winner-mode)
 
-;; ========================== window number =============================
+;;; ========================== window number =============================
+(require 'window-numbering)
 (window-numbering-mode)
 
-;;; change layout
+;;; ========================= change layout =============================
 (defun hong/window-layout-change ()
   (interactive)
   (let* ((split-width-threshold nil)
@@ -39,6 +40,7 @@
                 (lambda () (interactive) (hong-window-resize 'below)))
 
 ;;; ============================= workspace ==============================
+(require 'eyebrowse)
 (setq eyebrowse-wrap-around   t
       eyebrowse-new-workspace t)
 

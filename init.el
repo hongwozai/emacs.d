@@ -4,31 +4,38 @@
 
 ;;; utils
 (require 'init-utils)
-(require 'init-themes)
-(require 'init-elpa)
 
-;;; basic
+;;; core (no network)
+(require 'init-themes)
 (require 'init-evil)
 (require 'init-keybinding)
 (require 'init-editing-utils)
+(require 'init-window)
 (require 'init-dired)
+(require 'init-ibuffer)
+(require 'init-frame)
 (require 'init-tramp)
 (require 'init-fuzzy)
-(require 'init-window)
-(require 'init-frame)
-(require 'init-ibuffer)
 (require 'init-search)
+(require 'init-shell)
+(require 'init-term)
+(require 'init-project)
+
+;; ;;; basic (network)
+(require 'init-elpa)
+(require 'init-evil-plugin)
+(require 'init-editing-misc)
 (require 'init-chinese)
 (require 'init-flycheck)
 (require 'init-complete)
 (require 'init-template)
+(require 'init-hydra)
 
+;;; common
 (require 'init-git)
-(require 'init-tags)
-(require 'init-shell)
-(require 'init-project)
+(maybe-require "gtags"  'init-gtags)
 
-;; application
+;;; application
 (require 'init-org-mode)
 
 ;;; program language

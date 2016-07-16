@@ -26,17 +26,6 @@
                    (if str (cdr str) "*"))))
   )
 
-;;; =================== ag ============================
-(when (executable-find "ag")
-  (require-package 'ag)
-  (require-package 'wgrep-ag)
-  (setq-default ag-highlight-search t)
-  (setq-default ag-reuse-buffers t)
-  (setq-default ag-reuse-window nil)
-
-  (hong/select-buffer-window ag "*ag search*")
-  )
-
 ;;; =================== occur =========================
 ;;; occur follow
 (defun occur-np (np)

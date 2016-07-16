@@ -21,6 +21,8 @@
 (defadvice paredit-forward-delete (before hong-pfd activate)
   (kill-new (buffer-substring-no-properties (point) (+ 1 (point)))))
 
+;;; rainbow-delimiters
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 ;;; ========================== misc ===============================
 ;; eldoc-mode
 (dolist (hook lisp-common-mode-hook)
@@ -42,12 +44,6 @@
 (font-lock-add-keywords 'emacs-lisp-mode
                         '("require-package" "maybe-require"))
 
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'eval-buffer)
-            (define-key emacs-lisp-mode-map (kbd "C-c C-f") 'eval-defun)
-            (define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)))
-
 (dolist (map (list emacs-lisp-mode-map
                    lisp-interaction-mode-map))
   (evil-define-key 'insert map
@@ -57,6 +53,9 @@
     (kbd "M-.") 'elisp-slime-nav-find-elisp-thing-at-point
     (kbd "M-,") 'pop-tag-mark)
   )
+
+(evil-leader/set-key-for-mode 'emacs-lisp-mode
+    (kbd "c;") 'paredit-comment-dwim)
 
 ;;; elisp style
 (setq lisp-indent-function 'common-lisp-indent-function)

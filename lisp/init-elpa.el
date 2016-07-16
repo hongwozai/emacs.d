@@ -2,6 +2,8 @@
 (require 'package)
 
 ;;; Also use Melpa for most packages
+;; (setq package-archives
+;;      '(("melpa-stable" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/melpa-stable")))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
@@ -23,27 +25,15 @@ re-downloaded in order to locate PACKAGE."
 ;;; all package
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (mapc #'require-package
-      '(evil
-        evil-leader
-        hydra
-        window-numbering
-        dired+
-        ivy
-        swiper
-        counsel
-        xterm-color
-        multi-term
+      '(hydra
         flycheck
         flycheck-pos-tip
         company
-        find-file-in-project
         ;; evil
         evil-anzu
         evil-matchit
         evil-surround
         evil-iedit-state
-        ;; workspace
-        eyebrowse
         ;; edit
         avy
         ace-link
@@ -52,9 +42,7 @@ re-downloaded in order to locate PACKAGE."
         wgrep
         yasnippet
         which-key
-        tramp-term
         expand-region
-        exec-path-from-shell
         auto-highlight-symbol
         bing-dict
         chinese-pyim
@@ -64,7 +52,6 @@ re-downloaded in order to locate PACKAGE."
         git-gutter
         git-timemachine
         ;; cc-mode
-        etags-select
         company-c-headers
         ;; elisp
         elisp-slime-nav

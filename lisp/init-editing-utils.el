@@ -18,8 +18,11 @@
               scroll-step                 1
               visible-bell                t
               mode-require-final-newline  nil
-              split-width-threshold       81
+              split-width-threshold       90
               ring-bell-function          'ignore)
+
+;;; environment
+(set-language-environment "utf-8")
 
 ;;; trailing whitespace
 (add-hook 'prog-mode-hook (lambda () (setq-local show-trailing-whitespace t)))
@@ -39,9 +42,6 @@
 
 ;;; highlight current line
 (add-hook 'prog-mode-hook #'hl-line-mode)
-
-;;; auto highlight symbol
-(global-auto-highlight-symbol-mode)
 
 ;;; recentf
 (setq recentf-auto-cleanup 'never)
@@ -63,19 +63,9 @@
 ;; uniquify buffer-name
 (require 'uniquify)
 
-;; expand-region
-(global-set-key (kbd "C-=") 'er/expand-region)
-
-;;; avy
-(setq avy-background t)
-(setq avy-all-windows nil)
-
 ;; show pair
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
-
-;;; rainbow-delimiters
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;; built-in paren dir
 (when (fboundp 'electric-pair-mode)
@@ -113,9 +103,6 @@
 (define-key minibuffer-local-map (kbd "C-p") 'previous-history-element)
 (define-key minibuffer-local-map (kbd "C-n") 'next-history-element)
 
-;;; key hint
-(add-hook 'after-init-hook #'which-key-mode)
-
 ;;; ediff
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -124,5 +111,15 @@
 (setq which-func-display-mode
       '(c-mode c++-mode python-mode lisp-mode emacs-lisp-mode))
 (which-function-mode)
+
+;; hippie expand
+(setq evil-complete-next-func #'hippie-expand)
+(setq hippie-expand-try-functions-list
+      '(try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-dabbrev
+        try-expand-dabbrev-visible
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill))
 
 (provide 'init-editing-utils)
