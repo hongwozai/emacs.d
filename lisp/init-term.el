@@ -17,7 +17,8 @@
               '((:eval (hong--term-mode-buffer-list)))))
 
 ;;; ======================== multi-term ==================================
-(require 'multi-term)
+(autoload 'multi-term-prev "multi-term" nil t)
+(autoload 'multi-term      "multi-term" nil t)
 (setq multi-term-program "/bin/bash")
 (add-hook 'term-mode-hook
           (lambda ()
@@ -47,6 +48,7 @@
                                      (term-send-raw-string "")))))
             ))
 ;;; ======================== tramp-term ==================================
+(autoload 'tramp-term "tramp-term" nil t)
 (defadvice tramp-term--create-term (after hong-ttct activate)
   (with-current-buffer ad-return-value
     (unless (featurep 'multi-term)

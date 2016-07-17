@@ -1,7 +1,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; etags
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'etags-select)
+(autoload 'etags-select-find-tag-at-point "etags-select" nil t)
+
 ;;; etags-select
 (define-key evil-normal-state-map
     (kbd "C-]") 'etags-select-find-tag-at-point)
@@ -43,7 +44,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; find file in project
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'find-file-in-project)
+(autoload 'ffip "find-file-in-project" nil t)
+(autoload 'ffip-project-root "find-file-in-project" nil t)
+(autoload 'find-file-in-project-by-selected "find-file-in-project" nil t)
+
 ;;; ignore hidden file
 (with-eval-after-load 'find-file-in-project
   (setq ffip-project-file '(".svn" ".git" ".hg" ".dir-locals.el"))
