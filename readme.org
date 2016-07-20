@@ -1,5 +1,8 @@
 #+TITLE: EMACS
 
+* 已知问题
+1. dired打开dired-isearch-filenames选项时,使用evil-isearch-forward搜索，
+   如果出现文中没有的字符会直接卡死(dired-isearch-filenames命令是没有问题的)
 * 兼容性
 24.3 24.4 24.5 测试无问题
 
