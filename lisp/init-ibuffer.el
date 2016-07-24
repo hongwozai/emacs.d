@@ -58,4 +58,7 @@
                              (mode . Info-mode)))
          )))
 
+;;; switch
+(defalias 'bs 'ibuffer)
+
 (provide 'init-ibuffer)
