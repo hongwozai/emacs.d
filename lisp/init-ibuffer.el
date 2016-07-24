@@ -60,5 +60,6 @@
 
 ;;; switch
 (defalias 'bs 'ibuffer)
+(defalias 'ff 'find-file)
 
 (provide 'init-ibuffer)
