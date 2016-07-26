@@ -7,6 +7,11 @@
             (with-editor-export-editor)
             (comint-send-string (get-buffer-process (buffer-name)) "\n")))
 
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (with-editor-export-editor)
+            (comint-send-string (get-buffer-process (buffer-name)) "\n")))
+
 ;;; magit
 (unless (version< emacs-version "24.4")
   (global-set-key (kbd "<f9>") 'magit-status))
