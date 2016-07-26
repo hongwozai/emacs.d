@@ -10,7 +10,8 @@
 (add-hook 'eshell-mode-hook
           (lambda ()
             (with-editor-export-editor)
-            (comint-send-string (get-buffer-process (buffer-name)) "\n")))
+            (comint-send-string (get-buffer-process (buffer-name)) "\n"))
+          t)
 
 ;;; magit
 (unless (version< emacs-version "24.4")
