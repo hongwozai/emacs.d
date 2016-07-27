@@ -595,8 +595,8 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(ivy-subdir ((t (:background ,zenburn-bg))))
    `(ivy-current-match ((t (:background ,zenburn-select :foreground ,zenburn-bg-1
                                         :weight bold))))
-   `(ivy-minibuffer-match-face-1 ((t (:background ,zenburn-bg))))
-   `(ivy-minibuffer-match-face-2 ((t (::background ,zenburn-bg-05))))
+   ;; `(ivy-minibuffer-match-face-1 ((t (:background ,zenburn-bg))))
+   ;; `(ivy-minibuffer-match-face-2 ((t (:background ,zenburn-bg-05))))
    ;; 使用原本的颜色
    ;; `(ivy-minibuffer-match-face-3 ((t (:background ,zenburn-green))))
    ;; `(ivy-minibuffer-match-face-4 ((t (:background ,zenburn-green+1))))
