@@ -9,8 +9,7 @@
 
 (add-hook 'eshell-mode-hook
           (lambda ()
-            (with-editor-export-editor)
-            (comint-send-string (get-buffer-process (buffer-name)) "\n"))
+            (with-editor-export-editor))
           t)
 
 ;;; magit
