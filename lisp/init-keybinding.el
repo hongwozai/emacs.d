@@ -111,5 +111,6 @@
 (evil-define-key 'motion Info-mode-map (kbd "w") 'evil-forward-word-begin)
 (evil-define-key 'motion Info-mode-map (kbd "b") 'evil-backward-word-begin)
 (evil-define-key 'motion Info-mode-map (kbd "o") 'ace-link)
+(evil-define-key 'motion woman-mode-map (kbd "o") 'ace-link)
 
 (provide 'init-keybinding)
