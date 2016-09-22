@@ -6,7 +6,8 @@
 (setq avy-all-windows nil)
 
 ;;; auto highlight symbol
-(global-auto-highlight-symbol-mode)
+(setq highlight-symbol-idle-delay 1)
+(add-hook 'prog-mode 'highlight-symbol-mode)
 
 ;;; key hint
 (add-hook 'after-init-hook #'which-key-mode)

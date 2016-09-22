@@ -47,7 +47,7 @@ re-downloaded in order to locate PACKAGE."
         yasnippet
         which-key
         expand-region
-        auto-highlight-symbol
+        highlight-symbol
         bing-dict
         chinese-pyim
         ;; version control

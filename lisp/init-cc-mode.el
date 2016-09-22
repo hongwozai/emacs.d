@@ -31,13 +31,6 @@
   ;; keywords
   (font-lock-add-keywords nil '("typeof" "__attribute__" "__asm__") t)
 
-  ;; highlight symbol
-  (setq-local ahs-exclude
-              (concat "\\_<return\\|int\\|void\\|unsigned\\|long\\|char\\|"
-                      "const\\|if\\|when\\|for\\|goto\\|include\\|static\\|"
-                      "define\\|ifdef\\|ifndef\\|endif\\|inline\\|class\\|"
-                      "private\\|public\\_>"))
-
   ;; company
   (setq-local company-backends
               '(company-c-headers company-clang company-etags company-gtags))

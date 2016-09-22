@@ -7,4 +7,4 @@
       js2-indent-on-enter-key t
       js2-auto-indent-p t)
 
-(provide 'init-javascript)
+(provide 'init-js)

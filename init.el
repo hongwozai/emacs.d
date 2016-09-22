@@ -50,7 +50,7 @@
 
 ;; web
 (require 'init-web)
-(maybe-require "node"   'init-js)
+(require 'init-js)
 
 (maybe-require "python" 'init-python)
 (maybe-require "ruby"   'init-ruby)
