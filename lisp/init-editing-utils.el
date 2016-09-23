@@ -41,7 +41,7 @@
 (global-font-lock-mode t)
 
 ;;; highlight current line
-(add-hook 'prog-mode-hook #'hl-line-mode)
+;; (add-hook 'prog-mode-hook #'hl-line-mode)
 
 ;;; recentf
 (setq recentf-auto-cleanup 'never)
