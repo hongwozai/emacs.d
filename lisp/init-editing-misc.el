@@ -7,7 +7,7 @@
 
 ;;; auto highlight symbol
 (setq highlight-symbol-idle-delay 1)
-(add-hook 'prog-mode 'highlight-symbol-mode)
+(add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
 ;;; key hint
 (add-hook 'after-init-hook #'which-key-mode)
