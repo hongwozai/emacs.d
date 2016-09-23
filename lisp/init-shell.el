@@ -146,7 +146,9 @@
 
 (defun clear-before-line ()
   (interactive)
-  (let ((start (previous-char-property-change (point)))
+  (let ((start (save-excursion
+                 (beginning-of-line)
+                 (point)))
         (end (point)))
     (delete-region start end)))
 

@@ -210,6 +210,8 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(popup-scroll-bar-foreground-face ((t (:background ,zenburn-blue-5))))
    `(popup-scroll-bar-background-face ((t (:background ,zenburn-bg-1))))
    `(popup-isearch-match ((t (:background ,zenburn-bg :foreground ,zenburn-fg))))
+;;;;; highlight-symbol
+   `(highlight-symbol-face ((t (:foreground "Black" :background "LightYellow4"))))
 ;;;;; auto-highlight-symbol
    `(ahs-face ((t (:foreground "Black" :background "LightYellow4"))))
    `(ahs-definition-face ((t (:foreground "Black" :background "CadetBlue"
