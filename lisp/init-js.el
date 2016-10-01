@@ -7,4 +7,11 @@
       js2-indent-on-enter-key t
       js2-auto-indent-p t)
 
+(add-hook 'js2-mode-hook
+          (lambda ()
+            (evil-define-key 'normal js2-mode-map
+              (kbd "za") 'js2-mode-toggle-element
+              (kbd "zc") 'js2-mode-hide-element
+              (kbd "zo") 'js2-mode-show-element)))
+
 (provide 'init-js)

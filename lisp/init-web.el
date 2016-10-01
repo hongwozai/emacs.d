@@ -30,4 +30,10 @@
             (set (make-local-variable 'company-backends)
                  '(company-web-html company-yasnippet company-files))))
 
+;;; keybindings
+(add-hook 'web-mode-hook
+          (lambda ()
+            (evil-define-key 'normal web-mode-map
+              (kbd "za") 'web-mode-fold-or-unfold)))
+
 (provide 'init-web)
