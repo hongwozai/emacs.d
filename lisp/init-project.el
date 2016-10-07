@@ -59,7 +59,12 @@
 
 (defun counsel-ag-project (arg)
   (interactive "P")
-  (counsel-ag nil (unless arg (get-project-root))))
+  (counsel-ag nil
+              (if arg
+                  (read-directory-name
+                   (concat (car (split-string counsel-ag-base-command))
+                           " in directory: "))
+                  (get-project-root))))
 
 (defun ffip-current-directory ()
   (interactive)
