@@ -18,6 +18,7 @@
 
 ;;; ======================== multi-term ==================================
 (autoload 'multi-term-prev "multi-term" nil t)
+(autoload 'multi-term-next "multi-term" nil t)
 (autoload 'multi-term      "multi-term" nil t)
 (setq multi-term-program "/bin/bash")
 (add-hook 'term-mode-hook
@@ -62,6 +63,7 @@
 (defalias 'tt   'tramp-term)
 (defalias 'mtdo 'multi-term-dedicated-open)
 (global-set-key (kbd "M-[") 'multi-term-prev)
+(global-set-key (kbd "M-]") 'multi-term-next)
 
 (defun hong/switch-non-terminal-buffer ()
   "switch first no terminal buffer.

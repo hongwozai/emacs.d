@@ -1,4 +1,6 @@
 ;;; site-lisp/hwzenburn
-(load-theme 'hwzenburn t)
+(setq spacemacs-theme-comment-bg nil)
+(flet ((display-graphic-p (&rest useless) t))
+ (load-theme 'spacemacs-dark t))
 
 (provide 'init-themes)

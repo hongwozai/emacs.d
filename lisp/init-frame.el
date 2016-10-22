@@ -31,15 +31,17 @@
 (add-hook 'after-change-major-mode-hook 'purge-minor-modes)
 
 ;;; ====================== mode line format ============================
+(defun hong/mode-line-workspace ()
+  (concat " "
+          (hong--special-number (eyebrowse--get 'current-slot))
+          "|"
+          (window-numbering-get-number-string)
+          " "))
+
 (defvar hong/mode-line
   (list
    ;; after init-window.el
-   '(:eval (propertize (concat
-                        " "
-                        (hong--special-number (eyebrowse--get 'current-slot))
-                        "|"
-                        (window-numbering-get-number-string)
-                        " ")
+   '(:eval (propertize (hong/mode-line-workspace)
             'face '(:foreground "#2b2b2b" :background "#f0dfaf")))
    mode-line-front-space
    " "
@@ -80,11 +82,11 @@
 (defun hong//change-color-with-evil-state ()
   (let* ((default-color (cons mode-line-normal "#8fb28f"))
          (color (cond ((minibufferp) default-color)
-                      ((evil-insert-state-p) '("#e80000" . "#ffffff"))
+                      ((evil-insert-state-p) '("#840228" . "#ffffff"))
                       ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
                       ((evil-visual-state-p) '("#AF005F" . "#ffffff"))
                       ((and (buffer-file-name)
-                            (buffer-modified-p))   '("#006fa0" . "#ffffff"))
+                            (buffer-modified-p))   '("#121a2a" . "#ffffff"))
                       (t default-color))))
     (set-face-background 'mode-line (car color))
     (set-face-foreground 'mode-line (cdr color))))
