@@ -10,6 +10,7 @@
   (setq company-tooltip-align-annotations t)
   (setq company-show-numbers t)
   (setq company-clang-insert-arguments nil)
+  (setq company-etags-ignore-case t)
   ;; shell-mode -> ivy
   (setq company-global-modes
         '(not shell-mode eshell-mode term-mode))

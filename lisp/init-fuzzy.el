@@ -35,6 +35,7 @@
 ;;; ivy
 (setq ivy-height 12)
 (setq ivy-format-function 'ivy-format-function-arrow)
+(setq ivy-count-format "[%d/%d] ")
 (setq ivy-extra-directories nil)
 
 ;;; ivy mode

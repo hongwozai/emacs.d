@@ -1,32 +1,3 @@
-;;; ====================== compile func ==========================
-(defun project--get-root (&optional iscurr)
-  "Get project root path."
-  (or (ffip-project-root)
-      (if iscurr default-directory)))
-
-(defun project-compile ()
-  (interactive)
-  (let ((default-directory (project--get-root t)))
-    (compile compile-command)))
-
-(defun project-compile-in-shell ()
-  (interactive)
-  (save-selected-window
-    (let* ((path (project--get-root))
-           (rpath (and path (if (file-remote-p path)
-                                (progn (string-match "/.*:\\(.*\\)$" path)
-                                       (match-string 1 path))
-                                path)))
-           (buffer-name "*shell*")
-           (command (and path compile-command)))
-      (if path
-          (progn
-            (hong/shell-run)
-            (comint-send-string (get-buffer-process buffer-name)
-                                (format "cd %s/ && %s \n" rpath command))
-            (setq compile-command command))
-          (message "CANNOT COMPILE!")))))
-
 ;;; ===================== compile ===============================
 (defun hong/my-compile-common-config ()
   ;; compile
