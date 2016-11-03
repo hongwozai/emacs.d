@@ -55,6 +55,7 @@
 ;;; counsel
 (add-hook 'after-init-hook 'counsel-mode)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
+(global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
 
 (defadvice counsel-ag-occur (after hong--counsel-ag-occur activate)
   (wgrep-ag-setup)

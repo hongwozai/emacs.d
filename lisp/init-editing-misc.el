@@ -24,4 +24,7 @@
   (hong/select-buffer-window ag "*ag search*")
   )
 
+;;; aggressive-indent
+(aggressive-indent-global-mode)
+
 (provide 'init-editing-misc)

@@ -50,6 +50,7 @@ re-downloaded in order to locate PACKAGE."
         highlight-symbol
         bing-dict
         chinese-pyim
+        aggressive-indent
         ;; version control
         with-editor
         magit

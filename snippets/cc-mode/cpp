@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: cpp
+# key: cpp
+# --
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#if 0
+}
+#endif
+
+$0
+
+#ifdef __cplusplus
+}
+#endif

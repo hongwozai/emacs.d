@@ -18,6 +18,10 @@
   "cf"  'eval-defun
   "cr"  'eval-region
 
+  ;; error
+  "en"  'next-error
+  "ep"  'previous-error
+
   ;; debug
   "dg"  'hydra-gud/body
 
