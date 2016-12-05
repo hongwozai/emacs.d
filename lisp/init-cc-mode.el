@@ -23,6 +23,8 @@
   ;; indent (# left align)
   (setq c-electric-pound-behavior '(alignleft))
 
+  (c-set-offset 'inline-open 0)
+
   ;; related file
   (setq-local cc-search-directories
               '("." ".." "../inc" "../include" "../src" "../source"
