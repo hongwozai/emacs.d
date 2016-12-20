@@ -36,4 +36,18 @@
             (evil-define-key 'normal web-mode-map
               (kbd "za") 'web-mode-fold-or-unfold)))
 
+;;; php-web checker
+(flycheck-define-checker php-web
+  "A PHP syntax checker using the PHP command line interpreter.
+
+See URL `http://php.net/manual/en/features.commandline.php'."
+  :command ("php" "-l" "-d" "error_reporting=E_ALL" "-d" "display_errors=1"
+                  "-d" "log_errors=0" source)
+  :error-patterns
+  ((error line-start (or "Parse" "Fatal" "syntax") " error" (any ":" ",") " "
+          (message) " in " (file-name) " on line " line line-end))
+  :modes (web-mode)
+  :next-checkers ((warning . php-phpmd)
+                  (warning . php-phpcs)))
+
 (provide 'init-web)
