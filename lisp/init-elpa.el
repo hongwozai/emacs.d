@@ -34,6 +34,7 @@ re-downloaded in order to locate PACKAGE."
         flycheck-pos-tip
         company
         ;; evil
+        evil-mc
         evil-anzu
         evil-matchit
         evil-surround
