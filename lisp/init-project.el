@@ -50,7 +50,7 @@
 
 ;;; ignore hidden file
 (with-eval-after-load 'find-file-in-project
-  (setq ffip-project-file '(".svn" ".git" ".hg" ".dir-locals.el"))
+  (setq ffip-project-file '(".svn" ".git" ".hg"))
   (add-to-list 'ffip-prune-patterns "*/.*/*"))
 
 ;;; use ffip-project-root
