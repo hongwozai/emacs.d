@@ -10,6 +10,7 @@
 
 ;;; define key
 (evil-define-key 'normal python-mode-map
+  ;; Note: C-u M-.
   (kbd "M-.") 'elpy-goto-definition
   (kbd "M-,") 'pop-tag-mark
   (kbd "M-?") 'elpy-doc
