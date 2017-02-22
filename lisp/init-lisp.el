@@ -9,11 +9,7 @@
 ;; paredit
 (autoload 'enable-paredit-mode "paredit" nil t)
 
-(evil-define-key 'normal evil-paredit-mode-map
-  (kbd "D") 'paredit-kill)
-
 (dolist (hook lisp-common-mode-hook)
-  (add-hook hook #'evil-paredit-mode)
   (add-hook hook #'enable-paredit-mode)
   (add-hook hook (lambda () (setq-local show-paren-style 'expression))))
 
@@ -53,9 +49,6 @@
     (kbd "M-.") 'elisp-slime-nav-find-elisp-thing-at-point
     (kbd "M-,") 'pop-tag-mark)
   )
-
-(evil-leader/set-key-for-mode 'emacs-lisp-mode
-    (kbd "c;") 'paredit-comment-dwim)
 
 ;;; elisp style
 (setq lisp-indent-function 'common-lisp-indent-function)

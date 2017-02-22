@@ -24,7 +24,8 @@
               "H" 'hong--dired-top-line
               "J" 'hong--dired-jump-line
               "L" 'hong--dired-bottom-line
-              "+" 'hong--dired-create-directory)
+              "+" 'hong--dired-create-directory
+              "*" 'hydra-dired-select-menu/body)
 
             (setq-local truncate-lines t)
             ;; Attention: also ignore .bin .so etc.
@@ -33,6 +34,25 @@
             (setq dired-omit-verbose nil)
             (dired-omit-mode)
             (hl-line-mode 1)))
+
+;;; select
+(defhydra hydra-dired-select-menu (:color pink :hint nil)
+  "
+          ^Mark^
+    ^^^^^^^^----------------------------
+      _._: [un]mark extension
+      _%_: regexp
+      _/_: all directory
+      _t_: toggle marks
+      _!_: unmark all mark
+^
+"
+  ("." diredp-mark/unmark-extension)
+  ("%" dired-mark-files-regexp)
+  ("/" dired-mark-directories)
+  ("t" dired-toggle-marks)
+  ("!" dired-unmark-all-marks)
+  ("q" nil "quit" :color blue))
 
 ;;; ============================= misc ==============================
 (defun hong--dired-top-line ()

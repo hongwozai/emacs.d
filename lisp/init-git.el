@@ -1,20 +1,5 @@
 ;;; =========================== magit =================================
-;;; with-editor
-(autoload 'with-editor-export-editor "with-editor")
-(add-hook 'shell-mode-hook
-          (lambda ()
-            (hong--setup-shell-environment)
-            (with-editor-export-editor)
-            (comint-send-string (get-buffer-process (buffer-name)) "\n")))
-
-(add-hook 'eshell-mode-hook
-          (lambda ()
-            (with-editor-export-editor))
-          t)
-
 ;;; magit
-(unless (version< emacs-version "24.4")
-  (global-set-key (kbd "<f9>") 'magit-status))
 
 ;;; =========================== show diff =============================
 ;;; git-gutter
@@ -31,7 +16,7 @@
               (kbd "q") 'git-timemachine-quit)
             (evil-motion-state)))
 
-(defun hong--show-revision ()
+(defun git-timemachine--show-revision ()
   (let (collection)
     (setq collection
           (mapcar (lambda (rev)
@@ -50,6 +35,6 @@
   (interactive)
   (unless (featurep 'git-timemachine)
     (require 'git-timemachine))
-  (git-timemachine--start #'hong--show-revision))
+  (git-timemachine--start #'git-timemachine--show-revision))
 
 (provide 'init-git)

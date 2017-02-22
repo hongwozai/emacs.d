@@ -43,7 +43,7 @@
             (evil-define-key 'emacs eshell-mode-map
               (kbd "C-u") 'eshell-clear-before-line
               (kbd "C-a") 'eshell-bol
-              (kbd "C-r") 'eshell-find-history
+              (kbd "C-r") 'counsel-esh-history
               (kbd "C-p") 'eshell-previous-matching-input-from-input
               (kbd "C-n") 'eshell-next-matching-input-from-input
               (kbd "<C-backspace>") 'hong-backward-kill-word
@@ -61,14 +61,6 @@
 (defalias 'eshell/em #'find-file)
 (defalias 'eshell/d #'dired)
 (defalias 'eshell/b #'ibuffer)
-
-;; history
-(defun eshell-find-history ()
-  (interactive)
-  (insert (ivy-read
-           "Eshell history: "
-           (delete-dups
-            (ring-elements eshell-history-ring)))))
 
 ;; eshell clear
 (defun eshell/clear ()
@@ -130,17 +122,8 @@
             (setq-local comint-move-point-for-output 'others)
             (setq-local comint-history-isearch t)))
 
-;;; xterm-color
-(require 'xterm-color)
-(with-eval-after-load 'shell
-  (require 'xterm-color)
-  (progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
-         (setq comint-output-filter-functions
-               (remove 'ansi-color-process-output comint-output-filter-functions))
-         (setq font-lock-unfontify-region-function 'xterm-color-unfontify-region)))
 ;;; ============================== misc ==================================
 ;;; shotcuts key
-(global-set-key (kbd "<f2>") 'eshell)
 (defalias 'sh   'shell)
 (defalias 'esh  'eshell)
 
@@ -159,16 +142,6 @@
       (forward-line -1)
       (delete-region (point-min) (1+ (line-end-position)))))
   (goto-char (point-max)))
-
-(defun hong/shell-run ()
-  (interactive)
-  (let* ((buffer-name "*shell*")
-         (buffer (get-buffer buffer-name))
-         (window (and buffer (get-buffer-window buffer))))
-    (cond ((and buffer window) (select-window window))
-          ((or buffer window) (pop-to-buffer buffer))
-          (t (pop-to-buffer buffer-name)
-             (shell)))))
 
 (defadvice shell-command (after hong/shell-command-quit activate)
   (let ((window (get-buffer-window "*Shell Command Output*")))
@@ -193,16 +166,6 @@
          (setq command (file-truename (match-string 1 command)))
          (switch-to-buffer
           (funcall #'find-file-noselect command)))
-        ((string-match "^[ \t]*ssh[ \t]*\\(.*\\)@\\([^:]*\\)" command)
-         (comint-send-string proc (concat command "\n"))
-         (setq-local comint-file-name-prefix
-                     (concat "/" (match-string 1 command) "@"
-                             (match-string 2 command) ":"))
-         (cd-absolute comint-file-name-prefix))
-        ((string-match "^[ \t]*exit[ \t]*" command)
-         (comint-send-string proc (concat command "\n"))
-         (setq-local comint-file-name-prefix "")
-         (cd-absolute "~/"))
         (t (comint-simple-send proc command))))
 
 (provide 'init-shell)

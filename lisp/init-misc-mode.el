@@ -7,11 +7,6 @@
             (hong/exit)
             (toggle-truncate-lines t)))
 
-;;; antlr
-(autoload 'antlr-mode "antlr-mode" nil t)
-(autoload 'antlr-v4-mode "antlr-mode" nil t)
-(push '("\\.g4\\'" . antlr-v4-mode) auto-mode-alist)
-
 ;;; markdown-mode
 (setq auto-mode-alist
       (append '(("\\.md\\'" . markdown-mode))

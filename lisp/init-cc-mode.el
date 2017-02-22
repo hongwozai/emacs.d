@@ -14,8 +14,8 @@
                           (other . "k&r"))
         c-basic-offset  4)
 
-  ;; auto indent
-  (c-toggle-hungry-state 1)
+  ;; auto delete
+  ;; (c-toggle-hungry-state 1)
   )
 
 (defun c/c++-mode-config ()
@@ -27,8 +27,12 @@
 
   ;; related file
   (setq-local cc-search-directories
-              '("." ".." "../inc" "../include" "../src" "../source"
-                "/usr/include" "/usr/local/include/*"))
+              '("." ".."
+                "../inc" "../Inc"
+                "../include" "../Include"
+                "../src" "../source"
+                "../Src" "../Source"
+                "/usr/include" "/usr/local/include/"))
 
   ;; keywords
   (font-lock-add-keywords nil '("typeof" "__attribute__" "__asm__") t)
@@ -37,31 +41,11 @@
   (setq-local company-backends
               '(company-etags company-gtags company-c-headers company-clang))
 
-  ;; company clang not remote
-  (let ((file (buffer-file-name)))
-    (when (and file (file-remote-p file))
-      (setq-local company-backends
-                  (remove 'company-clang company-backends))))
   )
 
-(defun hong/tags-debug-compile-setup ()
-  (evil-local-set-key 'normal (kbd "M-.") 'ggtags-find-definition)
-  (evil-local-set-key 'normal (kbd "M-,") 'ggtags-prev-mark)
-  (local-set-key (kbd "C-c C-z") 'hong-switch-gud)
-  (local-set-key (kbd "C-c C-s") 'change-compile-command))
-
-(add-hook 'c-mode-common-hook
-          (lambda () (cc-common-config)))
-
-(add-hook 'c++-mode-hook
-          (lambda ()
-            (c/c++-mode-config)
-            (hong/tags-debug-compile-setup)))
-
-(add-hook 'c-mode-hook
-          (lambda ()
-            (c/c++-mode-config)
-            (hong/tags-debug-compile-setup)))
+(add-hook 'c-mode-common-hook (lambda () (cc-common-config)))
+(add-hook 'c++-mode-hook (lambda () (c/c++-mode-config)))
+(add-hook 'c-mode-hook (lambda () (c/c++-mode-config)))
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 

@@ -41,7 +41,7 @@
 (global-font-lock-mode t)
 
 ;;; highlight current line
-;; (add-hook 'prog-mode-hook #'hl-line-mode)
+(add-hook 'prog-mode-hook #'hl-line-mode)
 
 ;;; recentf
 (setq recentf-auto-cleanup 'never)
@@ -97,7 +97,7 @@
     (kbd "G") 'hexl-end-of-buffer))
 
 ;;; minibuffer
-(setq minibuffer-message-timeout 1)
+(setq minibuffer-message-timeout 2)
 
 ;;; minibuffer map
 (define-key minibuffer-local-map (kbd "C-p") 'previous-history-element)
@@ -106,11 +106,6 @@
 ;;; ediff
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-;;; which-func mode
-(setq which-func-display-mode
-      '(c-mode c++-mode python-mode lisp-mode emacs-lisp-mode))
-(which-function-mode)
 
 ;; hippie expand
 (setq evil-complete-next-func #'hippie-expand)
@@ -121,5 +116,14 @@
         try-expand-dabbrev-visible
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill))
+
+;;; avy
+(setq avy-background t)
+(setq avy-all-windows nil)
+
+;;; auto highlight symbol
+(setq highlight-symbol-idle-delay 1)
+(add-hook 'prog-mode-hook 'highlight-symbol-mode)
+(add-hook 'prog-mode-hook 'highlight-symbol-nav-mode)
 
 (provide 'init-editing-utils)

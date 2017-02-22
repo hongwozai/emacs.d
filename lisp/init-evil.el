@@ -49,4 +49,12 @@
 (define-key evil-motion-state-map "#"
   (lambda (count) (interactive "P") (evil-search-word-backward count t)))
 
+;;; ======================= evil matchit ===========================
+(global-evil-matchit-mode 1)
+
+;;; ======================= evil surround ==========================
+(global-evil-surround-mode 1)
+(setcdr (assoc ?t evil-surround-pairs-alist)
+        (lambda () (let ((str (read-from-minibuffer "" ""))) (cons str str))))
+
 (provide 'init-evil)

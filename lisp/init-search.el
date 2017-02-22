@@ -9,23 +9,6 @@
     (isearch-push-state)
     (isearch-update)))
 
-;;; =================== grep =========================
-(setq-default grep-hightlight-matches     t
-              grep-scroll-output          nil)
-
-(setq grep-command "grep -nH -E -e ")
-(setq hong-grep-files-aliases
-      '((c-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
-        (c++-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
-        (emacs-lisp-mode . "*.el")))
-
-(with-eval-after-load 'grep
-  (defun grep-read-files (regexp)
-    (read-string "Search Files: "
-                 (let ((str (assoc major-mode hong-grep-files-aliases)))
-                   (if str (cdr str) "*"))))
-  )
-
 ;;; =================== occur =========================
 ;;; occur follow
 (defun occur-np (np)
@@ -47,5 +30,34 @@
             (evil-local-set-key 'motion (kbd "n") (occur-np 'next))
             (evil-local-set-key 'motion (kbd "p") (occur-np 'prev))
             (evil-local-set-key 'motion (kbd "RET") #'occur-mode-goto-occurrence-other-window)))
+
+;;; =================== grep =========================
+(setq-default grep-hightlight-matches     t
+              grep-scroll-output          nil)
+
+(setq grep-command "grep -nH -E -e ")
+(setq hong-grep-files-aliases
+      '((c-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
+        (c++-mode . "*.[ch] *.cpp *.hpp *.cc *.C *.cxx")
+        (emacs-lisp-mode . "*.el")))
+
+(with-eval-after-load 'grep
+  (defun grep-read-files (regexp)
+    (read-string "Search Files: "
+                 (let ((str (assoc major-mode hong-grep-files-aliases)))
+                   (if str (cdr str) "*"))))
+  )
+
+;;; =================== ag =========================
+;;; ag
+(when (executable-find "ag")
+  (require-package 'ag)
+  (require-package 'wgrep-ag)
+  (setq-default ag-highlight-search t)
+  (setq-default ag-reuse-buffers t)
+  (setq-default ag-reuse-window nil)
+
+  (hong/select-buffer-window ag "*ag search*")
+  )
 
 (provide 'init-search)

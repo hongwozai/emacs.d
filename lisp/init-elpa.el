@@ -29,29 +29,39 @@ re-downloaded in order to locate PACKAGE."
 ;;; all package
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (mapc #'require-package
-      '(hydra
+      '(monokai-theme
+        elpa-mirror
+        hydra
         flycheck
         flycheck-pos-tip
         company
         ;; evil
+        evil
         evil-mc
         evil-anzu
+        evil-leader
         evil-matchit
         evil-surround
         evil-iedit-state
+        ;; fuzzy
+        ivy
+        counsel
         ;; edit
         avy
         ace-link
-        vlf
+        dired+
         smex
         wgrep
+        etags-select
         yasnippet
         which-key
         expand-region
         highlight-symbol
+        window-numbering
         bing-dict
         chinese-pyim
         aggressive-indent
+        exec-path-from-shell
         ;; version control
         with-editor
         magit

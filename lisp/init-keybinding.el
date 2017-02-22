@@ -3,8 +3,8 @@
 (global-evil-leader-mode)
 (evil-leader/set-leader ",")
 (evil-leader/set-key
-  "o"   (lambda () (interactive)
-           (let ((split-width-threshold nil)) (org-agenda)))
+    "o"   (lambda () (interactive)
+             (let ((split-width-threshold nil)) (org-agenda)))
 
   ;; avy
   "al"  'avy-goto-line
@@ -17,22 +17,30 @@
   "cc"  'eval-buffer
   "cf"  'eval-defun
   "cr"  'eval-region
+  "cm"  'change-compile-command
 
   ;; error
   "en"  'next-error
   "ep"  'previous-error
 
   ;; debug
-  "dg"  'hydra-gud/body
+  "db"  'gud-break
 
   ;; file
-  "fr"  'ivy-recentf
+  "fr"  'counsel-recentf
   "fl"  'counsel-locate
   "fo"  'ido-find-file-other-window
   ;; ffip
   "ff"  'ffip
   "fc"  'ffip-create-project-file
   "fs"  'find-file-in-project-by-selected
+
+  ;; gtags
+  "gc"  'counsel-gtags-create-tags
+  "gd"  'counsel-gtags-find-definition
+  "gu"  'counsel-gtags-update-tags
+  "gr"  'counsel-gtags-find-reference
+  "gs"  'counsel-gtags-find-symbol
 
   ;; buffer and bookmark
   "bl"  'ibuffer
@@ -46,11 +54,14 @@
 
   "sd"  'sudo-edit
   ;; search
-  "sa"  'counsel-ag-project
+  "sa"  'counsel-ag
   "sA"  'ag
   "so"  'occur
   "sg"  'rgrep
   "ss"  'counsel-grep-or-swiper
+
+  ;; line
+  "n"   'linum-mode
 
   ;; vc
   "vv"  'vc-next-action
@@ -106,6 +117,18 @@
 (global-set-key (kbd "C-w") 'window-prefix-map)
 (define-key evil-emacs-state-map (kbd "C-w") 'window-prefix-map)
 
+
+(global-set-key (kbd "C-S-<left>")
+                (lambda () (interactive) (hong-window-resize 'left)))
+(global-set-key (kbd "C-S-<right>")
+                (lambda () (interactive) (hong-window-resize 'right)))
+(global-set-key (kbd "C-S-<up>")
+                (lambda () (interactive) (hong-window-resize 'above)))
+(global-set-key (kbd "C-S-<down>")
+                (lambda () (interactive) (hong-window-resize 'below)))
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 ;;; ========================= help key =====================================
 (evil-define-key 'motion help-mode-map (kbd "L") 'help-go-back)
 (evil-define-key 'motion help-mode-map (kbd "R") 'help-go-forward)
@@ -116,5 +139,21 @@
 (evil-define-key 'motion Info-mode-map (kbd "b") 'evil-backward-word-begin)
 (evil-define-key 'motion Info-mode-map (kbd "o") 'ace-link)
 (evil-define-key 'motion woman-mode-map (kbd "o") 'ace-link)
+
+;;; keybindings
+(global-set-key (kbd "<f2>") 'eshell)
+(global-set-key (kbd "<f5>") 'compile)
+(global-set-key (kbd "<f9>") 'magit-status)
+
+(global-set-key (kbd "C-x C-f") 'ido-find-file)
+(global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
+(global-set-key (kbd "C-l") 'switch-to-buffer)
+
+(global-set-key (kbd "M-[") 'multi-term-prev)
+(global-set-key (kbd "M-]") 'multi-term-next)
+
+;;; C-p C-l
+(define-key evil-normal-state-map (kbd "C-p") 'ffip-current-directory)
+(define-key evil-normal-state-map (kbd "C-l") 'switch-to-buffer)
 
 (provide 'init-keybinding)

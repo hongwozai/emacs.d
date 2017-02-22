@@ -4,8 +4,8 @@
 (setq ad-redefinition-action 'accept)
 
 ;;; initiate gc allocate
-(setq-default gc-cons-threshold (* 1024 1024 24)
-              gc-cons-percentage 0.5)
+;; (setq-default gc-cons-threshold (* 1024 1024 24)
+;;               gc-cons-percentage 0.5)
 
 ;;; common lisp support
 (require 'cl)

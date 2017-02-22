@@ -35,7 +35,7 @@
             (term-set-escape-char ?\C-c)
             (setq term-unbind-key-list '("C-x"))
             (setq term-bind-key-alist
-                  '(("M-r" . hong/switch-non-terminal-buffer)
+                  '(("C-l" . switch-to-buffer)
                     ("M-:" . eval-expression)
                     ("M-w" . kill-ring-save)
                     ("C-y" . term-paste)
@@ -62,28 +62,5 @@
 (defalias 'mt   'multi-term)
 (defalias 'tt   'tramp-term)
 (defalias 'mtdo 'multi-term-dedicated-open)
-(global-set-key (kbd "M-[") 'multi-term-prev)
-(global-set-key (kbd "M-]") 'multi-term-next)
-
-(defun hong/switch-non-terminal-buffer ()
-  "switch first no terminal buffer.
-   use buffer list"
-  (interactive)
-  (let* ((buffer-list (mapcar (lambda (buf) (buffer-name buf)) (buffer-list)))
-         (ignore-buffers
-          (concat
-           "^\\*term\\|^\\*eshell\\|^\\*shell\\|"
-           "^ ?\\*Minibuf\\|^ ?\\*code.*work\\*$\\|^\\*Message\\|"
-           "^ ?\\*Echo\\|^\\*\\([0-9]\\{1,3\\}.\\)\\{3\\}[0-9]\\{1,3\\}\\*$"))
-         (ignore-modes '(term-mode eshell-mode shell-mode))
-         (last-noterm-buffer
-          (catch 'ret
-            (mapcar (lambda (str)
-                      (if (not (or (string-match ignore-buffers str)
-                                   (memq (with-current-buffer str major-mode)
-                                         ignore-modes)))
-                          (throw 'ret str)))
-                    buffer-list))))
-    (and last-noterm-buffer (switch-to-buffer last-noterm-buffer))))
 
 (provide 'init-term)

@@ -5,14 +5,15 @@
 ;;; utils
 (require 'init-utils)
 
-;;; core (no network)
-(require 'init-themes)
+;;; core
+(require 'init-elpa)
 (require 'init-evil)
+(require 'init-themes)
 (require 'init-keybinding)
 (require 'init-editing-utils)
 (require 'init-window)
 (require 'init-dired)
-(require 'init-ibuffer)
+(require 'init-buffer)
 (require 'init-frame)
 (require 'init-tramp)
 (require 'init-fuzzy)
@@ -20,16 +21,11 @@
 (require 'init-shell)
 (require 'init-term)
 (require 'init-project)
-
-;; ;;; basic (network)
-(require 'init-elpa)
-(require 'init-evil-plugin)
-(require 'init-editing-misc)
-(require 'init-chinese)
 (require 'init-flycheck)
 (require 'init-complete)
+(require 'init-compile)
 (require 'init-template)
-(require 'init-hydra)
+(require 'init-chinese)
 
 ;;; common
 (require 'init-git)
@@ -40,7 +36,6 @@
 
 ;;; program language
 ;; C/C++
-(require 'init-compile)
 (require 'init-cc-mode)
 
 ;; lisp dialect
@@ -57,6 +52,7 @@
 (maybe-require "go"     'init-go)
 (maybe-require "ghc"    'init-haskell)
 (maybe-require "lua"    'init-lua)
+(maybe-require "racket" 'init-scheme)
 
 ;;; misc mode
 (require 'init-misc-mode)
@@ -67,3 +63,4 @@
   (server-start))
 
 (provide 'init)
+

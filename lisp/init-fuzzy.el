@@ -18,6 +18,9 @@
         " [No match]" " [Matched]" " [Not readable]"
         " [Too big]" " [Confirm]" "\n-> " ""))
 
+;;; C-k delete
+;;; C-d dired
+;;; M-d create directory
 (add-hook 'ido-setup-hook
           (lambda ()
             (define-key ido-file-completion-map (kbd "C-d") 'ido-enter-dired)
@@ -33,7 +36,7 @@
 (require 'swiper)
 (require 'counsel)
 ;;; ivy
-(setq ivy-height 12)
+(setq ivy-height 15)
 (setq ivy-format-function 'ivy-format-function-arrow)
 (setq ivy-count-format "[%d/%d] ")
 (setq ivy-extra-directories nil)
@@ -54,8 +57,6 @@
 
 ;;; counsel
 (add-hook 'after-init-hook 'counsel-mode)
-(global-set-key (kbd "C-x C-f") 'ido-find-file)
-(global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
 
 (defadvice counsel-ag-occur (after hong--counsel-ag-occur activate)
   (wgrep-ag-setup)
