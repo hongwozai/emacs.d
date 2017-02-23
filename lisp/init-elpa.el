@@ -67,6 +67,7 @@ re-downloaded in order to locate PACKAGE."
         magit
         markdown-mode
         monokai-theme
+        multi-term
         paredit
         php-mode
         rainbow-delimiters
