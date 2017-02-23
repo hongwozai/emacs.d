@@ -3,7 +3,8 @@
 
 ;;; Also use Melpa for most packages
 (setq package-archives
-      '(("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+      '(("localelpa" . "../localelpa")
+        ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
         ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
         ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")))
 
@@ -29,58 +30,52 @@ re-downloaded in order to locate PACKAGE."
 ;;; all package
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (mapc #'require-package
-      '(monokai-theme
-        elpa-mirror
-        hydra
-        flycheck
-        flycheck-pos-tip
-        company
-        ;; evil
-        evil
-        evil-mc
-        evil-anzu
-        evil-leader
-        evil-matchit
-        evil-surround
-        evil-iedit-state
-        ;; fuzzy
-        ivy
-        counsel
-        ;; edit
-        avy
+      '(
         ace-link
-        dired+
-        smex
-        wgrep
-        etags-select
-        yasnippet
-        which-key
-        expand-region
-        highlight-symbol
-        window-numbering
+        avy
         bing-dict
         chinese-pyim
-        aggressive-indent
+        company
+        company-c-headers
+        company-web
+        counsel
+        dired+
+        elisp-slime-nav
+        elpa-mirror
+        emmet-mode
+        etags-select
+        evil
+        evil-anzu
+        evil-iedit-state
+        evil-leader
+        evil-matchit
+        evil-mc
+        evil-surround
         exec-path-from-shell
-        ;; version control
-        with-editor
-        magit
+        expand-region
+        find-file-in-project
+        flycheck
+        flycheck-pos-tip
         git-gutter
         git-timemachine
-        ;; cc-mode
-        company-c-headers
-        ;; elisp
-        elisp-slime-nav
-        evil-paredit
+        highlight-symbol
+        hydra
+        ivy
+        magit
+        markdown-mode
+        monokai-theme
         paredit
-        rainbow-delimiters
-        ;; html, js, css, php
-        web-mode
         php-mode
-        emmet-mode
-        company-web
-        ;; misc
+        rainbow-delimiters
+        smex
         sql-indent
-        markdown-mode))
+        tramp-term
+        web-mode
+        wgrep
+        which-key
+        window-numbering
+        with-editor
+        yasnippet
+        ))
 
 (provide 'init-elpa)
