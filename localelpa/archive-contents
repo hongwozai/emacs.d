@@ -1,5 +1,6 @@
 (1
  (ace-link . [(20161203 1059) ((avy (0 2 0))) "Quickly follow links" single])
+ (ace-window . [(20170219 256) ((avy (0 2 0))) "Quickly switch windows." single])
  (ag . [(20161228 1641) ((dash (2 8 0)) (s (1 9 0)) (cl-lib (0 5))) "A front-end for ag ('the silver searcher'), the C ack replacement." single])
  (aggressive-indent . [(20161201 1001) ((emacs (24 1)) (cl-lib (0 5))) "Minor mode to aggressively keep your code always indented" single])
  (anzu . [(20161017 907) ((emacs (24 3))) "Show number of matches in mode-line while searching" single])
@@ -58,6 +59,7 @@
  (magit-popup . [(20170214 347) ((emacs (24 4)) (async (20161103 1036)) (dash (20170207 2056))) "Define prefixsuffix command combos" tar])
  (markdown-mode . [(20161222 1416) ((emacs (24)) (cl-lib (0 5))) "Major mode for Markdown-formatted text" single])
  (monokai-theme . [(20161216 628) nil "A fruity color theme for Emacs." single])
+ (multi-term . [(20160619 233) nil "Managing multiple terminal buffers in Emacs." single])
  (paredit . [(20160615 1325) nil "minor mode for editing parentheses" single])
  (php-mode . [(20170220 1707) ((emacs (24)) (cl-lib (0 5))) "Major mode for editing PHP code" tar])
  (pkg-info . [(20150517 443) ((epl (0 8))) "Information about packages" single])
@@ -75,6 +77,7 @@
  (spinner . [(1 7 3) nil "Add spinners and progressline for ongoing operations" single])
  (sql-indent . [(20170112 1507) nil "indentation of SQL statements" single])
  (swiper . [(20170217 57) ((emacs (24 1)) (ivy (0 8 0))) "Isearch with an overview. Oh, man!" single])
+ (tramp-term . [(20141104 1345) nil "Automatic setup of directory tracking in ssh sessions." single])
  (undo-tree . [(20161012 701) nil "Treat undo history as a tree" single])
  (vlf . [(20161030 840) nil "View Large Files" tar])
  (web-completion-data . [(20160318 148) nil "Shared completion data for acweb" tar])
@@ -86,5 +89,4 @@
  (with-editor . [(20170111 609) ((emacs (24 4)) (async (1 9)) (dash (2 13 0))) "Use the Emacsclient as $EDITOR" tar])
  (yari . [(20151127 2339) nil "Yet Another RI interface for Emacs" single])
  (yasnippet . [(20170216 1928) ((cl-lib (0 5))) "Yet another snippet extension for Emacs." tar])
- (tramp-term . [(20141104 1345) nil "Automatic setup of directory tracking in ssh sessions." single])
 )
