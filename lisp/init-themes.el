@@ -7,6 +7,9 @@
    'monokai
    `(font-lock-builtin-face
      ((,monokai-class (:foreground ,monokai-blue :weight normal))))
+
+   `(font-lock-keyword-face
+     ((,monokai-class (:foreground ,monokai-red :weight bold))))
    )
   )
 
