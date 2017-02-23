@@ -1,6 +1,9 @@
 ;; package
 (require 'package)
 
+;;; localelpa
+;;; mkdir -p ~/myelpa && emacs --batch -l ~/.emacs.d/init.el -l /home/lm/.emacs.d/elpa/elpa-mirror-20160917.10/elpa-mirror.el --eval='(setq elpamr-default-output-directory "/home/lm/.emacs.d/localelpa")' --eval='(elpamr-create-mirror-for-installed)'
+
 ;;; Also use Melpa for most packages
 (setq package-archives
       '(("localelpa" . "../localelpa")
