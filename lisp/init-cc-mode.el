@@ -1,9 +1,3 @@
-;;; ===================== eldoc doxygen =======================
-;;; doxygen
-(autoload 'doxygen-insert-function-comment "doxygen" "" t)
-(autoload 'doxygen-insert-file-comment "doxygen" "" t)
-(autoload 'doxygen-insert-comment "doxygen" "" t)
-
 ;;; ===================== cc mode config ========================
 ;;; include c/c++, java etc.
 (defun cc-common-config ()
