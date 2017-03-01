@@ -126,4 +126,21 @@
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 (add-hook 'prog-mode-hook 'highlight-symbol-nav-mode)
 
+;;; iedit
+(evil-define-minor-mode-key 'normal 'iedit-mode
+  (kbd "F") 'iedit-restrict-function
+  (kbd "L") 'iedit-restrict-current-line
+  (kbd "D") 'iedit-delete-occurrences
+  (kbd "S") '(lambda () (interactive)
+              (iedit-delete-occurrences)
+              (evil-insert-state))
+  (kbd "gg") 'iedit-goto-first-occurrence
+  (kbd "G")  'iedit-goto-last-occurrence
+  (kbd "n") 'iedit-next-occurrence
+  (kbd "N") 'iedit-prev-occurrence
+  [tab]     'iedit-toggle-selection
+  (kbd "C-;") 'iedit-mode)
+
+(define-key evil-normal-state-map (kbd "C-;") 'iedit-mode)
+
 (provide 'init-editing-utils)

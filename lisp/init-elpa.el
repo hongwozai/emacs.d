@@ -49,7 +49,7 @@ re-downloaded in order to locate PACKAGE."
         etags-select
         evil
         evil-anzu
-        evil-iedit-state
+        iedit
         evil-leader
         evil-matchit
         evil-mc
