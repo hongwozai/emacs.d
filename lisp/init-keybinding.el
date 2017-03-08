@@ -147,7 +147,6 @@
 
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 (global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
-(global-set-key (kbd "C-l") 'switch-to-buffer)
 
 (global-set-key (kbd "M-[") 'multi-term-prev)
 (global-set-key (kbd "M-]") 'multi-term-next)
