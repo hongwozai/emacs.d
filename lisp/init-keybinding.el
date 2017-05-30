@@ -101,6 +101,10 @@
   "xz"  'suspend-frame
   "."   'counsel-M-x)
 
+;;; ============================ buffer key ================================
+(global-set-key (kbd "M-h") 'previous-buffer)
+(global-set-key (kbd "M-l") 'next-buffer)
+
 ;;; ============================ window key ================================
 (define-prefix-command 'window-prefix-map)
 (define-key window-prefix-map (kbd "h")   'evil-window-left)
