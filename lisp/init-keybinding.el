@@ -155,8 +155,7 @@
 (global-set-key (kbd "M-[") 'multi-term-prev)
 (global-set-key (kbd "M-]") 'multi-term-next)
 
-;;; C-p C-l
+;;; C-p
 (define-key evil-normal-state-map (kbd "C-p") 'ffip-current-directory)
-(define-key evil-normal-state-map (kbd "C-l") 'switch-to-buffer)
 
 (provide 'init-keybinding)

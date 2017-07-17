@@ -112,57 +112,5 @@ in case that file does not provide any feature."
 (defalias 's2n 'string-to-number)
 (defalias 'lineno 'line-number-at-pos)
 
-;;; ========================= build find ===================================
-(defun build-find-command (files dir &optional ignore-dirs ignore-files)
-  (grep-expand-template
-   "find <D> <X> -type f <F>"
-   nil
-   (concat (shell-quote-argument "(")
-           " " find-name-arg " "
-           (mapconcat #'shell-quote-argument
-                      (split-string files)
-                      (concat " -o " find-name-arg " "))
-           " "
-           (shell-quote-argument ")"))
-   dir
-   (concat (and ignore-dirs
-                (concat "-type d "
-                        (shell-quote-argument "(")
-                        ;; we should use shell-quote-argument here
-                        " -path "
-                        (mapconcat
-                         #'(lambda (ignore)
-                             (cond ((stringp ignore)
-                                    (shell-quote-argument
-                                     (concat "*/" ignore)))
-                                   ((consp ignore)
-                                    (and (funcall (car ignore) dir)
-                                         (shell-quote-argument
-                                          (concat "*/"
-                                                  (cdr ignore)))))))
-                         ignore-dirs
-                         " -o -path ")
-                        " "
-                        (shell-quote-argument ")")
-                        " -prune -o "))
-           (and ignore-files
-                (concat (shell-quote-argument "!") " -type d "
-                        (shell-quote-argument "(")
-                        ;; we should use shell-quote-argument here
-                        " -name "
-                        (mapconcat
-                         #'(lambda (ignore)
-                             (cond ((stringp ignore)
-                                    (shell-quote-argument ignore))
-                                   ((consp ignore)
-                                    (and (funcall (car ignore) dir)
-                                         (shell-quote-argument
-                                          (cdr ignore))))))
-                         ignore-files
-                         " -o -name ")
-                        " "
-                        (shell-quote-argument ")")
-                        " -prune -o ")))
-   ))
 
 (provide 'init-utils)
