@@ -53,6 +53,7 @@
 (maybe-require "ghc"    'init-haskell)
 (maybe-require "lua"    'init-lua)
 (maybe-require "racket" 'init-scheme)
+(maybe-require "javac"  'init-java)
 
 ;;; misc mode
 (require 'init-misc-mode)
