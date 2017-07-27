@@ -1,5 +1,7 @@
 # -*- mode: snippet -*-
-# name: std::
+# name: struct
 # key: st
 # --
-std::$0
+struct $1 {
+    $0
+};
