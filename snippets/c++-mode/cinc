@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: cinc
+# key: cinc
+# --
+#include <cstdio>
+#include <cctype>
+#include <cerrno>
+#include <cstdlib>
+#include <cstring>
+$0
