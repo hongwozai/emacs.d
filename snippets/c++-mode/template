@@ -2,4 +2,4 @@
 # name: template
 # key: tem
 # --
-template <class Item>$0
+template <class $1>$0
