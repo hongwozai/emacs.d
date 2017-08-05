@@ -112,5 +112,30 @@ in case that file does not provide any feature."
 (defalias 's2n 'string-to-number)
 (defalias 'lineno 'line-number-at-pos)
 
+;;; ========================= autosave ====================================
+
+(defun hong--auto-save-buffers ()
+  (dolist (buffer (buffer-list))
+    (if (and (buffer-file-name)
+             (buffer-modified-p)
+             ;; < 10M
+             (< (buffer-size) (* 1024 1024 10)))
+        (save-excursion
+          (set-buffer buffer)
+          (save-buffer)))))
+
+(defvar hong--save-timer)
+
+(defvar hong--save-timeout 5)
+
+(defun hong--auto-save-on ()
+  (setq hong--save-timer
+        (run-with-idle-timer hong--save-timeout 1
+                             #'hong--auto-save-buffers)))
+
+(defun hong--auto-save-off ()
+  (cancel-timer hong--save-timer))
+
+(hong--auto-save-on)
 
 (provide 'init-utils)
