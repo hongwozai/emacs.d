@@ -116,12 +116,11 @@ in case that file does not provide any feature."
 
 (defun hong--auto-save-buffers ()
   (dolist (buffer (buffer-list))
-    (if (and (buffer-file-name)
-             (buffer-modified-p)
-             ;; < 10M
-             (< (buffer-size) (* 1024 1024 10)))
-        (save-excursion
-          (set-buffer buffer)
+    (with-current-buffer buffer
+      (if (and (buffer-file-name)
+               (buffer-modified-p)
+               ;; < 10M
+               (< (buffer-size) (* 1024 1024 10)))
           (save-buffer)))))
 
 (defvar hong--save-timer)
