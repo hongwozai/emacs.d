@@ -1,4 +1,4 @@
 ;;; gruvbox
-(load-theme 'gruvbox t)
+(load-theme 'monokai t)
 
 (provide 'init-themes)

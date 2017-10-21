@@ -6,10 +6,10 @@
 
 ;;; Also use Melpa for most packages
 (setq package-archives
-      '(("localelpa" . "../localelpa")
-        ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-        ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-        ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")))
+      `(("localelpa" . ,(expand-file-name "~/.emacs.d/localelpa"))
+        ("gnu"   . "https://elpa.emacs-china.org/gnu/")
+        ("melpa" . "https://elpa.emacs-china.org/melpa/")
+        ("melpa-stable" . "https://elpa.emacs-china.org/melpa-stable/")))
 
 ;;; offical Melpa (and Gnu)
 ;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
