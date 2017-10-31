@@ -1,4 +1,5 @@
-;;; anaconda
+;;; elpy
+;;; pip install jedi flake8 importmagic
 (require-package 'elpy)
 
 (elpy-enable)
