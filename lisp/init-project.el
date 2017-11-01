@@ -25,7 +25,10 @@
 
 ;;; use ffip-project-root
 (defun get-project-root ()
-  (file-name-as-directory (or (ffip-project-root) default-directory)))
+  (file-name-as-directory (or (condition-case nil
+                                  (ffip-project-root)
+                                (wrong-type-argument nil))
+                              default-directory)))
 
 (defun ffip-current-directory ()
   (interactive)
