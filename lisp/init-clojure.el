@@ -9,7 +9,8 @@
           (lambda ()
             (evil-define-key 'normal cider-mode-map
               (kbd "M-.") 'cider-find-var
-              (kbd "M-,") 'cider-pop-back)
+              (kbd "M-,") 'cider-pop-back
+              (kbd "M-?") 'cider-doc)
             (eldoc-mode)))
 
 (add-hook 'cider-repl-mode-hook

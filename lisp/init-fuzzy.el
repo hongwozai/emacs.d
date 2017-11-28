@@ -23,6 +23,7 @@
 ;;; M-d create directory
 (add-hook 'ido-setup-hook
           (lambda ()
+            (define-key ido-file-completion-map (kbd "C-f") 'hong/ido-use-ffip)
             (define-key ido-file-completion-map (kbd "C-d") 'ido-enter-dired)
             (define-key ido-file-completion-map (kbd "M-d") 'hong/ido-create-dir)
             (define-key ido-common-completion-map (kbd "C-n") 'ido-next-match)
@@ -68,5 +69,16 @@
   (interactive)
   (make-directory (concat ido-current-directory ido-text))
   (ido-reread-directory))
+
+;;; press ,xf to the dired, C-f enter ffip
+(defun hong/ido-use-ffip ()
+  (interactive)
+  (setq ido-exit 'fallback)
+  (exit-minibuffer))
+
+(defun hong/ido-find-file-with-use-ffip ()
+  (interactive)
+  (ido-file-internal ido-default-file-method
+                     'ffip-current-directory))
 
 (provide 'init-fuzzy)

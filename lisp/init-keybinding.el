@@ -31,7 +31,7 @@
   "fl"  'counsel-locate
   "fo"  'ido-find-file-other-window
   ;; ffip
-  "ff"  'ffip
+  "ff"  'ffip-current-directory
   "fc"  'ffip-create-project-file
   "fs"  'find-file-in-project-by-selected
 
@@ -95,7 +95,7 @@
   "xb"  'ivy-switch-buffer
   "xc"  'save-buffers-kill-terminal
   "xe"  'eval-last-sexp
-  "xf"  'ido-find-file
+  "xf"  'hong/ido-find-file-with-use-ffip
   "xk"  '(lambda () (interactive) (kill-buffer (current-buffer)))
   "xs"  'save-buffer
   "xz"  'suspend-frame
