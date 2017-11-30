@@ -18,4 +18,9 @@
   (kbd "M-?") 'elpy-doc
   )
 
+(evil-leader/set-key-for-mode 'python-mode
+    "cc" 'elpy-shell-send-region-or-buffer)
+
+(add-hook 'inferior-python-mode-hook 'hong/exit)
+
 (provide 'init-python)

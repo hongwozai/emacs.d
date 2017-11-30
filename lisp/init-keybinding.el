@@ -79,6 +79,8 @@
   "wl"  'evil-window-right
   "wk"  'evil-window-up
   "wj"  'evil-window-down
+  "ww"  'evil-window-next
+  "w SPC" 'hong/window-layout-change
 
   ;; help
   "ha"  'apropos
