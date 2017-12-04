@@ -37,7 +37,8 @@ re-downloaded in order to locate PACKAGE."
         ace-link
         avy
         bing-dict
-        chinese-pyim
+        pyim
+        pyim-basedict
         company
         company-c-headers
         company-web

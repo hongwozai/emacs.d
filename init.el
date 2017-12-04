@@ -1,5 +1,4 @@
 ;; load path
-
 (setq user-emacs-directory "~/.emacs.d/")
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 

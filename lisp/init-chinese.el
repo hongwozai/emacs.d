@@ -21,16 +21,14 @@
     (bing-dict-brief word)))
 
 ;;; ======================= input method =================================
-(require 'chinese-pyim)
-(with-eval-after-load 'chinese-pyim
-  (setq default-input-method "chinese-pyim")
+(require 'pyim)
+(pyim-basedict-enable)
+(with-eval-after-load 'pyim
+  (setq default-input-method "pyim")
   (setq pyim-use-tooltip 'pos-tip)
-  (setq pyim-page-length 9)
+  (setq pyim-page-length 5)
   (setq pyim-enable-words-predict nil)
-  (global-set-key (kbd "C-SPC") 'toggle-input-method)
-  (setq pyim-dicts '((:name "pinyin"
-                      :file "~/.eim/dict.pyim"
-                      :coding utf-8-unix))))
+  (global-set-key (kbd "C-SPC") 'toggle-input-method))
 
 ;;; fcitx
 (when (executable-find "/usr/bin/fcitx")
