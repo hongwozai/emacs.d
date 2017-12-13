@@ -148,6 +148,7 @@
 
 ;;; keybindings
 (global-set-key (kbd "<f2>") 'eshell)
+(global-set-key (kbd "<f3>") 'treemacs-toggle)
 (global-set-key (kbd "<f5>") 'compile)
 (global-set-key (kbd "<f9>") 'magit-status)
 

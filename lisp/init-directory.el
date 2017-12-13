@@ -54,6 +54,9 @@
   ("!" dired-unmark-all-marks)
   ("q" nil "quit" :color blue))
 
+;;; ============================= treemacs ========================
+(autoload 'treemacs-toggle "treemacs-evil" "treemacs evil")
+
 ;;; ============================= misc ==============================
 (defun hong--dired-top-line ()
   (interactive)
@@ -76,4 +79,4 @@
   (let ((completing-read-function #'completing-read-default))
     (call-interactively #'dired-create-directory)))
 
-(provide 'init-dired)
+(provide 'init-directory)

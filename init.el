@@ -19,7 +19,7 @@
 (require 'init-keybinding)
 (require 'init-editing-utils)
 (require 'init-window)
-(require 'init-dired)
+(require 'init-directory)
 (require 'init-buffer)
 (require 'init-frame)
 (require 'init-tramp)

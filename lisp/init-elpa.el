@@ -43,6 +43,8 @@ re-downloaded in order to locate PACKAGE."
         company-web
         counsel
         dired+
+        treemacs
+        treemacs-evil
         elisp-slime-nav
         elpa-mirror
         emmet-mode
