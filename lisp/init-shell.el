@@ -61,6 +61,8 @@
 (defalias 'eshell/em #'find-file)
 (defalias 'eshell/d #'dired)
 (defalias 'eshell/b #'ibuffer)
+(defalias 'eshell/fo #'find-file-other-window)
+(defalias 'eshell/do #'dired-other-window)
 
 ;; eshell clear
 (defun eshell/clear ()
