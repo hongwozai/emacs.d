@@ -106,6 +106,7 @@
 ;;; ============================ buffer key ================================
 (global-set-key (kbd "M-h") 'previous-buffer)
 (global-set-key (kbd "M-l") 'next-buffer)
+(global-set-key (kbd "M-g") 'ivy-switch-buffer)
 
 ;;; ============================ window key ================================
 (define-prefix-command 'window-prefix-map)
