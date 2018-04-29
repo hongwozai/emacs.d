@@ -25,7 +25,7 @@
 (pyim-basedict-enable)
 (with-eval-after-load 'pyim
   (setq default-input-method "pyim")
-  (setq pyim-use-tooltip 'pos-tip)
+  (setq pyim-use-tooltip 'popup)
   (setq pyim-page-length 5)
   (setq pyim-enable-words-predict nil)
   (global-set-key (kbd "C-SPC") 'toggle-input-method))

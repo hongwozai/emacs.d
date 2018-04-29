@@ -10,7 +10,8 @@
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 (setq web-mode-engines-alist
-      '(("php"    . "\\.phtml\\'")))
+      '(("php"    . "\\.phtml\\'")
+        ("django" . "\\.djhtml\\'")))
 
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-css-indent-offset    2)
@@ -22,7 +23,14 @@
 (setq web-mode-enable-current-element-highlight t)
 
 ;;; emmet-mode
-(add-hook 'web-mode-hook 'emmet-mode)
+(add-hook 'web-mode-hook
+          (lambda ()
+            (emmet-mode)
+            (setq-local electric-pair-inhibit-predicate
+                        `(lambda (c)
+                           (if (char-equal c ?\{)
+                               t
+                             (,electric-pair-inhibit-predicate c))))))
 
 ;;; company-web
 (add-hook 'web-mode-hook

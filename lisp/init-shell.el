@@ -56,6 +56,9 @@
             (setq-local company-backends nil)
             (add-hook 'evil-emacs-state-entry-hook
                       (lambda () (interactive) (goto-char (point-max))) nil t)
+            (defun eshell/clear ()
+              (interactive)
+              (eshell/clear-scrollback))
             ))
 
 (defalias 'eshell/em #'find-file)
@@ -64,11 +67,7 @@
 (defalias 'eshell/fo #'find-file-other-window)
 (defalias 'eshell/do #'dired-other-window)
 
-;; eshell clear
-(defun eshell/clear ()
-  (interactive)
-  (let ((inhibit-read-only t))
-    (erase-buffer)))
+
 
 ;;;
 (defun hong-backward-kill-word ()
