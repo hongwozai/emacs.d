@@ -30,9 +30,38 @@
                                 (wrong-type-argument nil))
                               default-directory)))
 
-(defun ffip-current-directory ()
+(defun hong/project-find-file ()
   (interactive)
   (let ((ffip-project-root (get-project-root)))
     (ffip)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; fuzzy read file
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun hong/counsel-grep-project (&optional dir)
+  (interactive)
+  (let* ((keyword (read-string "Enter grep pattern: "))
+         (directory (if dir dir (get-project-root)))
+         (cands (split-string
+                 (shell-command-to-string
+                  (format "grep -rsnE \"%s\" %s" keyword directory))
+                 "[\r\n]+"
+                 t))
+         )
+    (ivy-read (format "Grep at %s: " keyword)
+              cands
+              :action #'counsel-git-grep-action
+              :caller 'hong/counsel-grep-project
+              )))
+
+(defun hong/project-search-file ()
+  (interactive)
+  (let ((dir (get-project-root))
+        (haveag (executable-find "ag"))
+        (isgit (locate-dominating-file "" ".git")))
+    (cond
+      (isgit (counsel-git-grep))
+      (haveag (counsel-ag "" dir))
+      (t (hong/counsel-grep-project)))))
 
 (provide 'init-project)

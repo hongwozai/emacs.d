@@ -54,9 +54,6 @@
   ("!" dired-unmark-all-marks)
   ("q" nil "quit" :color blue))
 
-;;; ============================= treemacs ========================
-(autoload 'treemacs-toggle "treemacs-evil" "treemacs evil")
-
 ;;; ============================= misc ==============================
 (defun hong--dired-top-line ()
   (interactive)

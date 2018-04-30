@@ -29,9 +29,10 @@
   ;; file
   "fr"  'counsel-recentf
   "fl"  'counsel-locate
+  "ft"  'counsel-tramp
   "fo"  'ido-find-file-other-window
   ;; ffip
-  "ff"  'ffip-current-directory
+  "ff"  'hong/project-find-file
   "fc"  'ffip-create-project-file
   "fs"  'find-file-in-project-by-selected
 
@@ -54,7 +55,7 @@
 
   "sd"  'sudo-edit
   ;; search
-  "sa"  'counsel-ag
+  "sa"  'hong/project-search-file
   "sA"  'ag
   "so"  'occur
   "sg"  'rgrep
@@ -149,7 +150,6 @@
 
 ;;; keybindings
 (global-set-key (kbd "<f2>") 'eshell)
-(global-set-key (kbd "<f3>") 'treemacs-toggle)
 (global-set-key (kbd "<f5>") 'compile)
 (global-set-key (kbd "<f9>") 'magit-status)
 

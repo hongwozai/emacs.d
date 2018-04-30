@@ -42,9 +42,8 @@ re-downloaded in order to locate PACKAGE."
         company-c-headers
         company-web
         counsel
+        counsel-tramp
         dired+
-        treemacs
-        treemacs-evil
         elisp-slime-nav
         elpa-mirror
         emmet-mode
@@ -56,6 +55,7 @@ re-downloaded in order to locate PACKAGE."
         evil-matchit
         evil-mc
         evil-surround
+        elpa-mirror
         exec-path-from-shell
         expand-region
         find-file-in-project
@@ -68,7 +68,6 @@ re-downloaded in order to locate PACKAGE."
         ivy
         magit
         markdown-mode
-        monokai-theme
         gruvbox-theme
         multi-term
         paredit
