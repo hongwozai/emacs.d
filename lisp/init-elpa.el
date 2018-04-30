@@ -9,7 +9,8 @@
       `(("localelpa" . ,(expand-file-name "~/.emacs.d/localelpa"))
         ("gnu"   . "https://elpa.emacs-china.org/gnu/")
         ("melpa" . "https://elpa.emacs-china.org/melpa/")
-        ("melpa-stable" . "https://elpa.emacs-china.org/melpa-stable/")))
+        ("melpa-stable" . "https://elpa.emacs-china.org/melpa-stable/")
+))
 
 ;;; offical Melpa (and Gnu)
 ;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -43,11 +44,9 @@ re-downloaded in order to locate PACKAGE."
         company-web
         counsel
         counsel-tramp
-        dired+
         elisp-slime-nav
         elpa-mirror
         emmet-mode
-        etags-select
         evil
         evil-anzu
         iedit

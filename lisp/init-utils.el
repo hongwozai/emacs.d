@@ -19,6 +19,8 @@
             collecting (expand-file-name dir lisp-dir))
          load-path)))
 
+(add-to-list 'load-path "~/.emacs.d/site-lisp")
+
 (setq custom-theme-directory
       (concat user-emacs-directory "site-lisp/themes"))
 

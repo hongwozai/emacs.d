@@ -160,6 +160,6 @@
 (global-set-key (kbd "M-]") 'multi-term-next)
 
 ;;; C-p
-(define-key evil-normal-state-map (kbd "C-p") 'ffip-current-directory)
+(define-key evil-normal-state-map (kbd "C-p") 'hong/project-find-file)
 
 (provide 'init-keybinding)

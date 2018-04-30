@@ -22,8 +22,8 @@
 
 ;;; ======================= input method =================================
 (require 'pyim)
-(pyim-basedict-enable)
 (with-eval-after-load 'pyim
+  (pyim-basedict-enable)
   (setq default-input-method "pyim")
   (setq pyim-use-tooltip 'popup)
   (setq pyim-page-length 5)
