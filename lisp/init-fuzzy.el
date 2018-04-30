@@ -78,7 +78,8 @@
 
 (defun hong/ido-find-file-with-use-ffip ()
   (interactive)
-  (ido-file-internal ido-default-file-method
-                     'ffip-current-directory))
+  (let ((ffip-project-root nil))
+    (ido-file-internal ido-default-file-method
+                             'ffip)))
 
 (provide 'init-fuzzy)
