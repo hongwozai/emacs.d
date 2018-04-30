@@ -54,6 +54,9 @@
               :caller 'hong/counsel-grep-project
               )))
 
+;;; use counsel-git-grep performance problem
+(setq counsel--git-grep-count-threshold 2000)
+
 (defun hong/project-search-file ()
   (interactive)
   (let ((dir (get-project-root))
