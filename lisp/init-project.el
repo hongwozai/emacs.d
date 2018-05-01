@@ -39,7 +39,10 @@
 ;;; fuzzy read file
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun hong/counsel-grep-project (&optional dir)
-  (interactive)
+  (interactive
+   (list
+    (if current-prefix-arg
+        (file-name-as-directory (read-directory-name "Directory: ")))))
   (let* ((keyword (read-string "Enter grep pattern: "))
          (directory (if dir dir (get-project-root)))
          (cands (split-string
@@ -66,5 +69,6 @@
       (isgit (counsel-git-grep))
       (haveag (counsel-ag "" dir))
       (t (hong/counsel-grep-project)))))
+
 
 (provide 'init-project)
