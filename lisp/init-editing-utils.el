@@ -140,6 +140,9 @@
   (kbd "N") 'iedit-prev-occurrence
   (kbd "C-;") 'iedit-mode)
 
+(evil-define-minor-mode-key 'insert 'iedit-mode
+  (kbd "C-;") '(lambda () (interactive) (iedit-mode) (evil-normal-state)))
+
 (with-eval-after-load 'iedit
   (define-key iedit-mode-occurrence-keymap
       (kbd "<tab>") 'iedit-toggle-selection)
