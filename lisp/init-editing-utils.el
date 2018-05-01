@@ -138,8 +138,14 @@
   (kbd "G")  'iedit-goto-last-occurrence
   (kbd "n") 'iedit-next-occurrence
   (kbd "N") 'iedit-prev-occurrence
-  [tab]     'iedit-toggle-selection
   (kbd "C-;") 'iedit-mode)
+
+(with-eval-after-load 'iedit
+  (define-key iedit-mode-occurrence-keymap
+      (kbd "<tab>") 'iedit-toggle-selection)
+  (define-key iedit-mode-occurrence-keymap
+      (kbd "TAB")   'iedit-toggle-selection)
+  )
 
 (define-key evil-normal-state-map (kbd "C-;") 'iedit-mode)
 
