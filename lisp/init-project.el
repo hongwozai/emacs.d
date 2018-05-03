@@ -11,6 +11,28 @@
   (if (eq tags-file-name nil)
       (call-interactively #'visit-tags-table)))
 
+(defun hong/find-and-etags (dir)
+  (interactive
+   (list (read-directory-name "Directory: " (get-project-root))))
+  (let* ((delpath (format "\\( -path '*%s/.*/*' -o -path '*/*TAGS' \\)"
+                          dir))
+         (curpath (concat
+                   (file-name-as-directory
+                    (read-directory-name "Gen Tags Directory: "))
+                   "TAGS"))
+         (initial-value
+          (format "find %s -type f -a -not %s | etags -o %s -"
+                  dir
+                  delpath
+                  curpath))
+         (shell (read-shell-command "Command: " initial-value))
+         (retstr (shell-command-to-string shell)))
+    (if (string-equal retstr "")
+        (progn
+         (visit-tags-table curpath)
+         (message "Successful Generate TAGS at %s" curpath))
+      (message "ERROR: %s" retstr))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; find file in project
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
