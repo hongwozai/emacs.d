@@ -15,6 +15,7 @@
                 image-mode haskell-error-mode
                 flycheck-error-list-mode
                 anaconda-nav-mode cider-mode
+                xref--xref-buffer-mode
                 cider-stacktrace-mode))
   (evil-set-initial-state mode 'emacs))
 
