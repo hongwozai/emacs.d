@@ -38,7 +38,7 @@
 
   ;; gtags
   "gc"  'counsel-gtags-create-tags
-  "gd"  'counsel-gtags-find-definition
+  "gd"  'hong/counsel-gtags-find-definition-nowait
   "gu"  'counsel-gtags-update-tags
   "gr"  'counsel-gtags-find-reference
   "gs"  'counsel-gtags-find-symbol
