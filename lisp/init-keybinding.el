@@ -159,6 +159,8 @@
 (global-set-key (kbd "M-[") 'multi-term-prev)
 (global-set-key (kbd "M-]") 'multi-term-next)
 
+(global-set-key (kbd "C-=") 'er/expand-region)
+
 ;;; C-p
 (define-key evil-normal-state-map (kbd "C-p") 'hong/project-find-file)
 
