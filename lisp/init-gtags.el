@@ -19,13 +19,10 @@
               (* hong/counsel-gtags-file-size-too-big 1024 1024))
              (read-string "Pattern: " (thing-at-point 'symbol t))
            (counsel-gtags--read-tag 'definition))))
-  (let ((ret (catch 'not-pattern
-               (counsel-gtags--select-file 'definition tagname))))
-    (if (eq ret 'pattern)
-        (message "No Result"))))
+  (counsel-gtags--select-file 'definition tagname))
 
 (defadvice counsel-gtags--collect-candidates (after hong/cgcc activate)
   (when (not ad-return-value)
-    (throw 'not-pattern 'pattern)))
+    (error "No Result")))
 
 (provide 'init-gtags)
