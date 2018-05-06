@@ -30,6 +30,15 @@
 (autoload 'antlr-v4-mode "antlr-mode" nil t)
 (push '("\\.g4\\'" . antlr-v4-mode) auto-mode-alist)
 
+;;; bison-mode
+(autoload 'bison-mode "bison-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
+(add-to-list 'auto-mode-alist '("\\.yacc\\'" . bison-mode))
+(add-to-list 'auto-mode-alist '("\\.l\\'" . bison-mode))
+(add-to-list 'auto-mode-alist '("\\.lex\\'" . bison-mode))
+(add-to-list 'auto-mode-alist '("\\.jison\\'" . jison-mode))
+
+
 ;;; graphviz
 (when (executable-find "dot")
   (with-eval-after-load "org"
