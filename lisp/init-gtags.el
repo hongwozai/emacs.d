@@ -25,4 +25,7 @@
   (when (not ad-return-value)
     (error "No Result")))
 
+;;; gtags .h is tread as c++ source file
+(exec-path-from-shell-setenv "GTAGSFORCECPP" "1")
+
 (provide 'init-gtags)
