@@ -7,9 +7,11 @@
 (define-key evil-normal-state-map
     (kbd "C-]") 'etags-select-find-tag-at-point)
 
-(defadvice etags-select-find-tag-at-point (before hong-esftap activate)
-  (if (eq tags-file-name nil)
-      (call-interactively #'visit-tags-table)))
+(with-eval-after-load 'etags-select
+  (setq etags-select-go-if-unambiguous t)
+  (defadvice etags-select-find-tag-at-point (before hong-esftap activate)
+    (if (eq tags-file-name nil)
+        (call-interactively #'visit-tags-table))))
 
 (defun hong/find-and-etags (dir)
   (interactive
