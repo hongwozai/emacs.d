@@ -4,13 +4,17 @@
 ;;; localelpa
 ;;; mkdir -p ~/myelpa && emacs --batch -l ~/.emacs.d/init.el -l /home/lm/.emacs.d/elpa/elpa-mirror-20160917.10/elpa-mirror.el --eval='(setq elpamr-default-output-directory "/home/lm/.emacs.d/localelpa")' --eval='(elpamr-create-mirror-for-installed)'
 
+;;; touch ~/.emacs.d/offline -> offline config
 ;;; Also use Melpa for most packages
 (setq package-archives
-      `(("localelpa" . ,(expand-file-name "~/.emacs.d/localelpa"))
-        ("gnu"   . "https://elpa.emacs-china.org/gnu/")
-        ("melpa" . "https://elpa.emacs-china.org/melpa/")
-        ("melpa-stable" . "https://elpa.emacs-china.org/melpa-stable/")
-))
+      `(("localelpa" . ,(expand-file-name "~/.emacs.d/localelpa"))))
+
+(when (not (file-exists-p (expand-file-name "~/.emacs.d/offline")))
+  (setcdr package-archives
+          '(("gnu"   . "https://elpa.emacs-china.org/gnu/")
+            ("melpa" . "https://elpa.emacs-china.org/melpa/")
+            ("melpa-stable" . "https://elpa.emacs-china.org/melpa-stable/")))
+  )
 
 ;;; offical Melpa (and Gnu)
 ;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))

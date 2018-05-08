@@ -88,7 +88,8 @@
   (interactive)
   (let ((dir (get-project-root))
         (haveag (executable-find "ag"))
-        (isgit (locate-dominating-file "" ".git")))
+        (isgit (and (locate-dominating-file "" ".git")
+                    (executable-find "git"))))
     (cond
       (isgit (counsel-git-grep))
       (haveag (counsel-ag "" dir))
