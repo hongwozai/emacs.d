@@ -62,16 +62,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; fuzzy read file
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun hong/counsel-grep-project (&optional dir)
-  (interactive
-   (list
-    (if current-prefix-arg
-        (file-name-as-directory (read-directory-name "Directory: ")))))
-  (let* ((keyword (read-string "Enter grep pattern: "))
+(defun hong/counsel-grep-project (&optional dir fs)
+  (interactive)
+  (let* ((dir (if current-prefix-arg
+                  (file-name-as-directory
+                   (read-directory-name "Directory: "))))
+         (fs (if current-prefix-arg
+                 (read-string "Files: " "*")))
+         (keyword (read-string "Enter grep pattern: "))
          (directory (if dir dir (get-project-root)))
+         (files (if fs fs "*"))
+         (useless (grep-compute-defaults))
          (cands (split-string
                  (shell-command-to-string
-                  (format "grep -rsnE \"%s\" %s" keyword directory))
+                  (rgrep-default-command keyword files directory))
                  "[\r\n]+"
                  t))
          )
@@ -92,8 +96,12 @@
                     (executable-find "git"))))
     (cond
       (isgit (counsel-git-grep))
-      (haveag (counsel-ag "" dir))
-      (t (hong/counsel-grep-project)))))
+      (haveag (if current-prefix-arg
+                  (funcall-interactively #'counsel-ag)
+                  (counsel-ag "" dir)))
+      (t (if current-prefix-arg
+             (funcall-interactively #'hong/counsel-grep-project)
+             (hong/counsel-grep-project))))))
 
 
 (provide 'init-project)
