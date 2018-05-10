@@ -1,39 +1,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; etags
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'etags-select-find-tag-at-point "etags-select" nil t)
+(autoload 'counsel-etags-select-find-tag-at-point "counsel-etags-select" nil t)
+(autoload 'counsel-etags-select-generate-etags "counsel-etags-select" nil t)
+(autoload 'counsel-etags-select-visit-tag-table "counsel-etags-select" nil t)
 
-;;; etags-select
+;;; counsel-etags-select
 (define-key evil-normal-state-map
-    (kbd "C-]") 'etags-select-find-tag-at-point)
-
-(with-eval-after-load 'etags-select
-  (setq etags-select-go-if-unambiguous t)
-  (defadvice etags-select-find-tag-at-point (before hong-esftap activate)
-    (if (eq tags-file-name nil)
-        (call-interactively #'visit-tags-table))))
-
-(defun hong/find-and-etags (dir)
-  (interactive
-   (list (read-directory-name "Directory: " (get-project-root))))
-  (let* ((delpath (format "\\( -path '*%s/.*/*' -o -path '*/*TAGS' \\)"
-                          dir))
-         (curpath (concat
-                   (file-name-as-directory
-                    (read-directory-name "Gen Tags Directory: "))
-                   "TAGS"))
-         (initial-value
-          (format "find %s -type f -a -not %s | etags -o %s -"
-                  dir
-                  delpath
-                  curpath))
-         (shell (read-shell-command "Command: " initial-value))
-         (retstr (shell-command-to-string shell)))
-    (if (string-equal retstr "")
-        (progn
-         (visit-tags-table curpath)
-         (message "Successful Generate TAGS at %s" curpath))
-      (message "ERROR: %s" retstr))))
+    (kbd "C-]") 'counsel-etags-select-find-tag-at-point)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; find file in project
@@ -79,6 +53,8 @@
                  "[\r\n]+"
                  t))
          )
+    (ivy-set-display-transformer 'hong/counsel-grep-project
+                                 'counsel-git-grep-transformer)
     (ivy-read (format "Grep at %s: " keyword)
               cands
               :action #'counsel-git-grep-action
