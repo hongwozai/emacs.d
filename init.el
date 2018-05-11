@@ -36,7 +36,6 @@
 
 ;;; common
 (require 'init-git)
-(maybe-require "gtags"  'init-gtags)
 
 ;;; application
 (require 'init-org-mode)
@@ -44,6 +43,8 @@
 ;;; program language
 ;; C/C++
 (require 'init-cc-mode)
+(maybe-require "gtags"  'init-gtags)
+(maybe-require "rdm"    'init-rtags)
 
 ;; lisp dialect
 (require 'init-lisp)
