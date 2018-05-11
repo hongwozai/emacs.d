@@ -37,6 +37,9 @@
         (kill-buffer (process-buffer process)))))
 ;;; ielm C-c C-d exit
 (add-hook 'ielm-mode-hook 'hong/exit)
+(add-hook 'inferior-octave-mode-hook 'hong/exit)
+(add-hook 'inferior-python-mode-hook 'hong/exit)
+(add-hook 'inferior-scheme-mode-hook 'hong/exit)
 
 ;;; =========================== maybe =====================================
 (defun maybe-require (executable feature)
