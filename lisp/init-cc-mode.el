@@ -9,7 +9,7 @@
         c-basic-offset  4)
 
   ;; auto delete
-  ;; (c-toggle-hungry-state 1)
+  (c-toggle-hungry-state 1)
   )
 
 (defun c/c++-mode-config ()

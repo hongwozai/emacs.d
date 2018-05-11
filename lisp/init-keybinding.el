@@ -40,6 +40,7 @@
   "gc"  'counsel-etags-select-generate-etags
   "gd"  'counsel-etags-select-find-tag-at-point
   "gs"  'counsel-etags-select-find-tag
+  "gp"  'pop-tag-mark
 
   ;; buffer and bookmark
   "bl"  'ibuffer
