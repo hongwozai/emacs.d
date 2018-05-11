@@ -333,9 +333,18 @@ Only works with GNU Emacs."
 found, see the `counsel-etags-select-no-select-for-one-match' variable to decide what
 to do."
   (interactive)
-  (if (eq tags-file-name nil)
-      (counsel-etags-select-visit-tag-table))
-  (counsel-etags-select--find (find-tag-default)))
+  (let (havetag)
+   (if (eq tags-file-name nil)
+       (counsel-etags-select-visit-tag-table)
+     (setq havetag
+           (every (lambda (x)
+                    (string-match (expand-file-name
+                                   (counsel-etags-select--default-directory))
+                                  (expand-file-name x)))
+                  (counsel-etags-select--get-tag-files))))
+   (if (not havetag)
+       (counsel-etags-select-visit-tag-table))
+   (counsel-etags-select--find (find-tag-default))))
 
 ;;;###autoload
 (defun counsel-etags-select-find-tag ()
@@ -365,11 +374,7 @@ to do."
                               (counsel-etags-select--default-directory))))
   (let* ((delpath (format "\\( -path '*%s/.*/*' -o -path '*/*TAGS' \\)"
                           dir))
-         (curpath (concat
-                   (file-name-as-directory
-                    (read-directory-name "Gen Tags Directory: "
-                                         (file-name-as-directory dir)))
-                   "TAGS"))
+         (curpath (concat (file-name-as-directory dir) "TAGS"))
          (initial-value
           (format "find %s -type f -a -not %s | etags -o %s -"
                   dir

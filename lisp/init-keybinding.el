@@ -36,12 +36,10 @@
   "fc"  'ffip-create-project-file
   "fs"  'find-file-in-project-by-selected
 
-  ;; gtags
-  "gc"  'counsel-gtags-create-tags
-  "gd"  'hong/counsel-gtags-find-definition-nowait
-  "gu"  'counsel-gtags-update-tags
-  "gr"  'counsel-gtags-find-reference
-  "gs"  'counsel-gtags-find-symbol
+  ;; tags
+  "gc"  'counsel-etags-select-generate-etags
+  "gd"  'counsel-etags-select-find-tag-at-point
+  "gs"  'counsel-etags-select-find-tag
 
   ;; buffer and bookmark
   "bl"  'ibuffer
