@@ -25,6 +25,8 @@
   (require 'rtags)
   (require 'ivy-rtags)
 
+  (rtags-start-process-unless-running)
+
   (dolist (hook '(c-mode-hook c++-mode-hook))
     (add-hook
      hook
