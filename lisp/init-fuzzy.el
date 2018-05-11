@@ -41,6 +41,7 @@
 (setq ivy-format-function 'ivy-format-function-arrow)
 (setq ivy-count-format "[%d/%d] ")
 (setq ivy-extra-directories nil)
+(setq ivy-use-virtual-buffers t)
 
 ;;; ivy mode
 (ivy-mode 1)
