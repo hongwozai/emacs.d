@@ -5,6 +5,9 @@
 (autoload 'counsel-etags-select-generate-etags "counsel-etags-select" nil t)
 (autoload 'counsel-etags-select-visit-tag-table "counsel-etags-select" nil t)
 
+;; Don't ask before rereading the TAGS files if they have changed
+(setq tags-revert-without-query t)
+
 ;;; counsel-etags-select
 (define-key evil-normal-state-map
     (kbd "C-]") 'counsel-etags-select-find-tag-at-point)
