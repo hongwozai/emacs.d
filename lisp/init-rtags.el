@@ -53,23 +53,34 @@
        )))
 )
 
-(defun hong/rtags-generate-index (dir)
-  (interactive
-   (list (read-directory-name "Directory: " (get-project-root))))
-  (let ((make-cmd
-         (shell-quote-argument
-          "make -nk | awk -f ~/.emacs.d/oneline.awk | grep -E '^(g++|gcc|clang)' | rc -c -"))
-        (cmake-cmd "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . && rc -J")
-        (ismake (or (locate-dominating-file default-directory "makefile")
-                    (locate-dominating-file default-directory "Makefile")))
-        (iscmake (locate-dominating-file default-directory "CMakeList.txt"))
-        (default-directory (file-name-as-directory dir)))
+(defun hong/rtags-generate-index (&optional dir)
+  (interactive)
+  (let* ((make-cmd
+          "make -nk | awk -f ~/.emacs.d/oneline.awk | grep -E '^(g\+\+|gcc|clang)' | rc -c -")
+         (cmake-cmd "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . && rc -J")
+         (mkfile (or (locate-dominating-file default-directory "makefile")
+                     (locate-dominating-file default-directory "Makefile")))
+         (cmakelist (locate-dominating-file default-directory "CMakeLists.txt"))
+         (dir
+          (file-name-as-directory
+           (if (or (not dir) current-prefix-arg)
+               (read-directory-name
+                "Directory: "
+                (if cmakelist (get-project-root) mkfile))
+             dir)))
+         (default-directory dir)
+         (ismake (or (file-exists-p (concat dir "makefile"))
+                     (file-exists-p (concat dir "Makefile"))))
+         (iscmake (file-exists-p (concat dir "CMakeLists.txt")))
+         ret)
     (if iscmake
-        (shell-command-to-string cmake-cmd)
+        (setq ret (shell-command cmake-cmd))
       (if ismake
-          (shell-command-to-string make-cmd)
+          (setq ret (shell-command make-cmd))
         (error "Not Make or CMake Project!")))
-    (message "Successful Generate.")))
+    (if (>= ret 0)
+        (message "Success.")
+      (message "Failure."))))
 
 ;;; rtags-start-process-unless-running
 ;;; rtags-find-symbol-at-point
