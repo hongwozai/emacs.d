@@ -58,27 +58,26 @@
   (let* ((make-cmd
           "make -nk | awk -f ~/.emacs.d/oneline.awk | grep -E '^(g\+\+|gcc|clang)' | rc -c -")
          (cmake-cmd "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . && rc -J")
-         (mkfile (or (locate-dominating-file default-directory "makefile")
-                     (locate-dominating-file default-directory "Makefile")))
-         (cmakelist (locate-dominating-file default-directory "CMakeLists.txt"))
          (dir
           (file-name-as-directory
            (if (or (not dir) current-prefix-arg)
-               (read-directory-name
-                "Directory: "
-                (if cmakelist (get-project-root) mkfile))
+               (read-directory-name "Directory: ")
              dir)))
          (default-directory dir)
          (ismake (or (file-exists-p (concat dir "makefile"))
                      (file-exists-p (concat dir "Makefile"))))
          (iscmake (file-exists-p (concat dir "CMakeLists.txt")))
+         (cmd-buffer "*cmd*")
          ret)
     (if iscmake
-        (setq ret (shell-command cmake-cmd))
+        (setq ret (shell-command cmake-cmd cmd-buffer cmd-buffer))
       (if ismake
-          (setq ret (shell-command make-cmd))
+          (setq ret (shell-command make-cmd cmd-buffer cmd-buffer))
         (error "Not Make or CMake Project!")))
-    (if (>= ret 0)
+    (if (and (>= ret 0)
+             (= 0 (length (save-window-excursion
+                            (switch-to-buffer cmd-buffer)
+                            (buffer-string)))))
         (message "Success.")
       (message "Failure."))))
 
