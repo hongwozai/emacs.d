@@ -40,7 +40,7 @@
          (evil-leader/set-key-for-mode mode
              "im" 'rtags-imenu
              "gd" 'rtags-find-symbol-at-point
-             "gr" 'rtags-find-reference-at-point
+             "gr" 'rtags-find-all-references-at-point
              "gs" 'rtags-find-symbol
              "gc" 'hong/rtags-generate-index
              "gp" 'rtags-location-stack-back))
