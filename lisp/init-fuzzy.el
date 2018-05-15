@@ -65,6 +65,9 @@
   (set-buffer-modified-p nil)
   (goto-char (point-min)))
 
+;;; initial input
+(setq ivy-initial-inputs-alist nil)
+
 ;;; =============================  misc function ================================
 (defun hong/ido-create-dir ()
   (interactive)
@@ -80,7 +83,6 @@
 (defun hong/ido-find-file-with-use-ffip ()
   (interactive)
   (let ((ffip-project-root nil))
-    (ido-file-internal ido-default-file-method
-                             'ffip)))
+    (ido-file-internal ido-default-file-method 'ffip)))
 
 (provide 'init-fuzzy)

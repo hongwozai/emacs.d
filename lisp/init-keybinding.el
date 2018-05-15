@@ -152,7 +152,7 @@
 (global-set-key (kbd "<f5>") 'compile)
 (global-set-key (kbd "<f9>") 'magit-status)
 
-(global-set-key (kbd "C-x C-f") 'ido-find-file)
+(global-set-key (kbd "C-x C-f") 'hong/ido-find-file-with-use-ffip)
 (global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
 
 (global-set-key (kbd "M-[") 'multi-term-prev)

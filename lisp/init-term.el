@@ -36,6 +36,7 @@
             (setq term-unbind-key-list '("C-x"))
             (setq term-bind-key-alist
                   '(("C-l" . switch-to-buffer)
+                    ("C-f" . hong/ido-find-file-with-use-ffip)
                     ("M-:" . eval-expression)
                     ("M-w" . kill-ring-save)
                     ("C-y" . term-paste)
