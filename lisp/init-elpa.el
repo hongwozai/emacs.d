@@ -51,6 +51,7 @@ re-downloaded in order to locate PACKAGE."
         elisp-slime-nav
         elpa-mirror
         emmet-mode
+        emamux
         evil
         evil-anzu
         iedit
