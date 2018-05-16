@@ -42,6 +42,7 @@
         (emacs-lisp-mode . "*.el")))
 
 (with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
   (defun grep-read-files (regexp)
     (read-string "Search Files: "
                  (let ((str (assoc major-mode hong-grep-files-aliases)))
@@ -59,5 +60,8 @@
 
   (hong/select-buffer-window ag "*ag search*")
   )
+
+(with-eval-after-load 'ag
+  (define-key ag-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode))
 
 (provide 'init-search)
