@@ -77,6 +77,7 @@ re-downloaded in order to locate PACKAGE."
         paredit
         php-mode
         rainbow-delimiters
+        restclient
         smex
         sql-indent
         tramp-term

@@ -73,6 +73,7 @@
  (queue . [(0 2) nil "Queue data structure" tar])
  (rainbow-delimiters . [(20170929 432) nil "Highlight brackets according to their depth" tar])
  (rtags . [(20180511 0) nil "rtags C/Cpp backend server" tar])
+ (restclient . [(20180516 0) nil "HTTP REST client tool for emacs" tar])
  (s . [(20180406 108) nil "The long lost Emacs string manipulation library." tar])
  (seq . [(2 20) nil "Sequence manipulation functions" tar])
  (smex . [(20151212 1409) ((emacs (24))) "Mstyle fuzzy matching." tar])
