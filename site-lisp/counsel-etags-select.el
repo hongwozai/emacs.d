@@ -338,9 +338,8 @@ to do."
        (counsel-etags-select-visit-tag-table)
      (setq havetag
            (every (lambda (x)
-                    (string-match (expand-file-name
-                                   (counsel-etags-select--default-directory))
-                                  (expand-file-name x)))
+                    (string-match (file-name-directory (expand-file-name x))
+                                  (expand-file-name default-directory)))
                   (counsel-etags-select--get-tag-files))))
    (if (not havetag)
        (counsel-etags-select-visit-tag-table))
