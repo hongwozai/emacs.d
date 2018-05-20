@@ -51,6 +51,9 @@
 (maybe-require "lein"   'init-clojure)
 (maybe-require "sbcl"   'init-common-lisp)
 
+;;; octave matlab
+(require 'init-octave)
+
 ;; web
 (require 'init-web)
 (require 'init-js)
