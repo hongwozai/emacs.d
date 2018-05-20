@@ -229,7 +229,7 @@ Only works with GNU Emacs."
 (defun counsel-etags-select--tags-completion-table-function ()
   "Short tag name completion."
   (let ((table (make-vector 16383 0))
-        (tag-regex "^.*?\\(\^?\\(.+\\)\^A\\|\\<\\(.+\\)[ \f\t()=,;]*\^?[0-9,]\\)")
+        (tag-regex "^.*?\\(\^?\\(.+\\)\^A\\|\\<\\(.\)[ \f\t()=,;]*\^?[0-9,]\\)")
         (progress-reporter
          (make-progress-reporter
           (format "Making tags completion table for %s..." buffer-file-name)
@@ -338,9 +338,8 @@ to do."
        (counsel-etags-select-visit-tag-table)
      (setq havetag
            (every (lambda (x)
-                    (string-match (expand-file-name
-                                   (counsel-etags-select--default-directory))
-                                  (expand-file-name x)))
+                    (string-match (file-name-directory (expand-file-name x))
+                                  (expand-file-name default-directory)))
                   (counsel-etags-select--get-tag-files))))
    (if (not havetag)
        (counsel-etags-select-visit-tag-table))
@@ -375,10 +374,20 @@ to do."
   (let* ((delpath (format "\\( -path '*%s/.*/*' -o -path '*/*TAGS' \\)"
                           dir))
          (curpath (concat (file-name-as-directory dir) "TAGS"))
+         (ctags-version (shell-command-to-string "ctags --version"))
+         (tags-program (if (executable-find "ctags-exuberant")
+                           "ctags-exuberant -e -L - --langmap=c++:.h"
+                         (cond
+                           ((string-match "[Ee]xuberant" ctags-version)
+                            "ctags -e -L - ")
+                           ((string-match "command not found" ctags-version)
+                            "etags - ")
+                           (t (error "No Tags Program(ctags|etags|ctags-exuberant)")))))
          (initial-value
-          (format "find %s -type f -a -not %s | etags -o %s -"
+          (format "find %s -type f -a -not %s | %s -o %s"
                   dir
                   delpath
+                  tags-program
                   curpath))
          (shell (read-shell-command "Command: " initial-value))
          (retstr (shell-command-to-string shell)))
