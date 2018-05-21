@@ -38,15 +38,4 @@
 (add-to-list 'auto-mode-alist '("\\.lex\\'" . bison-mode))
 (add-to-list 'auto-mode-alist '("\\.jison\\'" . jison-mode))
 
-
-;;; graphviz
-(when (executable-find "dot")
-  (with-eval-after-load "org"
-    (add-to-list 'org-src-lang-modes  '("dot" . graphviz-dot)))
-;;; BUG: graphviz org-mode eval-after-load
-  (require-package 'graphviz-dot-mode)
-  (hong/select-buffer-window graphviz-dot-preview "*preview*")
-  (setq graphviz-dot-auto-indent-on-braces t)
-  (setq graphviz-dot-toggle-completions t))
-
 (provide 'init-misc-mode)

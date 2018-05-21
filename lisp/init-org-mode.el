@@ -28,7 +28,7 @@
 (setq org-agenda-files (list "~/org/todo.org"))
 
 (setq org-todo-keywords
-      '((sequence "TODO(t!)" "|" "DONE(d@/!)" "CANCELED(c@/!)")))
+      '((sequence "TODO(t!)" "INPROGRESS(i@/!)" "|" "DONE(d@/!)" "CANCELED(c@/!)")))
 
 ;;; org capture fast remember
 ;;; org-capture

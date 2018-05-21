@@ -39,6 +39,7 @@
 
 ;;; application
 (require 'init-org-mode)
+(require 'init-graphviz)
 
 ;;; program language
 ;; C/C++
