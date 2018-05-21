@@ -104,9 +104,7 @@
   "."   'counsel-M-x)
 
 ;;; ============================ buffer key ================================
-(global-set-key (kbd "M-h") 'previous-buffer)
-(global-set-key (kbd "M-l") 'next-buffer)
-(global-set-key (kbd "M-g") 'ivy-switch-buffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;;; ============================ window key ================================
 (define-prefix-command 'window-prefix-map)
@@ -134,7 +132,10 @@
 (global-set-key (kbd "C-S-<down>")
                 (lambda () (interactive) (hong-window-resize 'below)))
 
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "M-h") 'windmove-left)
+(global-set-key (kbd "M-j") 'windmove-down)
+(global-set-key (kbd "M-k") 'windmove-up)
+(global-set-key (kbd "M-l") 'windmove-right)
 
 ;;; ========================= help key =====================================
 (evil-define-key 'motion help-mode-map (kbd "L") 'help-go-back)

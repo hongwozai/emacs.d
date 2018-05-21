@@ -229,7 +229,7 @@ Only works with GNU Emacs."
 (defun counsel-etags-select--tags-completion-table-function ()
   "Short tag name completion."
   (let ((table (make-vector 16383 0))
-        (tag-regex "^.*?\\(\^?\\(.+\\)\^A\\|\\<\\(.\)[ \f\t()=,;]*\^?[0-9,]\\)")
+        (tag-regex "^.*?\\(\^?\\(.+\\)\^A\\|\\<\\(.+\\)[ \f\t()=,;]*\^?[0-9,]\\)")
         (progress-reporter
          (make-progress-reporter
           (format "Making tags completion table for %s..." buffer-file-name)
