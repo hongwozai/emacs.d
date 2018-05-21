@@ -6,7 +6,7 @@
 ;;; cmake
 ;;; cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . && rc -J
 ;;; make
-;;; make -nk | rc -c -
+;;; make -B -nk | rc -c -
 (setq rtags-display-result-backend 'ivy)
 
 (defun hong/flycheck-rtags-install ()
@@ -56,7 +56,7 @@
 (defun hong/rtags-generate-index (&optional dir)
   (interactive)
   (let* ((make-cmd
-          "make -nk | awk -f ~/.emacs.d/oneline.awk | grep -E '^(g\+\+|gcc|clang)' | rc -c -")
+          "make -nBk | awk -f ~/.emacs.d/oneline.awk | grep -E '^(g\+\+|gcc|clang)' | rc -c -")
          (cmake-cmd "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . && rc -J")
          (dir
           (file-name-as-directory
