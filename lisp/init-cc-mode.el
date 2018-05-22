@@ -35,6 +35,11 @@
   (setq-local company-backends
               '(company-etags company-gtags company-c-headers company-clang))
 
+  ;; tags(default etags)
+  (cond ((executable-find "rc")
+         (hong/install-rtags))
+        ((executable-find "global")
+         (hong/install-gtags)))
   )
 
 (add-hook 'c-mode-common-hook (lambda () (cc-common-config)))

@@ -27,31 +27,23 @@
 
   (rtags-start-process-unless-running)
 
-  (dolist (hook '(c-mode-hook c++-mode-hook))
-    (add-hook
-     hook
-     (lambda ()
-       ;; checker complete
-       (hong/flycheck-rtags-install)
-       (hong/company-rtags-install)
+  ;; checker complete
+  (hong/flycheck-rtags-install)
+  (hong/company-rtags-install)
 
-       ;; keybinding
-       (dolist (mode '(c-mode c++-mode))
-         (evil-leader/set-key-for-mode mode
-             "im" 'rtags-imenu
-             "gd" 'rtags-find-symbol-at-point
-             "gr" 'rtags-find-all-references-at-point
-             "gs" 'rtags-find-symbol
-             "gc" 'hong/rtags-generate-index
-             "gp" 'rtags-location-stack-back))
+  ;; keybinding
+  (evil-leader/set-key
+      "im" 'rtags-imenu
+      "gd" 'rtags-find-symbol-at-point
+      "gr" 'rtags-find-all-references-at-point
+      "gs" 'rtags-find-symbol
+      "gc" 'hong/rtags-generate-index
+      "gp" 'rtags-location-stack-back)
 
-       (dolist (map '(c-mode-map c++-mode-map))
-         (eval `(evil-define-key 'normal ,map
-                  (kbd "M-.") 'rtags-find-symbol-at-point
-                  (kbd "M-,") 'rtags-location-stack-back
-                  (kbd "M-?") 'rtags-display-summary)))
-       )))
-)
+  (evil-local-set-key 'normal (kbd "M-.") 'rtags-find-symbol-at-point)
+  (evil-local-set-key 'normal (kbd "M-,") 'rtags-location-stack-back)
+  (evil-local-set-key 'normal (kbd "M-?") 'rtags-display-summary)
+  )
 
 (defun hong/rtags-generate-index (&optional dir)
   (interactive)

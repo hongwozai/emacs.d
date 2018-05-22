@@ -31,18 +31,16 @@
   (require 'counsel-gtags)
 
   ;; keybinding
-  (dolist (mode '(c-mode c++-mode))
-    (evil-leader/set-key-for-mode mode
-        "gd" 'hong/counsel-gtags-find-definition-nowait
-        "gr" 'counsel-gtags-find-reference
-        "gs" 'counsel-gtags-find-symbol
-        "gc" 'counsel-gtags-create-tags
-        "gp" 'counsel-gtags-go-backward))
+  (evil-leader/set-key
+      "gd" 'hong/counsel-gtags-find-definition-nowait
+      "gr" 'counsel-gtags-find-reference
+      "gs" 'counsel-gtags-find-symbol
+      "gc" 'counsel-gtags-create-tags
+      "gp" 'counsel-gtags-go-backward)
 
-  (dolist (map '(c-mode-map c++-mode-map))
-    (eval `(evil-define-key 'normal ,map
-             (kbd "M-.") 'counsel-gtags-find-definition
-             (kbd "M-,") 'counsel-gtags-go-backward
-             (kbd "M-?") 'counsel-gtags-find-reference))))
+  (evil-local-set-key 'normal (kbd "M-.") 'counsel-gtags-find-definition)
+  (evil-local-set-key 'normal (kbd "M-,") 'counsel-gtags-go-backward)
+  (evil-local-set-key 'normal (kbd "M-?") 'counsel-gtags-find-reference)
+  )
 
 (provide 'init-gtags)
