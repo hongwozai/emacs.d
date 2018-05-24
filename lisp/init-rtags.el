@@ -48,7 +48,7 @@
 (defun hong/rtags-generate-index (&optional dir)
   (interactive)
   (let* ((make-cmd
-          "make -nBk | awk -f ~/.emacs.d/oneline.awk | grep -E '^(g\+\+|gcc|clang)' | rc -c -")
+          "make -nBk 2>/dev/null | awk -f ~/.emacs.d/oneline.awk | grep -E '^(g\+\+|gcc|clang)' | rc -c -")
          (cmake-cmd "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . && rc -J")
          (dir
           (file-name-as-directory
