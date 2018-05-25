@@ -31,10 +31,10 @@
                                 (wrong-type-argument nil))
                               default-directory)))
 
-(defun hong/project-find-file ()
-  (interactive)
+(defun hong/project-find-file (&optional open-other-window)
+  (interactive "P")
   (let ((ffip-project-root (get-project-root)))
-    (ffip)))
+    (ffip open-other-window)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; fuzzy read file
