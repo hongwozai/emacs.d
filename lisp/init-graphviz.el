@@ -4,11 +4,7 @@
 
 ;;; graphviz
 (with-eval-after-load "org"
-  (add-to-list 'org-src-lang-modes  '("dot" . graphviz-dot))
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((dot . t)))
-  )
+  (add-to-list 'org-src-lang-modes  '("dot" . graphviz-dot)))
 
 (with-eval-after-load 'graphviz-dot-mode
   (add-hook 'graphviz-dot-mode-hook

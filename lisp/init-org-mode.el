@@ -10,11 +10,6 @@
 (setq org-agenda-include-diary nil)
 (setq org-image-actual-width '(300))
 
-(defun hong/org-insert-image ()
-  (interactive)
-  (org-insert-link)
-  (org-redisplay-inline-images))
-
 ;;; org agenda
 (setq org-agenda-span 'day)
 
@@ -44,5 +39,13 @@
   (evil-declare-key 'normal org-mode-map
                     "q"  'quit-window
                     (kbd "TAB") 'org-cycle))
+
+;;; org babel
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (dot    . t)
+   (octave . t)
+   (awk    . t)))
 
 (provide 'init-org-mode)
