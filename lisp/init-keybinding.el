@@ -155,8 +155,11 @@
         "messages-buffer-mode"))
 
 ;;; ========================= special mode ====================================
-(define-key debugger-mode-map (kbd "n") 'forward-button)
-(define-key debugger-mode-map (kbd "p") 'backward-button)
+(with-eval-after-load "debug"
+  (define-key debugger-mode-map (kbd "n") 'forward-button)
+  (define-key debugger-mode-map (kbd "p") 'backward-button))
+
+(with-current-buffer "*Messages*" (evil-leader-mode t))
 
 ;;; keybindings
 (global-set-key (kbd "<f2>") 'eshell)
