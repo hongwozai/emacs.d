@@ -27,8 +27,6 @@
 
 ;;; *Messages* can't set emacs state in emacs start
 (with-current-buffer "*Messages*" (evil-motion-state))
-(evil-define-key 'normal fundamental-mode-map "q" 'quit-window)
-(evil-define-key 'motion fundamental-mode-map "q" 'quit-window)
 
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 

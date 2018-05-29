@@ -148,6 +148,16 @@
 (evil-define-key 'motion Info-mode-map (kbd "o") 'ace-link)
 (evil-define-key 'motion woman-mode-map (kbd "o") 'ace-link)
 
+;;; ========================= evil leader =====================================
+(setq evil-leader/no-prefix-mode-rx
+      '("magit-.*-mode"
+        "ibuffer-mode"
+        "messages-buffer-mode"))
+
+;;; ========================= special mode ====================================
+(define-key debugger-mode-map (kbd "n") 'forward-button)
+(define-key debugger-mode-map (kbd "p") 'backward-button)
+
 ;;; keybindings
 (global-set-key (kbd "<f2>") 'eshell)
 (global-set-key (kbd "<f5>") 'compile)
