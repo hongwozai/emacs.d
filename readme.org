@@ -1,157 +1,31 @@
-#+TITLE: EMACS
+#+TITLE: Emacs Configure
 
-* 已知问题
-1. dired打开dired-isearch-filenames选项时,使用evil-isearch-forward搜索，
-   如果出现文中没有的字符会直接卡死(dired-isearch-filenames命令是没有问题的)
-* 兼容性
-24.3 24.4 24.5 测试无问题
+* 文件结构
 
-* 二进制文件编辑
-二进制文件的编辑使用 *hexl-mode*
-
-- M-x hexl-mode 
-  进入二进制编辑模式，自动转换当前buffer
-- M-x hexl-find-file 
-  使用二进制模式打开文件
-- C-c C-c hexl-mode-quit 
-
-** 查看流程
-到达相应的地址
-M-x hexl-goto-address
-M-x hexl-goto-hex-address
-
-0, $ 本行的开头与末尾
-gg, G 本buffer的开头与末尾
-
-** 编辑流程
-- C-M-x   hexl-insert-hex-char 插入16进制字符
-- M-x     hexl-insert-hex-string 插入16进制的字符串
-- (, x s) 保存与正常文件一样
-
-* 文件操作
-
-** 打开文件
-
-** 目录操作
-全部使用dired
+- core/
+  - core-init.el          核心初始化
+  - core-options.el       通用选项设置
+  - core-funcs.el         通用函数
+  - core-package.el       elpa相关设置
+  - core-vim.el           vim配置
+  - core-keybindings.el   案件绑定
+  - core-ui.el            配色、modeline
+  - core-edit-utils.el    编辑相关选项配置
+  - core-fuzzy-match.el   模糊匹配相关
+  - core-shell.el         终端相关
+  - core-auto-complete.el 自动补全
+  - core-auto-check.el    语法检查，拼写检查
+  - core-template.el      模板
+  - core-project.el       工程相关
+  - core-chinese.el       中文相关
+- layers/
+  - lang/
+  - application/
+- tools/
+- site-lisp/
+- snippets/
+- localelpa/
+- init.el
 
 
-* 通用的常用使用方式
-
-** 翻译
-(, c s) hong/translate-brief-at-point
-(, c d) yasdcv-translate-at-point
-
-** 帮助
-1. (, h i) info手册
-2. K(普通模式) man手册
-
-** emacs帮助
-L, R 回退帮助页面，前进页面
-
-* 通用单文件程序编辑
-本文件（buffer）的编辑都在此处，之后的类别都是多文件或工程方式搜索
-** 搜索
-1. evil-isearch
-   vim按键
-   空格被修改为.*?以省事
-
-2. #, *
-   搜索当前符号（同样时vim按键，但被修改为搜索符号而不是单词）
-
-3. swiper
-   (, s s) 进行搜索即可
-
-** 重构
-1. iedit
-   更改单个符号的名称
-   一般情况下足够使用
-   
-   *使用方式:*
-   在要修改的单词上按C-;
-   修改完毕再次按C-;
-
-2. evil末行模式的s/pattern/text/g
-
-3. occur-edit-mode
-   在occur搜索完成后，按e进入occur-edit-mode模式后
-   使用s/p/t/g的方式修改文字
-
-** 补全
-1. C-n(insert模式) 
-   vim的单词补全方式
-
-** 跳转
-1. gd 
-   vim的按键，查找局部变量定义等使用
-   
-   跳转之后，C-o就可以回来
-
-2. (, i m) imenu 
-   直接跳转到当前文件的函数定义处
-  
-** 剪贴，复制与粘贴
-使用vim的剪贴，复制与粘贴的方式
-
-对于粘贴混乱的情况:
-*只粘贴系统剪贴版的内容*
-普通模式："+p
-插入模式：C-r +
-
-** 常用编辑命令（方式）
-- M-x whitespace-cleanup
-
-* 通用多文件程序编辑
-
-** 搜索
-
-** 重构
-
-** tags
-*** ctags, etags跳转
-1. 生成
-   M-x tags-regenerate
-
-2. 跳转
-   C-] 跳转 (可能有多个选项，使用n,p来选择)
-   C-t 跳回
-
-*** gtags跳转(需要事先安装GNU global)
-1. 生成
-   (, g c) 生成gtags文件
-
-2. 跳转
-   M-. 跳到源码
-   M-, 跳回
-   
-   *当有多个选择时:*
-   M-n, M-p 可以在中间上下跳转（远程会有些慢）
-
-
-* lisp类语言通用编辑
-均指的是对工程（或多文件）
-
-** 跳转
-- M-. 跳转到定义处
-- M-, 跳回来
-
-* C/C++程序编辑
-均指的是对工程（或多文件）
-
-** 编译
-
-** 跳转
-两种方式都支持tramp，但gtags需要远程有安装
-
-** 调试
-M-x gdb
-支持远程，支持sudo，但是要以tramp的方式打开文件
-
-* 远程编辑
-
-** 搜索
-远程操作中counsel无法使用（还不支持tramp）
-
-1. 使用rgrep命令(, s g)
-   递归搜索基本目录之下的所有目录
 

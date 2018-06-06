@@ -1,79 +1,59 @@
-;; load path
+;;; -*- coding: utf-8 -*-
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
+(profiler-start 'cpu)
+;;-------------------------------------------
+;;; package.el initialize
+;;-------------------------------------------
 (package-initialize)
 
-(setq user-emacs-directory "~/.emacs.d/")
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
+;;-------------------------------------------
+;;; gc
+;;-------------------------------------------
+(setq normal-gc-cons-threshold (* 20 1024 1024))
+(setq init-gc-cons-threshold (* 128 1024 1024))
 
-;;; utils
-(require 'init-utils)
+(setq gc-cons-threshold init-gc-cons-threshold)
 
-;;; core
-(require 'init-elpa)
-(require 'init-evil)
-(require 'init-themes)
-(require 'init-keybinding)
-(require 'init-editing-utils)
-(require 'init-window)
-(require 'init-directory)
-(require 'init-buffer)
-(require 'init-frame)
-(require 'init-tramp)
-(require 'init-fuzzy)
-(require 'init-search)
-(require 'init-shell)
-(require 'init-term)
-(require 'init-project)
-(require 'init-flycheck)
-(require 'init-complete)
-(require 'init-compile)
-(require 'init-template)
-(require 'init-chinese)
+;;-------------------------------------------
+;;; set path
+;;-------------------------------------------
+;;; set default
+(setq default-directory
+      (file-name-as-directory (expand-file-name "~")))
 
-;;; common
-(require 'init-git)
+;;; add sub directory to load-path
+(dolist (name '("core" "site-lisp" "module"))
+  (add-to-list 'load-path
+               (expand-file-name name user-emacs-directory)))
 
-;;; application
-(require 'init-org-mode)
-(require 'init-graphviz)
+;;-------------------------------------------
+;;; hook start
+;;-------------------------------------------
+(setq inhibit-message t)
+(setq emacs-load-start-time (current-time))
 
-;;; program language
-;; C/C++
-(require 'init-cc-mode)
-(maybe-require "gtags"  'init-gtags)
-(maybe-require "rdm"    'init-rtags)
+;;-------------------------------------------
+;;; load
+;;-------------------------------------------
+;;; load core
+(require 'core-init)
 
-;; lisp dialect
-(require 'init-lisp)
-(maybe-require "lein"   'init-clojure)
-(maybe-require "sbcl"   'init-common-lisp)
+;;; load each module
+;; (require 'module-init)
 
-;;; octave matlab
-(require 'init-octave)
+;;-------------------------------------------
+;;; hook end
+;;-------------------------------------------
+;;; recovery
+(setq inhibit-message nil)
+(setq gc-cons-threshold normal-gc-cons-threshold)
 
-;; web
-(require 'init-web)
-(require 'init-js)
+;;; report(replace builtin function)
+(defun display-startup-echo-area-message ()
+  (when (require 'time-date nil t)
+   (message "Emacs startup time: %f seconds."
+            (time-to-seconds (time-since emacs-load-start-time)))))
 
-(maybe-require "python" 'init-python)
-(maybe-require "ruby"   'init-ruby)
-(maybe-require "go"     'init-go)
-(maybe-require "ghc"    'init-haskell)
-(maybe-require "lua"    'init-lua)
-(maybe-require "racket" 'init-scheme)
-(maybe-require "javac"  'init-java)
-
-;;; misc mode
-(require 'init-misc-mode)
-
-;;; server
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+(profiler-report)
 
 (provide 'init)
-
