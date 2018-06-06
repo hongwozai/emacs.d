@@ -1,19 +1,4 @@
 ;;-------------------------------------------
-;;; lisp common option
-;;-------------------------------------------
-(defvar lisp-common-mode-hook
-  '(emacs-lisp-mode-hook
-    lisp-mode-hook
-    lisp-interaction-mode-hook
-    scheme-mode-hook
-    slime-repl-mode-hook
-    inferior-scheme-mode-hook
-    ielm-mode-hook
-    eval-expression-minibuffer-setup-hook
-    clojure-mode-hook
-    cider-mode-hook))
-
-;;-------------------------------------------
 ;;; paredit
 ;;-------------------------------------------
 (require-package 'paredit)
@@ -22,11 +7,16 @@
 ;;-------------------------------------------
 ;;; lisp common option
 ;;-------------------------------------------
-(dolist (hook lisp-common-mode-hook)
-  (add-hook hook #'enable-paredit-mode)
-  (add-hook hook
-            (lambda ()
-              (setq-local show-paren-style 'expression))))
+(defun lisp-common-edit-hook-func ()
+  (enable-paredit-mode)
+  (setq-local show-paren-style 'expression))
 
+;;-------------------------------------------
+;;; hook
+;;-------------------------------------------
+(dolist (hook '(emacs-lisp-mode-hook
+                ielm-mode-hook
+                eval-expression-minibuffer-setup-hook))
+  (add-hook hook #'lisp-common-edit-hook-func))
 
 (provide 'core-elisp)

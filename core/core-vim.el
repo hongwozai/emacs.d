@@ -49,6 +49,14 @@
 ;;; evil args
 (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
 (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+
+;;; evil search
+(define-key isearch-mode-map (kbd "SPC")
+  (lambda () (interactive)
+    (setq isearch-message (concat isearch-message ".*?"))
+    (setq isearch-string (concat isearch-string ".*?"))
+    (isearch-push-state)
+    (isearch-update)))
 ;;-------------------------------------------
 ;;; functions
 ;;-------------------------------------------

@@ -5,7 +5,7 @@
   (when (file-exists-p path)
     (if (file-directory-p path)
         nil
-      (load path t))))
+      (ignore-errors (load path t)))))
 
 (defun autoload-modules (&optional directory)
   (let* ((dir (or directory
@@ -18,5 +18,9 @@
     (dolist (module module-files)
       (module-load
        (concat (file-name-as-directory dir) module)))))
+
+(defun module-require (exec)
+  (when (not (executable-find exec))
+    (throw 'require-exit nil)))
 
 (provide 'core-module)
