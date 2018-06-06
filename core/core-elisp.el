@@ -23,18 +23,10 @@
 ;;; lisp common option
 ;;-------------------------------------------
 (dolist (hook lisp-common-mode-hook)
-  ;; (add-hook hook #'enable-paredit-mode)
+  (add-hook hook #'enable-paredit-mode)
   (add-hook hook
             (lambda ()
               (setq-local show-paren-style 'expression))))
 
-;;-------------------------------------------
-;;; emacs lisp
-;;-------------------------------------------
-;; (add-hook 'emacs-lisp-mode-hook
-;;           (lambda ()
-;;             (setq flycheck-emacs-lisp-load-path 'inherit)
-;;             (add-to-list 'flycheck-disabled-checkers
-;;                          'emacs-lisp-checkdoc)))
 
 (provide 'core-elisp)

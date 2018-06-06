@@ -20,7 +20,6 @@
 (defalias 'esh      #'multi-eshell)
 (defalias 'eshell/e #'find-file)
 (defalias 'eshell/d #'dired)
-(defalias 'eshell/b #'ibuffer)
 
 (add-hook 'eshell-load-hook
           (lambda ()
@@ -35,13 +34,24 @@
               (kbd "C-r") 'counsel-esh-history
               (kbd "C-n") 'eshell-next-matching-input-from-input
               (kbd "C-p") 'eshell-previous-matching-input-from-input
-              (kbd "C-u") 'eshell-kill-input)
+              (kbd "C-u") 'eshell-kill-input
+              (kbd "TAB") 'completion-at-point)
+
+            ;; replace builtin clear
+            (defun eshell/clear ()
+              (interactive)
+              (eshell/clear-scrollback))
+
             (core--set-work-state)))
 
 ;;; use eshell
 (defun multi-eshell ()
   (interactive)
   (eshell t))
+
+(defun eshell/b (&optional buffer)
+  (interactive)
+  (if buffer (switch-to-buffer buffer) (ibuffer)))
 
 ;;-------------------------------------------
 ;;; comint
@@ -108,5 +118,7 @@
 ;;-------------------------------------------
 ;;; autoload
 (autoload 'shell-header-mode "shell-header-mode" nil t)
+(autoload 'shell-header-next "shell-header-mode" nil t)
+(autoload 'shell-header-prev "shell-header-mode" nil t)
 
 (provide 'core-shell)

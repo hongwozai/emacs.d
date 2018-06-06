@@ -20,9 +20,8 @@
   (setq company-gtags-insert-arguments     t)
   (setq company-etags-ignore-case          t)
 
-  ;; shell-mode -> ivy
   (setq company-global-modes
         '(not shell-mode eshell-mode term-mode))
   )
 
-(provide 'core-auto-complete)
+(provide 'module-auto-complete)

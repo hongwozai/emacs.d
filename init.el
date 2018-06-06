@@ -1,6 +1,6 @@
 ;;; -*- coding: utf-8 -*-
 
-(profiler-start 'cpu)
+;; (profiler-start 'cpu)
 ;;-------------------------------------------
 ;;; package.el initialize
 ;;-------------------------------------------
@@ -39,7 +39,7 @@
 (require 'core-init)
 
 ;;; load each module
-;; (require 'module-init)
+(autoload-modules)
 
 ;;-------------------------------------------
 ;;; hook end
@@ -51,9 +51,9 @@
 ;;; report(replace builtin function)
 (defun display-startup-echo-area-message ()
   (when (require 'time-date nil t)
-   (message "Emacs startup time: %f seconds."
-            (time-to-seconds (time-since emacs-load-start-time)))))
+    (message "Emacs startup time: %f seconds."
+             (time-to-seconds (time-since emacs-load-start-time)))))
 
-(profiler-report)
+;; (profiler-report)
 
 (provide 'init)

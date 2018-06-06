@@ -22,6 +22,7 @@
 ;;-------------------------------------------
 (evil-mode t)
 (global-evil-leader-mode t)
+(global-evil-matchit-mode t)
 (global-evil-surround-mode t)
 
 ;; for M-. find definiation

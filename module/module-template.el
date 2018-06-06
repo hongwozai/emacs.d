@@ -17,4 +17,4 @@
 ;;-------------------------------------------
 (yas-global-mode 1)
 
-(provide 'core-template)
+(provide 'module-template)

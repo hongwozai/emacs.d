@@ -14,15 +14,18 @@
 ;;-------------------------------------------
 ;;; ivy mode
 ;;-------------------------------------------
-(setq ivy-height                12
-      ivy-format-function       'ivy-format-function-arrow
-      ivy-count-format          "[%d/%d] "
-      ivy-extra-directories     nil
-      ivy-use-virtual-buffers   t
-      ivy-initial-inputs-alist  nil)
+(setq ivy-height                  12
+      ivy-format-function         'ivy-format-function-arrow
+      ivy-count-format            "[%d/%d] "
+      ivy-extra-directories       nil
+      ivy-use-virtual-buffers     t
+      ivy-initial-inputs-alist    nil)
 
 (ivy-mode t)
 (counsel-mode t)
+
+;; ignore hidden files(input . display)
+(setq counsel-find-file-ignore-regexp "\\`\\.")
 
 ;;; height
 (ignore-errors
@@ -37,5 +40,8 @@
 
 ;; replace ido
 (fset 'ido-completing-read 'ivy-completing-read)
+
+;;; xref use ivy-read
+(setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
 
 (provide 'core-completion)

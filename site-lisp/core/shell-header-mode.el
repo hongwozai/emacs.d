@@ -72,8 +72,8 @@
 (defvar shell-header-mode-map (make-sparse-keymap)
   "Keymap for shell header switch")
 
-(define-key shell-header-mode-map "M-]" 'shell-header-next)
-(define-key shell-header-mode-map "M-[" 'shell-header-prev)
+(define-key shell-header-mode-map (kbd "M-]") 'shell-header-next)
+(define-key shell-header-mode-map (kbd "M-[") 'shell-header-prev)
 
 ;;;###autoload
 (defun shell-header-next ()

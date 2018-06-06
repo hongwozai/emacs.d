@@ -9,7 +9,9 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;;; evironment
+(prefer-coding-system 'utf-8)
 (set-language-environment "utf-8")
+(set-default-coding-systems 'utf-8)
 
 ;;-------------------------------------------
 ;;; basic edit options

@@ -2,6 +2,7 @@
 ;;; utilities function
 ;;-------------------------------------------
 (require 'core-funcs)
+(require 'core-module)
 
 ;;-------------------------------------------
 ;;; load path
@@ -21,11 +22,11 @@
 (require 'core-completion)
 (require 'core-window)
 (require 'core-keybindings)
-(require 'core-modes)
 (require 'core-shell)
 (require 'core-remote)
 (require 'core-directory)
 (require 'core-buffer)
+(require 'core-project)
 
 ;;-------------------------------------------
 ;;; programming
@@ -36,5 +37,6 @@
 ;;; application
 ;;-------------------------------------------
 (require 'core-org)
+(require 'core-modes)
 
 (provide 'core-init)

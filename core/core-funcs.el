@@ -65,7 +65,7 @@ in case that file does not provide any feature."
 (defun core--exit-prompt (process state)
   (if (string-match "\\(exited\\|finished\\)" state)
       (progn
-        (winner-undo)
+        (quit-window)
         (kill-buffer (process-buffer process)))))
 
 (defun core/auto-exit ()

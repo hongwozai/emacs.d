@@ -1,11 +1,12 @@
 ;;-------------------------------------------
 ;;; dired
 ;;-------------------------------------------
-(autoload 'dired-jump "dired" "jump current directory")
+(autoload 'dired-jump "dired")
 
 (add-hook 'dired-load-hook
           (lambda ()
             ;; diredp
+            (require 'dired+)
             ;; (require 'dired+)
             ;; (diredp-toggle-find-file-reuse-dir 1)
 
@@ -31,6 +32,7 @@
 
 (add-hook 'dired-mode-hook
           (lambda ()
+            (require 'dired-x)
             (setq-local truncate-lines t)
             (setq-local dired-omit-files
                         "^\\.?#\\|^\\.$\\|^\\.[^.].+$")

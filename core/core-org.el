@@ -31,15 +31,15 @@
 ;;-------------------------------------------
 ;;; babel (eval code)
 ;;-------------------------------------------
-;; (org-babel-do-load-languages
-;;  'org-babel-load-languages
-;;  '((python     . t)
-;;    (sql        . t)
-;;    (js         . t)
-;;    (emacs-lisp . t)
-;;    (ruby       . t)
-;;    (dot        . t)
-;;    (plantuml   . t)
-;;    (octave     . t)))
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python     . t)
+   (sql        . t)
+   (js         . t)
+   (emacs-lisp . t)
+   (ruby       . t)
+   (dot        . t)
+   (plantuml   . t)
+   (octave     . t)))
 
 (provide 'core-org)

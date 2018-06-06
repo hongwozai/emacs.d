@@ -7,8 +7,6 @@
  "bs" 'revert-buffer-with-coding-system
  "bl" 'ibuffer
 
- "cs" 'core/translate-brief-at-point
-
  "fr" 'counsel-recentf
  "fc" 'ffip-create-project-file
 
@@ -44,7 +42,6 @@
 (core/set-key global
   :state 'normal
   (kbd "C-p")     'ffip
-  (kbd "C-w SPC") 'core/window-layout-change
   (kbd "C-s")     'swiper
   (kbd "M-n")     'next-error
   (kbd "M-p")     'previous-error)

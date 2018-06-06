@@ -1,15 +1,15 @@
 ;;-------------------------------------------
-;;; environment
+;;; keybinding
 ;;-------------------------------------------
-(prefer-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
+(core/leader-set-key
+  "cs" 'translate-brief-at-point)
 
 ;;-------------------------------------------
 ;;; translate
 ;;-------------------------------------------
 (require-package 'bing-dict)
 
-(defun core/translate-brief-at-point ()
+(defun translate-brief-at-point ()
   (interactive)
   (let ((word (if (use-region-p)
                   (buffer-substring-no-properties
@@ -25,11 +25,14 @@
 (require-package 'pyim)
 (require-package 'pyim-basedict)
 
+;;; default
 (require 'pyim)
-(require 'pyim-basedict)
-(pyim-basedict-enable)
 (setq default-input-method "pyim")
-(setq pyim-use-tooltip 'popup)
-(setq pyim-page-length 5)
 
-(provide 'core-chinese)
+(with-eval-after-load "pyim"
+  (require 'pyim-basedict)
+  (pyim-basedict-enable)
+  (setq pyim-use-tooltip 'popup)
+  (setq pyim-page-length 5))
+
+(provide 'module-chinese)
