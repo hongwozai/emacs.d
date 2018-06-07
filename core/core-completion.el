@@ -19,7 +19,8 @@
       ivy-count-format            "[%d/%d] "
       ivy-extra-directories       nil
       ivy-use-virtual-buffers     t
-      ivy-initial-inputs-alist    nil)
+      ivy-initial-inputs-alist    nil
+      enable-recursive-minibuffers t)
 
 (ivy-mode t)
 (counsel-mode t)
@@ -45,5 +46,17 @@
 ;;; xref use ivy-read
 (autoload 'ivy-xref-show-xrefs "ivy-xref")
 (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
+
+;;-------------------------------------------
+;;; funcs
+;;-------------------------------------------
+(defun ivy--find ()
+  (interactive)
+  (ivy-exit-with-action
+   (lambda (_)
+     (let* ((directory (ivy-state-directory ivy-last)))
+       (core/find-all-files directory)))))
+
+(define-key ivy-minibuffer-map (kbd "C-f") 'ivy--find)
 
 (provide 'core-completion)

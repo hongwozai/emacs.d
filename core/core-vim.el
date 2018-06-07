@@ -12,6 +12,7 @@
 ;;-------------------------------------------
 (setq evil-move-cursor-back t)
 (setq evil-want-C-u-scroll nil)
+(setq evil-symbol-word-search t)
 ;;; leader
 (setq evil-leader/leader ",")
 (setq evil-leader/no-prefix-mode-rx
@@ -33,15 +34,6 @@
 ;;-------------------------------------------
 (evil-ex-define-cmd "ls" 'ibuffer)
 (evil-ex-define-cmd "nu" 'linum-mode)
-
-;; for # * search symbol
-(define-key evil-motion-state-map "*"
-  (lambda (count) (interactive "P")
-    (evil-search-word-forward count t)))
-
-(define-key evil-motion-state-map "#"
-  (lambda (count) (interactive "P")
-    (evil-search-word-backward count t)))
 
 ;;; ed backward
 (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
