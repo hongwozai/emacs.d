@@ -38,6 +38,10 @@
 ;;; modify
 (make-face-bold 'font-lock-keyword-face)
 (make-face-bold 'font-lock-function-name-face)
+(with-eval-after-load 'ivy
+  (set-face-attribute 'ivy-current-match t
+                      :background (face-background 'mode-line-inactive)
+                      :underline  nil))
 
 ;;-------------------------------------------
 ;;; diminish

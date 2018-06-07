@@ -31,6 +31,7 @@
 ;;-------------------------------------------
 (setq inhibit-message t)
 (setq emacs-load-start-time (current-time))
+(setq custom-file (expand-file-name ".custom.el" user-emacs-directory))
 
 ;;-------------------------------------------
 ;;; load

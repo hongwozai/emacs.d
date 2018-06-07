@@ -9,6 +9,9 @@
 ;;-------------------------------------------
 (defun lisp-common-edit-hook-func ()
   (enable-paredit-mode)
+  (core/set-key paredit-mode-map
+    :state 'native
+    (kbd "M-?") 'xref-find-references)
   (setq-local show-paren-style 'expression))
 
 ;;-------------------------------------------

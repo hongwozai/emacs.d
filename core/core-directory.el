@@ -6,10 +6,8 @@
 (add-hook 'dired-load-hook
           (lambda ()
             ;; diredp
-            (require 'dired+)
             ;; (require 'dired+)
             ;; (diredp-toggle-find-file-reuse-dir 1)
-
             (setq dired-recursive-copies   'always)
             (setq dired-recursive-deletes  'always)
             (setq dired-isearch-filenames  t)

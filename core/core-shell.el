@@ -17,9 +17,10 @@
 ;;-------------------------------------------
 ;;; eshell
 ;;-------------------------------------------
-(defalias 'esh      #'multi-eshell)
-(defalias 'eshell/e #'find-file)
-(defalias 'eshell/d #'dired)
+(defalias 'esh       #'multi-eshell)
+(defalias 'eshell/e  #'find-file)
+(defalias 'eshell/em #'find-file)
+(defalias 'eshell/d  #'dired)
 
 (add-hook 'eshell-load-hook
           (lambda ()

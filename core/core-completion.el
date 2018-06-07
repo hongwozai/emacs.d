@@ -30,6 +30,7 @@
 ;;; height
 (ignore-errors
  (setcdr (assoc 'counsel-yank-pop ivy-height-alist) ivy-height))
+
 ;;-------------------------------------------
 ;;; config
 ;;-------------------------------------------
@@ -42,6 +43,7 @@
 (fset 'ido-completing-read 'ivy-completing-read)
 
 ;;; xref use ivy-read
+(autoload 'ivy-xref-show-xrefs "ivy-xref")
 (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
 
 (provide 'core-completion)
