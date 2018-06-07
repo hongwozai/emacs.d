@@ -14,7 +14,7 @@
 ;;; basic
 ;;-------------------------------------------
 ;;; install from source
-(setq core/package-install-mode 'source)
+(setq core/package-install-mode 'melpa)
 (require 'core-package)
 (require 'core-options)
 (require 'core-ui)
