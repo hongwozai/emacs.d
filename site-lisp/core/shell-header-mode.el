@@ -66,7 +66,8 @@
                (if (eq direction 'NEXT)
                    (mod (+ index offset) misc-list-len)
                  (mod (- index offset) misc-list-len))))
-          (switch-to-buffer (nth target-index misc-list))))))
+          (switch-to-buffer (nth target-index misc-list)))
+      (switch-to-buffer (nth 0 misc-list)))))
 
 ;;; keymap
 (defvar shell-header-mode-map (make-sparse-keymap)
