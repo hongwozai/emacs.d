@@ -1,4 +1,5 @@
 ;;-------------------------------------------
-;;; utilities function
+;;; install
 ;;-------------------------------------------
+(module-require "tmux")
 (require-package 'emamux)

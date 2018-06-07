@@ -26,7 +26,8 @@
               "k" 'dired-previous-line
               "n" 'evil-search-next
               "N" 'evil-search-previous)
-            ))
+            )
+          t)
 
 (add-hook 'dired-mode-hook
           (lambda ()
