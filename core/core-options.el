@@ -93,7 +93,8 @@
 ;;; grep
 ;;-------------------------------------------
 (setq-default grep-hightlight-matches     t
-              grep-scroll-output          nil)
+              grep-scroll-output          nil
+              grep-use-null-device        nil)
 
 (setq grep-command
       (cond ((executable-find "rg") "rg --no-heading -w ")

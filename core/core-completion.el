@@ -28,6 +28,9 @@
 ;; ignore hidden files(input . display)
 (setq counsel-find-file-ignore-regexp "\\`\\.")
 
+;;; use counsel-git-grep performance problem
+(setq counsel--git-grep-count-threshold 2000)
+
 ;;; height
 (ignore-errors
  (setcdr (assoc 'counsel-yank-pop ivy-height-alist) ivy-height))
@@ -47,6 +50,9 @@
 (autoload 'ivy-xref-show-xrefs "ivy-xref")
 (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
 
+;;; find files
+(define-key ivy-minibuffer-map (kbd "C-f") 'ivy--find)
+
 ;;-------------------------------------------
 ;;; funcs
 ;;-------------------------------------------
@@ -56,7 +62,5 @@
    (lambda (_)
      (let* ((directory (ivy-state-directory ivy-last)))
        (core/find-all-files directory)))))
-
-(define-key ivy-minibuffer-map (kbd "C-f") 'ivy--find)
 
 (provide 'core-completion)

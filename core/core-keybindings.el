@@ -31,6 +31,7 @@
   :state 'native
   (kbd "RET")  'newline-and-indent
   (kbd "C-\\") 'toggle-input-method
+  (kbd "C-s")  'swiper
   (kbd "M-[")  'shell-header-prev
   (kbd "M-]")  'shell-header-next)
 
