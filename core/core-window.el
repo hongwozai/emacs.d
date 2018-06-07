@@ -64,7 +64,7 @@
   "
 ^ ^ ^ ^ _k_(_K_) ^ ^ ^ | Layout: _r_otate _u_ndo
 ^ _h_(_H_) ^+^ _l_(_L_)| Split:  _v_ert _s_:horz
-^ ^ ^ ^ _j_(_J_) ^ ^ ^ | Delete: _c_ancel
+^ ^ ^ ^ _j_(_J_) ^ ^ ^ | Delete: _c_ancel _o_:maximum
 "
   ("h" evil-window-left)
   ("j" evil-window-down)
@@ -78,6 +78,7 @@
   ("s" split-window-vertically)
   ("v" split-window-horizontally)
   ("c" evil-window-delete)
+  ("o" delete-other-windows)
   ("u" winner-undo)
   ("q" nil :exit t))
 

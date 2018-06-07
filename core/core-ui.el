@@ -32,7 +32,7 @@
 ;;-------------------------------------------
 ;;; theme
 ;;-------------------------------------------
-(require-package 'gruvbox)
+(require-package 'gruvbox-theme)
 (load-theme 'gruvbox-dark-medium t)
 
 ;;; modify

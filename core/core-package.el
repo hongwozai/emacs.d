@@ -2,17 +2,17 @@
 (require 'package)
 
 ;;; touch ~/.emacs.d/offline -> offline config
-(setq package-archives
-      `(("localelpa" . ,(expand-file-name
-                         "localelpa" user-emacs-directory))))
-
-(when (not (file-exists-p
-            (expand-file-name "offline" user-emacs-directory)))
-  (setcdr package-archives
-          '(("gnu"   . "https://elpa.emacs-china.org/gnu/")
-            ("melpa" . "https://elpa.emacs-china.org/melpa/")
-            ("melpa-stable" . "https://elpa.emacs-china.org/melpa-stable/")))
-  )
+(if (file-exists-p
+     (expand-file-name "offline" user-emacs-directory))
+    ;; offline
+    (setq package-archives
+          `(("localelpa" .
+             ,(expand-file-name "localelpa" user-emacs-directory))))
+  ;; online
+  (setq package-archives
+        '(("gnu"   . "https://elpa.emacs-china.org/gnu/")
+          ("melpa" . "https://elpa.emacs-china.org/melpa/")
+          ("melpa-stable" . "https://elpa.emacs-china.org/melpa-stable/"))))
 
 ;;; offical Melpa (and Gnu)
 ;;; ("melpa" . "http://melpa.org/packages/")
