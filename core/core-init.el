@@ -27,6 +27,9 @@
 (require 'core-directory)
 (require 'core-buffer)
 (require 'core-project)
+(require 'core-template)
+(require 'core-auto-check)
+(require 'core-auto-complete)
 
 ;;-------------------------------------------
 ;;; programming

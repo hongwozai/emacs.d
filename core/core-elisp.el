@@ -22,4 +22,13 @@
                 eval-expression-minibuffer-setup-hook))
   (add-hook hook #'lisp-common-edit-hook-func))
 
+;;-------------------------------------------
+;;; emacs lisp
+;;-------------------------------------------
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (setq flycheck-emacs-lisp-load-path 'inherit)
+            (add-to-list 'flycheck-disabled-checkers
+                         'emacs-lisp-checkdoc)))
+
 (provide 'core-elisp)

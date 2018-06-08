@@ -24,4 +24,4 @@
         '(not shell-mode eshell-mode term-mode))
   )
 
-(provide 'module-auto-complete)
+(provide 'core-auto-complete)
