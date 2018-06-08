@@ -9,6 +9,7 @@
 ;;-------------------------------------------
 ;;; config
 ;;-------------------------------------------
+(setq git-gutter:handled-backends '(git svn))
 (global-git-gutter-mode t)
 
 (add-hook 'git-timemachine-mode-hook
