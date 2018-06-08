@@ -21,6 +21,8 @@
  "kr" 'counsel-yank-pop
  "w"  'hydra-window/body
 
+ "sa" 'core/find-all-matches
+
  "xb" 'ivy-switch-buffer
  "xc" 'save-buffers-kill-terminal
  "xf" 'counsel-find-file
