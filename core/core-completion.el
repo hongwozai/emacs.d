@@ -51,7 +51,7 @@
 (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
 
 ;;; find files
-(define-key ivy-minibuffer-map (kbd "C-f") 'ivy--find)
+(define-key counsel-find-file-map (kbd "C-f") 'ivy--find)
 
 ;;-------------------------------------------
 ;;; funcs
