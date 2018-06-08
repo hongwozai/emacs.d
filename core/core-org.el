@@ -24,6 +24,14 @@
 ;;-------------------------------------------
 ;;; key
 ;;-------------------------------------------
+(add-hook 'org-mode-hook
+          (lambda ()
+            (add-to-list 'completion-at-point-functions
+                         'pcomplete-completions-at-point t)))
+
+;;-------------------------------------------
+;;; key
+;;-------------------------------------------
 (core/set-key org-mode-map
   :state 'normal
   (kbd "TAB") 'org-cycle)
