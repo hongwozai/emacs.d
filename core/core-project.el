@@ -14,17 +14,19 @@
   (ffip-project-root))
 
 (defun core/find-all-files (&optional directory)
+  (interactive)
   (let ((ffip-project-root (or directory default-directory))
         (ffip-patterns nil))
     (find-file-in-project)))
 
 (defun core/find-all-matches ()
   (interactive)
-  (call-interactively
-   (cond ((executable-find "rg") #'counsel-rg)
-         ((executable-find "ag") #'counsel-ag)
-         ((locate-dominating-file default-directory ".git")
-          #'counsel-git-grep)
-         (t #'rgrep))))
+  (let ((default-directory (or (core/project-root) default-directory)))
+    (call-interactively
+     (cond ((executable-find "rg") #'counsel-rg)
+           ((executable-find "ag") #'counsel-ag)
+           ((locate-dominating-file default-directory ".git")
+            #'counsel-git-grep)
+           (t #'rgrep)))))
 
 (provide 'core-project)
