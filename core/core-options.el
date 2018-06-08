@@ -119,7 +119,7 @@
 (setq compilation-read-command t)
 ;; (setq compilation-auto-jump-to-first-error t)
 (setq compilation-window-height 14)
-(setq compilation-scroll-output t)
+(setq compilation-scroll-output nil)
 (setq compilation-finish-function nil)
 
 ;;-------------------------------------------

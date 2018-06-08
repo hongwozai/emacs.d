@@ -22,6 +22,8 @@
 ;;; company
 (with-eval-after-load "company"
   (add-hook 'prog-mode-hook
-            (lambda () (push 'company-lsp company-backends)))
+            (lambda ()
+              (setq-local company-backends
+                          (cons 'company-lsp company-backends))))
   (setq company-lsp-enable-recompletion t)
   (setq company-lsp-async t))
