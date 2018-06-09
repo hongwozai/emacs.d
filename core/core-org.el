@@ -26,8 +26,9 @@
 ;;-------------------------------------------
 (add-hook 'org-mode-hook
           (lambda ()
-            (add-to-list 'completion-at-point-functions
-                         'pcomplete-completions-at-point t)))
+            (setq-local completion-at-point-functions
+                        (cons 'pcomplete-completions-at-point
+                              completion-at-point-functions))))
 
 ;;-------------------------------------------
 ;;; key
