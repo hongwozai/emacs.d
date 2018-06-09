@@ -20,7 +20,9 @@
 (defalias 'esh       #'multi-eshell)
 (defalias 'eshell/e  #'find-file)
 (defalias 'eshell/em #'find-file)
+(defalias 'eshell/fo #'find-file-other-window)
 (defalias 'eshell/d  #'dired)
+(defalias 'eshell/do #'dired-other-window)
 
 (add-hook 'eshell-load-hook
           (lambda ()
@@ -53,6 +55,10 @@
 (defun eshell/b (&optional buffer)
   (interactive)
   (if buffer (switch-to-buffer buffer) (ibuffer)))
+
+(defun eshell/bo (&optional buffer)
+  (interactive)
+  (if buffer (switch-to-buffer-other-window buffer) (ibuffer)))
 
 ;;-------------------------------------------
 ;;; comint
