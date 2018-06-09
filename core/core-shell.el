@@ -54,11 +54,15 @@
 
 (defun eshell/b (&optional buffer)
   (interactive)
-  (if buffer (switch-to-buffer buffer) (ibuffer)))
+  (if buffer
+      (switch-to-buffer buffer)
+    (ivy-switch-buffer)))
 
 (defun eshell/bo (&optional buffer)
   (interactive)
-  (if buffer (switch-to-buffer-other-window buffer) (ibuffer)))
+  (if buffer
+      (switch-to-buffer-other-window buffer)
+    (ivy-switch-buffer-other-window)))
 
 ;;-------------------------------------------
 ;;; comint
