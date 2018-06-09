@@ -98,5 +98,7 @@
     ;; return value
     buffer))
 
+(ivy-set-display-transformer 'ivy-xref-show-xrefs 'counsel-git-grep-transformer)
+
 (provide 'ivy-xref)
 ;;; ivy-xref.el ends here
