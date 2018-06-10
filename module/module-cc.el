@@ -1,15 +1,21 @@
 ;;-------------------------------------------
+;;; cc mode common
+;;-------------------------------------------
+(setq-default c-default-style '((c-mode    . "linux")
+                                (c++-mode  . "linux")
+                                (java-mode . "java")
+                                (awk-mode  . "awk")
+                                (other     . "gnu"))
+              c-basic-offset 4)
+
+;; indent (# left align)
+(setq-default c-electric-pound-behavior '(alignleft))
+
+;;-------------------------------------------
 ;;; basic option
 ;;-------------------------------------------
 (defun cc-basic-config ()
   "C/C++ both config"
-
-  (setq c-default-style '((c-mode . "k&r")
-                          (c++-mode . ""))
-        c-basic-offset  4)
-
-  ;; indent (# left align)
-  (setq c-electric-pound-behavior '(alignleft))
 
   (c-set-offset 'inline-open 0)
 
@@ -23,7 +29,8 @@
                 "/usr/include" "/usr/local/include/"))
 
   ;; keywords
-  (font-lock-add-keywords nil
+  (font-lock-add-keywords
+   nil
    '("typeof" "__attribute__" "__asm__"
      ("\\<\\(FIXME\\|NOTE\\|TODO\\):" 1 'font-lock-warning-face prepend)))
   )
