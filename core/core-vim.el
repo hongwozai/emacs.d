@@ -26,9 +26,6 @@
 (global-evil-matchit-mode t)
 (global-evil-surround-mode t)
 
-;; for M-. find definiation
-(define-key evil-normal-state-map
-  (kbd "M-.") (global-key-binding (kbd "M-.")))
 ;;-------------------------------------------
 ;;; command
 ;;-------------------------------------------
@@ -49,6 +46,14 @@
     (setq isearch-string (concat isearch-string ".*?"))
     (isearch-push-state)
     (isearch-update)))
+
+;; for M-. find definiation
+(define-key evil-normal-state-map
+  (kbd "M-.") (global-key-binding (kbd "M-.")))
+
+;;; related file
+(define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
+
 ;;-------------------------------------------
 ;;; functions
 ;;-------------------------------------------
