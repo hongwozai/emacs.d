@@ -14,12 +14,20 @@
 (setq org-agenda-span 'day)
 (setq org-agenda-include-diary nil)
 
+;;; basic agenda
+(setq org-agenda-files
+      (list (expand-file-name "Notes" user-home-directory)))
+
+;;; gtd keyword
 (setq org-todo-keywords
       '((sequence "TODO(t!)"
                   "DOING(i@/!)"
                   "|"
                   "DONE(d@/!)"
                   "CANCELED(c@/!)")))
+;;; refile
+(setq org-refile-targets
+      '((org-agenda-files :maxlevel . 1)))
 
 ;;-------------------------------------------
 ;;; key

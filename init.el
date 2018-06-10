@@ -17,9 +17,12 @@
 ;;-------------------------------------------
 ;;; set path
 ;;-------------------------------------------
-;;; set default
-(setq default-directory
+;;; set user home
+(setq user-home-directory
       (file-name-as-directory (expand-file-name "~")))
+
+;;; startup default directory
+(setq default-directory user-home-directory)
 
 ;;; add sub directory to load-path
 (dolist (name '("core" "site-lisp" "module"))
