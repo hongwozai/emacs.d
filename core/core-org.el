@@ -14,9 +14,16 @@
 (setq org-agenda-span 'day)
 (setq org-agenda-include-diary nil)
 
+;;; user custom
+(setq user-org-notes-directory
+      (expand-file-name "Notes" user-home-directory))
+
 ;;; basic agenda
 (setq org-agenda-files
-      (list (expand-file-name "Notes" user-home-directory)))
+      (list user-org-notes-directory))
+;;; inbox
+(setq org-default-notes-file
+      (expand-file-name "inbox.org" user-org-notes-directory))
 
 ;;; gtd keyword
 (setq org-todo-keywords
