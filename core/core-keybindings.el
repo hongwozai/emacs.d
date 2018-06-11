@@ -49,4 +49,11 @@
   (kbd "M-n")     'next-error
   (kbd "M-p")     'previous-error)
 
+;;; diff-mode
+(core/set-key diff-mode-map
+  :state 'normal
+  (kbd "q")       'quit-window
+  (kbd "n")       'diff-hunk-next
+  (kbd "p")       'diff-hunk-prev)
+
 (provide 'core-keybindings)
