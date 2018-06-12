@@ -60,7 +60,7 @@
 ;;-------------------------------------------
 ;;; key panel
 ;;-------------------------------------------
-(defhydra hydra-window (:color red :hint nil)
+(defhydra hydra-window (:color amaranth :hint nil)
   "
 ^ ^ ^ ^ _k_(_K_) ^ ^ ^ | Layout: _r_otate _u_ndo
 ^ _h_(_H_) ^+^ _l_(_L_)| Split:  _v_ert _s_:horz
