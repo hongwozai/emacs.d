@@ -36,7 +36,8 @@
 
 (require 'ivy)
 
-(defvar counsel-top-base-command "top -bc -n 1 ")
+(defvar counsel-top-base-command
+  (format "top -w %d -bc -n 1 " (- (frame-width) 5)))
 
 (defvar counsel-top-by-root t
   "use top command by user root.")
