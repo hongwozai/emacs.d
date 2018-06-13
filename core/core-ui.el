@@ -39,7 +39,7 @@
 (make-face-bold 'font-lock-keyword-face)
 (make-face-bold 'font-lock-function-name-face)
 (with-eval-after-load 'ivy
-  (set-face-attribute 'ivy-current-match t
+  (set-face-attribute 'ivy-current-match nil
                       :background (face-background 'mode-line-inactive)
                       :underline  nil))
 
@@ -78,5 +78,25 @@
 
 (add-hook 'kill-buffer-query-functions
           'core/scratch-kill-buffer-query-function)
+
+;;-------------------------------------------
+;;; font size
+;;-------------------------------------------
+(defun font-size-scale (num &optional step)
+  (let ((height (face-attribute 'default :height))
+        (step (or step 1)))
+    (set-face-attribute
+     'default nil :height (+ (* num step) height))))
+
+(defhydra hydra-font (:color amaranth :hint nil)
+  " Zoom "
+  ("+" (lambda () (interactive) (font-size-scale 5)) "zoom+")
+  ("-" (lambda () (interactive) (font-size-scale -5)) "zoom-")
+  ("g" text-scale-increase "increase")
+  ("l" text-scale-decrease "decrease")
+  ("d" (lambda () (interactive)
+         (message "%s" (face-attribute 'default :height)))
+   "display")
+  ("q" nil :exit t))
 
 (provide 'core-ui)

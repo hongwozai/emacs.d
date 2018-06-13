@@ -24,7 +24,7 @@
 ;;-------------------------------------------
 ;;; key
 ;;-------------------------------------------
-(defhydra hydra-git (:color red :hint nil)
+(defhydra hydra-git (:color amaranth :hint nil)
   "
    Hunk: _n_ext _p_rev _s_tage _r_evert _d_iff
 "
