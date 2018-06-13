@@ -12,6 +12,10 @@
 (setq yas-prompt-functions '(yas-ido-prompt
                              yas-completing-prompt))
 
+(add-hook 'makefile-gmake-mode-hook
+          (lambda ()
+            (setq-local yas-indent-line 'fixed)))
+
 ;;-------------------------------------------
 ;;; startup
 ;;-------------------------------------------
