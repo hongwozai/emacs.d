@@ -13,6 +13,7 @@
  "ha" 'counsel-apropos
  "hf" 'counsel-describe-function
  "hv" 'counsel-describe-variable
+ "hS" 'counsel-info-lookup-symbol
  "hm" 'describe-mode
  "hk" 'describe-key
  "hb" 'counsel-descbinds
