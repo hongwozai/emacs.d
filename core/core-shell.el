@@ -78,7 +78,9 @@
               (kbd "C-n")    'comint-next-input
               (kbd "C-p")    'comint-previous-input
               (kbd "<up>")   'comint-next-input
-              (kbd "<down>") 'comint-previous-input)
+              (kbd "<down>") 'comint-previous-input
+              (kbd "C-l")    'comint-clear-buffer
+              (kbd "C-u")    'comint-kill-input)
             (core--set-work-state)))
 
 ;;-------------------------------------------
