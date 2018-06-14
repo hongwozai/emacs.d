@@ -2,9 +2,7 @@
 ;;; mode
 ;;-------------------------------------------
 ;; language
-(require-package 'lua-mode)
 (require-package 'cmake-mode)
-(require-package 'php-mode)
 
 ;;-------------------------------------------
 ;;; mode install

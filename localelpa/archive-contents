@@ -24,6 +24,8 @@
  (git-gutter . [(20161105 656) ((emacs (24 3))) "Port of Sublime Text plugin GitGutter" tar])
  (git-messenger . [(20170101 2040) ((emacs (24 3)) (popup (0 5 0))) "Pop up last commit information of current line" tar])
  (git-timemachine . [(20180607 120) ((emacs (24 3))) "Walk through git revisions of a file" tar])
+ (go-eldoc . [(20170305 627) ((emacs (24 3)) (go-mode (1 0 0))) "eldoc for go-mode" tar])
+ (go-mode . [(20180327 830) nil "Major mode for the Go programming language" tar])
  (goto-chg . [(20180105 1033) nil "goto last change" tar])
  (graphviz-dot-mode . [(20171103 127) nil "Mode for the dot-language used by graphviz (att)." tar])
  (gruvbox-theme . [(20180430 506) ((autothemer (0 2))) "A retro-groove colour theme for Emacs" tar])
