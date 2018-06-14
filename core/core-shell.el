@@ -110,8 +110,7 @@
             (term-set-escape-char ?\C-c)
             (setq term-unbind-key-list '("C-x"))
             (setq term-bind-key-alist
-                  '(("C-f" . counsel-find-file)
-                    ("C-y" . term-paste)
+                  '(("C-y" . term-paste)
                     ("M-:" . eval-expression)
                     ("<C-backspace>" . term-send-raw-meta)
                     ("M-d" . term-send-forward-kill-word)
