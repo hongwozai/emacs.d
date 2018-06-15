@@ -21,6 +21,7 @@
  "im" 'counsel-semantic-or-imenu
  "kr" 'counsel-yank-pop
  "w"  'hydra-window/body
+ "n"  'linum-mode
 
  "sa" 'core/find-all-matches
 
