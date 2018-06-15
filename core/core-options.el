@@ -58,6 +58,9 @@
 ;;; minibuffer
 (setq minibuffer-message-timeout 2)
 
+;;; linum-mode
+(setq linum-format " %3d ")
+
 ;;-------------------------------------------
 ;;; recent files
 ;;-------------------------------------------
