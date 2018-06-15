@@ -12,7 +12,9 @@
   (evil-set-initial-state major-mode 'emacs)
   (dolist (key '("i" "I" "a" "A" "s" "S" "c" "C"))
     (evil-local-set-key
-     'normal key 'core--goto-max-with-emacs-state)))
+     'normal key 'core--goto-max-with-emacs-state))
+  ;; for graphic
+  (local-set-key [escape] 'evil-normal-state))
 
 ;;-------------------------------------------
 ;;; eshell
