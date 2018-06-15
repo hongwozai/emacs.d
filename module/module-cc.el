@@ -57,6 +57,25 @@
                       (funcall orig-fun name ignore-dedicated window)
                       (set-window-dedicated-p window nil)))
 
+(defhydra hydra-gud (:color amaranth)
+  ;; vi
+  ("h" backward-char)
+  ("j" next-line)
+  ("k" previous-line)
+  ("l" forward-char)
+  ;; gud
+  ("t" gud-tbreak "tbreak")
+  ("b" gud-break "break")
+  ("d" gud-remove "nbr")
+  ("p" gud-print "print" :color blue)
+  ("m" gud-until "move")
+  ("n" gud-next "next")
+  ("c" gud-cont "cont")
+  ("o" gud-finish "out")
+  ("r" gud-run "run")
+  ("z" (lambda () (interactive) (pop-to-buffer gud-comint-buffer)))
+  ("q" nil "quit"))
+
 ;;-------------------------------------------
 ;;; cquery
 ;;-------------------------------------------
