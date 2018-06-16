@@ -21,7 +21,10 @@
 
 (defun core/find-all-matches ()
   (interactive)
-  (let ((default-directory (or (core/project-root) default-directory)))
+  (let ((default-directory
+          (or (if current-prefix-arg default-directory)
+              (core/project-root)
+              default-directory)))
     (call-interactively
      (cond ((executable-find "rg") #'counsel-rg)
            ((executable-find "ag") #'counsel-ag)
