@@ -84,7 +84,7 @@
 ;;-------------------------------------------
 (require-package 'cquery)
 (autoload 'lsp-cquery-enable "cquery")
-(setq cquery-extra-init-params '(:index (:comments 2) :cacheFormat "msgpack" :completion (:detailedLabel t)))
+(setq cquery-extra-init-params '(:cacheFormat "msgpack"))
 
 ;;-------------------------------------------
 ;;; packaging
