@@ -4,9 +4,9 @@
 # --
 TARGET = $(notdir $(shell pwd))
 
-SUBDIR = .
+SUBDIR = ${0:.}
 
-CC = gcc
+CC = g++
 
 CFLAGS  = -g3 -Wall -Iinc -lstdc++ -std=c++11
 LDFLAGS =
