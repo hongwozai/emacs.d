@@ -3,6 +3,7 @@
 ;;-------------------------------------------
 ;; language
 (require-package 'cmake-mode)
+(require-package 'markdown-mode)
 
 ;;-------------------------------------------
 ;;; mode install
