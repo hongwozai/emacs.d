@@ -45,6 +45,9 @@
 ;;; load each module
 (autoload-modules)
 
+;;; custom-file
+(when (file-exists-p custom-file)
+  (load custom-file))
 ;;-------------------------------------------
 ;;; hook end
 ;;-------------------------------------------
