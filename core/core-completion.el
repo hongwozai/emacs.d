@@ -53,6 +53,9 @@
 ;;; find files
 (define-key counsel-find-file-map (kbd "C-f") 'ivy--find)
 
+;;; ivy-occur
+(evil-set-initial-state 'ivy-occur-mode 'emacs)
+
 ;;-------------------------------------------
 ;;; funcs
 ;;-------------------------------------------

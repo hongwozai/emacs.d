@@ -36,11 +36,12 @@
           (lambda ()
             (core/set-key eshell-mode-map
               :state 'emacs
-              (kbd "C-r") 'counsel-esh-history
-              (kbd "C-n") 'eshell-next-matching-input-from-input
-              (kbd "C-p") 'eshell-previous-matching-input-from-input
-              (kbd "C-u") 'eshell-kill-input
-              (kbd "TAB") 'completion-at-point)
+              (kbd "C-r")   'counsel-esh-history
+              (kbd "C-n")   'eshell-next-matching-input-from-input
+              (kbd "C-p")   'eshell-previous-matching-input-from-input
+              (kbd "C-u")   'eshell-kill-input
+              (kbd "<tab>") 'completion-at-point
+              (kbd "TAB")   'completion-at-point)
 
             ;; replace builtin clear
             (defun eshell/clear ()
