@@ -43,7 +43,8 @@
 (core/set-key ivy-minibuffer-map
     :state 'native
     (kbd "C-m") 'ivy-alt-done
-    (kbd "C-j") 'ivy-immediate-done)
+    (kbd "C-j") 'ivy-immediate-done
+    (kbd "C-i") 'ivy-insert-symbol-at-point)
 
 ;; replace ido
 (fset 'ido-completing-read 'ivy-completing-read)
@@ -67,5 +68,15 @@
    (lambda (_)
      (let* ((directory (ivy-state-directory ivy-last)))
        (core/find-all-files directory)))))
+
+(defun ivy-insert-symbol-at-point ()
+  "Pull next word from buffer into search string."
+  (interactive)
+  (let (query)
+    (with-ivy-window
+      (let ((tmp (symbol-at-point)))
+        (setq query tmp)))
+    (when query
+      (insert (format "%s" query)))))
 
 (provide 'core-completion)
