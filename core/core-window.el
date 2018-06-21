@@ -62,9 +62,9 @@
 ;;-------------------------------------------
 (defhydra hydra-window (:color amaranth :hint nil)
   "
-^ ^ ^ ^ _k_(_K_) ^ ^ ^ | Layout: _r_otate _u_ndo
-^ _h_(_H_) ^+^ _l_(_L_)| Split:  _v_ert _s_:horz
-^ ^ ^ ^ _j_(_J_) ^ ^ ^ | Delete: _c_ancel _o_:maximum
+^ ^ ^ ^ _k_(_K_) ^ ^ ^ | Layout: _r_otate [_SPC_]:layout _u_ndo
+^ _h_(_H_) ^+^ _l_(_L_)| Split:  _v_ert [_s_]:horz
+^ ^ ^ ^ _j_(_J_) ^ ^ ^ | Delete: _c_ancel [_o_]:maximum
 "
   ("h" evil-window-left)
   ("j" evil-window-down)
@@ -74,11 +74,12 @@
   ("J" (lambda () (interactive) (core/window-resize 'below)))
   ("K" (lambda () (interactive) (core/window-resize 'above)))
   ("L" (lambda () (interactive) (core/window-resize 'right)))
-  ("r" core/window-layout-change)
+  ("r" evil-window-rotate-downwards)
+  ("SPC" core/window-layout-change)
   ("s" split-window-vertically)
   ("v" split-window-horizontally)
   ("c" evil-window-delete)
-  ("o" delete-other-windows)
+  ("o" delete-other-windows :color blue)
   ("u" winner-undo)
   ("q" nil :exit t))
 

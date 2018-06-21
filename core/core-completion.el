@@ -35,6 +35,8 @@
 (ignore-errors
  (setcdr (assoc 'counsel-yank-pop ivy-height-alist) ivy-height))
 
+(setq ivy-display-functions-alist nil)
+
 ;;-------------------------------------------
 ;;; config
 ;;-------------------------------------------

@@ -126,6 +126,22 @@
 (setq compilation-finish-function nil)
 
 ;;-------------------------------------------
+;;; highlight
+;;-------------------------------------------
+(defun highlight-symbol ()
+  (interactive)
+  (require 'hi-lock nil t)
+  (let ((regexp (hi-lock-regexp-okay
+                 (find-tag-default-as-symbol-regexp))))
+    (if (assoc regexp hi-lock-interactive-patterns)
+        (unhighlight-regexp regexp)
+      (highlight-symbol-at-point))))
+
+(defun unhighlight-all-symbol ()
+  (interactive)
+  (unhighlight-regexp t))
+
+;;-------------------------------------------
 ;;; programming mode
 ;;-------------------------------------------
 (add-hook 'prog-mode-hook

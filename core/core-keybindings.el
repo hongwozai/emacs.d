@@ -8,6 +8,7 @@
  "bl" 'ibuffer
 
  "fr" 'counsel-recentf
+ "fs" 'find-file-in-project-by-selected
  "fc" 'ffip-create-project-file
 
  "ha" 'counsel-apropos
@@ -45,11 +46,12 @@
   (kbd "C-n") 'next-history-element)
 
 (core/set-key global
-  :state 'normal
+  :state '(normal motion)
   (kbd "C-p")     'ffip
   (kbd "C-s")     'swiper
   (kbd "M-n")     'next-error
-  (kbd "M-p")     'previous-error)
+  (kbd "M-p")     'previous-error
+  (kbd "C-w u")   'winner-undo)
 
 ;;; diff-mode
 (core/set-key diff-mode-map
