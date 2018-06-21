@@ -3,6 +3,6 @@
 ;;-------------------------------------------
 (defun swiper-at-function ()
   (interactive)
-  (save-mark-and-excursion
+  (save-restriction
    (narrow-to-defun)
    (swiper)))
