@@ -37,14 +37,15 @@
 (require 'ivy)
 
 (defvar counsel-top-base-command
-  (format "top -w %d -bc -n 1 " (- (frame-width) 5)))
+  "top -w %d -bc -n 1 ")
 
 (defvar counsel-top-by-root t
   "use top command by user root.")
 
 (defun counsel-top--run-command ()
   (with-temp-buffer
-    (insert (shell-command-to-string counsel-top-base-command))
+    (insert (shell-command-to-string
+             (format counsel-top-base-command (- (frame-width) 5))))
     (goto-char (point-min))
     (when (re-search-forward "[\t ]*PID")
       (forward-line 1)
@@ -61,7 +62,24 @@
   (let ((ivy-height 20)
         (default-directory (or directory default-directory)))
     (ivy-read "Top: " (counsel-top--run-command)
-              :action #'counsel-top--action)))
+              :action #'counsel-top--action
+              :sort t)))
+
+(defun counsel-top--sort (x y)
+  (let* ((lx (split-string x))
+         (ly (split-string y))
+         (lx-score (+ (string-to-number (nth 8 lx))
+                      (string-to-number (nth 9 lx))))
+         (ly-score (+ (string-to-number (nth 8 ly))
+                      (string-to-number (nth 9 ly)))))
+    (> lx-score ly-score)))
+
+(let ((m (assoc 'counsel-top ivy-sort-functions-alist)))
+  (if m
+      (setcdr m #'counsel-top--sort)
+    (setq ivy-sort-functions-alist
+          (cons '(counsel-top . counsel-top--sort)
+                ivy-sort-functions-alist))))
 
 ;;;###autoload
 (defun counsel-top ()
