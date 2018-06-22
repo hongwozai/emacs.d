@@ -1,6 +1,11 @@
 ;;-------------------------------------------
 ;;; auto load module
 ;;-------------------------------------------
+(defvar modules-with-manual nil)
+
+(defun module-get-path (&optional directory)
+  (or directory (expand-file-name "module" user-emacs-directory)))
+
 (defun module-load (path)
   (when (file-exists-p path)
     (if (file-directory-p path)
@@ -8,9 +13,7 @@
       (ignore-errors (load path t)))))
 
 (defun autoload-modules (&optional directory)
-  (let* ((dir (or directory
-                  (expand-file-name "module"
-                                    user-emacs-directory)))
+  (let* ((dir (module-get-path directory))
          (files (directory-files dir))
          (module-files (remove-if-not
                         (lambda (x) (string-match-p "^module-" x))
@@ -22,5 +25,18 @@
 (defun module-require (exec)
   (when (not (executable-find exec))
     (throw 'require-exit nil)))
+
+(defun module-require-manual ()
+  (throw 'require-manual nil))
+
+(defun module-install ()
+  (interactive)
+  (flet ((module-require-manual () nil))
+    (let* ((dir (file-name-as-directory (module-get-path)))
+           (path (concat
+                  dir
+                  (format "module-%s.el"
+                          (read-string (format "module at %s: " dir))))))
+      (module-load path))))
 
 (provide 'core-module)
