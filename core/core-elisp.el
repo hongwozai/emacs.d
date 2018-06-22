@@ -31,4 +31,9 @@
             (add-to-list 'flycheck-disabled-checkers
                          'emacs-lisp-checkdoc)))
 
+;;; key
+(core/leader-set-key
+  "xe" 'eval-last-sexp
+  "cc" 'eval-defun)
+
 (provide 'core-elisp)
