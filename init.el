@@ -61,6 +61,11 @@
     (message "Emacs startup time: %f seconds."
              (time-to-seconds (time-since emacs-load-start-time)))))
 
+;;; server start
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 ;; (profiler-report)
 
 (provide 'init)
