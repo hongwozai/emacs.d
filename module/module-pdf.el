@@ -13,8 +13,8 @@
     :state '(normal motion emacs)
     "j"   'pdf-view-next-line-or-next-page
     "k"   'pdf-view-previous-line-or-previous-page
-    "h"   'image-forward-hscroll
-    "l"   'image-backward-hscroll
+    "h"   'image-backward-hscroll
+    "l"   'image-forward-hscroll
     "G"   'pdf-view-goto-page
     "f"   'pdf-view-next-page
     "b"   'pdf-view-previous-page

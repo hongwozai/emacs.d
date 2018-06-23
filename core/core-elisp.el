@@ -34,6 +34,7 @@
 ;;; key
 (core/leader-set-key
   "xe" 'eval-last-sexp
-  "cc" 'eval-defun)
+  "cf" 'eval-defun
+  "cc" 'evil-buffer)
 
 (provide 'core-elisp)
