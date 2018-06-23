@@ -31,7 +31,8 @@
 
 (defun module-install ()
   (interactive)
-  (flet ((module-require-manual () nil))
+  (letf (((symbol-function 'module-require-manual)
+          #'core/empty-function))
     (let* ((dir (file-name-as-directory (module-get-path)))
            (path (concat
                   dir
