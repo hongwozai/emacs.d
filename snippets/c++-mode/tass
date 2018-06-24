@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: test_assert
+# key: tass
+# --
+ASSERT_`(yasnippets-gtest-assert-word)`($0);

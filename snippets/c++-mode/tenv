@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: test_environment
+# key: tenv
+# --
+class ${1:TestEnvironment} : public testing::Environment
+{
+public:
+
+    virtual void SetUp()
+    {
+        std::cout << "SetUp" << endl;
+    }
+
+    virtual void TearDown()
+    {
+        std::cout << "TearDown" << endl;
+    }
+};
+
+::testing::AddGlobalTestEnvironment(new ${1});$0

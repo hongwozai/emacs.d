@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: simple
-# key: simple
+# name: template
+# key: template
 # --
 TARGET = $(notdir $(shell pwd))
 
@@ -21,7 +21,7 @@ exit:
 endif
 
 # fake target
-.PHONY: all run clean coverage release debug echo
+.PHONY: all run clean coverage release debug echo test exit
 
 all: $(TARGET)
 
@@ -32,6 +32,10 @@ clean:
 	rm -rf $(TARGET)
 	rm -rf $(OBJS)
 	rm -rf $(DEPS)
+
+test: CFLAGS += -UNDEBUG
+test: LDFLAGS += -lgtest -lpthread
+test: run
 
 coverage: CFLAGS  += --coverage
 coverage: LDFLAGS += --coverage
@@ -51,7 +55,7 @@ echo:
 	@echo $(OBJS)
 
 $(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) -o $(TARGET) $^
+	$(CC) -o $(TARGET) $^ $(LDFLAGS)
 
 %.deps: %.cpp
 	@set -e ; \

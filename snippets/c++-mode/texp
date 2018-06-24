@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: test_expect_eq
+# key: texp
+# --
+EXPECT_`(yasnippets-gtest-assert-word)`($0);
