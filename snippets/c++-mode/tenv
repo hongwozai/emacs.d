@@ -17,4 +17,4 @@ public:
     }
 };
 
-::testing::AddGlobalTestEnvironment(new ${1});$0
+::testing::AddGlobalTestEnvironment(new $1);$0
