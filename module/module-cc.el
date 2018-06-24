@@ -43,7 +43,8 @@
   (add-hook 'c-mode-common-hook #'cc-basic-config))
 
 ;;; .h -> c++-mode
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.h\\'"   . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.tcc\\'" . c++-mode))
 
 ;;-------------------------------------------
 ;;; gdb
