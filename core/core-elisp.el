@@ -32,7 +32,8 @@
                          'emacs-lisp-checkdoc)))
 
 ;;; key
-(core/leader-set-key
+(core/leader-set-key-for-mode
+  'emacs-lisp-mode
   "xe" 'eval-last-sexp
   "cf" 'eval-defun
   "cc" 'evil-buffer)
