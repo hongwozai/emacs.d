@@ -44,4 +44,11 @@
 (font-lock-add-keywords 'emacs-lisp-mode
                         '("require-package" "maybe-require"))
 
+(defun core/local-mirror-install ()
+  (interactive)
+  (when (require 'elpa-mirror nil t)
+    (let ((elpamr-default-output-directory
+           (expand-file-name "localelpa" user-emacs-directory)))
+      (elpamr-create-mirror-for-installed))))
+
 (provide 'core-package)

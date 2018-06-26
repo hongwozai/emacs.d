@@ -49,6 +49,7 @@
  (pkg-info . [(20150517 443) ((epl (0 8))) "Information about packages" tar])
  (plantuml-mode . [(20170819 1033) nil "Major mode for PlantUML" tar])
  (popup . [(20160709 729) ((cl-lib (0 5))) "Visual Popup User Interface" tar])
+ (posframe . [(20180623 438) ((emacs (26))) "Pop a posframe (just a frame) at point" tar])
  (pyim . [(20180324 2310) ((emacs (24 4)) (popup (0 1)) (async (1 6)) (pyim-basedict (0 1))) "A Chinese input method support quanpin, shuangpin, wubi and cangjie." tar])
  (pyim-basedict . [(20170726 1959) nil "The default pinyin dict of pyim" tar])
  (s . [(20180406 108) nil "The long lost Emacs string manipulation library." tar])

@@ -27,6 +27,13 @@
 (require 'core-directory)
 (require 'core-buffer)
 (require 'core-project)
+
+;;; popup frame alert etc.
+(require 'core-misc)
+
+;;-------------------------------------------
+;;; ide features
+;;-------------------------------------------
 (require 'core-template)
 (require 'core-auto-check)
 (require 'core-auto-complete)

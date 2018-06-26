@@ -60,4 +60,8 @@
   (kbd "n")       'diff-hunk-next
   (kbd "p")       'diff-hunk-prev)
 
+(core/set-key special-mode-map
+  :state 'normal
+  (kbd "q")       'quit-window)
+
 (provide 'core-keybindings)
