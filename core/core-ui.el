@@ -62,7 +62,7 @@
 ;;-------------------------------------------
 ;;; startup mode
 ;;-------------------------------------------
-(setq initial-scratch-message ";;; Scratch \n\n\n")
+(setq initial-scratch-message ";;; Scratch\n\n\n")
 (setq initial-major-mode 'emacs-lisp-mode)
 
 (defun core/scratch-kill-buffer-query-function ()
