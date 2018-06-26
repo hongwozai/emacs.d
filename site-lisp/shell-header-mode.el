@@ -23,6 +23,11 @@
 
 (require 'cl)
 
+(defcustom shell-header-create-function 'eshell
+  "create function when have not shell buffer"
+  :type  'symbol
+  :group 'shell-header)
+
 (defun shell-header--get-shell-buffer ()
   (sort
    (remove-if-not
@@ -61,13 +66,15 @@
   (let* ((misc-list (shell-header--get-shell-buffer))
          (misc-list-len (length misc-list))
          (index (position (current-buffer) misc-list)))
-    (if index
-        (let ((target-index
-               (if (eq direction 'NEXT)
-                   (mod (+ index offset) misc-list-len)
-                 (mod (- index offset) misc-list-len))))
-          (switch-to-buffer (nth target-index misc-list)))
-      (switch-to-buffer (nth 0 misc-list)))))
+    (if (= misc-list-len 0)
+        (call-interactively shell-header-create-function)
+        (if index
+            (let ((target-index
+                   (if (eq direction 'NEXT)
+                       (mod (+ index offset) misc-list-len)
+                     (mod (- index offset) misc-list-len))))
+              (switch-to-buffer (nth target-index misc-list)))
+          (switch-to-buffer (nth 0 misc-list))))))
 
 ;;; keymap
 (defvar shell-header-mode-map (make-sparse-keymap)
