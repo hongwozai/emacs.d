@@ -32,7 +32,9 @@
 (with-eval-after-load "pyim"
   (require 'pyim-basedict)
   (pyim-basedict-enable)
-  (setq pyim-use-tooltip 'popup)
+  (if (require 'posframe nil t)
+      (setq pyim-page-tooltip 'posframe)
+    (setq pyim-page-tooltip 'popup))
   (setq pyim-page-length 5))
 
 (provide 'module-chinese)
