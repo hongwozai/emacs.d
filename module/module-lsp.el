@@ -27,3 +27,9 @@
                           (cons 'company-lsp company-backends))))
   (setq company-lsp-enable-recompletion t)
   (setq company-lsp-async t))
+
+;;; cancel warning
+(with-eval-after-load "lsp-mode"
+  (advice-add 'lsp-warn
+              :around (lambda (orig-func &rest r)
+                        (message (apply #'format-message r)))))
