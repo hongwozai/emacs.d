@@ -40,7 +40,7 @@
 (make-face-bold 'font-lock-function-name-face)
 (with-eval-after-load 'ivy
   (set-face-attribute 'ivy-current-match nil
-                      :background (face-background 'mode-line-inactive)
+                      :background (face-background 'mode-line)
                       :underline  nil))
 
 ;;-------------------------------------------
