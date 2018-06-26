@@ -62,8 +62,8 @@
 ;;-------------------------------------------
 ;;; startup mode
 ;;-------------------------------------------
-(setq initial-scratch-message "#+TITLE: Scratch \n\n\n")
-(setq initial-major-mode 'org-mode)
+(setq initial-scratch-message ";;; Scratch \n\n\n")
+(setq initial-major-mode 'emacs-lisp-mode)
 
 (defun core/scratch-kill-buffer-query-function ()
   (if (string= "*scratch*" (buffer-name))

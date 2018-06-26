@@ -66,5 +66,3 @@
    (dot        . t)
    (plantuml   . t)
    (octave     . t)))
-
-(provide 'core-org)

@@ -46,7 +46,6 @@
 ;;-------------------------------------------
 ;;; application
 ;;-------------------------------------------
-(require 'core-org)
 (require 'core-modes)
 
 (provide 'core-init)
