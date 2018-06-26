@@ -36,6 +36,6 @@
   'emacs-lisp-mode
   "xe" 'eval-last-sexp
   "cf" 'eval-defun
-  "cc" 'evil-buffer)
+  "cc" 'eval-buffer)
 
 (provide 'core-elisp)
