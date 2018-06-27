@@ -58,7 +58,8 @@
   :state 'normal
   (kbd "q")       'quit-window
   (kbd "n")       'diff-hunk-next
-  (kbd "p")       'diff-hunk-prev)
+  (kbd "p")       'diff-hunk-prev
+  (kbd "o")       'diff-goto-source)
 
 (core/set-key special-mode-map
   :state 'normal
