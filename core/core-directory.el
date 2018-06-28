@@ -1,8 +1,6 @@
 ;;-------------------------------------------
 ;;; dired
 ;;-------------------------------------------
-(autoload 'dired-jump "dired")
-
 (with-eval-after-load 'dired
   ;; diredp
   (setq dired-recursive-copies   'always)
