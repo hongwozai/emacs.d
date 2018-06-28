@@ -5,6 +5,14 @@
   "cs" 'translate-brief-at-point)
 
 ;;-------------------------------------------
+;;; windows configure
+;;-------------------------------------------
+(when (eq system-type 'windows-nt)
+  (prefer-coding-system 'gbk)
+  (set-language-environment "gbk")
+  (set-default-coding-systems 'gbk))
+
+;;-------------------------------------------
 ;;; translate
 ;;-------------------------------------------
 (require-package 'bing-dict)
