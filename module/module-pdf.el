@@ -26,6 +26,12 @@
     "+"   'pdf-view-enlarge
     "-"   'pdf-view-shrink
     "0"   'pdf-view-scale-reset
-    "q"   'quit-window))
+    "v"   'pdf-view-midnight-minor-mode
+    "q"   'quit-window)
+
+  ;; pdf-view-midnight-minor-mode
+  (setq pdf-view-midnight-colors
+      `(,(face-foreground 'default) . ,(face-background 'default)))
+  )
 
 (pdf-tools-install)
