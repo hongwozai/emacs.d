@@ -32,6 +32,7 @@
                         "^\\.?#\\|^\\.$\\|^\\.[^.].+$")
             (setq dired-omit-verbose nil)
             (dired-omit-mode)
+            (dired-hide-details-mode 1)
             (hl-line-mode 1)))
 
 (provide 'core-directory)
