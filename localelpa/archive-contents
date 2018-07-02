@@ -65,4 +65,5 @@
  (yasnippet . [(20180606 1722) ((cl-lib (0 5))) "Yet another snippet extension for Emacs." tar])
  (tablist . [(20170219 1935) ((emacs (24 3))) "Extended tabulatedmode" tar])
  (pdf-tools . [(20180428 827) ((emacs (24 3)) (tablist (0 70)) (let-alist (1 0 4))) "Support library for PDF documents." tar])
+ (sql-indent . [(20170112 1507) nil "indentation of SQL statements" tar])
 )
