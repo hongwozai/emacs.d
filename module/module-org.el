@@ -53,6 +53,10 @@
   :state 'normal
   (kbd "TAB") 'org-cycle)
 
+;;; global
+(core/leader-set-key
+  "co" 'counsel-org-capture)
+
 ;;-------------------------------------------
 ;;; babel (eval code)
 ;;-------------------------------------------
