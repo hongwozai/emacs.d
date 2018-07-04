@@ -28,7 +28,9 @@
     (call-interactively
      (cond ((executable-find "rg") #'counsel-rg)
            ((executable-find "ag") #'counsel-ag)
-           ((locate-dominating-file default-directory ".git")
+           ((and
+             (locate-dominating-file default-directory ".git")
+             (executable-find "git"))
             #'counsel-git-grep)
            (t #'rgrep)))))
 

@@ -102,7 +102,7 @@
 (setq grep-command
       (cond ((executable-find "rg") "rg --no-heading -w ")
             ((executable-find "ag") "ag --nogroup --noheading ")
-            (t "grep -nH -r -E -e ")))
+            (t "grep --binary-files=without-match -nH -r -E -e ")))
 
 (defun grep-read-files! (orig-fun &rest args)
   (let ((completing-read-function 'completing-read-default))
