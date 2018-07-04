@@ -16,7 +16,7 @@
 ;;; leader
 (setq evil-leader/leader ",")
 (setq evil-leader/no-prefix-mode-rx
-      '("magit-.*-mode"))
+      '("magit-.*-mode" "ibuffer-mode"))
 
 ;;-------------------------------------------
 ;;; startup

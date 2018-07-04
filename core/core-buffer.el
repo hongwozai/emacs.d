@@ -68,4 +68,11 @@
 ;;-------------------------------------------
 (defalias 'sw 'switch-to-buffer)
 
+(core/set-key ibuffer-mode-map
+  :state 'emacs
+  "j" 'ibuffer-forward-line
+  "k" 'ibuffer-backward-line
+  "J" 'ibuffer-jump-to-buffer
+  "K" 'ibuffer-kill-line)
+
 (provide 'core-buffer)
