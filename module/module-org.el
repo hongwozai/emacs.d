@@ -13,6 +13,7 @@
 ;;-------------------------------------------
 (setq org-agenda-span 'day)
 (setq org-agenda-include-diary nil)
+(setq org-agenda-restore-windows-after-quit t)
 
 ;;; set org directory
 (setq org-directory
