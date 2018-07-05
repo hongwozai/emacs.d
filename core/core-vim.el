@@ -54,6 +54,9 @@
 ;;; related file
 (define-key evil-normal-state-map (kbd "gF") 'ff-find-related-file)
 
+;;; use isearch
+(define-key evil-normal-state-map (kbd "/") 'isearch-forward-regexp)
+(define-key evil-normal-state-map (kbd "?") 'isearch-backward-regexp)
 ;;-------------------------------------------
 ;;; functions
 ;;-------------------------------------------
