@@ -11,7 +11,7 @@
 ;;-------------------------------------------
 ;;; org agenda/gtd
 ;;-------------------------------------------
-(setq org-agenda-span 'week)
+(setq org-agenda-span 'day)
 (setq org-agenda-include-diary nil)
 
 ;;; set org directory
