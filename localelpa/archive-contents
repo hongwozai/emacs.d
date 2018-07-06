@@ -1,6 +1,7 @@
 (1
  (async . [(20180527 1030) nil "Asynchronous processing in Emacs" tar])
  (autothemer . [(20170112 1324) ((dash (2 10 0)) (emacs (24)) (cl-lib (0 5))) "Conveniently define themes." tar])
+ (avy . [(20180615 801) ((emacs (24 1)) (cl-lib (0 5))) "Jump to arbitrary positions in visible text and select text quickly." tar])
  (bing-dict . [(20170604 1831) nil "Minimalists' English-Chinese Bing dictionary" tar])
  (cmake-mode . [(20180104 1137) nil "major-mode for editing CMake sources" tar])
  (company . [(20180501 11) ((emacs (24 3))) "Modular text completion framework" tar])
