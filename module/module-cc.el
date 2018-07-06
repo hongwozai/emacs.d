@@ -32,7 +32,10 @@
   (font-lock-add-keywords
    nil
    '("typeof" "__attribute__" "__asm__"
-     ("\\<\\(FIXME\\|NOTE\\|TODO\\):" 1 'font-lock-warning-face prepend)))
+     ("\\<\\(FIXME\\|NOTE\\|TODO\\):" 1 'font-lock-warning-face prepend)
+     ("->\\|,\\|=\\|!\\|>\\|<\\|>=\\|<=\\|^\\|*\\|-\\|+\\|\\.\\|/\\|::\\|&"
+      .
+      'font-lock-builtin-face)))
 
   ;; flycheck
   (setq-local flycheck-clang-language-standard "c++11")
