@@ -131,11 +131,19 @@
 (defun highlight-symbol ()
   (interactive)
   (require 'hi-lock nil t)
-  (let ((regexp (hi-lock-regexp-okay
-                 (find-tag-default-as-symbol-regexp))))
+  (let ((regexp
+         (hi-lock-regexp-okay
+          (if (use-region-p)
+              ;; region
+              (regexp-quote
+               (buffer-substring-no-properties
+                (region-beginning) (region-end)))
+            ;; symbol
+            (find-tag-default-as-symbol-regexp)))))
     (if (assoc regexp hi-lock-interactive-patterns)
         (unhighlight-regexp regexp)
-      (highlight-symbol-at-point))))
+      (deactivate-mark)
+      (hi-lock-face-buffer regexp))))
 
 (defun unhighlight-all-symbol ()
   (interactive)
