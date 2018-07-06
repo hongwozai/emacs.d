@@ -32,8 +32,8 @@
 ;;-------------------------------------------
 ;;; theme
 ;;-------------------------------------------
-(require-package 'gruvbox-theme)
-(load-theme 'gruvbox-dark-medium t)
+(require 'zy-dark-theme)
+(load-theme 'zy-dark t)
 
 ;;; modify
 (make-face-bold 'font-lock-keyword-face)
