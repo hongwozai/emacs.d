@@ -80,8 +80,9 @@
   ("c" gud-cont "cont")
   ("o" gud-finish "out")
   ("r" gud-run "run")
-  ("z" (lambda () (interactive) (pop-to-buffer gud-comint-buffer)))
-  ("q" nil "quit"))
+  ("q"
+   (lambda () (interactive) (pop-to-buffer gud-comint-buffer))
+   :color blue))
 
 ;;-------------------------------------------
 ;;; cquery
