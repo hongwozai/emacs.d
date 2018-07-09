@@ -71,3 +71,9 @@
    (dot        . t)
    (plantuml   . t)
    (octave     . t)))
+
+;;-------------------------------------------
+;;; org display image
+;;-------------------------------------------
+(add-hook 'org-mode-hook 'org-display-inline-images)
+(add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
