@@ -1,5 +1,5 @@
 ;;-------------------------------------------
-;;; utilies
+;;; swiper
 ;;-------------------------------------------
 (defun swiper-at-function ()
   (interactive)
@@ -7,7 +7,24 @@
    (narrow-to-defun)
    (swiper)))
 
+(defun my-swiper ()
+  (interactive)
+  (if current-prefix-arg
+      (swiper-at-function)
+    (swiper)))
+
+(core/set-key global
+  :state 'native
+  [remap swiper] 'my-swiper)
+
+;;-------------------------------------------
 ;;; gtest snippet
+;;-------------------------------------------
+(defun swiper-at-function ()
+  (interactive)
+  (save-restriction
+   (narrow-to-defun)
+   (swiper)))
 (defvar snippets-gtest-assert-word
       '("EQ"
         "NE"
