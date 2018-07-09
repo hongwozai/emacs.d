@@ -14,3 +14,6 @@
 (with-eval-after-load 'graphviz-dot-mode
   (setq graphviz-dot-auto-indent-on-braces t)
   (setq graphviz-dot-toggle-completions    t))
+
+(with-eval-after-load 'org-mode
+  (setcdr (assoc "dot" org-src-lang-modes) 'graphviz-dot))
