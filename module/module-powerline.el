@@ -6,6 +6,12 @@
 ;;-------------------------------------------
 ;;; mode
 ;;-------------------------------------------
+;;; not display flycheck
+(setq telephone-line-rhs
+      '((nil    . (telephone-line-misc-info-segment))
+        (accent . (telephone-line-major-mode-segment))
+        (evil   . (telephone-line-airline-position-segment))))
+
 (telephone-line-mode 1)
 (setq telephone-line-evil-use-short-tag t)
 

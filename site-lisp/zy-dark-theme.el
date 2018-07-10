@@ -55,7 +55,7 @@
      (font-lock-builtin-face                            (:foreground zy-bright_orange :bold t))
      (font-lock-constant-face                           (:foreground zy-bright_purple))
      (font-lock-comment-face                            (:foreground zy-dark4))
-     (font-lock-function-name-face                      (:foreground zy-bright_yellow))
+     (font-lock-function-name-face                      (:foreground zy-bright_yellow :bold t))
      (font-lock-keyword-face                            (:foreground zy-bright_red :bold t))
      (font-lock-string-face                             (:foreground zy-bright_green))
      (font-lock-variable-name-face                      (:foreground zy-bright_blue))
@@ -504,7 +504,7 @@
      (eshell-ls-unreadable-face                  (:foreground zy-bright_red :bold t))
 
      ;; which-function-mode
-     (which-func                                 (:foreground zy-faded_blue)))
+     (which-func                                 (:foreground zy-bright_yellow :bold t)))
     ,@body))
 
 ;;; dark
