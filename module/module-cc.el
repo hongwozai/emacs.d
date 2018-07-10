@@ -97,9 +97,5 @@
 ;;-------------------------------------------
 ;;; packaging
 ;;-------------------------------------------
-(defun ide-feature-enable ()
-  (interactive)
-  (lsp-cquery-enable))
-
 (add-hook 'c-mode-common-hook
           #'(lambda () (ignore-errors (lsp-cquery-enable))))
