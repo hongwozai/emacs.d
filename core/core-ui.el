@@ -32,6 +32,7 @@
 ;;-------------------------------------------
 ;;; theme
 ;;-------------------------------------------
+(require-package 'autothemer)
 (require 'zy-dark-theme)
 (load-theme 'zy-dark t)
 
