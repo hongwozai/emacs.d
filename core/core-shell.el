@@ -25,6 +25,7 @@
 (defalias 'eshell/fo #'find-file-other-window)
 (defalias 'eshell/d  #'dired)
 (defalias 'eshell/do #'dired-other-window)
+(defalias 'eshell/fr #'counsel-recentf)
 
 (add-hook 'eshell-load-hook
           (lambda ()
