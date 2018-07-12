@@ -45,4 +45,9 @@
     (setq pyim-page-tooltip 'popup))
   (setq pyim-page-length 5))
 
+;;-------------------------------------------
+;;; emacs sometimes can't reconginze gbk
+;;-------------------------------------------
+(require 'unicad)
+
 (provide 'module-chinese)

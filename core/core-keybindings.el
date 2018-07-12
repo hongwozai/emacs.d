@@ -5,6 +5,7 @@
 
  "bd" 'dired-jump
  "bs" 'revert-buffer-with-coding-system
+ "bf" 'set-buffer-file-coding-system
  "bl" 'ibuffer
 
  "fr" 'counsel-recentf
