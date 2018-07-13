@@ -26,3 +26,4 @@ anaconda-mode/*
 TAGS
 quelpa/*
 offline
+site-lisp/*.elc

@@ -51,4 +51,21 @@
            (expand-file-name "localelpa" user-emacs-directory)))
       (elpamr-create-mirror-for-installed))))
 
+;;-------------------------------------------
+;;; compile local site-lisp
+;;-------------------------------------------
+(defun core/compile-site-lisp-files ()
+  (interactive)
+  (let* ((default-directory
+           (expand-file-name "site-lisp" user-emacs-directory))
+         (files (directory-files default-directory)))
+    (mapc (lambda (file)
+            (when (string-suffix-p ".el" file)
+              (unless (file-exists-p (concat file "c"))
+                (byte-compile-file file))))
+          files)))
+
+;;; compile site-lisp
+(core/compile-site-lisp-files)
+
 (provide 'core-package)
