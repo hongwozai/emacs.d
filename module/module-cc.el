@@ -31,11 +31,25 @@
   ;; keywords
   (font-lock-add-keywords
    nil
-   '("typeof" "__attribute__" "__asm__"
+   '(
      ("\\<\\(FIXME\\|NOTE\\|TODO\\):" 1 'font-lock-warning-face prepend)
-     (",\\|=\\|!\\|>\\|<\\|\\^\\|\\*\\|-\\|+\\|/\\|\\.\\|::\\|&"
-      .
-      'font-lock-builtin-face)))
+     "typeof"
+     "__attribute__"
+     "__asm__"
+     (","   . 'font-lock-builtin-face)
+     ("="   . 'font-lock-builtin-face)
+     ("!"   . 'font-lock-builtin-face)
+     (">"   . 'font-lock-builtin-face)
+     ("<"   . 'font-lock-builtin-face)
+     ("^"   . 'font-lock-builtin-face)
+     ("\\*" . 'font-lock-builtin-face)
+     ("-"   . 'font-lock-builtin-face)
+     ("+"   . 'font-lock-builtin-face)
+     ("/"   . 'font-lock-builtin-face)
+     ("\\." . 'font-lock-builtin-face)
+     ("::"  . 'font-lock-builtin-face)
+     ("&"   . 'font-lock-builtin-face)
+     ))
 
   )
 
