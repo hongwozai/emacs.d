@@ -113,3 +113,11 @@
 ;;-------------------------------------------
 (add-hook 'c-mode-common-hook
           #'(lambda () (ignore-errors (lsp-cquery-enable))))
+
+;;; company-clang error message annoying
+(with-eval-after-load 'company-clang
+  (advice-add 'company-clang--handle-error
+              :around
+              (lambda (func &rest args)
+                (let ((inhibit-message t))
+                  (apply func args)))))
