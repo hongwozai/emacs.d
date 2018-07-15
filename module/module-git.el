@@ -21,6 +21,9 @@
               (kbd "q") 'git-timemachine-quit)
             (evil-motion-state)))
 
+;;; git-messenger
+(setq git-messenger:show-detail t)
+
 ;;-------------------------------------------
 ;;; key
 ;;-------------------------------------------
