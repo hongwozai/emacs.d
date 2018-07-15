@@ -38,6 +38,9 @@
   ("d" git-gutter:popup-hunk)
   ("q" nil :exit t))
 
+(core/leader-set-key
+  "vp" 'git-messenger:popup-message)
+
 ;;-------------------------------------------
 ;;; hacking
 ;;-------------------------------------------

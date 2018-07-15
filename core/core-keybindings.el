@@ -25,6 +25,11 @@
  "w"  'hydra-window/body
  "n"  'linum-mode
 
+ ;; version control
+ "vl" 'vc-print-log
+ "vL" 'vc-print-root-log
+ "vd" 'vc-dir
+
  "sa" 'core/find-all-matches
 
  "xb" 'ivy-switch-buffer
