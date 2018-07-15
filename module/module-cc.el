@@ -10,7 +10,6 @@
 
 ;; indent (# left align)
 (setq-default c-electric-pound-behavior '(alignleft))
-
 ;;-------------------------------------------
 ;;; basic option
 ;;-------------------------------------------
@@ -53,14 +52,18 @@
 
   )
 
+(defun c++-config ()
+  ;; indent
+  (c-set-offset 'innamespace 0)
+  ;; flycheck
+  (setq-local flycheck-clang-language-standard "c++11")
+  )
+
 ;;; install
 (dolist (hook '(c-mode-hook c++-mode-hook))
   (add-hook hook #'cc-basic-config))
 
-;; flycheck
-(add-hook 'c++-mode-hook
-          (lambda () (setq-local flycheck-clang-language-standard "c++11")))
-
+(add-hook 'c++-mode-hook #'c++-config)
 
 ;;; .h -> c++-mode
 (add-to-list 'auto-mode-alist '("\\.h\\'"   . c++-mode))
