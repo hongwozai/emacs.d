@@ -29,6 +29,7 @@
  "vl" 'vc-print-log
  "vL" 'vc-print-root-log
  "vd" 'vc-dir
+ "vv" 'vc-next-action
 
  "sa" 'core/find-all-matches
 
