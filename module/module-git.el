@@ -37,3 +37,19 @@
   ("r" git-gutter:revert-hunk)
   ("d" git-gutter:popup-hunk)
   ("q" nil :exit t))
+
+;;-------------------------------------------
+;;; hacking
+;;-------------------------------------------
+(with-eval-after-load 'git-messenger
+  (defun git-messenger:execute-command (vcs args output)
+    (cl-case vcs
+      (git (apply 'process-file "git" nil output nil args))
+      ;; 此处将LANG=C去掉，但是不知道会不会有什么问题，先使用一段时间
+      (svn (apply 'process-file "svn" nil output nil args))
+      (hg
+       (let ((process-environment (cons
+                                   "HGPLAIN=1"
+                                   (cons "LANG=utf-8" process-environment))))
+         (apply 'process-file "hg" nil output nil args))))))
+
