@@ -10,7 +10,13 @@
 ;;; config
 ;;-------------------------------------------
 (setq git-gutter:handled-backends '(git svn))
-(global-git-gutter-mode t)
+
+;;; git gutter slow in large file
+;; (global-git-gutter-mode t)
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (<= (line-number-at-pos (point-max)) 1500)
+              (git-gutter-mode))))
 
 (add-hook 'git-timemachine-mode-hook
           (lambda ()
