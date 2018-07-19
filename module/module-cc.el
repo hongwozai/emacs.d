@@ -43,7 +43,7 @@
      ("\\^"   . 'font-lock-builtin-face)
      ("\\*" . 'font-lock-builtin-face)
      ("-"   . 'font-lock-builtin-face)
-     ("+"   . 'font-lock-builtin-face)
+     ("\\+"   . 'font-lock-builtin-face)
      ("/"   . 'font-lock-builtin-face)
      ("\\." . 'font-lock-builtin-face)
      ("::"  . 'font-lock-builtin-face)
