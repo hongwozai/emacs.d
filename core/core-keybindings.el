@@ -11,6 +11,7 @@
  "fr" 'counsel-recentf
  "fs" 'find-file-in-project-by-selected
  "fc" 'ffip-create-project-file
+ "fl" 'counsel-locate
 
  "ha" 'counsel-apropos
  "hf" 'counsel-describe-function
