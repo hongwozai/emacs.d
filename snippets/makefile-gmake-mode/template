@@ -6,6 +6,10 @@ TARGET = $(notdir $(shell pwd))
 
 SUBDIR = ${0:.}
 
+# unittest
+TESTDIR    = test
+TESTTARGET = $(addsuffix Test, $(TARGET))
+
 CC = g++
 
 CFLAGS  = -g3 -Wall -Iinc -lstdc++ -std=c++11
@@ -15,6 +19,12 @@ SRCS  = $(wildcard $(addsuffix /*.cpp, $(SUBDIR)))
 SRCS += $(wildcard $(addsuffix /*.c,   $(SUBDIR)))
 DEPS := $(patsubst %.c, %.deps, $(patsubst %.cpp, %.deps, $(SRCS)))
 OBJS := $(patsubst %.c, %.o,    $(patsubst %.cpp, %.o,    $(SRCS)))
+
+# unittest
+TESTSRCS  = $(wildcard $(addsuffix /*.cpp, $(TESTDIR)))
+TESTSRCS += $(wildcard $(addsuffix /*.c,   $(TESTDIR)))
+TESTDEPS := $(patsubst %.c, %.deps, $(patsubst %.cpp, %.deps, $(TESTSRCS)))
+TESTOBJS := $(patsubst %.c, %.o,    $(patsubst %.cpp, %.o,    $(TESTSRCS)))
 
 ifeq ("$(SRCS)", " ")
 exit:
@@ -35,7 +45,14 @@ clean:
 
 test: CFLAGS += -UNDEBUG
 test: LDFLAGS += -lgtest -lpthread
-test: run
+test: SRCS := $(filter-out src/Main.cpp, $(SRCS))
+test: SRCS := $(filter-out src/Main.c,   $(SRCS))
+test: SRCS += $(wildcard $(addsuffix /*.cpp, $(TESTDIR)))
+test: SRCS += $(wildcard $(addsuffix /*.c,   $(TESTDIR)))
+test: DEPS := $(patsubst %.c, %.deps, $(patsubst %.cpp, %.deps, $(SRCS)))
+test: OBJS := $(patsubst %.c, %.o,    $(patsubst %.cpp, %.o,    $(SRCS)))
+test: $(TESTTARGET)
+	./$(TESTTARGET)
 
 coverage: CFLAGS  += --coverage
 coverage: LDFLAGS += --coverage
@@ -47,6 +64,9 @@ release: all
 ifneq ("$(MAKECMDGOALS)", "clean")
 include $(DEPS)
 endif
+ifeq ("$(MAKECMDGOALS)", "test")
+include $(TESTDEPS)
+endif
 
 # real target
 echo:
@@ -55,7 +75,10 @@ echo:
 	@echo $(OBJS)
 
 $(TARGET): $(OBJS)
-	$(CC) -o $(TARGET) $^ $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+$(TESTTARGET): $(TESTOBJS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 %.deps: %.cpp
 	@set -e ; \
