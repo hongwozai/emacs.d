@@ -21,7 +21,10 @@ DEPS := $(patsubst %.c, %.deps, $(patsubst %.cpp, %.deps, $(SRCS)))
 OBJS := $(patsubst %.c, %.o,    $(patsubst %.cpp, %.o,    $(SRCS)))
 
 # unittest
-TESTSRCS  = $(wildcard $(addsuffix /*.cpp, $(TESTDIR)))
+TESTSRCS := $(SRCS)
+TESTSRCS := $(filter-out %/Main.cpp, $(TESTSRCS))
+TESTSRCS := $(filter-out %/Main.c,   $(TESTSRCS))
+TESTSRCS += $(wildcard $(addsuffix /*.cpp, $(TESTDIR)))
 TESTSRCS += $(wildcard $(addsuffix /*.c,   $(TESTDIR)))
 TESTDEPS := $(patsubst %.c, %.deps, $(patsubst %.cpp, %.deps, $(TESTSRCS)))
 TESTOBJS := $(patsubst %.c, %.o,    $(patsubst %.cpp, %.o,    $(TESTSRCS)))
@@ -45,12 +48,6 @@ clean:
 
 test: CFLAGS += -UNDEBUG
 test: LDFLAGS += -lgtest -lpthread
-test: SRCS := $(filter-out src/Main.cpp, $(SRCS))
-test: SRCS := $(filter-out src/Main.c,   $(SRCS))
-test: SRCS += $(wildcard $(addsuffix /*.cpp, $(TESTDIR)))
-test: SRCS += $(wildcard $(addsuffix /*.c,   $(TESTDIR)))
-test: DEPS := $(patsubst %.c, %.deps, $(patsubst %.cpp, %.deps, $(SRCS)))
-test: OBJS := $(patsubst %.c, %.o,    $(patsubst %.cpp, %.o,    $(SRCS)))
 test: $(TESTTARGET)
 	./$(TESTTARGET)
 
