@@ -12,6 +12,7 @@
  "fs" 'find-file-in-project-by-selected
  "fc" 'ffip-create-project-file
  "fl" 'counsel-locate
+ "fo" 'find-file-other-window
 
  "ha" 'counsel-apropos
  "hf" 'counsel-describe-function
