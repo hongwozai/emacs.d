@@ -50,6 +50,8 @@
      ("&"   . 'font-lock-builtin-face)
      ))
 
+  ;; keybindings
+  (local-set-key (kbd "C-c C-c") 'recompile)
   )
 
 (defun c++-config ()
