@@ -80,12 +80,12 @@ $(TESTTARGET): $(TESTOBJS)
 %.deps: %.cpp
 	@set -e ; \
 	$(CC) $(CFLAGS) -MM $< > $@; \
-	sed -E -i "s,\(.*\):,$(dir $@)\1:,g" $@;
+	sed -r -i "s,\(.*\):,$(dir $@)\1:,g" $@;
 
 %.deps: %.c
 	@set -e ; \
 	$(CC) $(CFLAGS) -MM $< > $@; \
-	sed -E -i "s,\(.*\):,$(dir $@)\1:,g" $@;
+	sed -r -i "s,\(.*\):,$(dir $@)\1:,g" $@;
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
