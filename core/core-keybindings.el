@@ -60,7 +60,8 @@
   (kbd "C-s")     'swiper
   (kbd "M-n")     'next-error
   (kbd "M-p")     'previous-error
-  (kbd "C-w u")   'winner-undo)
+  (kbd "C-w u")   'winner-undo
+  (kbd "M-y")     'counsel-yank-pop)
 
 ;;; diff-mode
 (core/set-key diff-mode-map
