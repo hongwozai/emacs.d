@@ -47,7 +47,8 @@
   (kbd "C-\\") 'toggle-input-method
   (kbd "C-s")  'swiper
   (kbd "M-[")  'shell-header-prev
-  (kbd "M-]")  'shell-header-next)
+  (kbd "M-]")  'shell-header-next
+  (kbd "C-w")  'evil-window-map)
 
 (core/set-key minibuffer-local-map
   :state 'native
