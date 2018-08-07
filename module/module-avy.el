@@ -11,4 +11,5 @@
   "al" 'avy-goto-line
   "aw" 'avy-goto-char-2
   "am" 'avy-move-line
+  "ac" 'avy-copy-line
   )
