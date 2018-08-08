@@ -31,23 +31,8 @@
   (font-lock-add-keywords
    nil
    '(
-     ("\\<\\(FIXME\\|NOTE\\|TODO\\):" 1 'font-lock-warning-face prepend)
-     "typeof"
-     "__attribute__"
-     "__asm__"
-     (","   . 'font-lock-builtin-face)
-     ("="   . 'font-lock-builtin-face)
-     ("!"   . 'font-lock-builtin-face)
-     (">"   . 'font-lock-builtin-face)
-     ("<"   . 'font-lock-builtin-face)
-     ("\\^"   . 'font-lock-builtin-face)
-     ("\\*" . 'font-lock-builtin-face)
-     ("-"   . 'font-lock-builtin-face)
-     ("\\+"   . 'font-lock-builtin-face)
-     ("/"   . 'font-lock-builtin-face)
-     ("\\." . 'font-lock-builtin-face)
-     ("::"  . 'font-lock-builtin-face)
-     ("&"   . 'font-lock-builtin-face)
+     ("\\<\\(FIXME\\|NOTE\\|TODO\\|TBD\\):" 1 'font-lock-warning-face prepend)
+     "typeof" "__attribute__" "__asm__"
      ))
 
   ;; keybindings
