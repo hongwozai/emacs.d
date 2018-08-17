@@ -18,13 +18,16 @@
   [remap swiper] 'my-swiper)
 
 ;;-------------------------------------------
+;;; ediff
+;;-------------------------------------------
+(defun epatch-reverse ()
+  (interactive)
+  (let ((ediff-patch-options "-R -f"))
+    (epatch)))
+
+;;-------------------------------------------
 ;;; gtest snippet
 ;;-------------------------------------------
-(defun swiper-at-function ()
-  (interactive)
-  (save-restriction
-   (narrow-to-defun)
-   (swiper)))
 (defvar snippets-gtest-assert-word
       '("EQ"
         "NE"
