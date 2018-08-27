@@ -76,4 +76,8 @@
   :state 'normal
   (kbd "q")       'quit-window)
 
+(core/set-key vc-dir-mode-map
+  :state 'native
+  (kbd "r")       'vc-revert)
+
 (provide 'core-keybindings)
