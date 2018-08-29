@@ -16,7 +16,8 @@
 ;;-------------------------------------------
 ;;; basic edit options
 ;;-------------------------------------------
-(setq-default default-tab-width           4
+(setq-default tab-width                   4
+              default-tab-width           4
               indent-tabs-mode            nil
               column-number-mode          t
               scroll-preserve-screen-position 'always
