@@ -21,7 +21,7 @@
   (setq company-etags-ignore-case          t)
 
   (setq company-global-modes
-        '(not shell-mode eshell-mode term-mode))
+        '(not gud-mode shell-mode eshell-mode term-mode))
   )
 
 (provide 'core-auto-complete)

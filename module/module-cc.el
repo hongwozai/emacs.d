@@ -44,6 +44,9 @@
   (c-set-offset 'innamespace 0)
   ;; flycheck
   (setq-local flycheck-clang-language-standard "c++11")
+  ;; comment
+  (setq-local comment-start "/* ")
+  (setq-local comment-end   " */")
   )
 
 ;;; install
