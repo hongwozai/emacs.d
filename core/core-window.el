@@ -12,6 +12,7 @@
 
 ;; config
 (set-face-attribute 'winum-face nil :weight 'bold)
+(setq winum-scope 'frame-local)
 
 ;; startup
 (winum-mode t)
