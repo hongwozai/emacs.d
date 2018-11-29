@@ -2,6 +2,7 @@
 ;;; mode-line
 (setq-default mode-line-format
               '("%e"
+                " "
                 (:eval (winum-get-number-string))
                 mode-line-front-space
                 mode-line-mule-info
@@ -14,8 +15,8 @@
                 "[" "%02l" "," "%01c" "] "
                 mode-line-frame-identification
                 mode-line-buffer-identification
-                "   [" (vc-mode vc-mode) " ]  "
+                (vc-mode vc-mode)
+                "  "
                 mode-line-modes
                 mode-line-misc-info
-                mode-line-end-spaces)
-              )
+                mode-line-end-spaces))
