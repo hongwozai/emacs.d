@@ -13,7 +13,8 @@
          ("README\\'" . markdown-mode)
          ("readme\\'" . markdown-mode)
          ("readme\\.txt\\'" . markdown-mode)
-         ("README\\.txt\\'" . markdown-mode))))
+         ("README\\.txt\\'" . markdown-mode))
+       auto-mode-alist))
 
 ;;; C-c C-c l on-the-fly preview
 ;;; C-c C-s C/q/
