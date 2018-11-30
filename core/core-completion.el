@@ -44,7 +44,8 @@
     :state 'native
     (kbd "C-m") 'ivy-alt-done
     (kbd "C-j") 'ivy-immediate-done
-    (kbd "C-i") 'ivy-insert-symbol-at-point)
+    (kbd "C-i") 'ivy-insert-symbol-at-point
+    (kbd "C-s") 'ivy-restrict-to-matches)
 
 ;; replace ido
 (fset 'ido-completing-read 'ivy-completing-read)
@@ -53,22 +54,12 @@
 (autoload 'ivy-xref-show-xrefs "ivy-xref")
 (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
 
-;;; find files
-(define-key counsel-find-file-map (kbd "C-f") 'ivy--find)
-
 ;;; ivy-occur
 (evil-set-initial-state 'ivy-occur-mode 'emacs)
 
 ;;-------------------------------------------
 ;;; funcs
 ;;-------------------------------------------
-(defun ivy--find ()
-  (interactive)
-  (ivy-exit-with-action
-   (lambda (_)
-     (let* ((directory (ivy-state-directory ivy-last)))
-       (core/find-all-files directory)))))
-
 (defun ivy-insert-symbol-at-point ()
   "Pull next word from buffer into search string."
   (interactive)

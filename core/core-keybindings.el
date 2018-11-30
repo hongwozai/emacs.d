@@ -33,8 +33,6 @@
  "vd" 'vc-dir
  "vv" 'vc-next-action
 
- "sa" 'core/find-all-matches
-
  "xb" 'ivy-switch-buffer
  "xc" 'save-buffers-kill-terminal
  "xf" 'counsel-find-file
