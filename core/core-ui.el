@@ -40,7 +40,7 @@
 ;;; diminish
 ;;-------------------------------------------
 ;;; purge minor modes display
-(defvar show-minor-modes '(iedit-mode))
+(defvar show-minor-modes '(iedit-mode projectile))
 
 (defun purge-minor-modes ()
   (setf minor-mode-alist

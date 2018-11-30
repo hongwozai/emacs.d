@@ -57,7 +57,6 @@
 
 (core/set-key global
   :state '(normal motion)
-  (kbd "C-p")     'ffip
   (kbd "C-s")     'swiper
   (kbd "M-n")     'next-error
   (kbd "M-p")     'previous-error
