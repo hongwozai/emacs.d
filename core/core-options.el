@@ -168,4 +168,24 @@
             (prettify-symbols-mode t)
             ))
 
+;;-------------------------------------------
+;;; builtin mode install
+;;-------------------------------------------
+(setq auto-mode-alist
+      (append
+       ;; conf-mode shell-script-mode
+       '((".*config\\'" . conf-mode)
+         (".*profile\\'" . conf-mode)
+         ("ssh.\\{1,2\\}config\\'" . conf-mode)
+         ("\\.*rc\\'" . sh-mode)
+         ("\\.zsh\\'" . sh-mode)
+         ("\\.sh\\'" . sh-mode)
+         ("\\.bash\\'" . sh-mode)
+         ("\\.bashrc\\'" . sh-mode)
+         ("\\.bash_history\\'" . sh-mode)
+         ("\\.bash_profile\\'" . sh-mode))
+       ;; log
+       '(("\\.log\\'" . log-view-mode))
+       auto-mode-alist))
+
 (provide 'core-options)

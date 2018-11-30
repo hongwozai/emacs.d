@@ -95,6 +95,18 @@
    :color blue))
 
 ;;-------------------------------------------
+;;; mode
+;;-------------------------------------------
+(require-package 'cmake-mode)
+
+(setq auto-mode-alist
+      (append
+       ;; cmake
+       '(("CMakeLists\\.txt\\'" . cmake-mode)
+         ("\\.cmake\\'" . cmake-mode))
+       auto-mode-alist))
+
+;;-------------------------------------------
 ;;; cquery
 ;;-------------------------------------------
 (require-package 'cquery)
