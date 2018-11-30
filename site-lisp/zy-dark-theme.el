@@ -333,12 +333,12 @@
      (isearch-fail                              (:foreground zy-light0 :background zy-bright_red))
 
      ;; markdown-mode
-     (markdown-header-face-1                    (:foreground zy-bright_blue))
-     (markdown-header-face-2                    (:foreground zy-bright_yellow))
-     (markdown-header-face-3                    (:foreground zy-bright_purple))
-     (markdown-header-face-4                    (:foreground zy-bright_red))
-     (markdown-header-face-5                    (:foreground zy-bright_green))
-     (markdown-header-face-6                    (:foreground zy-bright_aqua))
+     (markdown-header-face-1                    (:foreground zy-bright_blue :weight 'bold))
+     (markdown-header-face-2                    (:foreground zy-bright_yellow :weight 'bold))
+     (markdown-header-face-3                    (:foreground zy-bright_purple :weight 'bold))
+     (markdown-header-face-4                    (:foreground zy-bright_red :weight 'bold))
+     (markdown-header-face-5                    (:foreground zy-bright_green :weight 'bold))
+     (markdown-header-face-6                    (:foreground zy-bright_aqua :weight 'bold))
 
      ;; anzu-mode
      (anzu-mode-line                            (:foreground zy-bright_yellow :weight 'bold))
