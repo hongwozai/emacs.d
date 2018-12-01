@@ -67,6 +67,7 @@
  (pdf-tools . [(20181118 2051) ((emacs (24 3)) (tablist (0 70)) (let-alist (1 0 4))) "Support library for PDF documents." tar])
  (simple-httpd . [(20180528 1603) ((cl-lib (0 3))) "pure elisp HTTP server" tar])
  (skewer-mode . [(20180706 1807) ((simple-httpd (1 4 0)) (js2-mode (20090723)) (emacs (24))) "live browser JavaScript, CSS, and HTML interaction" tar])
+ (sql-indent . [(20170112 1507) nil "sql indent"])
  (htmlize . [(20180923 1829) nil "Convert buffer text and decorations to HTML." tar])
  (impatient-mode . [(20181002 1231) ((cl-lib (0 3)) (simple-httpd (1 5 0)) (htmlize (1 40))) "Serve buffers live over HTTP" tar])
 )
