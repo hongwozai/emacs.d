@@ -113,3 +113,16 @@
               (lambda (func &rest args)
                 (let ((inhibit-message t))
                   (apply func args)))))
+
+;;-------------------------------------------
+;;; clang
+;;-------------------------------------------
+(autoload 'lsp-clangd-c-enable "lsp-mode")
+(autoload 'lsp-clangd-c++-enable "lsp-mode")
+(autoload 'lsp-clangd-objc-enable "lsp-mode")
+
+(with-eval-after-load "lsp-mode"
+  (require 'lsp-clangd)
+  (add-hook 'c-mode-hook #'lsp-clangd-c-enable)
+  (add-hook 'c++-mode-hook #'lsp-clangd-c++-enable)
+  (add-hook 'objc-mode-hook #'lsp-clangd-objc-enable))

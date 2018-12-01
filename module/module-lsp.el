@@ -19,6 +19,9 @@
 (add-hook 'prog-major-mode #'lsp-prog-major-mode-enable)
 (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)
 
+;;; drop lsp-hover
+(setq lsp-eldoc-hook '(lsp-document-highlight))
+
 ;;; company
 (with-eval-after-load "company"
   (add-hook 'prog-mode-hook
