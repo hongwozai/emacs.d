@@ -11,8 +11,6 @@ notes
 .org-id-locations
 bookmarks
 url/*
-projectile-bookmarks.eld
-projectile*
 flycheck-init.el
 semanticdb/*
 .python-environments/*

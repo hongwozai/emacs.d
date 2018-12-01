@@ -19,7 +19,7 @@
  (multi-term . [(20160619 933) nil "Managing multiple terminal buffers in Emacs." tar])
  (epl . [(20180205 2049) ((cl-lib (0 3))) "Emacs Package Library" tar])
  (pkg-info . [(20150517 1143) ((epl (0 8))) "Information about packages" tar])
- (projectile . [(20181106 1631) ((emacs (25 1)) (pkg-info (0 4))) "Manage and navigate projects in Emacs easily" tar])
+ (projectile . [(20181106 831) ((emacs (25 1)) (pkg-info (0 4))) "Manage and navigate projects in Emacs easily" tar])
  (posframe . [(20180927 602) ((emacs (26))) "Pop a posframe (just a frame) at point" tar])
  (yasnippet . [(20181015 1212) ((cl-lib (0 5))) "Yet another snippet extension for Emacs." tar])
  (flycheck . [(20181127 1510) ((dash (2 12 1)) (pkg-info (0 4)) (let-alist (1 0 4)) (seq (1 11)) (emacs (24 3))) "Onfly syntax checking" tar])
