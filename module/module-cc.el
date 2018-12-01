@@ -106,19 +106,6 @@
          ("\\.cmake\\'" . cmake-mode))
        auto-mode-alist))
 
-;;-------------------------------------------
-;;; cquery
-;;-------------------------------------------
-(require-package 'cquery)
-(autoload 'lsp-cquery-enable "cquery")
-(setq cquery-extra-init-params '(:cacheFormat "msgpack"))
-
-;;-------------------------------------------
-;;; packaging
-;;-------------------------------------------
-(add-hook 'c-mode-common-hook
-          #'(lambda () (ignore-errors (lsp-cquery-enable))))
-
 ;;; company-clang error message annoying
 (with-eval-after-load 'company-clang
   (advice-add 'company-clang--handle-error
