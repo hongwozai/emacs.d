@@ -42,7 +42,7 @@
 
 (core/set-key projectile-command-map
   :state 'native
-  (kbd "s s") #'counsel-projectile-find-matches
+  (kbd "s")   #'counsel-projectile-find-matches
   (kbd "n")   #'projectile-add-known-project)
 
 ;;-------------------------------------------
