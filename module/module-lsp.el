@@ -6,8 +6,8 @@
 ;;-------------------------------------------
 ;;; imenu
 ;;-------------------------------------------
-(autoload 'lsp-enable-imenu "lsp-imenu")
-(autoload 'lsp-prog-major-mode-enable "lsp-mode")
+(autoload 'lsp-enable-imenu "lsp-imenu" nil t)
+(autoload 'lsp-prog-major-mode-enable "lsp-mode" nil t)
 
 ;;-------------------------------------------
 ;;; config
