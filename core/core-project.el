@@ -43,20 +43,25 @@
 (core/set-key projectile-command-map
   :state 'native
   (kbd "s")   #'counsel-projectile-find-matches
-  (kbd "n")   #'projectile-add-known-project)
+  (kbd "n")   (lambda () (interactive)
+                (counsel-projectile-find-matches (thing-at-point 'symbol t)))
+  )
 
 ;;-------------------------------------------
 ;;; function
 ;;-------------------------------------------
-(defun counsel-projectile-find-matches ()
+(defun counsel-projectile-find-matches (&optional match)
   (interactive)
-  (let ((rootdir (projectile-project-root)))
-    (cond ((executable-find "rg") (counsel-rg nil rootdir))
-          ((executable-find "ag") (counsel-ag nil rootdir))
-          ((and
-            (locate-dominating-file rootdir ".git")
-            (executable-find "git"))
-           #'counsel-git-grep)
-          (t #'projectile-grep))))
+  (let ((rootdir (projectile-project-root))
+        (matchstr match))
+    (cond
+     ((executable-find "rg") (counsel-rg matchstr rootdir))
+     ((executable-find "ag") (counsel-ag matchstr rootdir))
+     ((and
+       (locate-dominating-file rootdir ".git")
+       (executable-find "git"))
+      (counsel-git-grep nil matchstr))
+     (t (projectile-grep matchstr)))
+    ))
 
 (provide 'core-project)
