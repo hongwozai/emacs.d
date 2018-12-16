@@ -1,6 +1,13 @@
 ;;; -*- coding: utf-8 -*-
 
-;; (profiler-start 'cpu)
+;;-------------------------------------------
+;;; profile
+;;-------------------------------------------
+(setq my-emacs-conf-profile nil)
+
+(when my-emacs-conf-profile
+  (profiler-start 'cpu))
+
 ;;-------------------------------------------
 ;;; package.el initialize
 ;;-------------------------------------------
@@ -66,6 +73,10 @@
 (unless (server-running-p)
   (server-start))
 
-;; (profiler-report)
+(when my-emacs-conf-profile
+  (with-selected-window
+      (get-buffer-window (profiler-report-cpu))
+    (evil-emacs-state)
+    (delete-other-windows)))
 
 (provide 'init)
