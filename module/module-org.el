@@ -45,7 +45,8 @@
           (lambda ()
             (setq-local completion-at-point-functions
                         (cons 'pcomplete-completions-at-point
-                              completion-at-point-functions))))
+                              completion-at-point-functions))
+            (toggle-truncate-lines)))
 
 ;;-------------------------------------------
 ;;; key
