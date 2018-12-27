@@ -47,6 +47,11 @@
     (kbd "C-i") 'ivy-insert-symbol-at-point
     (kbd "C-s") 'ivy-restrict-to-matches)
 
+(core/set-key ivy-occur-grep-mode-map
+  :state '(emacs motion normal)
+  (kbd "n")   'ivy-occur-next-line
+  (kbd "p")   'ivy-occur-previous-line)
+
 ;; replace ido
 (fset 'ido-completing-read 'ivy-completing-read)
 
