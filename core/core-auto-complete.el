@@ -18,10 +18,15 @@
   (setq company-show-numbers               t)
   (setq company-clang-insert-arguments     t)
   (setq company-gtags-insert-arguments     t)
-  (setq company-etags-ignore-case          t)
+  (setq company-etags-ignore-case          nil)
 
   (setq company-global-modes
         '(not gud-mode shell-mode eshell-mode term-mode))
+
+  ;; company-dabbrev
+  (require 'company-dabbrev)
+  (add-to-list 'company-backends 'company-dabbrev nil)
+  (setq company-dabbrev-code-other-buffers 'all)
   )
 
 (provide 'core-auto-complete)

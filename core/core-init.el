@@ -27,6 +27,7 @@
 (require 'core-directory)
 (require 'core-buffer)
 (require 'core-project)
+(require 'core-highlight)
 
 ;;; popup frame alert etc.
 (require 'core-misc)

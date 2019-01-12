@@ -9,8 +9,6 @@
  "bl" 'ibuffer
 
  "fr" 'counsel-recentf
- "fs" 'find-file-in-project-by-selected
- "fc" 'ffip-create-project-file
  "fl" 'counsel-locate
  "fo" 'find-file-other-window
 
@@ -56,8 +54,9 @@
 (core/set-key global
   :state '(normal motion)
   (kbd "C-s")     'swiper
-  (kbd "M-n")     'next-error
-  (kbd "M-p")     'previous-error
+  (kbd "M-n")     'ahs-forward
+  (kbd "M-p")     'ahs-backward
+  (kbd "C-;")     'ahs-edit-mode
   (kbd "C-w u")   'winner-undo
   (kbd "M-y")     'counsel-yank-pop)
 
@@ -72,6 +71,12 @@
 (core/set-key special-mode-map
   :state 'normal
   (kbd "q")       'quit-window)
+
+(core/set-key help-mode-map
+  :state '(normal motion)
+  (kbd "TAB")     'forward-button
+  (kbd "L")       'help-go-forward
+  (kbd "R")       'help-go-back)
 
 (with-eval-after-load 'vc-dir
   (core/set-key vc-dir-mode-map

@@ -36,7 +36,7 @@
      ))
 
   ;; keybindings
-  (local-set-key (kbd "C-c C-c") 'recompile)
+  (local-set-key (kbd "C-c C-c") 'compile)
   )
 
 (defun c++-config ()
