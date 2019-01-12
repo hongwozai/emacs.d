@@ -33,4 +33,9 @@
 (require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode)
 
+(global-set-key [remap evil-goto-definition]
+                (lambda () (interactive)
+                  (ahs-highlight-now)
+                  (ahs-backward-definition)))
+
 (provide 'core-highlight)
