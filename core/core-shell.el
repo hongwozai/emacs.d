@@ -23,6 +23,8 @@
 (defalias 'eshell/e  #'find-file)
 (defalias 'eshell/em #'find-file)
 (defalias 'eshell/fo #'find-file-other-window)
+(defalias 'eshell/vi #'find-file)
+(defalias 'eshell/vim #'find-file)
 (defalias 'eshell/d  #'dired)
 (defalias 'eshell/do #'dired-other-window)
 (defalias 'eshell/fr #'counsel-recentf)
