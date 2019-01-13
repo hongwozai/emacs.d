@@ -25,7 +25,7 @@
 
   ;; company-dabbrev
   (require 'company-dabbrev)
-  (add-to-list 'company-backends 'company-dabbrev nil)
+  (push 'company-dabbrev company-backends)
   (setq company-dabbrev-code-other-buffers 'all)
   )
 
