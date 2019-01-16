@@ -28,6 +28,7 @@
   (push 'company-dabbrev company-backends)
   (setq company-dabbrev-code-other-buffers 'all)
   (setq company-dabbrev-ignore-case nil)
+  (setq company-dabbrev-downcase nil)
   )
 
 (provide 'core-auto-complete)
