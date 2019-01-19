@@ -3,7 +3,6 @@
 ;;-------------------------------------------
 (require-package 'evil)
 (require-package 'evil-leader)
-(require-package 'evil-args)
 (require-package 'evil-surround)
 (require-package 'evil-matchit)
 
@@ -34,10 +33,6 @@
 
 ;;; ed backward
 (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
-
-;;; evil args
-(define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
-(define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
 
 ;;; evil search
 (define-key isearch-mode-map (kbd "SPC")

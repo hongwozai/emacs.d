@@ -22,13 +22,6 @@
 
   (setq company-global-modes
         '(not gud-mode shell-mode eshell-mode term-mode))
-
-  ;; company-dabbrev
-  (require 'company-dabbrev)
-  (push 'company-dabbrev company-backends)
-  (setq company-dabbrev-code-other-buffers 'all)
-  (setq company-dabbrev-ignore-case nil)
-  (setq company-dabbrev-downcase nil)
   )
 
 (provide 'core-auto-complete)
