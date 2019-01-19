@@ -37,6 +37,12 @@
 
   ;; keybindings
   (local-set-key (kbd "C-c C-c") 'compile)
+
+  ;; company
+  (setq-local company-backends
+              '(company-gtags
+                company-etags
+                company-dabbrev))
   )
 
 (defun c++-config ()
@@ -114,17 +120,57 @@
                 (let ((inhibit-message t))
                   (apply func args)))))
 
-;;; company
-(with-eval-after-load 'company
-  (add-hook 'c-mode-common-hook
-            (lambda ()
-              (setq-local company-backends
-                          '(company-gtags
-                            company-etags
-                            company-dabbrev))
-              (when (featurep 'company-irony)
-                (push 'company-irony company-backends)))))
+;;-------------------------------------------
+;;; base on compilation database
+;;-------------------------------------------
+(defun install-irony ()
+  (interactive)
+  ;; require
+  (require-package 'irony)
+  (require-package 'company-irony)
+  (require-package 'flycheck-irony)
+  (require-package 'company-irony-c-headers)
 
-;;-------------------------------------------
-;;; clang
-;;-------------------------------------------
+  ;; require
+  (require 'irony)
+  (require 'irony-cdb-json)
+  (require 'company-irony)
+  (require 'flycheck-irony)
+  (require 'company-irony-c-headers)
+
+  ;; install
+  (unless (irony--find-server-executable)
+    (irony-install-server))
+  )
+
+(defun when-irony-json-exists (func)
+  (let* ((root (projectile-project-root))
+         (json-path1 (expand-file-name "compile_commands.json" root))
+         (json-path2 (expand-file-name
+                      "compile_commands.json"
+                      (expand-file-name "build" root)))
+         (json (or (and (file-exists-p json-path1) json-path1)
+                   (and (file-exists-p json-path2) json-path2))))
+    (when json
+      (funcall func root json))))
+
+;;; irony
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (featurep 'irony)
+              ;; auto select compilation database
+              (when-irony-json-exists
+               (lambda (root json)
+                 (irony-mode 1)
+                 (unless (and irony-cdb-json--project-alist
+                              (assoc root irony-cdb-json--project-alist))
+                   (irony-cdb-json-add-compile-commands-path root json))
+                 (when (featurep 'company-irony)
+                   (push 'company-irony company-backends))
+                 (when (featurep 'company-irony-c-headers)
+                   (push 'company-irony-c-headers company-backends))
+                 (when (featurep 'flycheck-irony)
+                   (flycheck-irony-setup)
+                   (flycheck-disable-checker 'c/c++-clang)
+                   (flycheck-disable-checker 'c/c++-gcc)
+                   (flycheck-disable-checker 'c/c++-cppcheck)))))))
