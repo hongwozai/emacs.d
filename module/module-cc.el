@@ -170,7 +170,4 @@
                  (when (featurep 'company-irony-c-headers)
                    (push 'company-irony-c-headers company-backends))
                  (when (featurep 'flycheck-irony)
-                   (flycheck-irony-setup)
-                   (flycheck-disable-checker 'c/c++-clang)
-                   (flycheck-disable-checker 'c/c++-gcc)
-                   (flycheck-disable-checker 'c/c++-cppcheck)))))))
+                   (flycheck-irony-setup)))))))
