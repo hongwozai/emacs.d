@@ -114,6 +114,17 @@
                 (let ((inhibit-message t))
                   (apply func args)))))
 
+;;; company
+(with-eval-after-load 'company
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (setq-local company-backends
+                          '(company-gtags
+                            company-etags
+                            company-dabbrev))
+              (when (featurep 'company-irony)
+                (push 'company-irony company-backends)))))
+
 ;;-------------------------------------------
 ;;; clang
 ;;-------------------------------------------
