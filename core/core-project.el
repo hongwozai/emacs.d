@@ -65,4 +65,18 @@
      (t (projectile-grep matchstr)))
     ))
 
+(defun projectile-root-known-project (&optional dir)
+  "find project-root from `projectile-known-projects'"
+  (let* ((dir (or dir default-directory))
+         (truedir (file-name-as-directory (expand-file-name dir))))
+    (dolist (x projectile-known-projects)
+      (when (string-match (concat "^" (expand-file-name x)) truedir)
+        (return x)))))
+
+;;; find known project first
+(unless (memq 'projectile-root-known-project
+              projectile-project-root-files-functions)
+  (push 'projectile-root-known-project
+        projectile-project-root-files-functions))
+
 (provide 'core-project)
