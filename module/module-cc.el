@@ -43,6 +43,9 @@
               '(company-gtags
                 company-etags
                 company-dabbrev))
+
+  ;; flycheck
+  (setq-local flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
   )
 
 (defun c++-config ()
