@@ -3,7 +3,6 @@
 ;;-------------------------------------------
 ;;; instead of ansi-color
 (require 'xterm-color)
-(setenv "TERM" "xterm-256color")
 
 ;;; common functions
 (defun core--goto-max-with-emacs-state ()
@@ -39,10 +38,6 @@
           (lambda ()
             (setq xterm-color-preserve-properties t)))
 
-(add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
-(setq eshell-output-filter-functions
-      (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
-
 (add-hook 'eshell-load-hook
           (lambda ()
             (setq eshell-save-history-on-exit nil
@@ -66,6 +61,15 @@
               (eshell/clear-scrollback))
 
             (core--set-work-state)))
+
+;; eshell color
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (setenv "TERM" "xterm-256color")
+            (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+            (setq eshell-output-filter-functions
+                  (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+            ))
 
 ;;; use eshell
 (defun multi-eshell ()
