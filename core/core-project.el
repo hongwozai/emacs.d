@@ -43,9 +43,8 @@
 (core/set-key projectile-command-map
   :state 'native
   (kbd "s")   #'counsel-projectile-find-matches
-  (kbd "n") (lambda () (interactive)
-                (counsel-projectile-find-matches (thing-at-point 'symbol t)))
-  (kbd "N")   #'projectile-add-known-project
+  (kbd "n")   #'projectile-add-known-project
+  (kbd "C-p") #'projectile-switch-project
   )
 
 ;;-------------------------------------------
