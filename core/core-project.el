@@ -66,11 +66,14 @@
 
 (defun projectile-root-known-project (&optional dir)
   "find project-root from `projectile-known-projects'"
+  (message "dir: %s" dir)
   (let* ((dir (or dir default-directory))
-         (truedir (file-name-as-directory (expand-file-name dir))))
+         (truedir (file-name-as-directory (file-truename dir))))
     (dolist (x projectile-known-projects)
-      (when (string-match (concat "^" (expand-file-name x)) truedir)
-        (return x)))))
+      (let ((realproject (file-truename x)))
+        (when (string-prefix-p realproject truedir)
+          (return realproject))))))
+
 
 ;;; find known project first
 (unless (memq 'projectile-root-known-project
