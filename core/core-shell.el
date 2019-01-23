@@ -132,6 +132,9 @@
 ;;-------------------------------------------
 (add-hook 'term-mode-hook
           (lambda ()
+            ;; don't use xterm-256color, display abnormal
+            (set (make-local-variable 'term-term-name)
+                 "eterm-color")
             ;; compatiable
             (setq-local evil-move-cursor-back nil)
             (setq-local evil-escape-inhibit t)
