@@ -66,7 +66,6 @@
 
 (defun projectile-root-known-project (&optional dir)
   "find project-root from `projectile-known-projects'"
-  (message "dir: %s" dir)
   (let* ((dir (or dir default-directory))
          (truedir (file-name-as-directory (file-truename dir))))
     (dolist (x projectile-known-projects)
