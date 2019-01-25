@@ -40,7 +40,8 @@
 
   ;; company
   (setq-local company-backends
-              '(company-gtags
+              '(company-capf
+                company-gtags
                 company-etags
                 company-dabbrev))
 
