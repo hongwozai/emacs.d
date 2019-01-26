@@ -35,6 +35,12 @@
 
 (global-set-key [remap evil-goto-definition]
                 (lambda () (interactive)
+                  ;; set vim jump list
+                  (unless (eq ahs-current-range
+                              (symbol-value 'ahs-range-whole-buffer))
+                    (ahs-change-range 'ahs-range-whole-buffer))
+                  (ring-insert (evil--jumps-get-window-jump-list)
+                               `(,(point) ,(buffer-file-name)))
                   (ahs-highlight-now)
                   (ahs-backward-definition)))
 

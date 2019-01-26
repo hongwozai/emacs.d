@@ -52,6 +52,10 @@
 ;;; use isearch
 (define-key evil-normal-state-map (kbd "/") 'evil-search-forward)
 (define-key evil-normal-state-map (kbd "?") 'evil-search-backward)
+
+;;; message buffer
+(with-current-buffer "*Messages*"
+  (evil-leader-mode))
 ;;-------------------------------------------
 ;;; functions
 ;;-------------------------------------------

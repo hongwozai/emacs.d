@@ -4,7 +4,7 @@
 ;; Copyright 2014-2015, Vasilij Schneidermann <v.schneidermann@gmail.com>
 
 ;; Author: steckerhalter
-;; URL: https://github.com/quelpa/quelpa
+;; URL: https://framagit.org/steckerhalter/quelpa
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: package management build source elpa
@@ -32,7 +32,7 @@
 ;; built on-the-fly directly from source.
 
 ;; See the README for more info:
-;; https://github.com/quelpa/quelpa/blob/master/README.md
+;; https://framagit.org/steckerhalter/quelpa/blob/master/README.md
 
 ;;; Requirements:
 
@@ -153,7 +153,7 @@ If nil the update is disabled and the repo is only updated on
 (defvar quelpa-cache nil
   "The `quelpa' command stores processed pkgs/recipes in the cache.")
 
-(defvar quelpa-recipe '(quelpa :repo "quelpa/quelpa" :fetcher github)
+(defvar quelpa-recipe '(quelpa :url "https://framagit.org/steckerhalter/quelpa.git" :fetcher git)
   "The recipe for quelpa.")
 
 ;; --- compatibility for legacy `package.el' in Emacs 24.3  -------------------
@@ -414,6 +414,13 @@ if `quelpa-build-timeout-executable' is non-nil."
   "Path to a (preferably GNU) tar command.
 Certain package names (e.g. \"@\") may not work properly with a BSD tar."
   :type '(file :must-match t))
+
+(defcustom quelpa-build-explicit-tar-format-p nil
+  "If non-nil pass \"--format=gnu\" option to tar command.
+
+Passing the option is necessary on the systems where the default
+tar format isn't gnu."
+  :type 'boolean)
 
 (defcustom quelpa-build-version-regexp "^[rRvV]?\\(.*\\)$"
   "Default pattern for matching valid version-strings within repository tags.
@@ -860,6 +867,9 @@ Return a cons cell whose `car' is the root and whose `cdr' is the repository."
                     (let ((branch (plist-get config :branch)))
                       (when branch
                         (concat "origin/" branch))))))
+    (when (string-match (rx bos "file://" (group (1+ anything))) repo)
+      ;; Expand local file:// URLs
+      (setq repo (expand-file-name (match-string 1 repo))))
     (with-current-buffer (get-buffer-create "*quelpa-build-checkout*")
       (goto-char (point-max))
       (cond
@@ -1094,7 +1104,8 @@ Optionally PRETTY-PRINT the data."
          "--exclude=_FOSSIL_"
          "--exclude=.bzr"
          "--exclude=.hg"
-         (or (mapcar (lambda (fn) (concat dir "/" fn)) files) (list dir))))
+         (append (and quelpa-build-explicit-tar-format-p '("--format=gnu"))
+                 (or (mapcar (lambda (fn) (concat dir "/" fn)) files) (list dir)))))
 
 (defun quelpa-build--find-package-commentary (file-path)
   "Get commentary section from FILE-PATH."
@@ -1454,15 +1465,15 @@ Returns the archive entry for the package."
       (copy-file pkg-source pkg-target)
       (let ((enable-local-variables nil)
             (make-backup-files nil))
-        (with-current-buffer (find-file pkg-target)
+        (with-temp-buffer
+          (insert-file-contents pkg-target)
           (quelpa-build--update-or-insert-version version)
           (quelpa-build--ensure-ends-here-line pkg-source)
           (write-file pkg-target nil)
           (condition-case err
               (quelpa-build--package-buffer-info-vec)
             (error
-             (quelpa-build--message "Warning: %S" err)))
-          (kill-buffer)))
+             (quelpa-build--message "Warning: %S" err)))))
 
       (quelpa-build--write-pkg-readme
        target-dir
