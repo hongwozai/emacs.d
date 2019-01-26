@@ -38,6 +38,7 @@
 (require 'core-template)
 (require 'core-auto-check)
 (require 'core-auto-complete)
+(require 'core-lsp)
 
 ;;-------------------------------------------
 ;;; programming
