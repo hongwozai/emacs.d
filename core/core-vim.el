@@ -55,7 +55,8 @@
 
 ;;; message buffer
 (with-current-buffer "*Messages*"
-  (evil-leader-mode))
+  (evil-leader-mode)
+  (evil-local-set-key 'normal (kbd "q") 'quit-window))
 ;;-------------------------------------------
 ;;; functions
 ;;-------------------------------------------
