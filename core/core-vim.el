@@ -12,6 +12,7 @@
 (setq evil-move-cursor-back t)
 (setq evil-want-C-u-scroll nil)
 (setq evil-symbol-word-search t)
+(setq evil-lookup-func (lambda () (call-interactively #'man)))
 ;;; leader
 (setq evil-leader/leader ",")
 (setq evil-leader/no-prefix-mode-rx
