@@ -57,7 +57,7 @@
 
 ;;; global
 (core/leader-set-key
-  "co" 'counsel-org-capture)
+  "co" 'org-capture)
 
 ;;-------------------------------------------
 ;;; babel (eval code)
