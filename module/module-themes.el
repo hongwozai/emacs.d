@@ -26,16 +26,16 @@
 
 (defhydra hydra-color-switch (:color amaranth :hint nil)
   "Switch Color"
-  ("l" (lambda () (interactive)
-          (setq current-theme
-                (one-key-switch-theme
-                 current-theme current-switch-themes 'next)))
-   "next-theme")
   ("h" (lambda () (interactive)
          (setq current-theme
                (one-key-switch-theme
                 current-theme current-switch-themes 'prev)))
    "prev-theme")
+  ("l" (lambda () (interactive)
+         (setq current-theme
+               (one-key-switch-theme
+                current-theme current-switch-themes 'next)))
+   "next-theme")
   ("q" nil :exit t))
 
 (core/set-key global
