@@ -123,3 +123,22 @@
               (lambda (func &rest args)
                 (let ((inhibit-message t))
                   (apply func args)))))
+
+;;-------------------------------------------
+;;; lsp
+;;-------------------------------------------
+(when (executable-find "ccls")
+  (setq lsp-clients-clangd-executable "ccls"))
+
+(defun enable-lsp ()
+  (setq-local flycheck-disabled-checkers
+              '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+  (lsp))
+
+(defun enable-cc-lsp ()
+  (interactive)
+  (add-hook 'c++-mode-hook #'enable-lsp))
+
+(defun disable-cc-lsp ()
+  (interactive)
+  (remove-hook 'c++-mode-hook #'enable-lsp))
