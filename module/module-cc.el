@@ -137,8 +137,10 @@
 
 (defun enable-cc-lsp ()
   (interactive)
+  (add-hook 'c-mode-hook #'enable-lsp)
   (add-hook 'c++-mode-hook #'enable-lsp))
 
 (defun disable-cc-lsp ()
   (interactive)
+  (remove-hook 'c-mode-hook #'enable-lsp)
   (remove-hook 'c++-mode-hook #'enable-lsp))

@@ -25,7 +25,8 @@
         ".tox"
         ".svn"
         ".stack-work"
-        ".cquery_cached_index"))
+        ".cquery_cached_index"
+        ".ccls-cache"))
 
 ;;-------------------------------------------
 ;;; enable
