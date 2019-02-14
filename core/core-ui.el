@@ -36,6 +36,22 @@
 (require 'zy-dark-theme)
 (load-theme 'zy-dark t)
 
+;;; switch theme to current-theme's next in themes
+(defun one-key-switch-theme (current-theme themes order)
+  (let (theme (index 0) (themes-length (length themes)))
+    (find-if (lambda (x) (setq index (1+ index)) (equal x current-theme))
+             themes)
+    (if (eq order 'next)
+        (setq index (% index themes-length))
+      (setq index (% (+ (- index 2) themes-length) themes-length)))
+    (setq current-theme (nth index themes))
+    (load-theme current-theme t nil)
+    (message "Switch Theme [%s]" (symbol-name current-theme))
+    current-theme))
+
+(one-key-switch-theme 'spacemacs-light
+                      '(spacemacs-dark spacemacs-light zy-dark) 'prev)
+
 ;;-------------------------------------------
 ;;; diminish
 ;;-------------------------------------------
