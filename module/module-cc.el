@@ -113,7 +113,10 @@
 ;;-------------------------------------------
 (defun ifdef-parse-dbfile (filename)
   (interactive "f")
-  (require 'hide-ifdef)
+  ;; clear
+  (setq hide-ifdef-env-backup hide-ifdef-env)
+  (setq hide-ifdef-env nil)
+  ;; set macro
   (let ((json-obj (json-read-file filename))
         assoc-list)
     (mapc
@@ -123,14 +126,19 @@
          (when cmd-obj (error "Not Implement!"))
          ;; for arg to set assoc-list
          (mapc (lambda (arg)
-                 (when (string-match "^-D\\([^=]*\\)=\"?\\([^\"]*\\)\"?"
+                 (when (string-match "^-D\\([^=]*\\)=?\"?\\([^\"]*\\)\"?"
                                      arg)
-                   (unless (assoc (match-string 1 arg) assoc-list)
-                     (push `(,(match-string 1 arg) . ,(match-string 2 arg))
-                           assoc-list))))
+                   (let ((m1 (match-string 1 arg))
+                         (m2 (match-string 2 arg)))
+                     (when m1
+                       (unless (assoc m1 assoc-list)
+                         (hif-set-var (intern m1) m2)
+                         (push (cons m1 m2) assoc-list))))))
                arg-obj)))
      json-obj)
-    (setq hide-ifdef-define-alist assoc-list)))
+    (setq hide-ifdef-initially t)
+    (if hide-ifdef-hiding (hide-ifdefs t))
+    ))
 
 ;;-------------------------------------------
 ;;; mode
