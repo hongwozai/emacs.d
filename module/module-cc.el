@@ -116,7 +116,7 @@
   (require 'hide-ifdef)
   (let ((json-obj (json-read-file filename))
         assoc-list)
-    (mapcar
+    (mapc
      (lambda (file-obj)
        (let ((arg-obj (cdr (assoc 'arguments file-obj)))
              (cmd-obj (cdr (assoc 'command   file-obj))))
