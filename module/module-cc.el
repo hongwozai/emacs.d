@@ -47,6 +47,10 @@
 
   ;; flycheck
   (setq-local flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+
+  ;; hideif
+  (setq hide-ifdef-shadow t)
+  (hide-ifdef-mode)
   )
 
 (defun c++-config ()
@@ -103,6 +107,30 @@
   ("q"
    (lambda () (interactive) (pop-to-buffer gud-comint-buffer))
    :color blue))
+
+;;-------------------------------------------
+;;; hideif-mode
+;;-------------------------------------------
+(defun ifdef-parse-dbfile (filename)
+  (interactive "f")
+  (require 'hide-ifdef)
+  (let ((json-obj (json-read-file filename))
+        assoc-list)
+    (mapcar
+     (lambda (file-obj)
+       (let ((arg-obj (cdr (assoc 'arguments file-obj)))
+             (cmd-obj (cdr (assoc 'command   file-obj))))
+         (when cmd-obj (error "Not Implement!"))
+         ;; for arg to set assoc-list
+         (mapc (lambda (arg)
+                 (when (string-match "^-D\\([^=]*\\)=\"?\\([^\"]*\\)\"?"
+                                     arg)
+                   (unless (assoc (match-string 1 arg) assoc-list)
+                     (push `(,(match-string 1 arg) . ,(match-string 2 arg))
+                           assoc-list))))
+               arg-obj)))
+     json-obj)
+    (setq hide-ifdef-define-alist assoc-list)))
 
 ;;-------------------------------------------
 ;;; mode
