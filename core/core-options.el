@@ -12,6 +12,7 @@
 (prefer-coding-system 'utf-8)
 (set-language-environment "utf-8")
 (set-default-coding-systems 'utf-8)
+(setq save-buffer-coding-system 'utf-8)
 
 ;;-------------------------------------------
 ;;; basic edit options

@@ -47,6 +47,10 @@
 
   ;; flycheck
   (setq-local flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+
+  ;; hideif
+  (setq hide-ifdef-shadow t)
+  (hide-ifdef-mode)
   )
 
 (defun c++-config ()
@@ -105,6 +109,38 @@
    :color blue))
 
 ;;-------------------------------------------
+;;; hideif-mode
+;;-------------------------------------------
+(defun ifdef-parse-dbfile (filename)
+  (interactive "f")
+  ;; clear
+  (setq hide-ifdef-env-backup hide-ifdef-env)
+  (setq hide-ifdef-env nil)
+  ;; set macro
+  (let ((json-obj (json-read-file filename))
+        assoc-list)
+    (mapc
+     (lambda (file-obj)
+       (let ((arg-obj (cdr (assoc 'arguments file-obj)))
+             (cmd-obj (cdr (assoc 'command   file-obj))))
+         (when cmd-obj (error "Not Implement!"))
+         ;; for arg to set assoc-list
+         (mapc (lambda (arg)
+                 (when (string-match "^-D\\([^=]*\\)=?\"?\\([^\"]*\\)\"?"
+                                     arg)
+                   (let ((m1 (match-string 1 arg))
+                         (m2 (match-string 2 arg)))
+                     (when m1
+                       (unless (assoc m1 assoc-list)
+                         (hif-set-var (intern m1) m2)
+                         (push (cons m1 m2) assoc-list))))))
+               arg-obj)))
+     json-obj)
+    (setq hide-ifdef-initially t)
+    (if hide-ifdef-hiding (hide-ifdefs t))
+    ))
+
+;;-------------------------------------------
 ;;; mode
 ;;-------------------------------------------
 (require-package 'cmake-mode)
@@ -123,3 +159,24 @@
               (lambda (func &rest args)
                 (let ((inhibit-message t))
                   (apply func args)))))
+
+;;-------------------------------------------
+;;; lsp
+;;-------------------------------------------
+(when (executable-find "ccls")
+  (setq lsp-clients-clangd-executable "ccls"))
+
+(defun enable-lsp ()
+  (setq-local flycheck-disabled-checkers
+              '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+  (lsp))
+
+(defun enable-cc-lsp ()
+  (interactive)
+  (add-hook 'c-mode-hook #'enable-lsp)
+  (add-hook 'c++-mode-hook #'enable-lsp))
+
+(defun disable-cc-lsp ()
+  (interactive)
+  (remove-hook 'c-mode-hook #'enable-lsp)
+  (remove-hook 'c++-mode-hook #'enable-lsp))
