@@ -12,7 +12,7 @@
 
 ;; config
 (set-face-attribute 'winum-face nil :weight 'bold)
-(setq winum-scope 'frame-local)
+(setq winum-scope 'visible)
 (setq winum-auto-setup-mode-line nil)
 
 ;; startup
