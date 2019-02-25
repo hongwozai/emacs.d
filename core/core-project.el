@@ -50,6 +50,25 @@
 ;;-------------------------------------------
 ;;; function
 ;;-------------------------------------------
+(defcustom projectile-after-add-project-hook nil
+  "hook"
+  :group 'projectile
+  :type  'hook)
+
+(advice-add 'projectile-add-known-project
+            :around
+            (lambda (orig-fun &rest args)
+              (apply orig-fun args)
+              (run-hooks
+               'projectile-after-add-project-hook)))
+
+(add-hook 'projectile-after-add-project-hook
+          (lambda ()
+            (message "Create Project on [%s]" (projectile-project-root))))
+
+;;-------------------------------------------
+;;; function
+;;-------------------------------------------
 (defun counsel-projectile-find-matches (&optional match)
   (interactive)
   (let ((rootdir (projectile-project-root))
