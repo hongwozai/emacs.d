@@ -1,4 +1,10 @@
 ;;-------------------------------------------
+;;; theme
+;;-------------------------------------------
+(require-package 'autothemer)
+;; (require 'zy-dark-theme)
+
+;;-------------------------------------------
 ;;; spacemacs themes
 ;;-------------------------------------------
 (require-package 'spacemacs-theme)
@@ -8,8 +14,10 @@
 ;;-------------------------------------------
 ;;; switch themes
 ;;-------------------------------------------
-(defvar current-theme 'spacemacs-dark)
+(defvar current-theme 'spacemacs-light)
 (defvar current-switch-themes '(spacemacs-dark spacemacs-light zy-dark))
+
+(load-theme current-theme t)
 
 ;;; switch theme to current-theme's next in themes
 (defun one-key-switch-theme (current-theme themes order)
