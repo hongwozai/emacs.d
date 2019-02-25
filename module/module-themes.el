@@ -2,7 +2,7 @@
 ;;; theme
 ;;-------------------------------------------
 (require-package 'autothemer)
-;; (require 'zy-dark-theme)
+(require 'zy-dark-theme)
 
 ;;-------------------------------------------
 ;;; spacemacs themes
