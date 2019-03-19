@@ -14,7 +14,7 @@
 ;;-------------------------------------------
 ;;; ivy mode
 ;;-------------------------------------------
-(setq ivy-height                  20
+(setq ivy-height                  10
       ivy-format-function         'ivy-format-function-arrow
       ivy-count-format            "[%d/%d] "
       ivy-extra-directories       nil
