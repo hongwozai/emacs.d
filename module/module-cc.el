@@ -141,6 +141,23 @@
     ))
 
 ;;-------------------------------------------
+;;; style
+;;-------------------------------------------
+;;; google-style
+(autoload 'google-set-c-style "google-c-style" "c style" t)
+(autoload 'google-make-newline-indent "google-c-style" "c style" t)
+
+(defun my-google-set-c-style ()
+  (interactive)
+  (add-hook 'c-mode-common-hook 'google-set-c-style)
+  (add-hook 'c-mode-common-hook 'google-make-newline-indent))
+
+(defun my-google-unset-c-style ()
+  (interactive)
+  (remove-hook 'c-mode-common-hook 'google-c-style)
+  (remove-hook 'c-mode-common-hook 'google-make-newline-indent))
+
+;;-------------------------------------------
 ;;; mode
 ;;-------------------------------------------
 (require-package 'cmake-mode)
