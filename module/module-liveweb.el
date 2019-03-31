@@ -12,12 +12,6 @@
 ;;-------------------------------------------
 ;;; modify
 ;;-------------------------------------------
-(defun skewer-repl-company-prefix ()
-  "Prefix for company."
-  (or (with-no-warnings ;; opportunistic use of company-mode
-        (company-grab-symbol-cons "\\." 1))
-      'stop))
-
 (add-hook 'skewer-repl-mode-hook
           (lambda ()
             (setq-local company-idle-delay nil)
