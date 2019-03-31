@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: newdev
+# key: newdev
+# --
+{
+    "configurations": [
+        {
+            "name": "zeya",
+            "type": "chrome",
+            "host": "${1:0.0.0.0}",
+            "url": "${2:http://0.0.0.0:3000}",
+            "port": 9222
+        }
+    ]
+}
+$0
