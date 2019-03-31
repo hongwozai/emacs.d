@@ -1,7 +1,6 @@
 ;;-------------------------------------------
 ;;; live use
 ;;-------------------------------------------
-(module-require-manual)
 (require-package 'simple-httpd)
 (require-package 'skewer-mode)
 

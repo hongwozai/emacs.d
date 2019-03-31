@@ -1,7 +1,7 @@
 ;;-------------------------------------------
 ;;; js develop environment
 ;;-------------------------------------------
-;; (module-require-manual)
+(module-require-manual)
 (require-package 'indium)
 
 (autoload 'indium-interaction-mode "indium" "indium" t)
