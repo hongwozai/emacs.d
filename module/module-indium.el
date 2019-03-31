@@ -15,4 +15,5 @@
   :state 'emacs
   (kbd "C-p") #'indium-repl-previous-input
   (kbd "C-n") #'indium-repl-next-input
-  (kbd "C-u") #'kill-whole-line)
+  (kbd "C-u") #'kill-whole-line
+  (kbd "C-l") #'indium-repl-clear-output)
