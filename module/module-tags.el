@@ -7,12 +7,11 @@
 ;;-------------------------------------------
 ;;; projectile support
 ;;-------------------------------------------
-(advice-add 'projectile-regenerate-tags
-            :around
-            (lambda (orig-fun &rest args)
-              (let* ((isctags (yes-or-no-p "Use Ctags Backend?"))
-                     (gxref-gtags-label (if isctags "ctags" "")))
-                (gxref-create-db (projectile-project-root)))))
+(defun projectile-regenerate-gxref-gtags ()
+  (interactive)
+  (let* ((isctags (yes-or-no-p "Use Ctags Backend?"))
+         (gxref-gtags-label (if isctags "ctags" "")))
+    (gxref-create-db (projectile-project-root))))
 
 ;;-------------------------------------------
 ;;; xref config
