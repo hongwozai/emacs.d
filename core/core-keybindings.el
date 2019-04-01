@@ -44,7 +44,9 @@
   (kbd "C-s")  'swiper
   (kbd "M-[")  'shell-header-prev
   (kbd "M-]")  'shell-header-next
-  (kbd "C-w")  'evil-window-map)
+  (kbd "C-w")  'evil-window-map
+  (kbd "M-i")  'ivy-switch-buffer
+  (kbd "M-o")  'hydra-window/body)
 
 (core/set-key minibuffer-local-map
   :state 'native

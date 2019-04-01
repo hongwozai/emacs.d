@@ -154,6 +154,8 @@
                     ("M-x" . execute-extended-command)
                     ("M-]" . shell-header-next)
                     ("M-[" . shell-header-prev)
+                    ("M-i" . ivy-switch-buffer)
+                    ("M-o" . hydra-window/body)
                     ("TAB" . (lambda () (interactive)
                                (term-send-raw-string "\t")))
                     ("<escape>" . (lambda () (interactive)
