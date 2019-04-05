@@ -21,13 +21,13 @@
 (require 'core-completion)
 (require 'core-ui)
 (require 'core-window)
-(require 'core-keybindings)
 (require 'core-shell)
 (require 'core-remote)
 (require 'core-directory)
 (require 'core-buffer)
 (require 'core-project)
 (require 'core-highlight)
+(require 'core-keybindings)
 
 ;;; popup frame alert etc.
 (require 'core-misc)

@@ -33,6 +33,20 @@
 (require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode)
 
+(setq ahs-idle-interval 0.5)
+(setq ahs-default-range 'ahs-range-whole-buffer)
+
+(setq ahs-modes
+      (append ahs-modes
+              '(js2-mode
+                fundamental-mode
+                text-mode
+                web-mode
+                cmake-mode
+                grep-mode)))
+
+(defalias 'ahs-mode 'auto-highlight-symbol-mode)
+
 (global-set-key [remap evil-goto-definition]
                 (lambda () (interactive)
                   ;; set vim jump list

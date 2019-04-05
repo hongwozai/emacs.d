@@ -13,3 +13,11 @@
       js2-idle-timer-delay     0.1
       js2-indent-on-enter-key  t
       js2-auto-indent-p        t)
+
+;;-------------------------------------------
+;;; xref
+;;-------------------------------------------
+(require-package 'xref-js2)
+(add-hook 'js2-mode-hook
+          (lambda ()
+            (add-hook 'xref-backend-functions #'xref-js2-xref-backend)))

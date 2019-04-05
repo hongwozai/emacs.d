@@ -85,4 +85,13 @@
     :state 'native
     (kbd "r")       'vc-revert))
 
+;;; mark board
+(defhydra mark-board (:color amaranth :hint nil)
+  ("m" highlight-symbol "highlight-symbol" :color blue)
+  ("s" ahs-edit-mode "modify-symbol" :color blue)
+  ("f" mark-defun "mark-defun" :color blue)
+  )
+
+(define-key evil-normal-state-map (kbd "m") 'mark-board/body)
+
 (provide 'core-keybindings)
