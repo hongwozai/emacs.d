@@ -20,4 +20,4 @@
 (require-package 'xref-js2)
 (add-hook 'js2-mode-hook
           (lambda ()
-            (add-hook 'xref-backend-functions #'xref-js2-xref-backend)))
+            (setq-local xref-backend-functions 'xref-js2-xref-backend)))
