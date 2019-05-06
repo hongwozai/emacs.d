@@ -90,6 +90,7 @@
   ("m" highlight-symbol "highlight-symbol" :color blue)
   ("s" ahs-edit-mode "modify-symbol" :color blue)
   ("f" mark-defun "mark-defun" :color blue)
+  ("u" unhighlight-all-symbol "unhighlight-all-symbol" :color blue)
   )
 
 (define-key evil-normal-state-map (kbd "m") 'mark-board/body)
