@@ -9,10 +9,13 @@
 ;;-------------------------------------------
 (defun projectile-regenerate-gxref-gtags ()
   (interactive)
-  (let* ((isctags (yes-or-no-p "Use Ctags Backend?"))
-         (gxref-gtags-label (if isctags "ctags" "")))
-    (gxref-create-db (projectile-project-root))))
+  (let* ((isctags (yes-or-no-p "Use Ctags Backend?")))
+    (if isctags
+        (projectile-regenerate-tags)
+      (gxref-create-db (projectile-project-root)))))
 
+(define-key projectile-command-map
+  (kbd "R") #'projectile-regenerate-gxref-gtags)
 ;;-------------------------------------------
 ;;; xref config
 ;;-------------------------------------------
