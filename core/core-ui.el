@@ -64,6 +64,10 @@
                 "[" "%02l" "," "%01c" "] "
                 mode-line-frame-identification
                 mode-line-buffer-identification
+                (:eval (when (functionp 'nyan-mode)
+                         (unless (featurep 'nyan-mode)
+                           (nyan-mode))
+                         (list " " (nyan-create))))
                 (vc-mode vc-mode)
                 "  "
                 mode-line-modes
