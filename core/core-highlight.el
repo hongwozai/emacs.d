@@ -39,7 +39,6 @@
 (setq ahs-modes
       (append ahs-modes
               '(js2-mode
-                fundamental-mode
                 text-mode
                 web-mode
                 cmake-mode
