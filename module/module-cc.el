@@ -49,8 +49,8 @@
   (setq-local flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
 
   ;; hideif
-  (setq hide-ifdef-shadow t)
-  (hide-ifdef-mode)
+  ;; (setq hide-ifdef-shadow t)
+  ;; (hide-ifdef-mode)
   )
 
 (defun c++-config ()
@@ -187,15 +187,16 @@
 (setq ccls-initialization-options
       '(:index (:comments 2) :completion (:detailedLabel t)))
 
-(setq ccls-sem-highlight-method 'font-lock)
+(setq lsp-enable-symbol-highlighting nil)
+;; (setq ccls-sem-highlight-method 'font-lock)
 
 
 (defun enable-lsp ()
   (setq-local flycheck-disabled-checkers
               '(c/c++-clang c/c++-cppcheck c/c++-gcc))
   ;; ccls
-  (when (package-installed-p 'ccls)
-    (require 'ccls))
+  ;; (when (package-installed-p 'ccls)
+  ;;   (require 'ccls))
   (lsp))
 
 (defun enable-cc-lsp ()
