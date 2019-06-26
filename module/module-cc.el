@@ -183,9 +183,19 @@
 (when (executable-find "ccls")
   (setq lsp-clients-clangd-executable "ccls"))
 
+;;; ccls configure
+(setq ccls-initialization-options
+      '(:index (:comments 2) :completion (:detailedLabel t)))
+
+(setq ccls-sem-highlight-method 'font-lock)
+
+
 (defun enable-lsp ()
   (setq-local flycheck-disabled-checkers
               '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+  ;; ccls
+  (when (package-installed-p 'ccls)
+    (require 'ccls))
   (lsp))
 
 (defun enable-cc-lsp ()
