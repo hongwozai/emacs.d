@@ -147,15 +147,14 @@
 (autoload 'google-set-c-style "google-c-style" "c style" t)
 (autoload 'google-make-newline-indent "google-c-style" "c style" t)
 
+(setq mycc-google-style nil)
+
 (defun my-google-set-c-style ()
   (interactive)
-  (add-hook 'c-mode-common-hook 'google-set-c-style)
-  (add-hook 'c-mode-common-hook 'google-make-newline-indent))
-
-(defun my-google-unset-c-style ()
-  (interactive)
-  (remove-hook 'c-mode-common-hook 'google-c-style)
-  (remove-hook 'c-mode-common-hook 'google-make-newline-indent))
+  (when mycc-google-style
+    (add-hook 'c-mode-common-hook 'google-set-c-style)
+    (add-hook 'c-mode-common-hook 'google-make-newline-indent))
+  )
 
 ;;-------------------------------------------
 ;;; mode
@@ -190,21 +189,19 @@
 (setq lsp-enable-symbol-highlighting nil)
 ;; (setq ccls-sem-highlight-method 'font-lock)
 
+(setq mycc-enable-lsp nil)
 
 (defun enable-lsp ()
-  (setq-local flycheck-disabled-checkers
-              '(c/c++-clang c/c++-cppcheck c/c++-gcc))
-  ;; ccls
-  ;; (when (package-installed-p 'ccls)
-  ;;   (require 'ccls))
-  (lsp))
+  (when mycc-enable-lsp
+    (setq-local flycheck-disabled-checkers
+                '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+    ;; ccls
+    ;; (when (package-installed-p 'ccls)
+    ;;   (require 'ccls))
+    (lsp)))
 
-(defun enable-cc-lsp ()
-  (interactive)
-  (add-hook 'c-mode-hook #'enable-lsp)
-  (add-hook 'c++-mode-hook #'enable-lsp))
+(add-hook 'c-mode-local-vars-hook #'enable-lsp)
+(add-hook 'c++-mode-local-vars-hook #'enable-lsp)
 
-(defun disable-cc-lsp ()
-  (interactive)
-  (remove-hook 'c-mode-hook #'enable-lsp)
-  (remove-hook 'c++-mode-hook #'enable-lsp))
+(add-hook 'c-mode-local-vars-hook #'my-google-set-c-style)
+(add-hook 'c++-mode-local-vars-hook #'my-google-set-c-style)
