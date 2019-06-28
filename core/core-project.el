@@ -36,6 +36,9 @@
         ".cquery_cached_index"
         ".ccls-cache"))
 
+(setq projectile-git-command
+      "git ls-files -zco --exclude-standard --exclude '.*'")
+
 ;;-------------------------------------------
 ;;; enable
 ;;-------------------------------------------
