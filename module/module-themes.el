@@ -14,7 +14,7 @@
 ;;-------------------------------------------
 ;;; switch themes
 ;;-------------------------------------------
-(defvar current-theme 'spacemacs-light)
+(defvar current-theme 'zy-dark)
 (defvar current-switch-themes '(spacemacs-dark spacemacs-light zy-dark))
 
 (load-theme current-theme t)
