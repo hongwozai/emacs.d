@@ -16,12 +16,14 @@
 
 (defun core/add-subdir-to-load-path (directory)
   (when (file-directory-p directory)
-    (let* ((files (directory-files directory))
-           (subdirs (remove-if (lambda (x) (file-directory-p x))
-                               files)))
+    (let* ((files (mapcar (lambda (x) (expand-file-name x directory))
+                          (remove-if
+                           (lambda (x) (or (string= x ".")
+                                      (string= x "..")))
+                           (directory-files directory))))
+           (subdirs (remove-if-not (lambda (x) (file-directory-p x)) files)))
       (dolist (dir subdirs)
-        (add-to-list 'load-path
-                     (expand-file-name dir directory))))))
+        (add-to-list 'load-path dir)))))
 
 (defun core/list-insert! (list which insert)
   (let ((mlpos list)
