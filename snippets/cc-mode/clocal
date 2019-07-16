@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: clocal
+# key: clocal
+# --
+((c++-mode . ((mycc-enable-lsp . t)
+              (mycc-google-style . nil)
+              )))

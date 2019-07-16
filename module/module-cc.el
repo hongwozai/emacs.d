@@ -152,8 +152,8 @@
 (defun my-google-set-c-style ()
   (interactive)
   (when mycc-google-style
-    (add-hook 'c-mode-common-hook 'google-set-c-style)
-    (add-hook 'c-mode-common-hook 'google-make-newline-indent))
+    (google-set-c-style)
+    (google-make-newline-indent))
   )
 
 ;;-------------------------------------------
