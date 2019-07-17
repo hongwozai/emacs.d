@@ -88,9 +88,12 @@
 ;;; mark board
 (defhydra mark-board (:color amaranth :hint nil)
   ("m" highlight-symbol "highlight-symbol" :color blue)
-  ("s" ahs-edit-mode "modify-symbol" :color blue)
-  ("f" mark-defun "mark-defun" :color blue)
   ("u" unhighlight-all-symbol "unhighlight-all-symbol" :color blue)
+  ("b" bookmark-set "bookmark-set" :color blue)
+  ("B" bookmark-bmenu-list "list-bookmark" :color blue)
+  ("j" bookmark-jump "bookmark-jump" :color blue)
+  ("d" bookmark-delete "bookmark-delete" :color blue)
+  ("q" nil :exit t)
   )
 
 (define-key evil-normal-state-map (kbd "m") 'mark-board/body)
