@@ -8,6 +8,8 @@
  "bf" 'set-buffer-file-coding-system
  "bl" 'ibuffer
 
+ "db" 'hydra-gud/body
+
  "fr" 'counsel-recentf
  "fl" 'counsel-locate
  "fo" 'find-file-other-window
@@ -97,5 +99,28 @@
   )
 
 (define-key evil-normal-state-map (kbd "m") 'mark-board/body)
+
+;;; gud board
+(defhydra hydra-gud (:color amaranth)
+  ;; vi
+  ("h" backward-char)
+  ("j" next-line)
+  ("k" previous-line)
+  ("l" forward-char)
+  ;; gud
+  ("t" gud-tbreak "tbreak")
+  ("b" gud-break "break")
+  ("d" gud-remove "nbr")
+  ("p" gud-print "print")
+  ("m" gud-until "move")
+  ("n" gud-next "next")
+  ("s" gud-step "step")
+  ("c" gud-cont "cont")
+  ("o" gud-finish "out")
+  ("r" gud-run "run")
+  ("q" nil :color blue)
+  ("z"
+   (lambda () (interactive) (pop-to-buffer gud-comint-buffer))
+   :color blue))
 
 (provide 'core-keybindings)
