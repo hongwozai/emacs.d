@@ -34,7 +34,7 @@
 (global-auto-highlight-symbol-mode)
 
 (setq ahs-idle-interval 0.5)
-(setq ahs-default-range 'ahs-range-whole-buffer)
+(setq ahs-default-range 'ahs-range-display)
 
 (setq ahs-modes
       (append ahs-modes
