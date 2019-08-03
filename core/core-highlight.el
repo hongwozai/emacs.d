@@ -34,6 +34,7 @@
 (global-auto-highlight-symbol-mode)
 
 (setq ahs-idle-interval 0.5)
+(setq ahs-case-fold-search nil)
 (setq ahs-default-range 'ahs-range-display)
 
 (setq ahs-modes
