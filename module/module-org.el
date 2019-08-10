@@ -78,3 +78,11 @@
 ;;-------------------------------------------
 (add-hook 'org-mode-hook 'org-display-inline-images)
 (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+
+;;-------------------------------------------
+;;; org export markdown
+;;-------------------------------------------
+(require-package 'ox-gfm)
+
+(eval-after-load "org"
+  '(require 'ox-gfm nil t))
