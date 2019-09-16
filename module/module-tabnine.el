@@ -1,9 +1,8 @@
 ;;-------------------------------------------
 ;;; tabnine
 ;;-------------------------------------------
+(module-require-manual)
 (require-package 'company-tabnine)
-
-(add-to-list 'company-backends #'company-tabnine)
 
 ;;; slience
 (defadvice company-echo-show (around disable-tabnine-upgrade-message activate)

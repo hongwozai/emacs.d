@@ -27,13 +27,13 @@
                 "../Src" "../Source"
                 "/usr/include" "/usr/local/include/"))
 
-  ;; keywords
-  (font-lock-add-keywords
-   nil
-   '(
-     ("\\<\\(FIXME\\|NOTE\\|TODO\\|TBD\\):" 1 'font-lock-warning-face prepend)
-     "typeof" "__attribute__" "__asm__"
-     ))
+  ;; keywords (poor performance!)
+  ;; (font-lock-add-keywords
+  ;;  nil
+  ;;  '(
+  ;;    ("\\<\\(FIXME\\|NOTE\\|TODO\\|TBD\\):" 1 'font-lock-warning-face prepend)
+  ;;    "typeof" "__attribute__" "__asm__"
+  ;;    ))
 
   ;; keybindings
   (local-set-key (kbd "C-c C-c") 'compile)
@@ -43,7 +43,7 @@
               '(company-capf
                 company-gtags
                 company-etags
-                company-dabbrev))
+                company-dabbrev-code))
 
   ;; flycheck
   (setq-local flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
