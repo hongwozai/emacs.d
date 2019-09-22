@@ -41,9 +41,11 @@
   ;; company
   (setq-local company-backends
               '(company-capf
-                company-gtags
-                company-etags
-                company-dabbrev-code))
+                company-files
+                (company-dabbrev-code
+                 company-gtags
+                 company-etags
+                 company-dabbrev)))
 
   ;; flycheck
   (setq-local flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
