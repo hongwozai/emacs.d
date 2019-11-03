@@ -53,7 +53,9 @@
               (kbd "C-p")   'eshell-previous-matching-input-from-input
               (kbd "C-u")   'eshell-kill-input
               (kbd "<tab>") 'completion-at-point
-              (kbd "TAB")   'completion-at-point)
+              (kbd "TAB")   'completion-at-point
+              (kbd "<C-backspace>") 'eshell-backward-kill-word
+              (kbd "M-DEL") 'eshell-backward-kill-word)
 
             ;; replace builtin clear
             (defun eshell/clear ()
@@ -75,6 +77,15 @@
 (defun multi-eshell ()
   (interactive)
   (eshell t))
+
+(defun eshell-backward-kill-word (arg)
+  (interactive "p")
+  (let ((end (marker-position eshell-last-output-end))
+        (backward (save-excursion (forward-word (- arg)) (point))))
+    (kill-region
+     (point)
+     (if (< end backward) backward end))
+    ))
 
 (defun eshell/b (&optional buffer)
   (interactive)
