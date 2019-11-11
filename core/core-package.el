@@ -1,6 +1,9 @@
 ;;; package
 (require 'package)
 
+;; cancel package check signature
+(setq package-check-signature nil)
+
 ;;; touch ~/.emacs.d/offline -> offline config
 (if (file-exists-p
      (expand-file-name "offline" user-emacs-directory))
