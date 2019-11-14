@@ -50,6 +50,10 @@
   (kbd "M-i")  'ivy-switch-buffer
   (kbd "M-o")  'hydra-window/body)
 
+(core/set-key evil-window-map
+  :state 'native
+  (kbd "SPC") 'core/window-layout-change)
+
 (core/set-key minibuffer-local-map
   :state 'native
   (kbd "C-p") 'previous-history-element
