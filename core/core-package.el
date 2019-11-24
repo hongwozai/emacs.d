@@ -1,6 +1,7 @@
 ;;; package
 (require 'package)
 
+;; cancel package check signature
 (setq package-check-signature nil)
 
 ;;; touch ~/.emacs.d/offline -> offline config
