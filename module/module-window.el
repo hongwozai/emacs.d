@@ -6,8 +6,6 @@
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 (setq aw-background nil)
 
-(set-face-attribute 'aw-leading-char-face nil
-                    :background (face-background 'default) :box nil)
 ;;-------------------------------------------
 ;;; key
 ;;-------------------------------------------
