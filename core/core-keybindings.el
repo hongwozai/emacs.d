@@ -62,9 +62,6 @@
 (core/set-key global
   :state '(normal motion)
   (kbd "C-s")     'swiper
-  (kbd "M-n")     'ahs-forward
-  (kbd "M-p")     'ahs-backward
-  (kbd "C-;")     'ahs-edit-mode
   (kbd "C-w u")   'winner-undo
   (kbd "M-y")     'counsel-yank-pop)
 

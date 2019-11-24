@@ -28,33 +28,9 @@
   (unhighlight-regexp t))
 
 ;;-------------------------------------------
-;;; ahs-mode
+;;; highlight symbol
 ;;-------------------------------------------
-(require 'auto-highlight-symbol)
-(global-auto-highlight-symbol-mode)
-
-(setq ahs-idle-interval 0.5)
-(setq ahs-case-fold-search nil)
-(setq ahs-default-range 'ahs-range-display)
-
-(setq ahs-modes
-      (append ahs-modes
-              '(js2-mode
-                web-mode
-                cmake-mode
-                grep-mode)))
-
-(defalias 'ahs-mode 'auto-highlight-symbol-mode)
-
-(global-set-key [remap evil-goto-definition]
-                (lambda () (interactive)
-                  ;; set vim jump list
-                  (unless (eq ahs-current-range
-                              (symbol-value 'ahs-range-whole-buffer))
-                    (ahs-change-range 'ahs-range-whole-buffer))
-                  (ring-insert (evil--jumps-get-window-jump-list)
-                               `(,(point) ,(buffer-file-name)))
-                  (ahs-highlight-now)
-                  (ahs-backward-definition)))
+(require 'highlight-symbol)
+(add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
 (provide 'core-highlight)
