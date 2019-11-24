@@ -84,7 +84,7 @@
 ;; *************** internal vars ***************
 
 (defvar bison--declarers '("%union" "%token" "%type"
-			   "%left" "%right" "%nonassoc")
+			   "%left" "%right" "%nonassoc" "%option")
   "commands which can declare a token or state type")
 
 (defvar bison--word-constituent-re "\\(\\sw\\|_\\)")
