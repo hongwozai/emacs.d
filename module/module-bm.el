@@ -3,6 +3,8 @@
 ;;-------------------------------------------
 (require-package 'bm)
 
+(require 'bm)
+
 ;;; Allow cross buffer `bm-next'
 (setq bm-cycle-all-buffers nil)
 
