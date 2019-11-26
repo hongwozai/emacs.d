@@ -90,11 +90,11 @@
 
 ;;; mark board
 (defhydra mark-board (:color amaranth :hint nil)
-  ("m" highlight-symbol "highlight-symbol" :color blue)
+  ("m" highlight-symbol "highlight-symbol" :color blue :column "highlight")
   ("u" unhighlight-all-symbol "unhighlight-all-symbol" :color blue)
-  ("b" bookmark-set "bookmark-set" :color blue)
+  ("b" bookmark-set "bookmark-set" :color blue :column "bookmark")
   ("B" bookmark-bmenu-list "list-bookmark" :color blue)
-  ("j" bookmark-jump "bookmark-jump" :color blue)
+  ("j" bookmark-jump "bookmark-jump" :color blue )
   ("d" bookmark-delete "bookmark-delete" :color blue)
   ("q" nil :exit t)
   )

@@ -1,7 +1,7 @@
 ;;-------------------------------------------
-;;; highlight
+;;; origin highlight
 ;;-------------------------------------------
-(defun highlight-symbol ()
+(defun core/highlight-symbol ()
   (interactive)
   (require 'hi-lock nil t)
   (let ((regexp
@@ -23,7 +23,7 @@
           (or (facep face) (setq face 'hi-yellow))
           (hi-lock-face-buffer regexp face))))))
 
-(defun unhighlight-all-symbol ()
+(defun core/unhighlight-all-symbol ()
   (interactive)
   (unhighlight-regexp t))
 
@@ -32,5 +32,8 @@
 ;;-------------------------------------------
 (require 'highlight-symbol)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
+
+;;; use remove-all of highlight-symbol
+(defalias 'unhighlight-all-symbol 'highlight-symbol-remove-all)
 
 (provide 'core-highlight)
