@@ -59,6 +59,7 @@
   (kbd "C-p") #'projectile-switch-project
   )
 
+(setq projectile-mode-line-prefix " P")
 ;;-------------------------------------------
 ;;; function
 ;;-------------------------------------------
