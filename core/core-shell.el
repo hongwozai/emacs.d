@@ -55,7 +55,8 @@
               (kbd "<tab>") 'completion-at-point
               (kbd "TAB")   'completion-at-point
               (kbd "<C-backspace>") 'eshell-backward-kill-word
-              (kbd "M-DEL") 'eshell-backward-kill-word)
+              (kbd "M-DEL") 'eshell-backward-kill-word
+              (kbd "DEL")   'eshell-delete-backward-char)
 
             ;; replace builtin clear
             (defun eshell/clear ()
@@ -86,6 +87,14 @@
      (point)
      (if (< end backward) backward end))
     ))
+
+(defun eshell-delete-backward-char ()
+  (interactive)
+  (let ((end (marker-position eshell-last-output-end))
+        (backward (save-excursion (forward-char -1) (point))))
+    (kill-region
+     (point)
+     (if (< end backward) backward end))))
 
 (defun eshell/b (&optional buffer)
   (interactive)
