@@ -25,3 +25,11 @@ TAGS
 quelpa/*
 offline
 site-lisp/*.elc
+emms/*
+.custom.el
+projectile.cache
+projectile-bookmarks.eld
+transient/*
+bm-repository
+.emacs.desktop
+.lsp-session*
