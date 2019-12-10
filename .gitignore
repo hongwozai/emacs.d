@@ -33,3 +33,4 @@ transient/*
 bm-repository
 .emacs.desktop
 .lsp-session*
+.cache/*
