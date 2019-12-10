@@ -1,4 +1,22 @@
 ;;-------------------------------------------
+;;; eshell bash completion
+;;-------------------------------------------
+(require-package 'bash-completion)
+
+(defun my/eshell-bash-completion ()
+  (let ((bash-completion-nospace t))
+    (while (pcomplete-here
+            (nth 2 (bash-completion-dynamic-complete-nocomint
+                    (save-excursion (eshell-bol) (point))
+                    (point)))))))
+
+(when (or (eq system-type 'gnu/linux)
+          (eq system-type 'gnu/kfreebsd)
+          (eq system-type 'darwin))
+  (when (require 'bash-completion nil t)
+    (setq eshell-default-completion-function #'my/eshell-bash-completion)))
+
+;;-------------------------------------------
 ;;; eshell prompt
 ;;-------------------------------------------
 (require-package 'eshell-prompt-extras)
