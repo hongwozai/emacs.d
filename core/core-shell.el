@@ -52,6 +52,7 @@
               (kbd "C-n")   'eshell-next-matching-input-from-input
               (kbd "C-p")   'eshell-previous-matching-input-from-input
               (kbd "C-u")   'eshell-kill-input
+              (kbd "C-l")   'eshell/clear
               (kbd "<tab>") 'completion-at-point
               (kbd "TAB")   'completion-at-point
               (kbd "<C-backspace>") 'eshell-backward-kill-word
