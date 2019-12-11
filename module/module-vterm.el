@@ -7,9 +7,10 @@
 
 (add-hook 'vterm-mode-hook
           (lambda ()
-            (core--set-work-state)
+            (shell-header-mode)
             (define-key vterm-mode-map (kbd "C-u") 'vterm--self-insert)
             (core/auto-exit)
+            (local-set-key [escape] 'vterm--self-insert)
             ))
 
 (defalias 'vt 'vterm)
