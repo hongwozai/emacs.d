@@ -5,17 +5,15 @@
 (require 'zy-dark-theme)
 
 ;;-------------------------------------------
-;;; spacemacs themes
+;;; moe light themes
 ;;-------------------------------------------
-(require-package 'spacemacs-theme)
-
-(setq spacemacs-theme-comment-bg nil)
+(require-package 'moe-theme)
 
 ;;-------------------------------------------
 ;;; switch themes
 ;;-------------------------------------------
 (defvar current-theme 'zy-dark)
-(defvar current-switch-themes '(spacemacs-dark spacemacs-light zy-dark))
+(defvar current-switch-themes '(moe-light zy-dark))
 
 (load-theme current-theme t)
 
