@@ -3,7 +3,7 @@
 ;;-------------------------------------------
 (require-package 'dumb-jump)
 
-(autoload 'dumb-jump-go "dump-jump" "jump to definition" t)
+(autoload 'dumb-jump-go "dumb-jump" "jump to definition" t)
 
 (setq dumb-jump-selector 'ivy)
 
