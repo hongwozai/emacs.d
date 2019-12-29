@@ -17,6 +17,8 @@
 ;; Contributers of ideas and/or code:
 ;;
 ;;; Change log:
+;; 20 12 2019 -- v1.1
+;;               support projectile
 ;;
 ;; 10 june 2018 -- v1.0
 ;;;                initial
@@ -28,7 +30,25 @@
   :type  'symbol
   :group 'shell-header)
 
-(defun shell-header--get-shell-buffer ()
+(defcustom shell-header-use-project-support t
+  "support projectile"
+  :type  'symbol
+  :group 'shell-header)
+
+(defun shell-header--get-current-buffer-list (&optional is-global)
+  (if (or is-global (not shell-header-use-project-support))
+      (buffer-list)
+    ;; projectile buffer
+    (if (and (require 'projectile nil t) (projectile-project-p))
+        (projectile-project-buffers)
+      (buffer-list))))
+
+(defun shell-header--get-project-name ()
+  (if (require 'projectile nil t)
+      (projectile-project-name)
+    ""))
+
+(defun shell-header--get-shell-buffer (&optional is-global)
   (sort
    (remove-if-not
     (lambda (x)
@@ -39,22 +59,25 @@
             (eq (get major-mode 'derived-mode-parent)
                 'comint-mode)
             (eq major-mode 'vterm-mode))))
-    (buffer-list))
+    (shell-header--get-current-buffer-list is-global))
    (lambda (x y)
      (string< (buffer-name x) (buffer-name y)))))
 
-(defun shell-header--shell-mode-buffer-list ()
-  (mapcar
-   (lambda (x)
-     (let ((name (buffer-name x)))
-       (if (eq name (buffer-name))
-           (propertize
-            (format "[%s]" name)
-            'face
-            `((:background
-               ,(face-background 'mode-line-inactive))))
-         (format "[%s]" name))))
-   (shell-header--get-shell-buffer)))
+(defun shell-header--shell-mode-buffer-list (&optional is-global)
+  (append (when (and shell-header-use-project-support
+                     (projectile-project-p))
+            (list (format "<Proj: %s> |" (shell-header--get-project-name))))
+          (mapcar
+           (lambda (x)
+             (let ((name (buffer-name x)))
+               (if (eq name (buffer-name))
+                   (propertize
+                    (format "[%s]" name)
+                    'face
+                    `((:background
+                       ,(face-background 'mode-line-inactive))))
+                 (format "[%s]" name))))
+           (shell-header--get-shell-buffer is-global))))
 
 (defun shell-header--header-line-setup ()
   (setq-local header-line-format
@@ -63,8 +86,8 @@
 (defun shell-header--header-line-cancel ()
   (setq-local header-line-format nil))
 
-(defun shell-header--switch (direction offset)
-  (let* ((misc-list (shell-header--get-shell-buffer))
+(defun shell-header--switch (direction offset &optional is-global)
+  (let* ((misc-list (shell-header--get-shell-buffer is-global))
          (misc-list-len (length misc-list))
          (index (position (current-buffer) misc-list)))
     (if (= misc-list-len 0)
@@ -83,6 +106,13 @@
 
 (define-key shell-header-mode-map (kbd "M-]") 'shell-header-next)
 (define-key shell-header-mode-map (kbd "M-[") 'shell-header-prev)
+
+;;;###autoload
+(defun shell-header--kill-buffer (&optional is-global)
+  (interactive)
+  (when current-prefix-arg (setq is-global t))
+  (mapcar (lambda (x) (kill-buffer x))
+          (shell-header--get-shell-buffer is-global)))
 
 ;;;###autoload
 (defun shell-header-next ()
