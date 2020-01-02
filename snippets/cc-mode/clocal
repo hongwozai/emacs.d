@@ -2,6 +2,7 @@
 # name: clocal
 # key: clocal
 # --
-((c++-mode . ((mycc-enable-lsp . t)
-              (mycc-google-style . nil)
-              )))
+((c++-mode . ((enable-lsp-project      . $1)
+              (google-style-project    . $2)
+              (indent-use-clang-format . nil)
+              $0)))

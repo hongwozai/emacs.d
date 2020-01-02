@@ -129,11 +129,11 @@
 (autoload 'google-set-c-style "google-c-style" "c style" t)
 (autoload 'google-make-newline-indent "google-c-style" "c style" t)
 
-(setq mycc-google-style nil)
+(setq google-style-project nil)
 
 (defun my-google-set-c-style ()
   (interactive)
-  (when mycc-google-style
+  (when google-style-project
     (google-set-c-style)
     (google-make-newline-indent))
   )
@@ -171,10 +171,10 @@
 (setq lsp-enable-symbol-highlighting nil)
 ;; (setq ccls-sem-highlight-method 'font-lock)
 
-(setq mycc-enable-lsp nil)
+(setq enable-lsp-project nil)
 
 (defun enable-lsp ()
-  (when mycc-enable-lsp
+  (when enable-lsp-project
     (setq-local flycheck-disabled-checkers
                 '(c/c++-clang c/c++-cppcheck c/c++-gcc))
     ;; ccls
