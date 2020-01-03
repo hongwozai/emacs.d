@@ -2,13 +2,7 @@
 # name: clocal
 # key: clocal
 # --
-((nil (ffip-project-root . "`default-directory`")
-      (ffip-patterns     . ("*.[ch]" "*.cpp" "*.hpp" "*.S" "*.md" "*.org"))
-      (ffip-prune-patterns . ("*/.*/*" "*/.git/*" "*/.svn/*"))
-      (ffip-find-options . "-not -size +64k -not -iwholename '*/dist/*'"))
-
- (c-mode . ((flycheck-clang-include-path . ("$1"))
-            (company-c-headers-path-system . ("/usr/include/"
-                                              "/usr/local/include/"
-                                              "$1"))))
-)
+((c++-mode . ((enable-lsp-project      . $1)
+              (google-style-project    . $2)
+              (indent-use-clang-format . nil)
+              $0)))

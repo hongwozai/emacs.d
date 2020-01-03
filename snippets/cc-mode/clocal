@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: clocal
-# key: clocal
-# --
-((c++-mode . ((enable-lsp-project      . $1)
-              (google-style-project    . $2)
-              (indent-use-clang-format . nil)
-              $0)))

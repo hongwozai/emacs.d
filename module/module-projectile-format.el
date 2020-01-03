@@ -7,7 +7,7 @@
 ;;-------------------------------------------
 ;;; indent function
 ;;-------------------------------------------
-(setq indent-use-clang-format nil)
+(setq indent-use-clang-format t)
 
 (defun projectile-clang-format-hook ()
   (let ((project-directory (projectile-project-p)))
