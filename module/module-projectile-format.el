@@ -7,7 +7,7 @@
 ;;-------------------------------------------
 ;;; indent function
 ;;-------------------------------------------
-(setq indent-use-clang-format t)
+(setq indent-line-use-clang-format t)
 
 (defun projectile-clang-format-hook ()
   (let ((project-directory (projectile-project-p)))
@@ -17,23 +17,20 @@
       ;; save
       (setq-local before-save-hook
                   (cons #'clang-format-buffer before-save-hook))
+
+      (when indent-line-use-clang-format
+        ;; line
+        (setq-local indent-line-function #'clang-format-line)
+
+        ;; region
+        (setq-local indent-region-function #'clang-format-region)
+        )
       )))
 
 (defun clang-format-line ()
   (clang-format-region (line-beginning-position) (line-end-position)))
 
 ;;; hook
-(add-hook 'c++-mode-hook
-          (lambda ()
-            (projectile-clang-format-hook)))
-
 (add-hook 'c++-mode-local-vars-hook
           (lambda ()
-            (when indent-use-clang-format
-              ;; line
-              (setq-local indent-line-function #'clang-format-line)
-
-              ;; region
-              (setq-local indent-region-function #'clang-format-region)
-              )
-            ))
+            (projectile-clang-format-hook)))
