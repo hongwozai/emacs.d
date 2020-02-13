@@ -1,6 +1,3 @@
 [submodule "site-lisp/lsp-mode"]
 	path = site-lisp/lsp-mode
 	url = https://github.com/emacs-lsp/lsp-mode
-[submodule "vterm"]
-	path = site-lisp/emacs-libvterm
-	url = https://github.com/akermu/emacs-libvterm.git

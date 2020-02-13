@@ -1,7 +1,7 @@
 ;;-------------------------------------------
 ;;; vterm mode
 ;;-------------------------------------------
-(require 'vterm)
+(require-package 'vterm)
 
 (evil-set-initial-state 'vterm-mode 'emacs)
 
