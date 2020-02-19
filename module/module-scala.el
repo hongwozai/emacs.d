@@ -1,13 +1,14 @@
 ;;-------------------------------------------
 ;;; package
 ;;-------------------------------------------
-(require-package 'ensime)
 (require-package 'scala-mode)
 (require-package 'sbt-mode)
 
-(setq ensime-sbt-command "sbt"
-      sbt:program-name "sbt")
+(setq sbt:program-name "sbt")
 
+;;; ensime
+(setq ensime-sbt-command "sbt")
+(require-package 'ensime)
 (setq ensime-startup-notification nil)
 
 (setq ensime-search-interface 'ivy)
