@@ -54,10 +54,14 @@
 
 ;;-------------------------------------------
 ;;; project
+;;; PROJECT_DIR_DIR_FILE_H
 ;;-------------------------------------------
 (defun project-file-relative-name ()
   (let ((root-path (projectile-project-root)))
     (if root-path
-        (file-relative-name (file-name-sans-extension (buffer-file-name))
-                            root-path)
+        (concat
+         (projectile-project-name)
+         "_"
+         (file-relative-name (file-name-sans-extension (buffer-file-name))
+                             root-path))
       (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))))
