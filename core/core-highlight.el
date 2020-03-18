@@ -36,4 +36,14 @@
 ;;; use remove-all of highlight-symbol
 (defalias 'unhighlight-all-symbol 'highlight-symbol-remove-all)
 
+;;; highlight-region
+(defun core/highlight-region ()
+  (interactive)
+  (if (use-region-p)
+      (progn
+        (highlight-symbol
+         (buffer-substring-no-properties (region-beginning) (region-end)))
+        (transient-mark-mode 0))
+      (highlight-symbol)))
+
 (provide 'core-highlight)

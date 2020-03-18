@@ -1,6 +1,7 @@
 ;;-------------------------------------------
 ;;; package
 ;;-------------------------------------------
+(module-require-manual)
 (require-package 'scala-mode)
 (require-package 'sbt-mode)
 
