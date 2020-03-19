@@ -13,8 +13,12 @@
     (goto-char (point-min))
     (let ((loop-var t))
       (while loop-var
-        (let ((ov (make-overlay (line-beginning-position)
-                                (+ (line-beginning-position) 46))))
+        (let* ((pos (re-search-forward
+                     "^[[:space:][:digit:]-:.]+\\[[^]]+\\] . \\[[^]]+\\]"
+                     nil
+                     t))
+               (ov (make-overlay (line-beginning-position)
+                                 (or pos (+ (line-beginning-position) 46)))))
           (overlay-put ov 'invisible t))
         (setq loop-var (= 0 (forward-line 1)))))))
 
@@ -24,8 +28,12 @@
     (goto-char (point-min))
     (let ((loop-var t))
       (while loop-var
-        (let ((ovs (overlays-in (line-beginning-position)
-                                (+ (line-beginning-position) 46))))
+        (let* ((pos (re-search-forward
+                     "^[[:space:][:digit:]-:.]+\\[[^]]+\\] . \\[[^]]+\\]"
+                     nil
+                     t))
+              (ovs (overlays-in (line-beginning-position)
+                                (or pos (+ (line-beginning-position) 46)))))
           (mapcar #'delete-overlay ovs))
         (setq loop-var (= 0 (forward-line 1)))))))
 
