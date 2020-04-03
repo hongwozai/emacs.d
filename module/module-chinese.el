@@ -36,6 +36,7 @@
 ;;; default
 (require 'pyim)
 (setq default-input-method "pyim")
+(setq pyim-default-scheme 'quanpin)
 
 (with-eval-after-load "pyim"
   (require 'pyim-basedict)
@@ -43,7 +44,7 @@
   (if (require 'posframe nil t)
       (setq pyim-page-tooltip 'posframe)
     (setq pyim-page-tooltip 'popup))
-  (setq pyim-page-length 5))
+  (setq pyim-page-length 10))
 
 ;;-------------------------------------------
 ;;; emacs sometimes can't reconginze gbk

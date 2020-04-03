@@ -1,6 +1,7 @@
 ;;-------------------------------------------
 ;;; package
 ;;-------------------------------------------
+(require-package 'git-commit)
 (require-package 'magit)
 (require-package 'git-gutter)
 (require-package 'git-messenger)

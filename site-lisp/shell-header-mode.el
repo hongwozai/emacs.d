@@ -30,7 +30,7 @@
   :type  'symbol
   :group 'shell-header)
 
-(defcustom shell-header-use-project-support t
+(defcustom shell-header-use-project-support nil
   "support projectile"
   :type  'symbol
   :group 'shell-header)
