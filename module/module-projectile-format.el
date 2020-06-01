@@ -7,6 +7,7 @@
 ;;-------------------------------------------
 ;;; indent function
 ;;-------------------------------------------
+(setq indent-on-save-use-clang-format t)
 (setq indent-line-use-clang-format nil)
 
 (defun projectile-clang-format-hook ()
@@ -16,7 +17,9 @@
 
       ;; save
       (setq-local before-save-hook
-                  (cons #'clang-format-buffer before-save-hook))
+                  (cons (lambda () (when indent-on-save-use-clang-format
+                                (clang-format-buffer)))
+                        before-save-hook))
 
       (when indent-line-use-clang-format
         ;; line
@@ -32,5 +35,9 @@
 
 ;;; hook
 (add-hook 'c++-mode-local-vars-hook
+          (lambda ()
+            (projectile-clang-format-hook)))
+
+(add-hook 'c-mode-local-vars-hook
           (lambda ()
             (projectile-clang-format-hook)))

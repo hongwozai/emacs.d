@@ -19,7 +19,8 @@
 ;;-------------------------------------------
 (dolist (hook '(emacs-lisp-mode-hook
                 ielm-mode-hook
-                eval-expression-minibuffer-setup-hook))
+                eval-expression-minibuffer-setup-hook
+                scheme-mode-hook))
   (add-hook hook #'lisp-common-edit-hook-func))
 
 ;;-------------------------------------------
