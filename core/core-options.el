@@ -30,7 +30,7 @@
               scroll-step                 5
               visible-bell                t
               mode-require-final-newline  nil
-              split-width-threshold       90
+              split-width-threshold       nil
               ring-bell-function          'ignore)
 
 ;;-------------------------------------------
