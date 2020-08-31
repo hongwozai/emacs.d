@@ -44,7 +44,7 @@
   (if (require 'posframe nil t)
       (setq pyim-page-tooltip 'posframe)
     (setq pyim-page-tooltip 'popup))
-  (setq pyim-page-length 10))
+  (setq pyim-page-length 9))
 
 ;;-------------------------------------------
 ;;; emacs sometimes can't reconginze gbk
