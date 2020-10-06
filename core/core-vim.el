@@ -67,10 +67,10 @@
 (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
 
 ;; bind evil-forward/backward-args
-(define-key evil-normal-state-map "L" 'evil-forward-arg)
-(define-key evil-normal-state-map "H" 'evil-backward-arg)
-(define-key evil-motion-state-map "L" 'evil-forward-arg)
-(define-key evil-motion-state-map "H" 'evil-backward-arg)
+(define-key evil-normal-state-map (kbd "M-l") 'evil-forward-arg)
+(define-key evil-normal-state-map (kbd "M-h") 'evil-backward-arg)
+(define-key evil-motion-state-map (kbd "M-l") 'evil-forward-arg)
+(define-key evil-motion-state-map (kbd "M-h") 'evil-backward-arg)
 ;;-------------------------------------------
 ;;; functions
 ;;-------------------------------------------
