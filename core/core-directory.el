@@ -7,8 +7,9 @@
   (setq dired-recursive-deletes  'always)
   (setq dired-isearch-filenames  t)
   (setq dired-dwim-target        t)
-  (setq dired-listing-switches
-        "-aluh --time-style=iso")
+  (if *is-mac*
+      (setq dired-listing-switches "-aluh")
+    (setq dired-listing-switches "-aluh --time-style=iso"))
 
   ;; key
   (core/set-key dired-mode-map

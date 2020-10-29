@@ -8,6 +8,7 @@
 (when my-emacs-conf-profile
   (profiler-start 'cpu))
 
+(setq *is-mac* (eql system-type 'darwin))
 ;;-------------------------------------------
 ;;; package.el initialize
 ;;-------------------------------------------

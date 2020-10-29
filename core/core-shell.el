@@ -141,7 +141,9 @@
 ;;-------------------------------------------
 (require-package 'multi-term)
 
-(setq multi-term-program "/bin/bash")
+(if *is-mac*
+    (setq multi-term-program "/bin/zsh")
+  (setq multi-term-program "/bin/bash"))
 
 (defalias 'mt 'multi-term)
 (autoload 'multi-term-prev "multi-term" nil t)

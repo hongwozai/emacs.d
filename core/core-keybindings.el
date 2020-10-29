@@ -1,4 +1,7 @@
 ;;; basic leader key
+(if *is-mac*
+    (setq mac-option-modifier 'meta))
+
 (core/leader-set-key
  "o"   (lambda () (interactive)
           (let ((split-width-threshold nil)) (org-agenda)))
