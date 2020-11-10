@@ -58,6 +58,8 @@
 ;;; xref use ivy-read
 (autoload 'ivy-xref-show-xrefs "ivy-xref")
 (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
+(when (>= emacs-major-version 27)
+  (setq xref-show-definitions-function #'ivy-xref-show-defs))
 
 ;;; ivy-occur
 (evil-set-initial-state 'ivy-occur-mode 'emacs)
