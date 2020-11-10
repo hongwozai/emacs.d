@@ -57,6 +57,7 @@
 
 ;;; xref use ivy-read
 (autoload 'ivy-xref-show-xrefs "ivy-xref")
+(autoload 'ivy-xref-show-defs "ivy-xref")
 (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
 (when (>= emacs-major-version 27)
   (setq xref-show-definitions-function #'ivy-xref-show-defs))
