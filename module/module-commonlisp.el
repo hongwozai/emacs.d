@@ -4,7 +4,7 @@
 (require-package 'slime)
 (require-package 'slime-company)
 
-(setq inferior-lisp-program "clisp")
+(setq inferior-lisp-program "sbcl")
 
 (slime-setup '(slime-fancy slime-company))
 
