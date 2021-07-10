@@ -57,6 +57,7 @@
   (kbd "s")   #'counsel-projectile-find-matches
   (kbd "n")   #'projectile-add-known-project
   (kbd "C-p") #'projectile-switch-project
+  (kbd "c")   #'core/projectile-compile-project
   )
 
 (setq projectile-mode-line-prefix " P")
@@ -111,5 +112,10 @@
               projectile-project-root-files-functions)
   (push 'projectile-root-known-project
         projectile-project-root-files-functions))
+
+(defun core/projectile-compile-project (arg)
+  (interactive "P")
+  (let ((projectile-project-root (or (projectile-project-root) default-directory)))
+    (projectile-compile-project arg)))
 
 (provide 'core-project)

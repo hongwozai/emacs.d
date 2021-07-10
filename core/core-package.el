@@ -13,9 +13,10 @@
              ,(expand-file-name "localelpa" user-emacs-directory))))
   ;; online
   (setq package-archives
-        '(("gnu"   . "https://elpa.emacs-china.org/gnu/")
-          ("melpa" . "https://elpa.emacs-china.org/melpa/")
-          ("melpa-stable" . "https://elpa.emacs-china.org/melpa-stable/"))))
+        '(("gnu"   . "https://mirrors.tencent.com/elpa/gnu/")
+          ("melpa" . "https://mirrors.tencent.com/elpa/melpa/")
+          ("melpa-stable" . "https://mirrors.tencent.com/elpa/melpa-stable")
+          )))
 
 ;;; offical Melpa (and Gnu)
 ;;; ("melpa" . "http://melpa.org/packages/")
