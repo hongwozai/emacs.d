@@ -61,6 +61,9 @@
   )
 
 (setq projectile-mode-line-prefix " P")
+
+(when (eq system-type 'windows-nt)
+  (setq projectile-indexing-method 'alien))
 ;;-------------------------------------------
 ;;; function
 ;;-------------------------------------------
