@@ -39,7 +39,7 @@
   (let ((inhibit-message t))
     (dolist (buffer (buffer-list))
       (with-current-buffer buffer
-        (if (and (buffer-file-name) (buffer-modified-p)
+        (if (and (buffer-file-name) (buffer-modified-p) (not buffer-read-only)
                  ;; < 10M
                  (< (buffer-size) auto-save-simple-max-file-size))
             (save-buffer))))))

@@ -3,7 +3,7 @@
 ;;-------------------------------------------
 (projectile-register-project-type
  'mycmake '("CMakeLists.txt" "src")
- :compile "cmake -H. -Bbuild && make -C build"
- :test "cmake -H. -Bbuild && make -C build test"
+ :compile "cmake -H. -Bbuild && cmake --build build --parallel"
+ :test "cmake -H. -Bbuild && cmake --build build --target test"
  :test-prefix "test_"
  )
