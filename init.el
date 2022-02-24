@@ -80,4 +80,7 @@
     (evil-emacs-state)
     (delete-other-windows)))
 
+(when *is-mac*
+  (set-face-attribute 'default nil :font "Menlo 18"))
+
 (provide 'init)
