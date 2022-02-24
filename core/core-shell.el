@@ -212,4 +212,11 @@
 (autoload 'shell-header-next "shell-header-mode" nil t)
 (autoload 'shell-header-prev "shell-header-mode" nil t)
 
+;;-------------------------------------------
+;;; shell environment
+;;-------------------------------------------
+(require-package 'exec-path-from-shell)
+
+(exec-path-from-shell-initialize)
+
 (provide 'core-shell)

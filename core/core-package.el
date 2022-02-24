@@ -15,7 +15,7 @@
   (setq package-archives
         '(("gnu"   . "https://mirrors.tencent.com/elpa/gnu/")
           ("melpa" . "https://mirrors.tencent.com/elpa/melpa/")
-          ("melpa-stable" . "https://mirrors.tencent.com/elpa/melpa-stable")
+          ;; ("melpa-stable" . "https://mirrors.tencent.com/elpa/melpa-stable")
           )))
 
 ;;; offical Melpa (and Gnu)
