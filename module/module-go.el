@@ -13,3 +13,4 @@
     (kbd "M-.") 'godef-jump))
 
 (add-hook 'go-mode-hook #'lsp)
+(add-hook 'before-save-hook 'gofmt-before-save)

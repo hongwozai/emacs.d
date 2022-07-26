@@ -41,9 +41,9 @@
 (with-eval-after-load "pyim"
   (require 'pyim-basedict)
   (pyim-basedict-enable)
-  (if (require 'posframe nil t)
-      (setq pyim-page-tooltip 'posframe)
-    (setq pyim-page-tooltip 'popup))
+  ;; 默认使用popup，更稳定
+  (setq pyim-page-tooltip 'popup)
+  ;; (setq pyim-page-tooltip 'posframe)
   (setq pyim-page-length 9))
 
 ;;-------------------------------------------
