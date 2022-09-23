@@ -44,5 +44,6 @@
 ;;; programming
 ;;-------------------------------------------
 (require 'core-elisp)
+(require 'zy-mode)
 
 (provide 'core-init)
