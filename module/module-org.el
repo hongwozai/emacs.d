@@ -8,6 +8,8 @@
 ;; image
 (setq org-image-actual-width '(300))
 
+(setq org-export-headline-levels 6)
+
 ;;-------------------------------------------
 ;;; org agenda/gtd
 ;;-------------------------------------------
@@ -72,6 +74,8 @@
    (dot        . t)
    (plantuml   . t)
    (octave     . t)))
+
+(setq org-plantuml-jar-path (expand-file-name "~/bin/plantuml.jar"))
 
 ;;-------------------------------------------
 ;;; org display image
