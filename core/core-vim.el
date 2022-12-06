@@ -34,6 +34,7 @@
 
 ;;; ed backward
 (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
+(define-key evil-ex-completion-map (kbd "C-f") 'forward-char)
 
 ;;; evil search
 (define-key isearch-mode-map (kbd "SPC")
