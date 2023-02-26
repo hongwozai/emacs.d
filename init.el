@@ -20,7 +20,7 @@
 (setq normal-gc-cons-threshold (* 20 1024 1024))
 (setq init-gc-cons-threshold (* 128 1024 1024))
 
-(setq gc-cons-threshold init-gc-cons-threshold)
+(setq gc-cons-threshold normal-gc-cons-threshold)
 
 ;;-------------------------------------------
 ;;; set path
@@ -82,5 +82,8 @@
 
 (when *is-mac*
   (set-face-attribute 'default nil :font "Menlo 18"))
+
+(when (eql system-type 'linux)
+  (set-face-attribute 'default nil :font "DejaVu Sans Mono Book 16"))
 
 (provide 'init)
