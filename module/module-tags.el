@@ -1,6 +1,7 @@
 ;;-------------------------------------------
 ;;; package
 ;;-------------------------------------------
+(require-package 'ivy-xref)
 (module-require "gtags")
 (require 'gxref)
 

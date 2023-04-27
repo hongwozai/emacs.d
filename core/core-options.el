@@ -91,7 +91,27 @@
 
 ;; input
 (when (fboundp 'electric-pair-mode)
-  (electric-pair-mode t))
+  (electric-pair-mode t)
+  (when (string-prefix-p "28" emacs-version)
+    ;; {{ @see https://debbugs.gnu.org/cgi/bugreport.cgi?bug=55340
+    (defun my-electric-pair-open-newline-between-pairs-psif-hack (orig-func &rest args)
+      (ignore orig-func args)
+      (when (and (if (functionp electric-pair-open-newline-between-pairs)
+                     (funcall electric-pair-open-newline-between-pairs)
+                   electric-pair-open-newline-between-pairs)
+                 (eq last-command-event ?\n)
+                 (< (1+ (point-min)) (point) (point-max))
+                 (eq (save-excursion
+                       (skip-chars-backward "\t\s")
+                       (char-before (1- (point))))
+                     (matching-paren (char-after))))
+        ;; modify this line
+        (save-excursion (newline-and-indent 1))))
+    (advice-add 'electric-pair-open-newline-between-pairs-psif
+                :around
+                #'my-electric-pair-open-newline-between-pairs-psif-hack)
+    ;; }}
+    ))
 
 ;;-------------------------------------------
 ;;; grep

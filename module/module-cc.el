@@ -17,6 +17,7 @@
   "C/C++ both config"
 
   (c-set-offset 'inline-open 0)
+  (setq c-auto-newline t)
 
   ;; related file
   (setq-local cc-search-directories

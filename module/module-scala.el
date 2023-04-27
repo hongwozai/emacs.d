@@ -1,22 +1,14 @@
 ;;-------------------------------------------
 ;;; package
 ;;-------------------------------------------
-(module-require-manual)
 (require-package 'scala-mode)
 (require-package 'sbt-mode)
+(require-package 'lsp-metals)
 
 (setq sbt:program-name "sbt")
 
-;;; ensime
-(setq ensime-sbt-command "sbt")
-(require-package 'ensime)
-(setq ensime-startup-notification nil)
+(setq lsp-metals-server-args '("-J-Dmetals.allow-multiline-string-formatting=off"))
 
-(setq ensime-search-interface 'ivy)
-(setq ensime-eldoc-hints 'all)
-
-(core/set-key scala-mode-map
-  :state '(normal emacs)
-  (kbd "C-]") 'ensime-edit-definition
-  (kbd "M-.") 'ensime-edit-definition
-  (kbd "C-t") 'ensime-pop-find-definition-stack)
+(add-hook 'scala-mode-hook
+          (lambda ()
+            (lsp)))
