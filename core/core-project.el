@@ -91,11 +91,11 @@
   (let ((rootdir (projectile-project-root))
         (matchstr match))
     (cond
-     ((executable-find "rg") (counsel-rg matchstr rootdir))
-     ((executable-find "ag") (counsel-ag matchstr rootdir))
+     ((executable-find "rg" t) (counsel-rg matchstr rootdir))
+     ((executable-find "ag" t) (counsel-ag matchstr rootdir))
      ((and
        (locate-dominating-file rootdir ".git")
-       (executable-find "git"))
+       (executable-find "git" t))
       (counsel-git-grep nil matchstr))
      (t (projectile-grep matchstr)))
     ))
