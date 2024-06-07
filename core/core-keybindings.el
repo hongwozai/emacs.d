@@ -30,6 +30,9 @@
  "w"  'hydra-window/body
  "n"  'linum-mode
 
+ "ps" 'profiler-start
+ "pr" 'profiler-report
+
  ;; version control
  "vl" 'vc-print-log
  "vL" 'vc-print-root-log
@@ -40,7 +43,9 @@
  "xc" 'save-buffers-kill-terminal
  "xf" 'counsel-find-file
  "xk" (lambda () (interactive) (kill-buffer (current-buffer)))
- "xs" 'save-buffer)
+ "xs" 'save-buffer
+ )
+
 
 (core/set-key global
   :state 'native

@@ -5,18 +5,7 @@
 (require-package 'evil-leader)
 (require-package 'evil-surround)
 (require-package 'evil-matchit)
-
-;;-------------------------------------------
-;;; configure
-;;-------------------------------------------
-(setq evil-move-cursor-back t)
-(setq evil-want-C-u-scroll nil)
-(setq evil-symbol-word-search t)
-(setq evil-lookup-func (lambda () (call-interactively #'man)))
-;;; leader
-(setq evil-leader/leader ",")
-(setq evil-leader/no-prefix-mode-rx
-      '("magit-.*-mode" "ibuffer-mode"))
+(require 'evil-args)
 
 ;;-------------------------------------------
 ;;; startup
@@ -25,6 +14,18 @@
 (global-evil-leader-mode t)
 (global-evil-matchit-mode t)
 (global-evil-surround-mode t)
+
+;;-------------------------------------------
+;;; configure
+;;-------------------------------------------
+(setq-default evil-move-cursor-back t)
+(setq-default evil-want-C-u-scroll nil)
+(setq-default evil-symbol-word-search t)
+(setq evil-lookup-func (lambda () (call-interactively #'man)))
+;;; leader
+(setq evil-leader/leader ",")
+(setq evil-leader/no-prefix-mode-rx
+      '("magit-.*-mode" "ibuffer-mode"))
 
 ;;-------------------------------------------
 ;;; command
