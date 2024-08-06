@@ -86,9 +86,11 @@
 ;;-------------------------------------------
 ;;; function
 ;;-------------------------------------------
-(defun counsel-projectile-find-matches (&optional match)
-  (interactive)
-  (let ((rootdir (projectile-project-root))
+(defun counsel-projectile-find-matches (&optional prefix match)
+  (interactive "P")
+  (let ((rootdir (if prefix
+                     (read-directory-name "Find Directory ")
+                   (projectile-project-root)))
         (matchstr match))
     (cond
      ((executable-find "rg" t) (counsel-rg matchstr rootdir))
