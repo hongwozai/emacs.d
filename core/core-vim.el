@@ -31,7 +31,7 @@
 ;;; command
 ;;-------------------------------------------
 (evil-ex-define-cmd "ls" 'ibuffer)
-(evil-ex-define-cmd "nu" 'linum-mode)
+(evil-ex-define-cmd "nu" 'display-line-numbers-mode)
 
 ;;; ed backward
 (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)

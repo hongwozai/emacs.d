@@ -1,12 +1,12 @@
 ;;-------------------------------------------
 ;;; multi cursor
 ;;-------------------------------------------
-(require-package 'evil-mc)
+(require-package 'iedit)
 
 ;;; start evil-mc mode when we need
 (core/set-key global
   :state '(normal motion emacs insert)
-  (kbd "C-;") 'evil-mc-mode)
+  (kbd "C-;") 'iedit-mode)
 
 ;;; grm mark all symbol
 ;;; grq quit edit

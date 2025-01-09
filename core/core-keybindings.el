@@ -28,7 +28,7 @@
  "im" 'counsel-semantic-or-imenu
  "kr" 'counsel-yank-pop
  "w"  'hydra-window/body
- "n"  'linum-mode
+ "n"  'display-line-numbers-mode
 
  "ps" 'profiler-start
  "pr" 'profiler-report
