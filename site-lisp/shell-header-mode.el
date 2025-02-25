@@ -23,8 +23,6 @@
 ;; 10 june 2018 -- v1.0
 ;;;                initial
 
-(require 'cl)
-
 (defcustom shell-header-create-function 'eshell
   "create function when have not shell buffer"
   :type  'symbol
