@@ -31,7 +31,7 @@
       (set-process-sentinel process 'core--exit-prompt))))
 
 ;;-------------------------------------------
-;;; shell
+;;; term
 ;;-------------------------------------------
 ;;; autoload
 (autoload 'shell-header-mode "shell-header-mode" nil t)
@@ -82,5 +82,19 @@
   (autoload 'multi-term-next "multi-term" nil t)
   (autoload 'multi-term      "multi-term" nil t)
   )
+
+;;-------------------------------------------
+;;; vterm
+;;-------------------------------------------
+(use-package vterm :ensure t :defer t
+  :config
+  (evil-set-initial-state 'vterm-mode 'emacs)
+  (defalias 'vt 'vterm)
+  (add-hook 'vterm-mode-hook
+            (lambda ()
+              (shell-header-mode)
+              (define-key vterm-mode-map (kbd "C-u") 'vterm--self-insert)
+              (core/auto-exit)
+              (local-set-key [escape] 'vterm--self-insert))))
 
 (provide 'core-shell)
