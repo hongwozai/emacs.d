@@ -163,6 +163,7 @@
   (define-key dired-mode-map [mouse-2] 'dired-find-file)
   (define-key dired-mode-map "n" 'evil-search-next)
   (define-key dired-mode-map "N" 'evil-search-previous)
+  (define-key dired-mode-map "F" 'ffip)
   )
 
 (add-hook 'dired-mode-hook
@@ -190,6 +191,9 @@
               (ibuffer-switch-to-saved-filter-groups "default")
               (ibuffer-update nil t)
               (hl-line-mode 1))))
+
+;;; windows
+(winner-mode t)
 
 ;;-------------------------------------------
 ;;; search
@@ -348,7 +352,8 @@
   ((occur-mode . evil-emacs-state)
    (special-mode . evil-emacs-state)
    (xref-mode . evil-emacs-state)
-   (help-mode . evil-motion-state))
+   (help-mode . evil-motion-state)
+   (message-mode . evil-emacs-state))
   :config
   (evil-mode t)
 
@@ -365,6 +370,7 @@
   (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
   (define-key evil-ex-completion-map (kbd "C-f") 'forward-char)
 
+  (define-key evil-normal-state-map (kbd "C-w u") 'winner-undo)
   (define-key evil-normal-state-map (kbd "gr") 'recentf-open)
   (define-key evil-normal-state-map (kbd "gb") 'switch-to-buffer)
   (define-key evil-normal-state-map (kbd "gl") 'ibuffer)
@@ -417,9 +423,8 @@
   )
 
 ;;; multi edit
-(use-package iedit :ensure t :defer t
-  :config
-  (define-key prog-mode-map (kbd "M-;") 'iedit-mode))
+(define-key prog-mode-map (kbd "C-;") 'iedit-mode)
+(use-package iedit :ensure t :defer t)
 
 ;; gtags
 (use-package gtags-mode :ensure t :defer t
@@ -435,7 +440,8 @@
    (python-ts-mode . eglot-ensure)
    (rust-ts-mode . eglot-ensure)
    (go-ts-mode . eglot-ensure))
-  )
+  :config
+  (setopt eglot-report-progress nil))
 
 ;;; tree-sitter emacs29 builtin
 (use-package tree-sitter
@@ -511,10 +517,10 @@
 (use-package magit :ensure t :defer t)
 
 ;;; ffip
-(use-package find-file-in-project :ensure t :defer t)
+(use-package find-file-in-project :ensure t)
 
 ;;; winum
-(use-package winum :ensure t :defer t
+(use-package winum :ensure t
   :config
   (winum-mode t)
   (global-set-key (kbd "M-0") 'winum-select-window-0)

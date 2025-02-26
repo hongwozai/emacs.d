@@ -31,6 +31,27 @@
       (set-process-sentinel process 'core--exit-prompt))))
 
 ;;-------------------------------------------
+;;; comint
+;;-------------------------------------------
+(add-hook 'comint-mode-hook
+          (lambda ()
+            (core/auto-exit)
+            (setq-local comint-prompt-read-only t)
+            (setq-local comint-move-point-for-output 'others)
+            (setq-local comint-history-isearch t)
+            (define-key comint-mode-map (kbd "C-n") 'comint-next-input)
+            (define-key comint-mode-map (kbd "C-p") 'comint-previous-input)
+            (define-key comint-mode-map (kbd "<up>") 'comint-next-input)
+            (define-key comint-mode-map (kbd "<down>") 'comint-previous-input)
+            (define-key comint-mode-map (kbd "C-l") 'comint-clear-buffer)
+            (define-key comint-mode-map (kbd "C-u") 'comint-kill-input)
+            (core--set-work-state)))
+
+;;; comint color
+(setq comint-output-filter-functions
+      (remove 'ansi-color-process-output comint-output-filter-functions))
+
+;;-------------------------------------------
 ;;; term
 ;;-------------------------------------------
 ;;; autoload
