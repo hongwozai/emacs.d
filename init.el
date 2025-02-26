@@ -192,15 +192,30 @@
               (hl-line-mode 1))))
 
 ;;-------------------------------------------
+;;; search
+;;-------------------------------------------
+(defun core--isearch-insert (query)
+  "Pull next word from buffer into search string."
+  (interactive)
+  (setq isearch-message (concat isearch-message query))
+  (setq isearch-string (concat isearch-string query))
+  (isearch-push-state)
+  (isearch-update))
+
+(define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
+(define-key isearch-mode-map (kbd "SPC")
+            (lambda () (interactive) (core--isearch-insert ".*?")))
+(define-key isearch-mode-map (kbd "M-i")
+            (lambda () (interactive)
+              (core--isearch-insert
+               (with-current-buffer (current-buffer)
+                 (format "%s" (symbol-at-point))))))
+
+;;-------------------------------------------
 ;;; interactive
 ;;-------------------------------------------
 (fido-vertical-mode t)
-;; (define-key icomplete-fido-mode-map
-;;             (kbd "M-o") 'icomplete-)
-;; (define-key icomplete-fido-mode-map
-;;             (kbd "C-v") 'icomplete-)
-;; (define-key icomplete-fido-mode-map
-;;             (kbd "M-v") 'icomplete-)
+;;; TODO: (kbd "C-v") (kbd "M-v") (kbd "M-o")
 
 ;;-------------------------------------------
 ;;; program options
@@ -325,16 +340,61 @@
 
 (require 'use-package)
 
-;;; vim
-(require 'core-vim)
-(require 'core-shell)
-
-;;; wgrep
-(use-package wgrep
-  :defer t
+;;-------------------------------------------
+;;; evil
+;;-------------------------------------------
+(use-package evil :ensure t :demand t
+  :hook
+  ((occur-mode . evil-emacs-state)
+   (special-mode . evil-emacs-state)
+   (xref-mode . evil-emacs-state)
+   (help-mode . evil-motion-state))
   :config
-  (setq wgrep-enable-key "r"))
+  (evil-mode t)
 
+  ;; configure
+  (setq-default evil-move-cursor-back t)
+  (setq-default evil-want-C-u-scroll nil)
+  (setq-default evil-symbol-word-search t)
+
+  ;; command
+  (evil-ex-define-cmd "ls" 'ibuffer)
+  (evil-ex-define-cmd "nu" 'display-line-numbers-mode)
+
+  ;; ed backward
+  (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
+  (define-key evil-ex-completion-map (kbd "C-f") 'forward-char)
+
+  (define-key evil-normal-state-map (kbd "gr") 'recentf-open)
+  (define-key evil-normal-state-map (kbd "gb") 'switch-to-buffer)
+  (define-key evil-normal-state-map (kbd "gl") 'ibuffer)
+  (define-key evil-normal-state-map (kbd "gf")
+              (lambda () (interactive)
+                (if (featurep 'find-file-in-project)
+                    (ffip)
+                  (call-interactively #'find-file))))
+  (define-key evil-normal-state-map (kbd "gs")
+              (lambda () (interactive)
+                (occur (format "%s" (symbol-at-point)))
+                (switch-to-buffer-other-window "*Occur*")))
+  (define-key evil-normal-state-map (kbd "gi") 'imenu)
+  )
+
+(use-package evil-surround :ensure t :after evil
+  :config
+  (global-evil-surround-mode t))
+
+(use-package evil-args :ensure t :after evil
+  :config
+  ;; bind evil-args text objects
+  (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+  (define-key evil-outer-text-objects-map "a" 'evil-outer-arg))
+
+(use-package evil-matchit :ensure t :after evil)
+
+;;-------------------------------------------
+;;; program
+;;-------------------------------------------
 ;;; completion
 (use-package company
   :ensure t
@@ -361,14 +421,6 @@
   :config
   (define-key prog-mode-map (kbd "M-;") 'iedit-mode))
 
-;;; which key
-(use-package which-key :ensure t :defer t
-  :hook (after-init . which-key-mode))
-
-;; format-all
-(use-package format-all :ensure t :defer t
-  :hook (prog-mode . format-all-mode))
-
 ;; gtags
 (use-package gtags-mode :ensure t :defer t
   :hook ((c-mode . gtags-mode)
@@ -376,11 +428,19 @@
          (c-ts-mode . gtags-mode)
          (c++-ts-mode . gtags-mode)))
 
-;;; git
-(use-package magit :ensure t :defer t)
+;;; lsp server
+(use-package eglot :ensure t :defer t
+  :hook
+  ((python-mode . eglot-ensure)
+   (python-ts-mode . eglot-ensure)
+   (rust-ts-mode . eglot-ensure)
+   (go-ts-mode . eglot-ensure))
+  )
 
 ;;; tree-sitter emacs29 builtin
 (use-package tree-sitter
+  :if (treesit-available-p)
+  :defer t
   :mode
   (("\\.c\\'" . c-ts-mode)
    ("\\.h\\'"   . c++-ts-mode)
@@ -391,7 +451,7 @@
    ("\\.rs\\'" . rust-ts-mode)
    ("\\.java\\'" . java-ts-mode)
    ("\\.ts\\'" . typescript-ts-mode)
-   ;; ("\\.js\\'" . javascript-ts-mode)
+   ("\\.js\\'" . js-ts-mode)
    )
   :config
   (setq treesit-language-source-alist
@@ -418,16 +478,50 @@
           (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
           (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
           (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+  (mapc #'treesit-install-language-grammar
+        (mapcar #'car treesit-language-source-alist))
   )
 
-;;; lsp server
-(use-package eglot :ensure t :defer t
-  :hook
-  ((python-mode . eglot-ensure)
-   (python-ts-mode . eglot-ensure)
-   (rust-ts-mode . eglot-ensure)
-   (go-ts-mode . eglot-ensure))
-  )
+;; format-all
+(use-package format-all :ensure t :defer t
+  :hook (prog-mode . format-all-mode))
+
+;; lisp pair paredit
+(use-package paredit :ensure t :defer t)
+
+;;-------------------------------------------
+;;; misc
+;;-------------------------------------------
+;;; shell
+(require 'core-shell)
+
+;;; ido sort
+(use-package smex :ensure t :defer t)
+
+;;; wgrep
+(use-package wgrep :ensure t :defer t
+  :config
+  (setq wgrep-enable-key "r"))
+
+;;; which key
+(use-package which-key :ensure t :defer t
+  :hook (after-init . which-key-mode))
+
+;;; git
+(use-package magit :ensure t :defer t)
+
+;;; ffip
+(use-package find-file-in-project :ensure t :defer t)
+
+;;; winum
+(use-package winum :ensure t :defer t
+  :config
+  (winum-mode t)
+  (global-set-key (kbd "M-0") 'winum-select-window-0)
+  (global-set-key (kbd "M-1") 'winum-select-window-1)
+  (global-set-key (kbd "M-2") 'winum-select-window-2)
+  (global-set-key (kbd "M-3") 'winum-select-window-3)
+  (global-set-key (kbd "M-4") 'winum-select-window-4))
 
 ;;-------------------------------------------
 ;;; initialize end

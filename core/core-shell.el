@@ -7,6 +7,12 @@
         (quit-window)
         (kill-buffer (process-buffer process)))))
 
+;;; common functions
+(defun core--goto-max-with-emacs-state ()
+  (interactive)
+  (goto-char (point-max))
+  (evil-emacs-state))
+
 (defun core--set-work-state ()
   "ESC -> normal state; i/a/s.. -> emacs state"
   (shell-header-mode)
@@ -65,7 +71,7 @@
             (core--set-work-state)))
 
 ;; multi term
-(use-package multi-term
+(use-package multi-term :ensure t :defer t
   :config
   (if *is-mac*
       (setq multi-term-program "/bin/zsh")
