@@ -558,11 +558,11 @@
   (require 'pyim)
   (setq default-input-method "pyim")
   (setq pyim-default-scheme 'quanpin)
+  (setq pyim-page-length 9)
 
-  ;; 默认使用popup，更稳定
-  (setq pyim-page-tooltip 'popup)
-  ;; (setq pyim-page-tooltip 'posframe)
-  (setq pyim-page-length 9))
+  (when (package-installed-p 'posframe)
+    (require 'posframe)
+    (setq pyim-page-tooltip 'posframe)))
 
 (use-package pyim-basedict :ensure t :defer t
   :after pyim
