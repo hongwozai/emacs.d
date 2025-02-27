@@ -216,6 +216,21 @@
                  (format "%s" (symbol-at-point))))))
 
 ;;-------------------------------------------
+;;; highlight
+;;-------------------------------------------
+(defun core--highlight-symbol ()
+  (interactive)
+  (require 'hi-lock)
+  (let ((regexp (find-tag-default-as-symbol-regexp)))
+    (if (assoc regexp hi-lock-interactive-lighters)
+        (unhighlight-regexp regexp)
+      (highlight-symbol-at-point))))
+
+(defun core--unhighlight-all-symbol ()
+  (interactive)
+  (unhighlight-regexp t))
+
+;;-------------------------------------------
 ;;; interactive
 ;;-------------------------------------------
 (fido-vertical-mode t)
@@ -351,7 +366,7 @@
   :hook
   ((occur-mode . evil-emacs-state)
    (special-mode . evil-emacs-state)
-   (xref-mode . evil-emacs-state)
+   (xref--xref-buffer-mode . evil-emacs-state)
    (help-mode . evil-motion-state)
    (message-mode . evil-emacs-state))
   :config
@@ -369,11 +384,13 @@
   ;; ed backward
   (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
   (define-key evil-ex-completion-map (kbd "C-f") 'forward-char)
-
   (define-key evil-normal-state-map (kbd "C-w u") 'winner-undo)
   (define-key evil-normal-state-map (kbd "gr") 'recentf-open)
   (define-key evil-normal-state-map (kbd "gb") 'switch-to-buffer)
   (define-key evil-normal-state-map (kbd "gl") 'ibuffer)
+  (define-key evil-normal-state-map (kbd "gc") 'translate-brief-at-point)
+  (define-key evil-normal-state-map (kbd "gi") 'imenu)
+  (define-key evil-normal-state-map (kbd "go") 'find-file-other-window)
   (define-key evil-normal-state-map (kbd "gf")
               (lambda () (interactive)
                 (if (featurep 'find-file-in-project)
@@ -383,7 +400,10 @@
               (lambda () (interactive)
                 (occur (format "%s" (symbol-at-point)))
                 (switch-to-buffer-other-window "*Occur*")))
-  (define-key evil-normal-state-map (kbd "gi") 'imenu)
+
+  (define-key evil-normal-state-map (kbd "m") nil)
+  (define-key evil-normal-state-map (kbd "mm") 'core--highlight-symbol)
+  (define-key evil-normal-state-map (kbd "mu") 'core--unhighlight-all-symbol)
   )
 
 (use-package evil-surround :ensure t :after evil
@@ -446,7 +466,6 @@
 ;;; tree-sitter emacs29 builtin
 (use-package tree-sitter
   :if (treesit-available-p)
-  :defer t
   :mode
   (("\\.c\\'" . c-ts-mode)
    ("\\.h\\'"   . c++-ts-mode)
@@ -528,6 +547,56 @@
   (global-set-key (kbd "M-2") 'winum-select-window-2)
   (global-set-key (kbd "M-3") 'winum-select-window-3)
   (global-set-key (kbd "M-4") 'winum-select-window-4))
+
+(use-package markdown-mode :ensure t :defer t)
+
+;;-------------------------------------------
+;;; chinese
+;;-------------------------------------------
+(use-package pyim :ensure t :defer t
+  :config
+  (require 'pyim)
+  (setq default-input-method "pyim")
+  (setq pyim-default-scheme 'quanpin)
+
+  ;; 默认使用popup，更稳定
+  (setq pyim-page-tooltip 'popup)
+  ;; (setq pyim-page-tooltip 'posframe)
+  (setq pyim-page-length 9))
+
+(use-package pyim-basedict :ensure t :defer t
+  :after pyim
+  :config
+  (require 'pyim-basedict)
+  (pyim-basedict-enable))
+
+(use-package bing-dict :ensure t :defer t)
+
+(defun translate-brief-at-point ()
+  (interactive)
+  (let ((word (if (use-region-p)
+                  (buffer-substring-no-properties
+                   (region-beginning) (region-end))
+                (thing-at-point 'word t))))
+    (if word
+        (bing-dict-brief word)
+      (message "No Word."))))
+
+;; emacs sometimes can't reconginze gbk
+;; set coding config, last is highest priority.
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Recognize-Coding.html#Recognize-Coding
+(prefer-coding-system 'cp950)
+(prefer-coding-system 'gb2312)
+(prefer-coding-system 'cp936)
+(prefer-coding-system 'gb18030)
+(prefer-coding-system 'utf-16)
+(prefer-coding-system 'utf-8-dos)
+(prefer-coding-system 'utf-8-unix)
+
+(when (eq system-type 'windows-nt)
+  (prefer-coding-system 'gbk)
+  (set-language-environment "gbk")
+  (set-default-coding-systems 'gbk))
 
 ;;-------------------------------------------
 ;;; initialize end
