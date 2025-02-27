@@ -45,6 +45,7 @@
             (define-key comint-mode-map (kbd "<down>") 'comint-previous-input)
             (define-key comint-mode-map (kbd "C-l") 'comint-clear-buffer)
             (define-key comint-mode-map (kbd "C-u") 'comint-kill-input)
+            (define-key comint-mode-map (kbd "C-w C-w") 'evil-window-next)
             (core--set-work-state)))
 
 ;;; comint color
