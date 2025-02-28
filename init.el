@@ -363,14 +363,15 @@
 ;;; evil
 ;;-------------------------------------------
 (use-package evil :ensure t :demand t
-  :hook
-  ((occur-mode . evil-emacs-state)
-   (special-mode . evil-emacs-state)
-   (xref--xref-buffer-mode . evil-emacs-state)
-   (help-mode . evil-motion-state)
-   (message-mode . evil-emacs-state))
   :config
   (evil-mode t)
+
+  ;; set initial state
+  (dolist (mode '(occur-mode
+                  special-mode
+                  help-mode message-mode
+                  xref--xref-buffer-mode))
+    (evil-set-initial-state mode 'emacs))
 
   ;; configure
   (setq-default evil-move-cursor-back t)
