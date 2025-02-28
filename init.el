@@ -551,6 +551,11 @@
 
 (use-package markdown-mode :ensure t :defer t)
 
+(when *is-mac*
+  (use-package exec-path-from-shell :ensure t
+    :config
+    (exec-path-from-shell-initialize)))
+
 ;;-------------------------------------------
 ;;; chinese
 ;;-------------------------------------------
