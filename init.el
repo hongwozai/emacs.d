@@ -90,6 +90,14 @@
 ;;; minibuffer
 (setq minibuffer-message-timeout 2)
 
+(define-key minibuffer-mode-map (kbd "M-i")
+            (lambda () (interactive)
+              (let ((sym (with-selected-window (previous-window)
+                           (symbol-at-point))))
+                (with-current-buffer (current-buffer)
+                  (insert (format "%s" (or sym "")))))))
+
+
 ;; Auto refresh buffers, dired revert have bugs.
 ;;; remote file revert have bugs.
 (global-auto-revert-mode 1)
@@ -253,6 +261,9 @@
 (setq compilation-finish-function nil)
 (setq compilation-environment '("TERM=xterm-256color"))
 
+;;; imenu
+(setq imenu-flatten 'prefix)
+
 ;;; programming mode
 (add-hook 'prog-mode-hook
           (lambda ()
@@ -260,7 +271,7 @@
             (setq-local show-trailing-whitespace t)
             ;; fold
             (hs-minor-mode t)
-            ;;; pretty symbol
+;;; pretty symbol
             (prettify-symbols-mode t)
             ))
 
@@ -549,12 +560,29 @@
   (global-set-key (kbd "M-3") 'winum-select-window-3)
   (global-set-key (kbd "M-4") 'winum-select-window-4))
 
+;;; markdown
 (use-package markdown-mode :ensure t :defer t)
 
+;;; exec-path-from-shell
 (when *is-mac*
   (use-package exec-path-from-shell :ensure t
     :config
     (exec-path-from-shell-initialize)))
+
+;;; consult
+(use-package consult
+  :config
+  (define-key evil-normal-state-map (kbd "gb") 'consult-buffer)
+  (define-key evil-normal-state-map (kbd "gi") 'consult-imenu)
+  )
+
+;;; avy
+(use-package avy
+  :config
+  (define-key evil-normal-state-map (kbd "M-o") 'avy-goto-line)
+  ;; TODO: avy-goto-char-2
+  (define-key evil-normal-state-map (kbd "C-M-o") 'avy-goto-word-0)
+  )
 
 ;;-------------------------------------------
 ;;; chinese

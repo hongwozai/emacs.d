@@ -179,7 +179,7 @@
             (core--set-work-state)))
 
 ;; multi term
-(use-package multi-term :ensure t :defer t
+(use-package multi-term :ensure t
   :config
   (if *is-mac*
       (setq multi-term-program "/bin/zsh")
