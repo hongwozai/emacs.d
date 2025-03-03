@@ -431,7 +431,7 @@
   ;; can't work with TRAMP
   (setq company-backends
         (delete 'company-ropemacs company-backends))
-  (setq company-minimum-prefix-length      3)
+  (setq company-minimum-prefix-length      2)
   (setq company-tooltip-flip-when-above    t)
   (setq company-tooltip-align-annotations  t)
   (setq company-show-numbers               t)

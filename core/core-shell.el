@@ -53,6 +53,92 @@
       (remove 'ansi-color-process-output comint-output-filter-functions))
 
 ;;-------------------------------------------
+;;; eshell
+;;-------------------------------------------
+(defalias 'esh       #'multi-eshell)
+(defalias 'eshell/e  #'find-file)
+(defalias 'eshell/em #'find-file)
+(defalias 'eshell/go #'find-file-other-window)
+(defalias 'eshell/vi #'find-file)
+(defalias 'eshell/vim #'find-file)
+(defalias 'eshell/d  #'dired)
+(defalias 'eshell/do #'dired-other-window)
+(defalias 'eshell/gr #'recentf-open)
+
+;;; eshell term color
+(add-hook 'eshell-before-prompt-hook
+          (lambda ()
+            (setq xterm-color-preserve-properties t)))
+
+(add-hook 'eshell-load-hook
+          (lambda ()
+            (setq eshell-save-history-on-exit nil
+                  eshell-buffer-shorthand     t
+                  eshell-hist-ignoredups      t)))
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (define-key eshell-mode-map (kbd "C-r") 'eshell-list-history)
+            (define-key eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
+            (define-key eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
+            (define-key eshell-mode-map (kbd "C-u") 'eshell-kill-input)
+            (define-key eshell-mode-map (kbd "C-l") 'eshell/clear)
+            (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)
+            (define-key eshell-mode-map (kbd "TAB")   'completion-at-point)
+            (define-key eshell-mode-map (kbd "<C-backspace>") 'eshell-backward-kill-word)
+            (define-key eshell-mode-map (kbd "M-DEL") 'eshell-backward-kill-word)
+            (define-key eshell-mode-map (kbd "DEL")   'eshell-delete-backward-char)
+            ;; replace builtin clear
+            (defun eshell/clear ()
+              (interactive)
+              (eshell/clear-scrollback))
+            (core--set-work-state)
+            ))
+
+;; eshell color
+(defun set-eshell-xterm-color ()
+  (setenv "TERM" "xterm-256color")
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  (setq eshell-output-filter-functions
+        (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
+
+(use-package xterm-color
+  :hook (eshell-mode . set-eshell-xterm-color))
+
+;;; use eshell
+(defun multi-eshell ()
+  (interactive)
+  (eshell t))
+
+(defun eshell-backward-kill-word (arg)
+  (interactive "p")
+  (let ((end (marker-position eshell-last-output-end))
+        (backward (save-excursion (forward-word (- arg)) (point))))
+    (kill-region
+     (point)
+     (if (< end backward) backward end))))
+
+(defun eshell-delete-backward-char ()
+  (interactive)
+  (let ((end (marker-position eshell-last-output-end))
+        (backward (save-excursion (forward-char -1) (point))))
+    (kill-region
+     (point)
+     (if (< end backward) backward end))))
+
+(defun eshell/b (&optional buffer)
+  (interactive)
+  (if buffer
+      (switch-to-buffer buffer)
+    (call-interactively #'switch-buffer)))
+
+(defun eshell/bo (&optional buffer)
+  (interactive)
+  (if buffer
+      (switch-to-buffer-other-window buffer)
+    (call-interactively #'switch-to-buffer-other-window)))
+
+;;-------------------------------------------
 ;;; term
 ;;-------------------------------------------
 ;;; autoload
@@ -118,5 +204,6 @@
               (define-key vterm-mode-map (kbd "C-u") 'vterm--self-insert)
               (core/auto-exit)
               (local-set-key [escape] 'vterm--self-insert))))
+
 
 (provide 'core-shell)
