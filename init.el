@@ -92,7 +92,7 @@
 
 (define-key minibuffer-mode-map (kbd "M-i")
             (lambda () (interactive)
-              (let ((sym (with-selected-window (previous-window)
+              (let ((sym (with-selected-window (minibuffer-selected-window)
                            (symbol-at-point))))
                 (with-current-buffer (current-buffer)
                   (insert (format "%s" (or sym "")))))))
@@ -133,6 +133,8 @@
             ((executable-find "ag") "ag --nogroup --noheading ")
             (t "grep --binary-files=without-match -nH -r -E -e ")))
 
+(global-set-key (kbd "C-s") 'grep)
+
 ;;-------------------------------------------
 ;;; tramp
 ;;-------------------------------------------
@@ -171,7 +173,6 @@
   (define-key dired-mode-map [mouse-2] 'dired-find-file)
   (define-key dired-mode-map "n" 'evil-search-next)
   (define-key dired-mode-map "N" 'evil-search-previous)
-  (define-key dired-mode-map "F" 'ffip)
   )
 
 (add-hook 'dired-mode-hook
@@ -183,7 +184,8 @@
             (setq dired-omit-verbose nil)
             (dired-omit-mode)
             (dired-hide-details-mode 1)
-            (hl-line-mode 1)))
+            (hl-line-mode 1)
+            (define-key dired-mode-map "F" 'ffip)))
 
 ;;-------------------------------------------
 ;;; buffer
