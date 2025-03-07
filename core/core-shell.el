@@ -172,6 +172,7 @@
                     ("M-]" . shell-header-next)
                     ("M-[" . shell-header-prev)
                     ("M-w" . kill-ring-save)
+                    ("M-o" . other-window)
                     ("TAB" . (lambda () (interactive)
                                (term-send-raw-string "\t")))
                     ("<escape>" . (lambda () (interactive)
@@ -202,6 +203,7 @@
             (lambda ()
               (shell-header-mode)
               (define-key vterm-mode-map (kbd "C-u") 'vterm--self-insert)
+              (define-key vterm-mode-map (kbd "M-o") 'other-window)
               (core/auto-exit)
               (local-set-key [escape] 'vterm--self-insert))))
 
