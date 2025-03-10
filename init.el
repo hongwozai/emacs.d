@@ -276,7 +276,7 @@
             (setq-local show-trailing-whitespace t)
             ;; fold
             (hs-minor-mode t)
-;;; pretty symbol
+            ;; pretty symbol
             (prettify-symbols-mode t)
             ))
 
@@ -481,48 +481,26 @@
   (setopt eglot-report-progress nil))
 
 ;;; tree-sitter emacs29 builtin
-(use-package tree-sitter
+(use-package treesit
   :if (treesit-available-p)
-  :mode
-  (("\\.c\\'" . c-ts-mode)
-   ("\\.h\\'"   . c++-ts-mode)
-   ("\\.cc\\'" . c++-ts-mode)
-   ("\\.cpp\\'" . c++-ts-mode)
-   ("\\.py\\'" . python-ts-mode)
-   ("\\.go\\'" . go-ts-mode)
-   ("\\.rs\\'" . rust-ts-mode)
-   ("\\.java\\'" . java-ts-mode)
-   ("\\.ts\\'" . typescript-ts-mode)
-   ("\\.js\\'" . js-ts-mode)
-   )
   :config
-  (setq treesit-language-source-alist
-        '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-          (c "https://github.com/tree-sitter/tree-sitter-c")
-          (cmake "https://github.com/uyha/tree-sitter-cmake")
-          (common-lisp "https://github.com/theHamsta/tree-sitter-commonlisp")
-          (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-          (css "https://github.com/tree-sitter/tree-sitter-css")
-          (csharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-          (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-          (go "https://github.com/tree-sitter/tree-sitter-go")
-          (go-mod "https://github.com/camdencheek/tree-sitter-go-mod")
-          (html "https://github.com/tree-sitter/tree-sitter-html")
-          (js . ("https://github.com/tree-sitter/tree-sitter-javascript" "master" "src"))
-          (json "https://github.com/tree-sitter/tree-sitter-json")
-          (lua "https://github.com/Azganoth/tree-sitter-lua")
-          (make "https://github.com/alemuller/tree-sitter-make")
-          (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-          (python "https://github.com/tree-sitter/tree-sitter-python")
-          (r "https://github.com/r-lib/tree-sitter-r")
-          (rust "https://github.com/tree-sitter/tree-sitter-rust")
-          (toml "https://github.com/tree-sitter/tree-sitter-toml")
-          (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
-          (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
-          (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-  (mapc #'treesit-install-language-grammar
-        (mapcar #'car treesit-language-source-alist))
-  )
+  (when (treesit-language-available-p 'c)
+    (push '("\\.c\\'" . c-ts-mode) auto-mode-alist))
+  (when (treesit-language-available-p 'cpp)
+    (push '("\\.cc\\'" . c++-ts-mode) auto-mode-alist)
+    (push '("\\.cpp\\'" . c++-ts-mode) auto-mode-alist))
+  (when (treesit-language-available-p 'python)
+    (push '("\\.py\\'" . python-ts-mode) auto-mode-alist))
+  (when (treesit-language-available-p 'rust)
+    (push '("\\.rs\\'" . rust-ts-mode) auto-mode-alist))
+  (when (treesit-language-available-p 'go)
+    (push '("\\.go\\'" . go-ts-mode) auto-mode-alist))
+  (when (treesit-language-available-p 'javascript)
+    (push '("\\.js\\'" . js-ts-mode) auto-mode-alist))
+  (when (treesit-language-available-p 'markdown)
+    (push '("\\.[mM][dD]\\'" . markdown-ts-mode) auto-mode-alist))
+  (when (treesit-language-available-p 'lua)
+    (push '("\\.lua\\'" . lua-ts-mode) auto-mode-alist)))
 
 ;; format-all
 (use-package format-all :ensure t :defer t
@@ -538,7 +516,9 @@
 (require 'core-shell)
 
 ;;; ido sort
-(use-package smex :ensure t :defer t)
+(use-package smex :ensure t
+  :config
+  (smex-initialize))
 
 ;;; wgrep
 (use-package wgrep :ensure t :defer t
@@ -632,10 +612,9 @@
 (prefer-coding-system 'utf-8-dos)
 (prefer-coding-system 'utf-8-unix)
 
-;; (when (eq system-type 'windows-nt)
-;;   (prefer-coding-system 'gbk)
-;;   (set-language-environment "gbk")
-;;   (set-default-coding-systems 'gbk))
+(when (eq system-type 'windows-nt)
+  (prefer-coding-system 'gbk)
+  (set-default-coding-systems 'gbk))
 
 ;;-------------------------------------------
 ;;; initialize end
