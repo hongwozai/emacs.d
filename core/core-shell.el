@@ -102,8 +102,9 @@
   (setq eshell-output-filter-functions
         (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
 
-(use-package xterm-color
-  :hook (eshell-mode . set-eshell-xterm-color))
+(unless (eq system-type 'windows-nt)
+  (use-package xterm-color
+    :hook (eshell-mode . set-eshell-xterm-color)))
 
 ;;; use eshell
 (defun multi-eshell ()
@@ -206,6 +207,13 @@
               (define-key vterm-mode-map (kbd "M-o") 'other-window)
               (core/auto-exit)
               (local-set-key [escape] 'vterm--self-insert))))
+
+;;-------------------------------------------
+;;; powershell
+;;-------------------------------------------
+(use-package powershell
+  :if (eq system-type 'windows-nt)
+  :ensure t)
 
 
 (provide 'core-shell)

@@ -10,6 +10,9 @@
 (when (eql system-type 'gnu/linux)
   (set-face-attribute 'default nil :font "DejaVu Sans Mono Bold 16"))
 
+(when (eq system-type 'windows-nt)
+  (set-face-attribute 'default nil :font "DejaVu Sans Mono Bold 16"))
+
 ;; startup message
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
@@ -629,10 +632,10 @@
 (prefer-coding-system 'utf-8-dos)
 (prefer-coding-system 'utf-8-unix)
 
-(when (eq system-type 'windows-nt)
-  (prefer-coding-system 'gbk)
-  (set-language-environment "gbk")
-  (set-default-coding-systems 'gbk))
+;; (when (eq system-type 'windows-nt)
+;;   (prefer-coding-system 'gbk)
+;;   (set-language-environment "gbk")
+;;   (set-default-coding-systems 'gbk))
 
 ;;-------------------------------------------
 ;;; initialize end
@@ -643,8 +646,9 @@
   (load custom-file))
 
 ;;; server start
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+(unless (eq system-type 'windows-nt)
+ (require 'server)
+ (unless (server-running-p)
+   (server-start)))
 
 (provide 'init)
