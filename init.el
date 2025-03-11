@@ -384,7 +384,7 @@
 
   ;; set initial state
   (dolist (mode '(occur-mode
-                  special-mode
+                  special-mode diff-mode
                   help-mode message-mode
                   xref--xref-buffer-mode))
     (evil-set-initial-state mode 'emacs))
@@ -432,8 +432,6 @@
   ;; bind evil-args text objects
   (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
   (define-key evil-outer-text-objects-map "a" 'evil-outer-arg))
-
-(use-package evil-matchit :ensure t :after evil)
 
 ;;-------------------------------------------
 ;;; program
@@ -497,10 +495,9 @@
     (push '("\\.go\\'" . go-ts-mode) auto-mode-alist))
   (when (treesit-language-available-p 'javascript)
     (push '("\\.js\\'" . js-ts-mode) auto-mode-alist))
-  (when (treesit-language-available-p 'markdown)
-    (push '("\\.[mM][dD]\\'" . markdown-ts-mode) auto-mode-alist))
-  (when (treesit-language-available-p 'lua)
-    (push '("\\.lua\\'" . lua-ts-mode) auto-mode-alist)))
+  (when (treesit-language-available-p 'json)
+    (push '("\\.json\\'" . json-ts-mode) auto-mode-alist))
+  )
 
 ;; format-all
 (use-package format-all :ensure t :defer t
@@ -533,7 +530,10 @@
 (use-package magit :ensure t :defer t)
 
 ;;; ffip
-(use-package find-file-in-project :ensure t)
+(use-package find-file-in-project :ensure t
+  :config
+  (when (executable-find "fd")
+    (setq ffip-use-rust-fd t)))
 
 ;;; winum
 (use-package winum :ensure t
@@ -547,6 +547,9 @@
 
 ;;; markdown
 (use-package markdown-mode :ensure t :defer t)
+
+;;; lua
+(use-package lua-mode :ensure t :defer t)
 
 ;;; exec-path-from-shell
 (when *is-mac*
@@ -612,9 +615,10 @@
 (prefer-coding-system 'utf-8-dos)
 (prefer-coding-system 'utf-8-unix)
 
-(when (eq system-type 'windows-nt)
-  (prefer-coding-system 'gbk)
-  (set-default-coding-systems 'gbk))
+;;; only a little
+;; (when (eq system-type 'windows-nt)
+;;   (prefer-coding-system 'gbk)
+;;   (set-default-coding-systems 'gbk))
 
 ;;-------------------------------------------
 ;;; initialize end
@@ -626,8 +630,8 @@
 
 ;;; server start
 (unless (eq system-type 'windows-nt)
- (require 'server)
- (unless (server-running-p)
-   (server-start)))
+  (require 'server)
+  (unless (server-running-p)
+    (server-start)))
 
 (provide 'init)

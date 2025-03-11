@@ -30,6 +30,14 @@
     (when process
       (set-process-sentinel process 'core--exit-prompt))))
 
+;;; autoload shell-header
+(autoload 'shell-header-mode "shell-header-mode" nil t)
+(autoload 'shell-header-next "shell-header-mode" nil t)
+(autoload 'shell-header-prev "shell-header-mode" nil t)
+
+(when (featurep 'evil)
+ (define-key evil-normal-state-map (kbd "M-[") 'shell-header-prev)
+ (define-key evil-normal-state-map (kbd "M-]") 'shell-header-next))
 ;;-------------------------------------------
 ;;; comint
 ;;-------------------------------------------
@@ -83,6 +91,7 @@
             (define-key eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
             (define-key eshell-mode-map (kbd "C-u") 'eshell-kill-input)
             (define-key eshell-mode-map (kbd "C-l") 'eshell/clear)
+            (define-key eshell-mode-map (kbd "M-o") 'other-window)
             (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)
             (define-key eshell-mode-map (kbd "TAB")   'completion-at-point)
             (define-key eshell-mode-map (kbd "<C-backspace>") 'eshell-backward-kill-word)
@@ -131,7 +140,7 @@
   (interactive)
   (if buffer
       (switch-to-buffer buffer)
-    (call-interactively #'switch-buffer)))
+    (call-interactively #'switch-to-buffer)))
 
 (defun eshell/bo (&optional buffer)
   (interactive)
@@ -142,11 +151,6 @@
 ;;-------------------------------------------
 ;;; term
 ;;-------------------------------------------
-;;; autoload
-(autoload 'shell-header-mode "shell-header-mode" nil t)
-(autoload 'shell-header-next "shell-header-mode" nil t)
-(autoload 'shell-header-prev "shell-header-mode" nil t)
-
 ;; term
 (add-hook 'term-mode-hook
           (lambda ()
