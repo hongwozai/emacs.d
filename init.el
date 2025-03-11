@@ -341,7 +341,6 @@
             (setq-local comment-end   " */")))
 
 ;;; python
-(setq python-shell-interpreter "python3")
 
 ;;-------------------------------------------
 ;;; package initialize
