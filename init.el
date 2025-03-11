@@ -131,12 +131,17 @@
               grep-scroll-output          nil
               grep-use-null-device        nil)
 
-(setq grep-command
-      (cond ((executable-find "rg") "rg --no-heading -w ")
-            ((executable-find "ag") "ag --nogroup --noheading ")
-            (t "grep --binary-files=without-match -nH -r -E -e ")))
+(defun core--grep ()
+  (interactive)
+  (let ((command
+         (cond ((locate-dominating-file default-directory ".git") "git grep -n ")
+               ((executable-find "rg") "rg -n --no-heading -w ")
+               ((executable-find "ag") "ag --nogroup --noheading ")
+               (t "grep --binary-files=without-match -nH -r -E -e "))))
+    (grep-apply-setting 'grep-command command)
+    (call-interactively #'grep)))
 
-(global-set-key (kbd "C-s") 'grep)
+(global-set-key (kbd "C-s") 'core--grep)
 
 ;;-------------------------------------------
 ;;; tramp
