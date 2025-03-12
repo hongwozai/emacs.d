@@ -471,8 +471,9 @@
   )
 
 ;;; multi edit
-(define-key prog-mode-map (kbd "C-;") 'iedit-mode)
-(use-package iedit :ensure t :defer t)
+(use-package iedit :ensure t :defer t
+  :config
+  (define-key prog-mode-map (kbd "C-;") 'iedit-mode))
 
 ;; gtags
 (use-package gtags-mode :ensure t :defer t
@@ -573,6 +574,16 @@
 ;;; consult
 (use-package consult
   :config
+  (global-set-key (kbd "C-s")
+                  (lambda () (interactive)
+                    (cond
+                     ((locate-dominating-file default-directory ".git")
+                      (call-interactively #'consult-git-grep))
+                     ((executable-find "rg")
+                      (call-interactively #'consult-ripgrep))
+                     ((executable-find "grep")
+                      (call-interactively #'consult-grep))
+                     (t (call-interactively #'core--grep)))))
   (define-key evil-normal-state-map (kbd "gb") 'consult-buffer)
   (define-key evil-normal-state-map (kbd "gi") 'consult-imenu)
   )
