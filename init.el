@@ -398,9 +398,14 @@
   ;; set initial state
   (dolist (mode '(occur-mode
                   special-mode diff-mode
-                  help-mode message-mode
+                  message-mode
                   xref--xref-buffer-mode))
     (evil-set-initial-state mode 'emacs))
+
+  (evil-set-initial-state 'help-mode 'motion)
+  (evil-define-key 'motion help-mode-map
+    (kbd "TAB") 'forward-button
+    (kbd "S-TAB") 'backward-button)
 
   ;; configure
   (setq-default evil-move-cursor-back t)
