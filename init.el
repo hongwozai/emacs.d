@@ -1,6 +1,23 @@
 ;;; -*- coding: utf-8 -*-
 
 ;;-------------------------------------------
+;;; custom variable
+;;-------------------------------------------
+;;; set user home
+(setq user-home-directory
+      (file-name-as-directory (expand-file-name "~")))
+
+;;; startup default directory
+(setq default-directory user-home-directory)
+
+;;; add sub directory to load-path
+(dolist (name '("core" "site-lisp"))
+  (add-to-list 'load-path
+               (expand-file-name name user-emacs-directory)))
+
+(setq *is-mac* (eql system-type 'darwin))
+
+;;-------------------------------------------
 ;;; custom ui
 ;;-------------------------------------------
 (defun set-graphic-font (dfl ch)
@@ -102,7 +119,7 @@
 ;;; minibuffer
 (setq minibuffer-message-timeout 2)
 
-(define-key minibuffer-mode-map (kbd "M-i")
+(define-key minibuffer-local-map (kbd "M-i")
             (lambda () (interactive)
               (let ((sym (with-selected-window (minibuffer-selected-window)
                            (symbol-at-point))))
@@ -260,7 +277,10 @@
 ;;-------------------------------------------
 ;;; interactive
 ;;-------------------------------------------
-(fido-vertical-mode t)
+(if (version< emacs-version "29.0")
+    (progn (ido-mode t)
+           (ido-everywhere 1))
+  (fido-vertical-mode t))
 ;;; TODO: (kbd "C-v") (kbd "M-v") (kbd "M-o")
 
 ;;-------------------------------------------
@@ -455,9 +475,7 @@
 ;;; program
 ;;-------------------------------------------
 ;;; completion
-(use-package company
-  :ensure t
-  :defer t
+(use-package company :ensure t :defer t
   :hook (after-init . global-company-mode)
   :config
   ;; can't work with TRAMP
@@ -530,11 +548,6 @@
 ;;-------------------------------------------
 ;;; shell
 (require 'core-shell)
-
-;;; ido sort
-(use-package smex :ensure t
-  :config
-  (smex-initialize))
 
 ;;; wgrep
 (use-package wgrep :ensure t :defer t
@@ -644,10 +657,8 @@
 (prefer-coding-system 'utf-8-dos)
 (prefer-coding-system 'utf-8-unix)
 
-;;; only a little
-;; (when (eq system-type 'windows-nt)
-;;   (prefer-coding-system 'gbk)
-;;   (set-default-coding-systems 'gbk))
+(when (eq system-type 'windows-nt)
+  (prefer-coding-system 'gbk))
 
 ;;-------------------------------------------
 ;;; initialize end
