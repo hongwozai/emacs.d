@@ -3,6 +3,14 @@
 ;;-------------------------------------------
 ;;; custom ui
 ;;-------------------------------------------
+(defun set-graphic-font (dfl ch)
+  (when (display-graphic-p)
+    (set-face-attribute 'default nil
+                        :font (format "%s %d" (car dfl) (cdr dfl)))
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font (frame-parameter nil 'font) charset
+                        (font-spec :family (car ch)  :size (cdr ch))))))
+
 (when *is-mac*
   (set-face-attribute 'default nil :font "Menlo 18")
   (setq mac-option-modifier 'meta))
@@ -11,7 +19,8 @@
   (set-face-attribute 'default nil :font "DejaVu Sans Mono Bold 16"))
 
 (when (eq system-type 'windows-nt)
-  (set-face-attribute 'default nil :font "DejaVu Sans Mono Bold 16"))
+  (set-graphic-font '("DejaVu Sans Mono Bold" . 16)
+                    '("微软雅黑" . 20)))
 
 ;; startup message
 (setq use-file-dialog nil)
