@@ -314,6 +314,9 @@
             (prettify-symbols-mode t)
             ))
 
+;;; eldoc
+(setq eldoc-echo-area-use-multiline-p 3)
+
 ;;; builtin mode install
 (setq auto-mode-alist
       (append
@@ -416,12 +419,14 @@
   (evil-mode t)
 
   ;; set initial state
-  (dolist (mode '(occur-mode
-                  special-mode diff-mode
-                  message-mode
-                  xref--xref-buffer-mode))
+  (dolist (mode '(occur-mode diff-mode message-mode
+                             xref--xref-buffer-mode))
     (evil-set-initial-state mode 'emacs))
 
+  ;; special
+  (evil-set-initial-state 'special-mode 'motion)
+
+  ;; help-mode
   (evil-set-initial-state 'help-mode 'motion)
   (evil-define-key 'motion help-mode-map
     (kbd "TAB") 'forward-button
