@@ -220,4 +220,4 @@
   :ensure t)
 
 
-(provide 'core-shell)
+(provide 'shell-config)

@@ -11,11 +11,12 @@
 (setq default-directory user-home-directory)
 
 ;;; add sub directory to load-path
-(dolist (name '("core" "site-lisp"))
+(dolist (name '("site-lisp"))
   (add-to-list 'load-path
                (expand-file-name name user-emacs-directory)))
 
 (setq *is-mac* (eql system-type 'darwin))
+(setq *is-win* (eql system-type 'windows-nt))
 
 ;;-------------------------------------------
 ;;; custom ui
@@ -32,10 +33,10 @@
   (set-face-attribute 'default nil :font "Menlo 18")
   (setq mac-option-modifier 'meta))
 
-(when (eql system-type 'gnu/linux)
+(when (eq system-type 'gnu/linux)
   (set-face-attribute 'default nil :font "DejaVu Sans Mono Bold 16"))
 
-(when (eq system-type 'windows-nt)
+(when *is-win*
   (set-graphic-font '("DejaVu Sans Mono Bold" . 16)
                     '("微软雅黑" . 20)))
 
@@ -55,31 +56,49 @@
 (when (boundp 'menu-bar-mode)
   (menu-bar-mode -1))
 
-;; modeline
-(setq-default mode-line-format
-              '("%e"
-                " "
-                (:eval (when (featurep 'winum-mode)
-                         (winum-get-number-string)))
-                mode-line-front-space
-                mode-line-mule-info
-                mode-line-client
-                mode-line-modified
-                mode-line-remote
-                ;; vim state
-                (:eval (when (featurep 'evil) evil-mode-line-tag))
-                ;; line and column
-                "[" "%02l" "," "%01c" "] "
-                mode-line-frame-identification
-                mode-line-buffer-identification
-                (vc-mode vc-mode)
-                "  "
-                mode-line-modes
-                mode-line-misc-info
-                mode-line-end-spaces))
-
 ;; theme
 (load-theme 'leuven t)
+
+;; modeline
+(setq mode-line-format
+      '("%e"
+        " "
+        (:eval (when (featurep 'winum-mode)
+                 (winum-get-number-string)))
+        mode-line-front-space
+        mode-line-mule-info
+        mode-line-client
+        mode-line-modified
+        mode-line-remote
+        ;; vim state
+        (:eval (when (featurep 'evil) evil-mode-line-tag))
+        ;; line and column
+        "[" "%02l" "," "%01c" "] "
+        mode-line-frame-identification
+        mode-line-buffer-identification
+        "["
+        (:eval (if-let (proj (project-current))
+                   (project-name proj)))
+        (vc-mode vc-mode)
+        "]"
+        "  "
+        mode-line-modes
+        mode-line-misc-info
+        mode-line-end-spaces))
+
+;;; purge minor mode
+(defvar show-minor-modes '(iedit-mode flymake-mode vc-dir-git-mode))
+
+(defun purge-minor-modes ()
+  (setf minor-mode-alist
+        (mapcar
+         #'(lambda (x)
+             (if (member (car x) show-minor-modes)
+                 x
+               (list (car x) "")))
+         minor-mode-alist)))
+
+(add-hook 'after-change-major-mode-hook 'purge-minor-modes)
 
 ;;-------------------------------------------
 ;;; basic option
@@ -117,15 +136,7 @@
 (require 'uniquify)
 
 ;;; minibuffer
-(setq minibuffer-message-timeout 2)
-
-(define-key minibuffer-local-map (kbd "M-i")
-            (lambda () (interactive)
-              (let ((sym (with-selected-window (minibuffer-selected-window)
-                           (symbol-at-point))))
-                (with-current-buffer (current-buffer)
-                  (insert (format "%s" (or sym "")))))))
-
+(setq minibuffer-message-timeout nil)
 
 ;; Auto refresh buffers, dired revert have bugs.
 ;;; remote file revert have bugs.
@@ -142,6 +153,10 @@
                         "GTAGS" "TAGS" "^tags$" ".*pyim.*"))
 (add-hook 'after-init-hook #'recentf-mode)
 
+;; open files
+(global-set-key (kbd "M-g r") 'recentf-open)
+(global-set-key (kbd "M-g o") 'find-file-other-window)
+
 ;;; cursor
 (blink-cursor-mode 0)
 
@@ -157,23 +172,14 @@
               grep-scroll-output          nil
               grep-use-null-device        nil)
 
-(defun core--grep ()
-  (interactive)
-  (let ((command
-         (cond ((locate-dominating-file default-directory ".git") "git grep -n ")
-               ((executable-find "rg") "rg -n --no-heading -w ")
-               ((executable-find "ag") "ag --nogroup --noheading ")
-               (t "grep --binary-files=without-match -nH -r -E -e "))))
-    (grep-apply-setting 'grep-command command)
-    (call-interactively #'grep)))
-
-(global-set-key (kbd "C-s") 'core--grep)
-
 ;;-------------------------------------------
 ;;; tramp
 ;;-------------------------------------------
 ;;; ssh is faster than scp. scpx or sshx. see Tramp hangs
-(setq tramp-default-method "ssh")
+(if (and *is-win* (executable-find "plink"))
+    (setq tramp-default-method "plink")
+  (setq tramp-default-method "ssh"))
+
 (setq tramp-verbose 2)
 (setq tramp-connection-timeout 20)
 
@@ -193,6 +199,7 @@
 ;;; dired
 ;;-------------------------------------------
 (with-eval-after-load 'dired
+  (require 'dired-x)
   ;; diredp
   (setq dired-recursive-copies   'always)
   (setq dired-recursive-deletes  'always)
@@ -203,7 +210,7 @@
     (setq dired-listing-switches "-aluh --time-style=iso"))
 
   ;; key
-  (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
+  (define-key dired-mode-map (kbd ")") 'dired-omit-mode)
   (define-key dired-mode-map [mouse-2] 'dired-find-file)
   (define-key dired-mode-map "n" 'evil-search-next)
   (define-key dired-mode-map "N" 'evil-search-previous)
@@ -211,15 +218,11 @@
 
 (add-hook 'dired-mode-hook
           (lambda ()
-            (require 'dired-x)
             (setq-local truncate-lines t)
-            (setq-local dired-omit-files
-                        "^\\.?#\\|^\\.$\\|^\\.[^.].+$")
             (setq dired-omit-verbose nil)
             (dired-omit-mode)
             (dired-hide-details-mode 1)
-            (hl-line-mode 1)
-            (define-key dired-mode-map "F" 'ffip)))
+            (hl-line-mode 1)))
 
 ;;-------------------------------------------
 ;;; buffer
@@ -242,27 +245,67 @@
 ;;-------------------------------------------
 ;;; search
 ;;-------------------------------------------
-(defun core--isearch-insert (query)
+(defun --region-or-point (thing)
+  (if (use-region-p)
+      (buffer-substring-no-properties
+       (region-beginning) (region-end))
+    (thing-at-point thing t)))
+
+(defun --minibuffer-insert-at-point ()
+  (interactive)
+  (let ((sym (with-selected-window (minibuffer-selected-window)
+               (--region-or-point 'symbol))))
+    (with-current-buffer (current-buffer)
+      (insert (format "%s" (or sym ""))))))
+
+(defun --isearch-insert-at-point ()
   "Pull next word from buffer into search string."
   (interactive)
-  (setq isearch-message (concat isearch-message query))
-  (setq isearch-string (concat isearch-string query))
-  (isearch-push-state)
-  (isearch-update))
+  (let ((query (with-current-buffer (current-buffer)
+                 (format "%s" (--region-or-point 'symbol)))))
+    (isearch-yank-string query)))
 
+(defun --occur-at-point ()
+  (interactive)
+  (let ((query (--region-or-point 'symbol)))
+    (occur query)
+    (switch-to-buffer-other-window "*Occur*")))
+
+(defun --project-grep (query)
+  (interactive
+   (list (read-shell-command
+          "Project Grep: "
+          (--region-or-point 'symbol))))
+  (let* ((root (project-root (project-current)))
+         (path (file-relative-name root default-directory))
+         (is-git (locate-dominating-file default-directory ".git")))
+    (cond
+     (is-git
+      (grep (format "git --no-pager grep -n -i -e \"%s\" %s" query path)))
+     ((executable-find "rg")
+      (grep (format "rg -n --no-heading -w \"%s\" %s" query path)))
+     (t (grep
+         (format
+          "grep --binary-files=without-match -nH -r -E -e \"%s\" %s"
+          query path))))
+    (switch-to-buffer-other-window "*grep*")))
+
+;; current buffer search
+(define-key minibuffer-local-map (kbd "M-.") '--minibuffer-insert-at-point)
+(define-key isearch-mode-map (kbd "M-.") '--isearch-insert-at-point)
 (define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
-(define-key isearch-mode-map (kbd "SPC")
-            (lambda () (interactive) (core--isearch-insert ".*?")))
-(define-key isearch-mode-map (kbd "M-i")
-            (lambda () (interactive)
-              (core--isearch-insert
-               (with-current-buffer (current-buffer)
-                 (format "%s" (symbol-at-point))))))
+
+;; current buffer occur
+(global-set-key (kbd "M-s o") '--occur-at-point)
+(global-set-key (kbd "M-s O") 'occur)
+
+;; current project grep
+(global-set-key (kbd "M-s g") '--project-grep)
 
 ;;-------------------------------------------
 ;;; highlight
 ;;-------------------------------------------
-(defun core--highlight-symbol ()
+(defun --highlight-symbol ()
   (interactive)
   (require 'hi-lock)
   (let ((regexp (find-tag-default-as-symbol-regexp)))
@@ -270,9 +313,12 @@
         (unhighlight-regexp regexp)
       (highlight-symbol-at-point))))
 
-(defun core--unhighlight-all-symbol ()
+(defun --unhighlight-all-symbol ()
   (interactive)
   (unhighlight-regexp t))
+
+(global-set-key [remap highlight-symbol-at-point] '--highlight-symbol)
+(global-set-key (kbd "M-s h U") '--unhighlight-all-symbol)
 
 ;;-------------------------------------------
 ;;; interactive
@@ -280,7 +326,8 @@
 (if (version< emacs-version "29.0")
     (progn (ido-mode t)
            (ido-everywhere 1))
-  (fido-vertical-mode t))
+  (progn
+    (fido-vertical-mode t)))
 ;;; TODO: (kbd "C-v") (kbd "M-v") (kbd "M-o")
 
 ;;-------------------------------------------
@@ -297,10 +344,11 @@
 ;; (setq compilation-auto-jump-to-first-error t)
 (setq compilation-window-height 14)
 (setq compilation-scroll-output t)
-(setq compilation-finish-function nil)
-(setq compilation-environment '("TERM=xterm-256color"))
+(unless *is-win*
+  (setq compilation-environment '("TERM=xterm-256color")))
 
 ;;; imenu
+(require 'imenu-flatter)
 (setq imenu-flatten 'prefix)
 
 ;;; programming mode
@@ -341,17 +389,12 @@
        auto-mode-alist))
 
 ;; lisp
-(autoload 'enable-paredit-mode "paredit" nil t)
-
 (dolist (hook '(emacs-lisp-mode-hook
                 ielm-mode-hook
-                ;; eval-expression-minibuffer-setup-hook
+                eval-expression-minibuffer-setup-hook
                 scheme-mode-hook))
   (add-hook hook
             (lambda ()
-              (when (package-installed-p 'paredit)
-                (require 'paredit)
-                (enable-paredit-mode))
               (setq-local show-paren-style 'expression))))
 
 ;;; cc
@@ -445,25 +488,7 @@
   (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
   (define-key evil-ex-completion-map (kbd "C-f") 'forward-char)
   (define-key evil-normal-state-map (kbd "C-w u") 'winner-undo)
-  (define-key evil-normal-state-map (kbd "gr") 'recentf-open)
-  (define-key evil-normal-state-map (kbd "gb") 'switch-to-buffer)
-  (define-key evil-normal-state-map (kbd "gl") 'ibuffer)
-  (define-key evil-normal-state-map (kbd "gc") 'translate-brief-at-point)
-  (define-key evil-normal-state-map (kbd "gi") 'imenu)
-  (define-key evil-normal-state-map (kbd "go") 'find-file-other-window)
-  (define-key evil-normal-state-map (kbd "gf")
-              (lambda () (interactive)
-                (if (featurep 'find-file-in-project)
-                    (ffip)
-                  (call-interactively #'find-file))))
-  (define-key evil-normal-state-map (kbd "gs")
-              (lambda () (interactive)
-                (occur (format "%s" (symbol-at-point)))
-                (switch-to-buffer-other-window "*Occur*")))
-
-  (define-key evil-normal-state-map (kbd "m") nil)
-  (define-key evil-normal-state-map (kbd "mm") 'core--highlight-symbol)
-  (define-key evil-normal-state-map (kbd "mu") 'core--unhighlight-all-symbol)
+  (define-key evil-normal-state-map (kbd "C-p") project-prefix-map)
   )
 
 (use-package evil-surround :ensure t :after evil
@@ -497,6 +522,11 @@
   (setq company-global-modes
         '(not gud-mode shell-mode eshell-mode term-mode))
   )
+
+;; jump windows
+(use-package ace-window :ensure t :defer t
+  :config
+  (global-set-key (kbd "M-o") 'ace-window))
 
 ;;; multi edit
 (use-package iedit :ensure t :defer t
@@ -545,14 +575,11 @@
 (use-package format-all :ensure t :defer t
   :hook (prog-mode . format-all-mode))
 
-;; lisp pair paredit
-(use-package paredit :ensure t :defer t)
-
 ;;-------------------------------------------
 ;;; misc
 ;;-------------------------------------------
 ;;; shell
-(require 'core-shell)
+(require 'shell-config)
 
 ;;; wgrep
 (use-package wgrep :ensure t :defer t
@@ -566,22 +593,6 @@
 ;;; git
 (use-package magit :ensure t :defer t)
 
-;;; ffip
-(use-package find-file-in-project :ensure t
-  :config
-  (when (executable-find "fd")
-    (setq ffip-use-rust-fd t)))
-
-;;; winum
-(use-package winum :ensure t
-  :config
-  (winum-mode t)
-  (global-set-key (kbd "M-0") 'winum-select-window-0)
-  (global-set-key (kbd "M-1") 'winum-select-window-1)
-  (global-set-key (kbd "M-2") 'winum-select-window-2)
-  (global-set-key (kbd "M-3") 'winum-select-window-3)
-  (global-set-key (kbd "M-4") 'winum-select-window-4))
-
 ;;; markdown
 (use-package markdown-mode :ensure t :defer t)
 
@@ -593,31 +604,6 @@
   (use-package exec-path-from-shell :ensure t
     :config
     (exec-path-from-shell-initialize)))
-
-;;; consult
-(use-package consult
-  :config
-  (global-set-key (kbd "C-s")
-                  (lambda () (interactive)
-                    (cond
-                     ((locate-dominating-file default-directory ".git")
-                      (call-interactively #'consult-git-grep))
-                     ((executable-find "rg")
-                      (call-interactively #'consult-ripgrep))
-                     ((executable-find "grep")
-                      (call-interactively #'consult-grep))
-                     (t (call-interactively #'core--grep)))))
-  (define-key evil-normal-state-map (kbd "gb") 'consult-buffer)
-  (define-key evil-normal-state-map (kbd "gi") 'consult-imenu)
-  )
-
-;;; avy
-(use-package avy
-  :config
-  (define-key evil-normal-state-map (kbd "M-o") 'avy-goto-line)
-  ;; TODO: avy-goto-char-2
-  (define-key evil-normal-state-map (kbd "C-M-o") 'avy-goto-word-0)
-  )
 
 ;;-------------------------------------------
 ;;; chinese
@@ -643,13 +629,12 @@
 
 (defun translate-brief-at-point ()
   (interactive)
-  (let ((word (if (use-region-p)
-                  (buffer-substring-no-properties
-                   (region-beginning) (region-end))
-                (thing-at-point 'word t))))
+  (let ((word (--region-or-point 'word)))
     (if word
         (bing-dict-brief word)
       (message "No Word."))))
+
+(global-set-key (kbd "M-s c") 'translate-brief-at-point)
 
 ;; emacs sometimes can't reconginze gbk
 ;; set coding config, last is highest priority.
@@ -662,7 +647,7 @@
 (prefer-coding-system 'utf-8-dos)
 (prefer-coding-system 'utf-8-unix)
 
-(when (eq system-type 'windows-nt)
+(when *is-win*
   (prefer-coding-system 'gbk))
 
 ;;-------------------------------------------
