@@ -60,31 +60,31 @@
 (load-theme 'leuven t)
 
 ;; modeline
-(setq mode-line-format
-      '("%e"
-        " "
-        (:eval (when (featurep 'winum-mode)
-                 (winum-get-number-string)))
-        mode-line-front-space
-        mode-line-mule-info
-        mode-line-client
-        mode-line-modified
-        mode-line-remote
-        ;; vim state
-        (:eval (when (featurep 'evil) evil-mode-line-tag))
-        ;; line and column
-        "[" "%02l" "," "%01c" "] "
-        mode-line-frame-identification
-        mode-line-buffer-identification
-        "["
-        (:eval (if-let (proj (project-current))
-                   (project-name proj)))
-        (vc-mode vc-mode)
-        "]"
-        "  "
-        mode-line-modes
-        mode-line-misc-info
-        mode-line-end-spaces))
+(setq-default mode-line-format
+              '("%e"
+                " "
+                (:eval (when (featurep 'winum-mode)
+                         (winum-get-number-string)))
+                mode-line-front-space
+                mode-line-mule-info
+                mode-line-client
+                mode-line-modified
+                mode-line-remote
+                ;; vim state
+                (:eval (when (featurep 'evil) evil-mode-line-tag))
+                ;; line and column
+                "[" "%02l" "," "%01c" "] "
+                mode-line-frame-identification
+                mode-line-buffer-identification
+                "["
+                (:eval (if-let (proj (project-current))
+                           (project-name proj)))
+                (vc-mode vc-mode)
+                "]"
+                "  "
+                mode-line-modes
+                mode-line-misc-info
+                mode-line-end-spaces))
 
 ;;; purge minor mode
 (defvar show-minor-modes '(iedit-mode flymake-mode vc-dir-git-mode))
