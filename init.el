@@ -441,6 +441,11 @@
         ;; ("melpa-stable" . "https://mirrors.tencent.com/elpa/melpa-stable")
         ))
 
+;; (setq package-archives
+;;       '(("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/")
+;;         ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
+;;         ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
+
 (unless (bound-and-true-p package--initialized)
   (package-initialize))
 
@@ -524,12 +529,12 @@
   )
 
 ;; jump windows
-(use-package ace-window :ensure t :defer t
+(use-package ace-window :ensure t
   :config
   (global-set-key (kbd "M-o") 'ace-window))
 
 ;;; multi edit
-(use-package iedit :ensure t :defer t
+(use-package iedit :ensure t
   :config
   (define-key prog-mode-map (kbd "C-;") 'iedit-mode))
 
@@ -658,10 +663,7 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-;;; server start
-(unless (eq system-type 'windows-nt)
-  (require 'server)
-  (unless (server-running-p)
-    (server-start)))
+(when (daemonp)
+  (load "~/.emacs.d/run-server.el"))
 
 (provide 'init)

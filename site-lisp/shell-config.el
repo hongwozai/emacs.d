@@ -111,8 +111,8 @@
   (setq eshell-output-filter-functions
         (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
 
-(unless (eq system-type 'windows-nt)
-  (use-package xterm-color
+(unless *is-win*
+  (use-package xterm-color :ensure t
     :hook (eshell-mode . set-eshell-xterm-color)))
 
 ;;; use eshell
