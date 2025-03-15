@@ -18,6 +18,9 @@
 (setq *is-mac* (eql system-type 'darwin))
 (setq *is-win* (eql system-type 'windows-nt))
 
+(setq debug-on-error t)
+(setq debug-on-quit nil)
+
 ;;-------------------------------------------
 ;;; custom ui
 ;;-------------------------------------------
@@ -57,7 +60,7 @@
   (menu-bar-mode -1))
 
 ;; theme
-(load-theme 'leuven t)
+(ignore-errors (load-theme 'leuven t))
 
 ;; modeline
 (setq-default mode-line-format
@@ -103,8 +106,6 @@
 ;;-------------------------------------------
 ;;; basic option
 ;;-------------------------------------------
-(setq debug-on-error nil)
-(setq debug-on-quit nil)
 (setq ad-redefinition-action 'accept)
 (setq enable-local-variables :all enable-local-eval t)
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -146,7 +147,6 @@
       auto-revert-verbose                 nil)
 
 ;;; recent files
-(require 'recentf)
 (setq recentf-filename-handlers 'abbreviate-file-name)
 (setq recentf-max-saved-items 100)
 (setq recentf-exclude '(".*\\.png$" ".*\\.gz$" ".*\\.jpg$"
@@ -220,6 +220,7 @@
           (lambda ()
             (setq-local truncate-lines t)
             (setq dired-omit-verbose nil)
+            (setq dired-omit-files "^\\.?#\\|^\\..?$\\|^\\.[^.]?.+$")
             (dired-omit-mode)
             (dired-hide-details-mode 1)
             (hl-line-mode 1)))
@@ -529,13 +530,13 @@
   )
 
 ;; jump windows
-(use-package ace-window :ensure t
-  :config
+(use-package ace-window :ensure t :defer t
+  :init
   (global-set-key (kbd "M-o") 'ace-window))
 
 ;;; multi edit
-(use-package iedit :ensure t
-  :config
+(use-package iedit :ensure t :defer t
+  :init
   (define-key prog-mode-map (kbd "C-;") 'iedit-mode))
 
 ;; gtags
@@ -557,7 +558,7 @@
 
 ;;; tree-sitter emacs29 builtin
 (use-package treesit
-  :if (treesit-available-p)
+  :if (and (featurep 'treesit) (treesit-available-p))
   :config
   (when (treesit-language-available-p 'c)
     (push '("\\.c\\'" . c-ts-mode) auto-mode-alist))
@@ -588,7 +589,7 @@
 
 ;;; wgrep
 (use-package wgrep :ensure t :defer t
-  :config
+  :init
   (setq wgrep-enable-key "r"))
 
 ;;; which key

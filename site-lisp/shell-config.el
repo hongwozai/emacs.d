@@ -111,7 +111,7 @@
   (setq eshell-output-filter-functions
         (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
 
-(unless *is-win*
+(unless (eq system-type 'windows-nt)
   (use-package xterm-color :ensure t
     :hook (eshell-mode . set-eshell-xterm-color)))
 
@@ -185,23 +185,18 @@
             (core--set-work-state)))
 
 ;; multi term
-(use-package multi-term :ensure t
-  :config
+(use-package multi-term :ensure t :defer t
+  :init
   (if *is-mac*
       (setq multi-term-program "/bin/zsh")
     (setq multi-term-program "/bin/bash"))
-
-  (defalias 'mt 'multi-term)
-  (autoload 'multi-term-prev "multi-term" nil t)
-  (autoload 'multi-term-next "multi-term" nil t)
-  (autoload 'multi-term      "multi-term" nil t)
-  )
+  (defalias 'mt 'multi-term))
 
 ;;-------------------------------------------
 ;;; vterm
 ;;-------------------------------------------
 (use-package vterm :ensure t :defer t
-  :config
+  :init
   (evil-set-initial-state 'vterm-mode 'emacs)
   (defalias 'vt 'vterm)
   (add-hook 'vterm-mode-hook
@@ -217,7 +212,8 @@
 ;;-------------------------------------------
 (use-package powershell
   :if (eq system-type 'windows-nt)
-  :ensure t)
+  :ensure t
+  :defer t)
 
 
 (provide 'shell-config)
