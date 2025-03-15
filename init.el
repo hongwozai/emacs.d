@@ -615,8 +615,7 @@
 ;;; chinese
 ;;-------------------------------------------
 (use-package pyim :ensure t :defer t
-  :config
-  (require 'pyim)
+  :init
   (setq default-input-method "pyim")
   (setq pyim-default-scheme 'quanpin)
   (setq pyim-page-length 9)
@@ -628,7 +627,6 @@
 (use-package pyim-basedict :ensure t :defer t
   :after pyim
   :config
-  (require 'pyim-basedict)
   (pyim-basedict-enable))
 
 (use-package bing-dict :ensure t :defer t)
@@ -665,6 +663,9 @@
   (load custom-file))
 
 (when (daemonp)
-  (load "~/.emacs.d/run-server.el"))
+  (add-hook 'server-after-make-frame-hook
+            (lambda ()
+              (set-graphic-font '("DejaVu Sans Mono Bold" . 16)
+                                '("微软雅黑" . 20)))))
 
 (provide 'init)
