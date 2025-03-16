@@ -18,9 +18,12 @@
 (setq *is-mac* (eql system-type 'darwin))
 (setq *is-win* (eql system-type 'windows-nt))
 
-(setq debug-on-error t)
+(setq debug-on-error nil)
 (setq debug-on-quit nil)
 
+(let ((f (expand-file-name "variables.el" user-emacs-directory)))
+  (when (file-exists-p f)
+    (load f)))
 ;;-------------------------------------------
 ;;; custom ui
 ;;-------------------------------------------
@@ -160,7 +163,7 @@
 ;;; cursor
 (blink-cursor-mode 0)
 
-;;; syntax hightlight
+;;; syntax highlight
 (global-font-lock-mode t)
 
 ;;; show pair
@@ -168,7 +171,7 @@
 (setq show-paren-style 'parenthesis)
 
 ;;; grep
-(setq-default grep-hightlight-matches     t
+(setq-default grep-highlight-matches      t
               grep-scroll-output          nil
               grep-use-null-device        nil)
 
@@ -244,7 +247,7 @@
 (winner-mode t)
 
 ;;-------------------------------------------
-;;; search
+;;; search/highlight
 ;;-------------------------------------------
 (defun --region-or-point (thing)
   (if (use-region-p)
@@ -291,6 +294,23 @@
           query path))))
     (switch-to-buffer-other-window "*grep*")))
 
+(defun --highlight-symbol ()
+  (interactive)
+  (require 'hi-lock)
+  (let ((regexp (find-tag-default-as-symbol-regexp)))
+    (if (assoc regexp hi-lock-interactive-lighters)
+        (unhighlight-regexp regexp)
+      (highlight-symbol-at-point)
+      (push regexp regexp-search-ring))))
+
+(defun --unhighlight-all-symbol ()
+  (interactive)
+  (unhighlight-regexp t))
+
+(global-set-key [remap highlight-symbol-at-point] '--highlight-symbol)
+(global-set-key (kbd "M-s .") '--highlight-symbol)
+(global-set-key (kbd "M-s U") '--unhighlight-all-symbol)
+
 ;; current buffer search
 (define-key minibuffer-local-map (kbd "M-.") '--minibuffer-insert-at-point)
 (define-key isearch-mode-map (kbd "M-.") '--isearch-insert-at-point)
@@ -302,24 +322,6 @@
 
 ;; current project grep
 (global-set-key (kbd "M-s g") '--project-grep)
-
-;;-------------------------------------------
-;;; highlight
-;;-------------------------------------------
-(defun --highlight-symbol ()
-  (interactive)
-  (require 'hi-lock)
-  (let ((regexp (find-tag-default-as-symbol-regexp)))
-    (if (assoc regexp hi-lock-interactive-lighters)
-        (unhighlight-regexp regexp)
-      (highlight-symbol-at-point))))
-
-(defun --unhighlight-all-symbol ()
-  (interactive)
-  (unhighlight-regexp t))
-
-(global-set-key [remap highlight-symbol-at-point] '--highlight-symbol)
-(global-set-key (kbd "M-s h U") '--unhighlight-all-symbol)
 
 ;;-------------------------------------------
 ;;; interactive
@@ -432,21 +434,6 @@
 ;; cancel package check signature
 (setq package-check-signature nil)
 
-;; offline package manager
-(setq package-archives
-      '(
-        ("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-        ("melpa"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-        ;; ("gnu"   . "http://elpa.gnu.org/elpa/gnu/")
-        ;; ("melpa" . "http://melpa.org/packages/")
-        ;; ("melpa-stable" . "https://mirrors.tencent.com/elpa/melpa-stable")
-        ))
-
-;; (setq package-archives
-;;       '(("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/")
-;;         ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
-;;         ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
-
 (unless (bound-and-true-p package--initialized)
   (package-initialize))
 
@@ -473,11 +460,14 @@
     (evil-set-initial-state mode 'emacs))
 
   ;; special
-  (evil-set-initial-state 'special-mode 'motion)
+  (dolist (mode '(special-mode help-mode info-mode))
+    (evil-set-initial-state mode 'motion))
 
-  ;; help-mode
-  (evil-set-initial-state 'help-mode 'motion)
+  ;; help/info
   (evil-define-key 'motion help-mode-map
+    (kbd "TAB") 'forward-button
+    (kbd "S-TAB") 'backward-button)
+  (evil-define-key 'motion info-mode-map
     (kbd "TAB") 'forward-button
     (kbd "S-TAB") 'backward-button)
 
@@ -648,24 +638,17 @@
 (prefer-coding-system 'cp936)
 (prefer-coding-system 'gb18030)
 (prefer-coding-system 'utf-16)
-(prefer-coding-system 'utf-8-dos)
-(prefer-coding-system 'utf-8-unix)
-
 (when *is-win*
   (prefer-coding-system 'gbk))
+(prefer-coding-system 'utf-8-dos)
+(prefer-coding-system 'utf-8-unix)
 
 ;;-------------------------------------------
 ;;; initialize end
 ;;-------------------------------------------
 ;; custom file
-(setq custom-file (expand-file-name ".custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
-
-(when (daemonp)
-  (add-hook 'server-after-make-frame-hook
-            (lambda ()
-              (set-graphic-font '("DejaVu Sans Mono Bold" . 16)
-                                '("微软雅黑" . 20)))))
+(let ((f (expand-file-name ".custom.el" user-emacs-directory)))
+  (when (file-exists-p f)
+    (load f)))
 
 (provide 'init)
