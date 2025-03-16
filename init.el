@@ -351,8 +351,9 @@
   (setq compilation-environment '("TERM=xterm-256color")))
 
 ;;; imenu
-(require 'imenu-flatter)
 (setq imenu-flatten 'prefix)
+(with-eval-after-load 'imenu
+  (require 'imenu-flatter))
 
 ;;; programming mode
 (add-hook 'prog-mode-hook

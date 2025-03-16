@@ -66,7 +66,7 @@
 (defalias 'esh       #'multi-eshell)
 (defalias 'eshell/e  #'find-file)
 (defalias 'eshell/em #'find-file)
-(defalias 'eshell/go #'find-file-other-window)
+(defalias 'eshell/fo #'find-file-other-window)
 (defalias 'eshell/vi #'find-file)
 (defalias 'eshell/vim #'find-file)
 (defalias 'eshell/d  #'dired)
