@@ -24,6 +24,9 @@
 (let ((f (expand-file-name "variables.el" user-emacs-directory)))
   (when (file-exists-p f)
     (load f)))
+
+;; custom file
+(setq custom-file (expand-file-name ".custom.el" user-emacs-directory))
 ;;-------------------------------------------
 ;;; custom ui
 ;;-------------------------------------------
@@ -613,12 +616,14 @@
 
   (when (package-installed-p 'posframe)
     (require 'posframe)
-    (setq pyim-page-tooltip 'posframe)))
+    (setq pyim-page-tooltip 'posframe))
 
-(use-package pyim-basedict :ensure t :defer t
-  :after pyim
   :config
-  (pyim-basedict-enable))
+  ;; pyim-tsinghua-dict
+  (when-let* ((file "site-lisp/pyim-dict.pyim")
+              (exists (file-exists-p file)))
+    (pyim-extra-dicts-add-dict
+     `(:name "tsinghua-dict-elpa" :file ,file :elpa t))))
 
 (use-package bing-dict :ensure t :defer t)
 
@@ -647,9 +652,5 @@
 ;;-------------------------------------------
 ;;; initialize end
 ;;-------------------------------------------
-;; custom file
-(let ((f (expand-file-name ".custom.el" user-emacs-directory)))
-  (when (file-exists-p f)
-    (load f)))
 
 (provide 'init)
