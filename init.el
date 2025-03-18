@@ -66,7 +66,7 @@
   (menu-bar-mode -1))
 
 ;; theme
-(ignore-errors (load-theme 'leuven t))
+(ignore-errors (load-theme 'leuven-dark t))
 
 ;; modeline
 (setq-default mode-line-format
@@ -404,6 +404,11 @@
             (lambda ()
               (setq-local show-paren-style 'expression))))
 
+;; elisp
+(add-hook emacs-lisp-mode-hook
+          (lambda ()
+            (define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)))
+
 ;;; cc
 (setq-default c-default-style '((c-mode    . "linux")
                                 (c++-mode  . "linux")
@@ -459,21 +464,25 @@
   (evil-mode t)
 
   ;; set initial state
-  (dolist (mode '(occur-mode diff-mode message-mode
-                             xref--xref-buffer-mode))
+  (dolist (mode '(occur-mode diff-mode xref--xref-buffer-mode))
     (evil-set-initial-state mode 'emacs))
 
   ;; special
-  (dolist (mode '(special-mode help-mode info-mode))
+  (dolist (mode '(special-mode help-mode Info-mode
+                               Message-mode))
     (evil-set-initial-state mode 'motion))
 
   ;; help/info
   (evil-define-key 'motion help-mode-map
     (kbd "TAB") 'forward-button
     (kbd "S-TAB") 'backward-button)
-  (evil-define-key 'motion info-mode-map
-    (kbd "TAB") 'forward-button
-    (kbd "S-TAB") 'backward-button)
+  (evil-define-key 'motion Info-mode-map
+    (kbd "TAB") 'Info-next-reference
+    (kbd "S-TAB") 'Info-prev-reference
+    (kbd "RET") 'Info-follow-nearest-node
+    (kbd "^") 'Info-up
+    (kbd "H") 'Info-history-back
+    (kbd "L") 'Info-history-forward)
 
   ;; configure
   (setq-default evil-move-cursor-back t)
