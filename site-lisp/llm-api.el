@@ -53,10 +53,8 @@
             ;; continue
             (when-let* ((json-object-type 'plist)
                         (response (ignore-errors (json-read)))
-                        (delta
-                         (map-nested-elt
-                          response '(:choices 0 :delta))))
-              ;; (message "response %s" delta)
+                        (delta (map-nested-elt
+                                response '(:choices 0 :delta))))
               (push (plist-get delta :content) content)))))
       (apply #'concat (nreverse content)))))
 

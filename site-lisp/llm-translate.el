@@ -97,7 +97,7 @@
      :model "qwen2.5:3b"
      :messages
      `((:role "system" :content "你是一位翻译家")
-       (:role "user" :content ,(format "请将下面的中文文本翻译为英文，不用解释，也不用带引号:\n%s"
+       (:role "user" :content ,(format "请将下面的中文文本翻译为英文，不用解释，也不用带引号:\n\n%s"
                                        (buffer-substring-no-properties
                                         (car pos) (cdr pos)))))
      :then
