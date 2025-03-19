@@ -397,15 +397,15 @@
 
 ;; lisp
 (dolist (hook '(emacs-lisp-mode-hook
-                ielm-mode-hook
-                eval-expression-minibuffer-setup-hook
-                scheme-mode-hook))
-  (add-hook hook
-            (lambda ()
-              (setq-local show-paren-style 'expression))))
+               ielm-mode-hook
+               eval-expression-minibuffer-setup-hook
+               scheme-mode-hook))
+ (add-hook hook
+           (lambda ()
+             (setq-local show-paren-style 'expression))))
 
 ;; elisp
-(add-hook emacs-lisp-mode-hook
+(add-hook 'emacs-lisp-mode-hook
           (lambda ()
             (define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)))
 
@@ -469,7 +469,7 @@
 
   ;; special
   (dolist (mode '(special-mode help-mode Info-mode
-                               Message-mode))
+                               message-buffer-mode))
     (evil-set-initial-state mode 'motion))
 
   ;; help/info
@@ -629,7 +629,7 @@
 
   :config
   ;; pyim-tsinghua-dict
-  (when-let* ((file "site-lisp/pyim-dict.pyim")
+  (when-let* ((file "~/.emacs.d/site-lisp/pyim-dict.pyim")
               (exists (file-exists-p file)))
     (pyim-extra-dicts-add-dict
      `(:name "tsinghua-dict-elpa" :file ,file :elpa t))))
