@@ -252,37 +252,37 @@
 ;;-------------------------------------------
 ;;; search/highlight
 ;;-------------------------------------------
-(defun --region-or-point (thing)
+(defun region-or-point (thing)
   (if (use-region-p)
       (buffer-substring-no-properties
        (region-beginning) (region-end))
     (thing-at-point thing t)))
 
-(defun --minibuffer-insert-at-point ()
+(defun minibuffer-insert-at-point ()
   (interactive)
   (let ((sym (with-selected-window (minibuffer-selected-window)
-               (--region-or-point 'symbol))))
+               (region-or-point 'symbol))))
     (with-current-buffer (current-buffer)
       (insert (format "%s" (or sym ""))))))
 
-(defun --isearch-insert-at-point ()
+(defun isearch-insert-at-point ()
   "Pull next word from buffer into search string."
   (interactive)
   (let ((query (with-current-buffer (current-buffer)
-                 (format "%s" (--region-or-point 'symbol)))))
+                 (format "%s" (region-or-point 'symbol)))))
     (isearch-yank-string query)))
 
-(defun --occur-at-point ()
+(defun occur-at-point ()
   (interactive)
-  (let ((query (--region-or-point 'symbol)))
+  (let ((query (region-or-point 'symbol)))
     (occur query)
     (switch-to-buffer-other-window "*Occur*")))
 
-(defun --project-grep (query)
+(defun project-grep (query)
   (interactive
    (list (read-shell-command
           "Project Grep: "
-          (--region-or-point 'symbol))))
+          (region-or-point 'symbol))))
   (let* ((root (project-root (project-current)))
          (path (file-relative-name root default-directory))
          (is-git (locate-dominating-file default-directory ".git")))
@@ -297,34 +297,21 @@
           query path))))
     (switch-to-buffer-other-window "*grep*")))
 
-(defun --highlight-symbol ()
-  (interactive)
-  (require 'hi-lock)
-  (let ((regexp (find-tag-default-as-symbol-regexp)))
-    (if (assoc regexp hi-lock-interactive-lighters)
-        (unhighlight-regexp regexp)
-      (highlight-symbol-at-point)
-      (push regexp regexp-search-ring))))
-
-(defun --unhighlight-all-symbol ()
-  (interactive)
-  (unhighlight-regexp t))
-
-(global-set-key [remap highlight-symbol-at-point] '--highlight-symbol)
-(global-set-key (kbd "M-s .") '--highlight-symbol)
-(global-set-key (kbd "M-s U") '--unhighlight-all-symbol)
+;; highlight
+(global-set-key (kbd "M-s .") 'symbol-overlay-put)
+(global-set-key (kbd "M-s U") 'symbol-overlay-remove-all)
 
 ;; current buffer search
-(define-key minibuffer-local-map (kbd "M-.") '--minibuffer-insert-at-point)
-(define-key isearch-mode-map (kbd "M-.") '--isearch-insert-at-point)
+(define-key minibuffer-local-map (kbd "M-.") 'minibuffer-insert-at-point)
+(define-key isearch-mode-map (kbd "M-.") 'isearch-insert-at-point)
 (define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
 
 ;; current buffer occur
-(global-set-key (kbd "M-s o") '--occur-at-point)
+(global-set-key (kbd "M-s o") 'occur-at-point)
 (global-set-key (kbd "M-s O") 'occur)
 
 ;; current project grep
-(global-set-key (kbd "M-s g") '--project-grep)
+(global-set-key (kbd "M-s g") 'project-grep)
 
 ;;-------------------------------------------
 ;;; interactive
@@ -638,7 +625,7 @@
 
 (defun translate-brief-at-point ()
   (interactive)
-  (let ((word (--region-or-point 'word)))
+  (let ((word (region-or-point 'word)))
     (if word
         (bing-dict-brief word)
       (message "No Word."))))
@@ -667,8 +654,26 @@
 ;; Remove the M-i key and add a translation key.
 (global-set-key (kbd "M-i") nil)
 (global-set-key (kbd "M-i e") #'translate-preview)
-(global-set-key (kbd "M-I") #'delete-all-overlay)
 
+(use-package minuet :ensure t :defer t
+  :bind
+  (("M-i d" . #'minuet-show-suggestion))
+  :config
+  (define-key minuet-active-mode-map (kbd "TAB") 'minuet-accept-suggestion)
+  (setq minuet-provider 'openai-fim-compatible)
+  (setq minuet-n-completions 1) ; recommended for Local LLM for resource saving
+  ;; I recommend beginning with a small context window size and incrementally
+  ;; expanding it, depending on your local computing power. A context window
+  ;; of 512, serves as an good starting point to estimate your computing
+  ;; power. Once you have a reliable estimate of your local computing power,
+  ;; you should adjust the context window to a larger value.
+  (setq minuet-context-window 512)
+  (plist-put minuet-openai-fim-compatible-options :end-point "http://127.0.0.1:11434/v1/completions")
+  ;; an arbitrary non-null environment variable as placeholder
+  (plist-put minuet-openai-fim-compatible-options :name "Ollama")
+  (plist-put minuet-openai-fim-compatible-options :api-key "TERM")
+  (plist-put minuet-openai-fim-compatible-options :model "qwen2.5-coder:3b")
+  (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 56))
 
 ;;-------------------------------------------
 ;;; initialize end
