@@ -655,25 +655,17 @@
 (global-set-key (kbd "M-i") nil)
 (global-set-key (kbd "M-i e") #'translate-preview)
 
-(use-package minuet :ensure t :defer t
+(use-package gptel :ensure t :defer t
   :bind
-  (("M-i d" . #'minuet-show-suggestion))
+  (("M-i s" . #'gptel-menu))
   :config
-  (define-key minuet-active-mode-map (kbd "TAB") 'minuet-accept-suggestion)
-  (setq minuet-provider 'openai-fim-compatible)
-  (setq minuet-n-completions 1) ; recommended for Local LLM for resource saving
-  ;; I recommend beginning with a small context window size and incrementally
-  ;; expanding it, depending on your local computing power. A context window
-  ;; of 512, serves as an good starting point to estimate your computing
-  ;; power. Once you have a reliable estimate of your local computing power,
-  ;; you should adjust the context window to a larger value.
-  (setq minuet-context-window 512)
-  (plist-put minuet-openai-fim-compatible-options :end-point "http://127.0.0.1:11434/v1/completions")
-  ;; an arbitrary non-null environment variable as placeholder
-  (plist-put minuet-openai-fim-compatible-options :name "Ollama")
-  (plist-put minuet-openai-fim-compatible-options :api-key "TERM")
-  (plist-put minuet-openai-fim-compatible-options :model "qwen2.5-coder:3b")
-  (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 56))
+  (setq gptel-model 'qwen2.5-coder:3b)
+  (setq gptel-backend
+        (gptel-make-ollama "Ollama"
+          :host "127.0.0.1:11434"
+          :stream t
+          :models '(qwen2.5-coder:3b qwen2.5:3b)))
+  )
 
 ;;-------------------------------------------
 ;;; initialize end

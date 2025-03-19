@@ -86,7 +86,7 @@
   (translate-preview-mode -1))
 
 ;;;###autoload
-(defun translate-preview ()
+(defun -translate-preview ()
   (interactive)
   (when-let* ((pos (translate--at-point)))
     (translate--cleanup)
@@ -108,5 +108,29 @@
              (apply #'concat (reverse translate--content-list)))
        (translate--overlay-overwrite)))
     ))
+
+;; ###autoload
+(defun translate-preview  ()
+  (interactive)
+  (let* ((gptel-backend (gptel-get-backend "Ollama"))
+         (gptel-model 'qwen2.5:3b)
+         (pos (translate--at-point))
+         (prompt
+          (format "请将下面的中文文本翻译为英文，不用解释，也不用带引号:\n\n%s"
+                  (buffer-substring-no-properties
+                   (car pos) (cdr pos)))))
+    (message "translate start...")
+    (gptel-request prompt
+      :system "你是一位翻译家"
+      ;; :stream t
+      :context
+      (let ((ov (make-overlay (car pos) (cdr pos) nil t)))
+        (overlay-put ov 'category 'gptel)
+        (overlay-put ov 'evaporate t)
+        (cons ov (generate-new-buffer "*gptel-rewrite*")))
+      :callback
+      #'gptel--rewrite-callback)))
+
+;; "你是一位翻译家"
 
 (provide 'llm-translate)
