@@ -659,6 +659,18 @@
 (prefer-coding-system 'utf-8-unix)
 
 ;;-------------------------------------------
+;;; ai
+;;-------------------------------------------
+(require 'llm-api)
+(require 'llm-translate)
+
+;; Remove the M-i key and add a translation key.
+(global-set-key (kbd "M-i") nil)
+(global-set-key (kbd "M-i e") #'translate-preview)
+(global-set-key (kbd "M-I") #'delete-all-overlay)
+
+
+;;-------------------------------------------
 ;;; initialize end
 ;;-------------------------------------------
 
