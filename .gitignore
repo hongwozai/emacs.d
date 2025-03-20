@@ -37,3 +37,4 @@ bm-repository
 tree-sitter/*
 server/
 projects
+rime/*

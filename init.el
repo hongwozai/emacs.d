@@ -13,7 +13,7 @@
 ;;; add sub directory to load-path
 (dolist (name '("site-lisp"))
   (add-to-list 'load-path
-               (expand-file-name name user-emacs-directory)))
+               (locate-user-emacs-file name)))
 
 (setq *is-mac* (eql system-type 'darwin))
 (setq *is-win* (eql system-type 'windows-nt))
@@ -21,12 +21,12 @@
 (setq debug-on-error nil)
 (setq debug-on-quit nil)
 
-(let ((f (expand-file-name "variables.el" user-emacs-directory)))
+(let ((f (locate-user-emacs-file "variables.el")))
   (when (file-exists-p f)
     (load f)))
 
 ;; custom file
-(setq custom-file (expand-file-name ".custom.el" user-emacs-directory))
+(setq custom-file (locate-user-emacs-file ".custom.el"))
 ;;-------------------------------------------
 ;;; custom ui
 ;;-------------------------------------------
@@ -544,6 +544,9 @@
    (rust-ts-mode . eglot-ensure)
    (go-ts-mode . eglot-ensure))
   :config
+  (custom-set-faces
+   '(eglot-highlight-symbol-face
+      ((t (:inherit highlight :height 1.1)))))
   (setopt eglot-report-progress nil))
 
 ;;; tree-sitter emacs29 builtin
@@ -616,10 +619,14 @@
 
   :config
   ;; pyim-tsinghua-dict
-  (when-let* ((file "~/.emacs.d/site-lisp/pyim-dict.pyim")
+  (when-let* ((file (locate-user-emacs-file "site-lisp/pyim-dict.pyim"))
               (exists (file-exists-p file)))
     (pyim-extra-dicts-add-dict
      `(:name "tsinghua-dict-elpa" :file ,file :elpa t))))
+
+(use-package rime
+  :custom
+  (setq default-input-method "rime"))
 
 (use-package bing-dict :ensure t :defer t)
 
@@ -648,24 +655,40 @@
 ;;-------------------------------------------
 ;;; ai
 ;;-------------------------------------------
-(require 'llm-api)
-(require 'llm-translate)
-
 ;; Remove the M-i key and add a translation key.
 (global-set-key (kbd "M-i") nil)
-(global-set-key (kbd "M-i e") #'translate-preview)
 
 (use-package gptel :ensure t :defer t
   :bind
   (("M-i s" . #'gptel-menu))
   :config
-  (setq gptel-model 'qwen2.5-coder:3b)
-  (setq gptel-backend
-        (gptel-make-ollama "Ollama"
+  ;; ollama
+  (gptel-make-ollama "Ollama"
           :host "127.0.0.1:11434"
           :stream t
-          :models '(qwen2.5-coder:3b qwen2.5:3b)))
+          :models '(qwen2.5-coder:3b qwen2.5:3b))
+  ;; deepseek
+  (gptel-make-deepseek "DeepSeek"
+    :stream t
+    :key my-deepseek-key)
+
+  (gptel-make-openai "SiliconFlow"
+    :stream t
+    :host "api.siliconflow.cn"
+    :key my-siliconflow-key
+    :models '(Qwen/QwQ-32B Pro/deepseek-ai/DeepSeek-V3))
+
+  ;; default
+  (setq gptel-model 'qwen2.5:3b)
+  (setq gptel-backend (gptel-get-backend "Ollama"))
   )
+
+(use-package ai-config :defer t
+  :init
+  (autoload 'translate-preview "ai-config" nil t)
+  :bind
+  (("M-i e" . #'translate-preview)))
+
 
 ;;-------------------------------------------
 ;;; initialize end

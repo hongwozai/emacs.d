@@ -12,3 +12,6 @@
 ;;       '(("melpa" . "/data/workspace/elpa-mirror/melpa/")
 ;;         ("org"   . "/data/workspace/elpa-mirror/org/")
 ;;         ("gnu"   . "/data/workspace/elpa-mirror/gnu/")))
+
+(setq my-deepseek-key "sk-xxxx")
+(setq my-siliconflow-key "sk-yyyy")
