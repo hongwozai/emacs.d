@@ -66,7 +66,8 @@
   (menu-bar-mode -1))
 
 ;; theme
-(ignore-errors (load-theme 'leuven-dark t))
+(when (display-graphic-p)
+  (ignore-errors (load-theme 'leuven-dark t)))
 
 ;; modeline
 (setq-default mode-line-format
@@ -299,8 +300,12 @@
           query path))))
     (switch-to-buffer-other-window "*grep*")))
 
-;; highlight
+;; symbol-overlay highlight
+(autoload 'symbol-overlay-put "symbol-overlay" nil t)
+(autoload 'symbol-overlay-rename "symbol-overlay" nil t)
+(autoload 'symbol-overlay-remove-all "symbol-overlay" nil t)
 (global-set-key (kbd "M-s .") 'symbol-overlay-put)
+(global-set-key (kbd "M-s r") 'symbol-overlay-rename)
 (global-set-key (kbd "M-s U") 'symbol-overlay-remove-all)
 
 ;; current buffer search
@@ -396,7 +401,9 @@
 ;; elisp
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
-            (define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)))
+            (define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)
+            (require 'lisp-edit)
+            (lisp-edit-define-keys emacs-lisp-mode-map)))
 
 ;;; cc
 (setq-default c-default-style '((c-mode    . "linux")
@@ -525,11 +532,6 @@
 (use-package ace-window :ensure t :defer t
   :init
   (global-set-key (kbd "M-o") 'ace-window))
-
-;;; multi edit
-(use-package iedit :ensure t :defer t
-  :init
-  (define-key prog-mode-map (kbd "C-;") 'iedit-mode))
 
 ;; gtags
 (use-package gtags-mode :ensure t :defer t
