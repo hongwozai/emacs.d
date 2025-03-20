@@ -159,6 +159,10 @@
                         "GTAGS" "TAGS" "^tags$" ".*pyim.*"))
 (add-hook 'after-init-hook #'recentf-mode)
 
+;; kill buffer
+(global-set-key (kbd "C-x k")
+                (lambda () (interactive) (kill-this-buffer)))
+
 ;; open files
 (global-set-key (kbd "M-g r") 'recentf-open)
 (global-set-key (kbd "M-g o") 'find-file-other-window)
@@ -234,8 +238,6 @@
 ;;-------------------------------------------
 ;;; buffer
 ;;-------------------------------------------
-(global-set-key (kbd "C-x k") 'kill-this-buffer)
-
 (with-eval-after-load 'ibuffer
   (require 'ibuf-ext)
   ;; (add-to-list 'ibuffer-never-show-predicates "^\\*")
@@ -341,7 +343,7 @@
   (setq compilation-environment '("TERM=xterm-256color")))
 
 ;;; imenu
-(setq imenu-flatten 'prefix)
+;; (setq imenu-flatten 'prefix)
 (with-eval-after-load 'imenu
   (require 'imenu-flatter))
 
@@ -624,9 +626,15 @@
     (pyim-extra-dicts-add-dict
      `(:name "tsinghua-dict-elpa" :file ,file :elpa t))))
 
-(use-package rime
-  :custom
-  (setq default-input-method "rime"))
+(use-package rime :ensure t
+  :config
+  (when (file-exists-p rime--module-path)
+    (setq default-input-method "rime")
+    ;; https://github.com/rime/rime-luna-pinyin
+    ;; (rime-lib-select-schema "luna_pinyin_simp")
+    (when (package-installed-p 'posframe)
+      (require 'posframe)
+      (setq rime-show-candidate 'posframe))))
 
 (use-package bing-dict :ensure t :defer t)
 
