@@ -1,6 +1,9 @@
 (require 'gptel)
 (require 'gptel-rewrite)
 
+(defvar translate-c2e-prompt
+  "请将下面的中文文本翻译为英文，不用解释，也不用带引号，并且首字母小写:")
+
 (defun translate--at-point ()
   (if (use-region-p)
       (let ((beg (use-region-beginning))
@@ -14,7 +17,7 @@
   (interactive)
   (let* ((pos (translate--at-point))
          (prompt
-          (format "请将下面的中文文本翻译为英文，不用解释，也不用带引号:\n\n%s"
+          (format "%s\n\n%s" translate-c2e-prompt
                   (buffer-substring-no-properties
                    (car pos) (cdr pos))))
          ;; (gptel-backend (gptel-get-backend "Ollama"))

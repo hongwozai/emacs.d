@@ -485,6 +485,10 @@
   (setq-default evil-want-C-u-scroll nil)
   (setq-default evil-symbol-word-search t)
 
+  ;; undo (or vundo)
+  (when (version<= emacs-version "28")
+    (evil-set-undo-system 'undo-redo))
+
   ;; command
   (evil-ex-define-cmd "ls" 'ibuffer)
   (evil-ex-define-cmd "nu" 'display-line-numbers-mode)
@@ -629,6 +633,8 @@
      `(:name "tsinghua-dict-elpa" :file ,file :elpa t))))
 
 (use-package rime :ensure t
+  :init
+  (setq-default rime-title " RIME ")
   :config
   (when (file-exists-p rime--module-path)
     (setq default-input-method "rime")

@@ -1,11 +1,50 @@
 ;; from paredit
 (require 'thingatpt)
 
+(defun lisp-edit-select-comment ()
+  (comment-beginning)
+  (set-mark (point))
+  (let ((end (next-single-property-change (point) 'face)))
+    ;; 1. not face 2. newline
+    (goto-char (- end 2))))
+
+;; font-lock-comment-face
+;; font-lock-comment-delimiter-face
+(defun lisp-edit-auto-select ()
+  (interactive)
+  (cond
+   ;; comment?
+   ((and (nth 4 (syntax-ppss))
+         (not (use-region-p)))
+    (lisp-edit-select-comment))
+    ;; mark more list
+   (t (condition-case ()
+          (progn (up-list)
+                 (set-mark (point))
+                 (backward-sexp))
+        (scan-error
+         (unless (use-region-p)
+           (set-mark (point)))
+         (message "At top level")
+         ;; upward and ever-selective choices of parentheses
+         (backward-sexp))))))
+
 (defun lisp-edit-forward ()
   (interactive)
   (when (= (+ (point) 1) (line-end-position))
     (goto-char (line-end-position)))
-  (forward-sexp))
+  (cond
+   ;; blank?
+   ((looking-at-p "[ \t\v\r\n]")
+    (skip-chars-forward " \t\v\r\n"))
+   ;; comment?
+   ((nth 4 (syntax-ppss))
+    (goto-char (next-single-property-change (point) 'face)))
+   ;; comment-delimiter?
+   ((eq (get-text-property (point) 'face)
+        'font-lock-comment-delimiter-face)
+    (forward-comment 1))
+   (t (forward-sexp))))
 
 (defun lisp-edit-up-list ()
   (interactive)
@@ -15,6 +54,8 @@
 
 (defun lisp-edit-insert-round ()
   (interactive)
+  ;; skip whitespace
+  (skip-chars-forward " \t\v\r\n")
   (let* ((end (if (use-region-p) (use-region-end)
                 (save-excursion (forward-sexp) (point)))))
     (insert "(")
@@ -67,15 +108,30 @@
 (defun lisp-edit-define-keys (map)
   (when (featurep 'evil)
     (evil-define-key 'normal map
-      (kbd "W") #'lisp-edit-forward
-      (kbd "B") #'backward-sexp
+      ;; uppercase letters and lowercase letters swap functions
+      (kbd "W") #'evil-forward-word-begin
+      (kbd "B") #'evil-backward-word-begin
+      (kbd "w") #'lisp-edit-forward
+      (kbd "b") #'backward-sexp
       (kbd "(") #'backward-up-list
       (kbd ")") #'lisp-edit-up-list
       (kbd "M-(") #'lisp-edit-insert-round
-      (kbd "M-s") #'lisp-edit-splice-sexp
+      (kbd "M-d") #'lisp-edit-splice-sexp
       (kbd "M-r") #'lisp-edit-raise-sexp
       (kbd "C-k") #'lisp-edit-kill-line
       (kbd "C-M-k") #'kill-sexp
-      )))
+      (kbd "M-h") #'lisp-edit-auto-select)
+    (evil-define-key 'insert map
+      (kbd "M-(") #'lisp-edit-insert-round
+      (kbd "M-h") #'lisp-edit-auto-select)
+    (evil-define-key 'visual map
+      (kbd "W") #'evil-forward-word-begin
+      (kbd "B") #'evil-backward-word-begin
+      (kbd "w") #'lisp-edit-forward
+      (kbd "b") #'backward-sexp
+      (kbd "(") #'backward-up-list
+      (kbd ")") #'lisp-edit-up-list)
+    ;; leave the last space
+    (setq-local evil-move-beyond-eol t)))
 
 (provide 'lisp-edit)
