@@ -564,7 +564,7 @@
 
 ;;; tree-sitter emacs29 builtin
 (use-package treesit
-  :if (and (featurep 'treesit) (treesit-available-p))
+  :if (and (not (version< emacs-version "29")) (treesit-available-p))
   :config
   (when (treesit-language-available-p 'c)
     (push '("\\.c\\'" . c-ts-mode) auto-mode-alist))
