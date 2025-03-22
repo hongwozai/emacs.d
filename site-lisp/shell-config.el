@@ -113,7 +113,12 @@
 
 (unless (eq system-type 'windows-nt)
   (use-package xterm-color :ensure t
-    :hook (eshell-mode . set-eshell-xterm-color)))
+    :hook (eshell-mode . set-eshell-xterm-color)
+    :config
+    (defun xterm-advice-compilation-filter (f proc string)
+      (funcall f proc (xterm-color-filter string)))
+
+    (advice-add 'compilation-filter :around #'xterm-advice-compilation-filter)))
 
 ;;; use eshell
 (defun multi-eshell ()
