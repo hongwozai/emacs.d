@@ -35,8 +35,8 @@
     (goto-char (line-end-position)))
   (cond
    ;; blank?
-   ((looking-at-p "[ \t\v\r\n]")
-    (skip-chars-forward " \t\v\r\n"))
+   ;; ((looking-at-p "[ \t\v\r\n]")
+   ;;  (skip-chars-forward " \t\v\r\n"))
    ;; comment?
    ((nth 4 (syntax-ppss))
     (goto-char (next-single-property-change (point) 'face)))
@@ -44,7 +44,9 @@
    ((eq (get-text-property (point) 'face)
         'font-lock-comment-delimiter-face)
     (forward-comment 1))
-   (t (forward-sexp))))
+   ;; goto next sexp beginning
+   (t (forward-sexp 2)
+      (backward-sexp))))
 
 (defun lisp-edit-up-list ()
   (interactive)

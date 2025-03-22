@@ -486,7 +486,7 @@
   (setq-default evil-symbol-word-search t)
 
   ;; undo (or vundo)
-  (when (version<= emacs-version "28")
+  (unless (version< emacs-version "28")
     (evil-set-undo-system 'undo-redo))
 
   ;; command
