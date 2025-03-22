@@ -17,7 +17,7 @@
    ((and (nth 4 (syntax-ppss))
          (not (use-region-p)))
     (lisp-edit-select-comment))
-    ;; mark more list
+   ;; mark more list
    (t (condition-case ()
           (progn (up-list)
                  (set-mark (point))
@@ -31,22 +31,29 @@
 
 (defun lisp-edit-forward ()
   (interactive)
+  ;; because evil move back in line end
   (when (= (+ (point) 1) (line-end-position))
     (goto-char (line-end-position)))
   (cond
    ;; blank?
-   ;; ((looking-at-p "[ \t\v\r\n]")
-   ;;  (skip-chars-forward " \t\v\r\n"))
+   ((looking-at-p "[ \t\v\r\n]")
+    (skip-chars-forward " \t\v\r\n"))
    ;; comment?
    ((nth 4 (syntax-ppss))
-    (goto-char (next-single-property-change (point) 'face)))
+    (goto-char (next-single-property-change (point) 'face))
+    (skip-chars-forward " \t\v\r\n"))
    ;; comment-delimiter?
    ((eq (get-text-property (point) 'face)
         'font-lock-comment-delimiter-face)
-    (forward-comment 1))
+    (forward-comment 1)
+    (skip-chars-forward " \t\v\r\n"))
    ;; goto next sexp beginning
-   (t (forward-sexp 2)
-      (backward-sexp))))
+   (t (condition-case ()
+          (progn
+            (forward-sexp 1)
+            (skip-chars-forward " \t\v\r\n"))
+        (scan-error
+         (message "At last sexp"))))))
 
 (defun lisp-edit-up-list ()
   (interactive)

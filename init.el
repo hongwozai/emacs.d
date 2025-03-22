@@ -275,6 +275,10 @@
                  (format "%s" (region-or-point 'symbol)))))
     (isearch-yank-string query)))
 
+(defun isearch-insert-space ()
+  (interactive)
+  (isearch-process-search-string ".*?" " "))
+
 (defun occur-at-point ()
   (interactive)
   (let ((query (region-or-point 'symbol)))
@@ -311,6 +315,7 @@
 ;; current buffer search
 (define-key minibuffer-local-map (kbd "M-.") 'minibuffer-insert-at-point)
 (define-key isearch-mode-map (kbd "M-.") 'isearch-insert-at-point)
+(define-key isearch-mode-map (kbd "SPC") 'isearch-insert-space)
 (define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
 
 ;; current buffer occur
