@@ -3,6 +3,23 @@
 (require 'gptel-rewrite)
 
 ;;-------------------------------------------
+;;; prompt
+;;-------------------------------------------
+(setq prompt-write-coder
+      "你是一个谨慎的编程专家，善于补全代码和完成需求，并且写代码不用解释也不用代码块")
+
+(setq prompt-translate-c2e
+      "你是一位翻译家，请将下面的中文文本翻译为英文，不用解释，也不用带引号，并且首字母小写:")
+
+(setq prompt-translate-e2c
+      "你是一位翻译家，请将下面的英文文本翻译为中文，不用解释，也不用带引号")
+
+(setq gptel-directives
+      `((coder . ,prompt-write-coder)
+        (english-translater . ,prompt-translate-e2c)
+        (chinese-translater . ,prompt-translate-c2e)))
+
+;;-------------------------------------------
 ;;; translate
 ;;-------------------------------------------
 (defvar translate-c2e-prompt
@@ -23,14 +40,10 @@
          (prompt
           (format "%s\n\n%s" translate-c2e-prompt
                   (buffer-substring-no-properties
-                   (car pos) (cdr pos))))
-         ;; (gptel-backend (gptel-get-backend "Ollama"))
-         ;; (gptel-model 'qwen2.5:3b)
-         )
+                   (car pos) (cdr pos)))))
     (message "translate start...")
     (gptel-request prompt
       :system "你是一位翻译家"
-      ;; :stream t
       :context
       (let ((ov (make-overlay (car pos) (cdr pos) nil t)))
         (overlay-put ov 'category 'gptel)

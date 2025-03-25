@@ -714,10 +714,6 @@
   ;; default
   (setq gptel-model 'qwen2.5:3b)
   (setq gptel-backend (gptel-get-backend "Ollama"))
-
-  (setq gptel-directives
-        '((programming
-           . "你是一个谨慎的编程专家，善于补全代码和完成需求，并且写代码不用解释也不用代码块")))
   )
 
 (use-package ai-config :defer t
