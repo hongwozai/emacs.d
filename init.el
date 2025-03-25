@@ -682,16 +682,28 @@
 (use-package gptel :ensure t :defer t
   :bind
   (("M-i s" . #'gptel-menu))
+  (("M-i r" . #'gptel-rewrite))
   :config
   ;; ollama
   (gptel-make-ollama "Ollama"
           :host "127.0.0.1:11434"
           :stream t
           :models '(qwen2.5-coder:3b qwen2.5:3b))
+
+  (gptel-make-ollama "Ollama-FIM"
+          :host "127.0.0.1:11434"
+          :models '(qwen2.5-coder:7b)
+          :endpoint "/v1/completions")
+
   ;; deepseek
   (gptel-make-deepseek "DeepSeek"
     :stream t
     :key my-deepseek-key)
+
+  (gptel-make-deepseek "DeepSeek-FIM"
+    :key my-deepseek-key
+    :endpoint "/beta/completions"
+    :models '(deepseek-chat))
 
   (gptel-make-openai "SiliconFlow"
     :stream t
@@ -702,17 +714,21 @@
   ;; default
   (setq gptel-model 'qwen2.5:3b)
   (setq gptel-backend (gptel-get-backend "Ollama"))
+
+  (setq gptel-directives
+        '((programming
+           . "你是一个谨慎的编程专家，善于补全代码和完成需求，并且写代码不用解释也不用代码块")))
   )
 
 (use-package ai-config :defer t
   :init
   (autoload 'translate-preview "ai-config" nil t)
+  (autoload 'aitab-mode "ai-config" nil t)
   :bind
-  (("M-i e" . #'translate-preview)))
-
+  (("M-i e" . #'translate-preview)
+   ("M-i t" . #'aitab-mode)))
 
 ;;-------------------------------------------
 ;;; initialize end
 ;;-------------------------------------------
-
 (provide 'init)
