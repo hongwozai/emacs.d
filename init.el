@@ -558,8 +558,7 @@
    (go-ts-mode . eglot-ensure))
   :config
   (custom-set-faces
-   '(eglot-highlight-symbol-face
-      ((t (:inherit highlight :height 1.1)))))
+   '(eglot-highlight-symbol-face ((t (:inherit highlight)))))
   (setopt eglot-report-progress nil))
 
 ;;; tree-sitter emacs29 builtin
