@@ -34,10 +34,6 @@
 (autoload 'shell-header-mode "shell-header-mode" nil t)
 (autoload 'shell-header-next "shell-header-mode" nil t)
 (autoload 'shell-header-prev "shell-header-mode" nil t)
-
-(when (featurep 'evil)
- (define-key evil-normal-state-map (kbd "M-[") 'shell-header-prev)
- (define-key evil-normal-state-map (kbd "M-]") 'shell-header-next))
 ;;-------------------------------------------
 ;;; comint
 ;;-------------------------------------------

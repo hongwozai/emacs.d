@@ -63,14 +63,19 @@
       (call-interactively #'eglot-reconnect))
     (message "python venv %s deactivate already" py--current-venv-name)))
 
+(defun py--project-venv ()
+  (when-let* ((proj (project-current))
+              (root (project-root proj))
+              (venv-path
+               (expand-file-name ".venv" (expand-file-name root))))
+    ;; then
+    venv-path))
+
 ;;;###autoload
 (defun py-activate (venv-path)
   (interactive
    (list (if-let* ((prefix (not current-prefix-arg))
-                   (proj (project-current))
-                   (root (project-root proj))
-                   (venv-path
-                    (expand-file-name ".venv" (expand-file-name root))))
+                   (venv-path (py--project-venv)))
              ;; then
              venv-path
            ;; else
@@ -85,7 +90,26 @@
   (interactive)
   (py--deactivate-venv))
 
+(defun py-mode-hook-function ()
+  ;; find python shell interpreter
+  (let* ((map (symbol-value (intern (format "%s-map" major-mode))))
+         (venv-path py--current-venv-path)
+         (venv-dir (when venv-path
+                     (file-name-as-directory
+                      (concat (file-name-as-directory venv-path)
+                              "bin")))))
+
+    ;; 如果能在本venv找到ipython，那么才使用ipython
+    (when-let* ((dir venv-dir)
+                (ipy (executable-find (concat dir "ipython"))))
+      ;; shell interpreter
+      (setq-local python-shell-interpreter "ipython")
+      (setq-local python-shell-interpreter-args "-i --simple-prompt"))))
+
 ;; first, we update modeline
 (py--update-mode-line)
+
+(add-hook 'python-mode-hook 'py-mode-hook-function)
+(add-hook 'python-ts-mode-hook 'py-mode-hook-function)
 
 (provide 'python-config)

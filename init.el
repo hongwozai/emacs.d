@@ -167,9 +167,12 @@
 (global-set-key (kbd "C-x k")
                 (lambda () (interactive) (kill-this-buffer)))
 
-;; open files
+;; open with other windows
+(global-set-key (kbd "M-g b") 'switch-to-buffer-other-window)
 (global-set-key (kbd "M-g r") 'recentf-open)
 (global-set-key (kbd "M-g o") 'find-file-other-window)
+(global-set-key (kbd "M-g ]") 'xref-find-definitions-other-window)
+(global-set-key (kbd "M-g p") 'project-other-window-command)
 
 ;;; cursor
 (blink-cursor-mode 0)
@@ -311,6 +314,7 @@
 (autoload 'symbol-overlay-put "symbol-overlay" nil t)
 (autoload 'symbol-overlay-rename "symbol-overlay" nil t)
 (autoload 'symbol-overlay-remove-all "symbol-overlay" nil t)
+
 (global-set-key (kbd "M-s .") 'symbol-overlay-put)
 (global-set-key (kbd "M-s r") 'symbol-overlay-rename)
 (global-set-key (kbd "M-s U") 'symbol-overlay-remove-all)
@@ -354,10 +358,6 @@
 (setq compilation-scroll-output t)
 (unless *is-win*
   (setq compilation-environment '("TERM=xterm-256color")))
-
-;; walk error
-(global-set-key (kbd "M-p") 'previous-error)
-(global-set-key (kbd "M-n") 'next-error)
 
 ;;; imenu
 ;; (setq imenu-flatten 'prefix)
@@ -497,6 +497,7 @@
   (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
   (define-key evil-ex-completion-map (kbd "C-f") 'forward-char)
   (define-key evil-normal-state-map (kbd "C-w u") 'winner-undo)
+
   (define-key evil-normal-state-map (kbd "C-p") project-prefix-map)
   )
 
