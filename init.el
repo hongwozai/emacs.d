@@ -173,6 +173,7 @@
 (global-set-key (kbd "M-g o") 'find-file-other-window)
 (global-set-key (kbd "M-g ]") 'xref-find-definitions-other-window)
 (global-set-key (kbd "M-g p") 'project-other-window-command)
+(global-set-key (kbd "M-g e") (lambda () (interactive) (other-window 1) (eshell)))
 
 ;;; cursor
 (blink-cursor-mode 0)
@@ -719,7 +720,7 @@
   :bind
   (("M-i t" . #'copilot-mode))
   :config
-  (define-key copilot-completion-map (kbd "C-M-i") 'copilot-accept-completion))
+  (define-key copilot-completion-map (kbd "M-/") 'copilot-accept-completion))
 
 (use-package ai-config :defer t
   :init
