@@ -22,9 +22,6 @@
 ;;-------------------------------------------
 ;;; translate
 ;;-------------------------------------------
-(defvar translate-c2e-prompt
-  "请将下面的中文文本翻译为英文，不用解释，也不用带引号，并且首字母小写:")
-
 (defun translate--at-point ()
   (if (use-region-p)
       (let ((beg (use-region-beginning))
@@ -38,7 +35,7 @@
   (interactive)
   (let* ((pos (translate--at-point))
          (prompt
-          (format "%s\n\n%s" translate-c2e-prompt
+          (format "%s\n\n%s" prompt-translate-c2e
                   (buffer-substring-no-properties
                    (car pos) (cdr pos)))))
     (message "translate start...")

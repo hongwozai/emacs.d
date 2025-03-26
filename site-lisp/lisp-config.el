@@ -122,6 +122,7 @@
       (kbd "B") #'evil-backward-word-begin
       (kbd "w") #'lisp-edit-forward
       (kbd "b") #'backward-sexp
+      (kbd "e") #'down-list
       (kbd "(") #'backward-up-list
       (kbd ")") #'lisp-edit-up-list
       (kbd "M-(") #'lisp-edit-insert-round
@@ -143,4 +144,15 @@
     ;; leave the last space
     (setq-local evil-move-beyond-eol t)))
 
-(provide 'lisp-edit)
+;; lisp
+(dolist (hook '(emacs-lisp-mode-hook
+                scheme-mode-hook))
+  (add-hook hook
+            (lambda ()
+              (setq-local show-paren-style 'expression)
+              (lisp-edit-define-keys emacs-lisp-mode-map))))
+
+;; elisp
+(define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)
+
+(provide 'lisp-config)

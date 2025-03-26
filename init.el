@@ -70,6 +70,8 @@
   (ignore-errors (load-theme 'leuven-dark t)))
 
 ;; modeline
+(setq venv-mode-string "")
+
 (setq-default mode-line-format
               '("%e"
                 " "
@@ -89,6 +91,7 @@
                 "["
                 (:eval (if-let (proj (project-current))
                            (project-name proj)))
+                venv-mode-string
                 (vc-mode vc-mode)
                 "]"
                 "  "
@@ -352,6 +355,10 @@
 (unless *is-win*
   (setq compilation-environment '("TERM=xterm-256color")))
 
+;; walk error
+(global-set-key (kbd "M-p") 'previous-error)
+(global-set-key (kbd "M-n") 'next-error)
+
 ;;; imenu
 ;; (setq imenu-flatten 'prefix)
 (with-eval-after-load 'imenu
@@ -395,20 +402,7 @@
        auto-mode-alist))
 
 ;; lisp
-(dolist (hook '(emacs-lisp-mode-hook
-               ielm-mode-hook
-               eval-expression-minibuffer-setup-hook
-               scheme-mode-hook))
- (add-hook hook
-           (lambda ()
-             (setq-local show-paren-style 'expression))))
-
-;; elisp
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)
-            (require 'lisp-edit)
-            (lisp-edit-define-keys emacs-lisp-mode-map)))
+(require 'lisp-config)
 
 ;;; cc
 (setq-default c-default-style '((c-mode    . "linux")
@@ -434,6 +428,7 @@
             (setq-local comment-end   " */")))
 
 ;;; python
+(require 'python-config)
 
 ;;-------------------------------------------
 ;;; package initialize
