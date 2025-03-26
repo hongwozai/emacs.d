@@ -531,6 +531,10 @@
   (setq company-show-numbers               t)
   (setq company-global-modes
         '(not gud-mode shell-mode eshell-mode term-mode))
+
+  ;; if install company-box, then use
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
   )
 
 ;; jump windows
@@ -711,13 +715,18 @@
   (setq gptel-backend (gptel-get-backend "Ollama"))
   )
 
+(use-package copilot :ensure t :defer t
+  :bind
+  (("M-i t" . #'copilot-mode))
+  :config
+  (define-key copilot-completion-map (kbd "C-M-i") 'copilot-accept-completion))
+
 (use-package ai-config :defer t
   :init
   (autoload 'translate-preview "ai-config" nil t)
   (autoload 'aitab-mode "ai-config" nil t)
   :bind
-  (("M-i e" . #'translate-preview)
-   ("M-i t" . #'aitab-mode)))
+  (("M-i e" . #'translate-preview)))
 
 ;;-------------------------------------------
 ;;; initialize end
