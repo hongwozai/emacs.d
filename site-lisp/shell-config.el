@@ -82,14 +82,12 @@
 
 (add-hook 'eshell-mode-hook
           (lambda ()
-            (define-key eshell-mode-map (kbd "C-r") 'eshell-list-history)
+            (define-key eshell-mode-map (kbd "C-r") 'eshell-isearch-backward)
             (define-key eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
             (define-key eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
             (define-key eshell-mode-map (kbd "C-u") 'eshell-kill-input)
             (define-key eshell-mode-map (kbd "C-l") 'eshell/clear)
             (define-key eshell-mode-map (kbd "M-o") 'other-window)
-            (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)
-            (define-key eshell-mode-map (kbd "TAB")   'completion-at-point)
             (define-key eshell-mode-map (kbd "<C-backspace>") 'eshell-backward-kill-word)
             (define-key eshell-mode-map (kbd "M-DEL") 'eshell-backward-kill-word)
             (define-key eshell-mode-map (kbd "DEL")   'eshell-delete-backward-char)

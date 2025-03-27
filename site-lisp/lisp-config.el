@@ -32,8 +32,9 @@
 (defun lisp-edit-forward ()
   (interactive)
   ;; because evil move back in line end
-  (when (= (+ (point) 1) (line-end-position))
-    (goto-char (line-end-position)))
+  (when (and (featurep 'evil) (not evil-move-beyond-eol))
+    (when (= (+ (point) 1) (line-end-position))
+      (goto-char (line-end-position))))
   (cond
    ;; blank?
    ((looking-at-p "[ \t\v\r\n]")
@@ -51,7 +52,8 @@
    (t (condition-case ()
           (progn
             (forward-sexp 1)
-            (skip-chars-forward " \t\v\r\n"))
+            ;; no skip line
+            (skip-chars-forward " \t\v"))
         (scan-error
          (message "At last sexp"))))))
 
@@ -126,7 +128,8 @@
       (kbd "(") #'backward-up-list
       (kbd ")") #'lisp-edit-up-list
       (kbd "M-(") #'lisp-edit-insert-round
-      (kbd "M-d") #'lisp-edit-splice-sexp
+      (kbd "M-d") #'kill-sexp
+      (kbd "M-s") #'lisp-edit-splice-sexp
       (kbd "M-r") #'lisp-edit-raise-sexp
       (kbd "C-k") #'lisp-edit-kill-line
       (kbd "C-M-k") #'kill-sexp

@@ -170,9 +170,9 @@
 ;; open with other windows
 (global-set-key (kbd "M-g b") 'switch-to-buffer-other-window)
 (global-set-key (kbd "M-g r") 'recentf-open)
-(global-set-key (kbd "M-g o") 'find-file-other-window)
+(global-set-key (kbd "M-g f") 'find-file-other-window)
 (global-set-key (kbd "M-g ]") 'xref-find-definitions-other-window)
-(global-set-key (kbd "M-g p") 'project-other-window-command)
+(global-set-key (kbd "M-g o") 'project-other-window-command)
 (global-set-key (kbd "M-g e") (lambda () (interactive) (other-window 1) (eshell)))
 
 ;;; cursor
@@ -262,6 +262,8 @@
 ;;-------------------------------------------
 ;;; search/highlight
 ;;-------------------------------------------
+(global-set-key (kbd "C-s") nil)
+
 (defun region-or-point (thing)
   (if (use-region-p)
       (buffer-substring-no-properties
@@ -316,22 +318,21 @@
 (autoload 'symbol-overlay-rename "symbol-overlay" nil t)
 (autoload 'symbol-overlay-remove-all "symbol-overlay" nil t)
 
-(global-set-key (kbd "M-s .") 'symbol-overlay-put)
-(global-set-key (kbd "M-s r") 'symbol-overlay-rename)
-(global-set-key (kbd "M-s U") 'symbol-overlay-remove-all)
+(global-set-key (kbd "C-s .") 'symbol-overlay-put)
+(global-set-key (kbd "C-s r") 'symbol-overlay-rename)
+(global-set-key (kbd "C-s U") 'symbol-overlay-remove-all)
 
 ;; current buffer search
 (define-key minibuffer-local-map (kbd "M-.") 'minibuffer-insert-at-point)
 (define-key isearch-mode-map (kbd "M-.") 'isearch-insert-at-point)
 (define-key isearch-mode-map (kbd "SPC") 'isearch-insert-space)
-(define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
 
 ;; current buffer occur
-(global-set-key (kbd "M-s o") 'occur-at-point)
-(global-set-key (kbd "M-s O") 'occur)
+(global-set-key (kbd "C-s o") 'occur-at-point)
+(global-set-key (kbd "C-s O") 'occur)
 
 ;; current project grep
-(global-set-key (kbd "M-s g") 'project-grep)
+(global-set-key (kbd "C-s g") 'project-grep)
 
 ;;-------------------------------------------
 ;;; interactive
@@ -531,7 +532,7 @@
   (setq company-etags-ignore-case          nil)
   (setq company-show-numbers               t)
   (setq company-global-modes
-        '(not gud-mode shell-mode eshell-mode term-mode))
+        '(not gud-mode shell-mode term-mode))
 
   ;; if install company-box, then use
   (use-package company-box
@@ -541,7 +542,11 @@
 ;; jump windows
 (use-package ace-window :ensure t :defer t
   :init
-  (global-set-key (kbd "M-o") 'ace-window))
+  (global-set-key (kbd "M-o") 'ace-window)
+  ;; depend avy
+  (global-set-key (kbd "M-g w") 'avy-goto-word-1)
+  (global-set-key (kbd "C-'") 'avy-resume)
+  (define-key isearch-mode-map (kbd "C-'") 'avy-isearch))
 
 ;; gtags
 (use-package gtags-mode :ensure t :defer t
@@ -658,7 +663,7 @@
         (bing-dict-brief word)
       (message "No Word."))))
 
-(global-set-key (kbd "M-s c") 'translate-brief-at-point)
+(global-set-key (kbd "C-s c") 'translate-brief-at-point)
 
 ;; emacs sometimes can't reconginze gbk
 ;; set coding config, last is highest priority.
