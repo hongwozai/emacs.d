@@ -359,8 +359,6 @@
 ;; (setq compilation-auto-jump-to-first-error t)
 (setq compilation-window-height 14)
 (setq compilation-scroll-output t)
-(unless *is-win*
-  (setq compilation-environment '("TERM=xterm-256color")))
 
 ;;; imenu
 ;; (setq imenu-flatten 'prefix)
@@ -593,6 +591,10 @@
 ;; format-all
 (use-package format-all :ensure t :defer t
   :hook (prog-mode . format-all-mode))
+
+;; xterm
+;; (use-package xterm-color :ensure t)
+;; (setq compilation-environment '("TERM=xterm-256color"))
 
 ;;-------------------------------------------
 ;;; misc
