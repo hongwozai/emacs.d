@@ -169,6 +169,7 @@
 
 ;; open with other windows
 (global-set-key (kbd "M-g b") 'switch-to-buffer-other-window)
+(global-set-key (kbd "M-g d") 'dired-other-window)
 (global-set-key (kbd "M-g r") 'recentf-open)
 (global-set-key (kbd "M-g f") 'find-file-other-window)
 (global-set-key (kbd "M-g ]") 'xref-find-definitions-other-window)
@@ -536,6 +537,7 @@
 
   ;; if install company-box, then use
   (use-package company-box
+    :if (package-installed-p 'company-box)
     :hook (company-mode . company-box-mode))
   )
 

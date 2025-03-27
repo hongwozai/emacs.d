@@ -59,20 +59,7 @@
 ;;-------------------------------------------
 ;;; eshell
 ;;-------------------------------------------
-(defalias 'esh       #'multi-eshell)
-(defalias 'eshell/e  #'find-file)
-(defalias 'eshell/em #'find-file)
-(defalias 'eshell/fo #'find-file-other-window)
-(defalias 'eshell/vi #'find-file)
-(defalias 'eshell/vim #'find-file)
-(defalias 'eshell/d  #'dired)
-(defalias 'eshell/do #'dired-other-window)
-(defalias 'eshell/gr #'recentf-open)
-
-;;; eshell term color
-(add-hook 'eshell-before-prompt-hook
-          (lambda ()
-            (setq xterm-color-preserve-properties t)))
+(defalias 'esh #'multi-eshell)
 
 (add-hook 'eshell-load-hook
           (lambda ()
@@ -81,38 +68,39 @@
                   eshell-hist-ignoredups      t)))
 
 (add-hook 'eshell-mode-hook
-          (lambda ()
-            (define-key eshell-mode-map (kbd "C-r") 'eshell-isearch-backward)
-            (define-key eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
-            (define-key eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
-            (define-key eshell-mode-map (kbd "C-u") 'eshell-kill-input)
-            (define-key eshell-mode-map (kbd "C-l") 'eshell/clear)
-            (define-key eshell-mode-map (kbd "M-o") 'other-window)
-            (define-key eshell-mode-map (kbd "<C-backspace>") 'eshell-backward-kill-word)
-            (define-key eshell-mode-map (kbd "M-DEL") 'eshell-backward-kill-word)
-            (define-key eshell-mode-map (kbd "DEL")   'eshell-delete-backward-char)
-            ;; replace builtin clear
-            (defun eshell/clear ()
-              (interactive)
-              (eshell/clear-scrollback))
-            (core--set-work-state)
-            ))
+          (lambda () (core--set-work-state)))
+
+(with-eval-after-load 'esh-mode
+  (define-key eshell-mode-map (kbd "C-r") 'eshell-isearch-backward)
+  (define-key eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
+  (define-key eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
+  (define-key eshell-mode-map (kbd "C-u") 'eshell-kill-input)
+  (define-key eshell-mode-map (kbd "C-l") 'eshell/clear)
+  (define-key eshell-mode-map (kbd "<C-backspace>") 'eshell-backward-kill-word)
+  (define-key eshell-mode-map (kbd "M-DEL") 'eshell-backward-kill-word)
+  (define-key eshell-mode-map (kbd "DEL")   'eshell-delete-backward-char)
+  (define-key eshell-mode-map (kbd "M-o") 'other-window)
+
+  ;; repace clear function
+  (defun eshell/clear ()
+    (interactive)
+    (eshell/clear-scrollback)))
 
 ;; eshell color
-(defun set-eshell-xterm-color ()
-  (setenv "TERM" "xterm-256color")
-  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
-  (setq eshell-output-filter-functions
-        (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
+;; (defun set-eshell-xterm-color ()
+;;   (setenv "TERM" "xterm-256color")
+;;   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+;;   (setq eshell-output-filter-functions
+;;         (remove 'eshell-handle-ansi-color eshell-output-filter-functions)))
 
-(unless (eq system-type 'windows-nt)
-  (use-package xterm-color :ensure t
-    :hook (eshell-mode . set-eshell-xterm-color)
-    :config
-    (defun xterm-advice-compilation-filter (f proc string)
-      (funcall f proc (xterm-color-filter string)))
+;; (unless (eq system-type 'windows-nt)
+;;   (use-package xterm-color :ensure t
+;;     :hook (eshell-mode . set-eshell-xterm-color)
+;;     :config
+;;     (defun xterm-advice-compilation-filter (f proc string)
+;;       (funcall f proc (xterm-color-filter string)))
 
-    (advice-add 'compilation-filter :around #'xterm-advice-compilation-filter)))
+;;     (advice-add 'compilation-filter :around #'xterm-advice-compilation-filter)))
 
 ;;; use eshell
 (defun multi-eshell ()
@@ -134,18 +122,6 @@
     (kill-region
      (point)
      (if (< end backward) backward end))))
-
-(defun eshell/b (&optional buffer)
-  (interactive)
-  (if buffer
-      (switch-to-buffer buffer)
-    (call-interactively #'switch-to-buffer)))
-
-(defun eshell/bo (&optional buffer)
-  (interactive)
-  (if buffer
-      (switch-to-buffer-other-window buffer)
-    (call-interactively #'switch-to-buffer-other-window)))
 
 ;;-------------------------------------------
 ;;; term
