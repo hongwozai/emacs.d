@@ -319,7 +319,7 @@
 (autoload 'symbol-overlay-rename "symbol-overlay" nil t)
 (autoload 'symbol-overlay-remove-all "symbol-overlay" nil t)
 
-(global-set-key (kbd "C-s .") 'symbol-overlay-put)
+(global-set-key (kbd "C-s h") 'symbol-overlay-put)
 (global-set-key (kbd "C-s r") 'symbol-overlay-rename)
 (global-set-key (kbd "C-s U") 'symbol-overlay-remove-all)
 
@@ -741,4 +741,7 @@
 ;;-------------------------------------------
 ;;; initialize end
 ;;-------------------------------------------
+;; some function or patch
+(require 'misc-funcs)
+
 (provide 'init)
