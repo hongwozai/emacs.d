@@ -21,12 +21,11 @@
 (setq debug-on-error nil)
 (setq debug-on-quit nil)
 
-(let ((f (locate-user-emacs-file "variables.el")))
-  (when (file-exists-p f)
-    (load f)))
-
 ;; custom file
 (setq custom-file (locate-user-emacs-file ".custom.el"))
+(setq auth-sources
+      (list (locate-user-emacs-file "authinfo")
+            "~/.authinfo" "~/.authinfo.gpg" "~/.netrc"))
 ;;-------------------------------------------
 ;;; custom ui
 ;;-------------------------------------------
@@ -49,6 +48,11 @@
   (set-graphic-font '("DejaVu Sans Mono Bold" . 16)
                     '("微软雅黑" . 20)))
 
+;; self custom
+(let ((f (locate-user-emacs-file "variables.el")))
+  (when (file-exists-p f)
+    (load f)))
+
 ;; startup message
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
@@ -64,10 +68,6 @@
 
 (when (boundp 'menu-bar-mode)
   (menu-bar-mode -1))
-
-;; theme
-(when (display-graphic-p)
-  (ignore-errors (load-theme 'leuven-dark t)))
 
 ;; modeline
 (setq venv-mode-string "")
@@ -720,17 +720,17 @@
   ;; deepseek
   (gptel-make-deepseek "DeepSeek"
     :stream t
-    :key my-deepseek-key)
+    :key gptel-api-key)
 
   (gptel-make-deepseek "DeepSeek-FIM"
-    :key my-deepseek-key
+    :key gptel-api-key
     :endpoint "/beta/completions"
     :models '(deepseek-chat))
 
   (gptel-make-openai "SiliconFlow"
     :stream t
     :host "api.siliconflow.cn"
-    :key my-siliconflow-key
+    :key gptel-api-key
     :models '(Qwen/QwQ-32B Pro/deepseek-ai/DeepSeek-V3))
 
   ;; default

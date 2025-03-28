@@ -1,0 +1,3 @@
+# -*- authinfo -*-
+machine api.deepseek.com login apikey password sk-secret-openai-api-key-goes-here
+machine api.siliconflow.cn login apikey password sk-secret-anthropic-api-key-goes-here

@@ -1,3 +1,7 @@
+;; theme
+(when (display-graphic-p)
+  (ignore-errors (load-theme 'tango t)))
+
 ;; offline package manager
 (setq package-archives
       '(("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
@@ -12,6 +16,3 @@
 ;;       '(("melpa" . "/data/workspace/elpa-mirror/melpa/")
 ;;         ("org"   . "/data/workspace/elpa-mirror/org/")
 ;;         ("gnu"   . "/data/workspace/elpa-mirror/gnu/")))
-
-(setq my-deepseek-key "sk-xxxx")
-(setq my-siliconflow-key "sk-yyyy")

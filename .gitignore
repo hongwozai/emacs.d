@@ -39,3 +39,4 @@ server/
 projects
 rime/*
 variables.el
+authinfo
