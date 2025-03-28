@@ -599,6 +599,12 @@
         (list (locate-user-emacs-file "snippets")))
   (yas-global-mode 1))
 
+;; use company, so avoid conflict
+(use-package yasnippet-capf :ensure t
+  :after cape
+  :config
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
 ;;-------------------------------------------
 ;;; misc
 ;;-------------------------------------------
