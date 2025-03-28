@@ -592,13 +592,20 @@
 (use-package format-all :ensure t :defer t
   :hook (prog-mode . format-all-mode))
 
-;; xterm
-;; (use-package xterm-color :ensure t)
-;; (setq compilation-environment '("TERM=xterm-256color"))
+;; yasnippet
+(use-package yasnippet :ensure t :defer t
+  :init
+  (setq yas-snippet-dirs
+        (list (locate-user-emacs-file "snippets")))
+  (yas-global-mode 1))
 
 ;;-------------------------------------------
 ;;; misc
 ;;-------------------------------------------
+;; xterm
+;; (use-package xterm-color :ensure t)
+;; (setq compilation-environment '("TERM=xterm-256color"))
+
 ;;; shell
 (require 'shell-config)
 

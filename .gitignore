@@ -38,3 +38,4 @@ tree-sitter/*
 server/
 projects
 rime/*
+variables.el

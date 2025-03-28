@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: template
-# key: template
+# key: tem
 # --
 TARGET = $(notdir $(shell pwd))
 

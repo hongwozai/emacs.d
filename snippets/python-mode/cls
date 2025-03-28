@@ -4,4 +4,7 @@
 # group: object oriented
 # --
 class ${1:class}:
+    def __init__(self, args):
+        return
+
     $0
