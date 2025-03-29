@@ -191,6 +191,20 @@
               grep-scroll-output          nil
               grep-use-null-device        nil)
 
+;; basic coding
+;; emacs sometimes can't reconginze gbk
+;; set coding config, last is highest priority.
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Recognize-Coding.html#Recognize-Coding
+(prefer-coding-system 'cp950)
+(prefer-coding-system 'gb2312)
+(prefer-coding-system 'cp936)
+(prefer-coding-system 'gb18030)
+(prefer-coding-system 'utf-16)
+(when *is-win*
+  (prefer-coding-system 'gbk))
+(prefer-coding-system 'utf-8-dos)
+(prefer-coding-system 'utf-8-unix)
+
 ;;-------------------------------------------
 ;;; tramp
 ;;-------------------------------------------
@@ -671,29 +685,16 @@
       (require 'posframe)
       (setq rime-show-candidate 'posframe))))
 
-(use-package bing-dict :ensure t :defer t)
-
-(defun translate-brief-at-point ()
-  (interactive)
-  (let ((word (region-or-point 'word)))
-    (if word
-        (bing-dict-brief word)
-      (message "No Word."))))
-
-(global-set-key (kbd "C-s c") 'translate-brief-at-point)
-
-;; emacs sometimes can't reconginze gbk
-;; set coding config, last is highest priority.
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Recognize-Coding.html#Recognize-Coding
-(prefer-coding-system 'cp950)
-(prefer-coding-system 'gb2312)
-(prefer-coding-system 'cp936)
-(prefer-coding-system 'gb18030)
-(prefer-coding-system 'utf-16)
-(when *is-win*
-  (prefer-coding-system 'gbk))
-(prefer-coding-system 'utf-8-dos)
-(prefer-coding-system 'utf-8-unix)
+(use-package bing-dict :ensure t :defer t
+  :bind
+  (("C-s c" . translate-brief-at-point))
+  :init
+  (defun translate-brief-at-point ()
+    (interactive)
+    (let ((word (region-or-point 'word)))
+      (if word
+          (bing-dict-brief word)
+        (message "No Word.")))))
 
 ;;-------------------------------------------
 ;;; ai
@@ -701,55 +702,7 @@
 ;; Remove the M-i key and add a translation key.
 (global-set-key (kbd "M-i") nil)
 
-(use-package gptel :ensure t :defer t
-  :bind
-  (("M-i s" . #'gptel-menu))
-  (("M-i r" . #'gptel-rewrite))
-  :config
-  ;; ollama
-  (gptel-make-ollama "Ollama"
-          :host "127.0.0.1:11434"
-          :stream t
-          :models '(qwen2.5-coder:3b qwen2.5:3b))
-
-  (gptel-make-ollama "Ollama-FIM"
-          :host "127.0.0.1:11434"
-          :models '(qwen2.5-coder:7b)
-          :endpoint "/v1/completions")
-
-  ;; deepseek
-  (gptel-make-deepseek "DeepSeek"
-    :stream t
-    :key gptel-api-key)
-
-  (gptel-make-deepseek "DeepSeek-FIM"
-    :key gptel-api-key
-    :endpoint "/beta/completions"
-    :models '(deepseek-chat))
-
-  (gptel-make-openai "SiliconFlow"
-    :stream t
-    :host "api.siliconflow.cn"
-    :key gptel-api-key
-    :models '(Qwen/QwQ-32B Pro/deepseek-ai/DeepSeek-V3))
-
-  ;; default
-  (setq gptel-model 'qwen2.5:3b)
-  (setq gptel-backend (gptel-get-backend "Ollama"))
-  )
-
-(use-package copilot :ensure t :defer t
-  :bind
-  (("M-i t" . #'copilot-mode))
-  :config
-  (define-key copilot-completion-map (kbd "M-/") 'copilot-accept-completion))
-
-(use-package ai-config :defer t
-  :init
-  (autoload 'translate-preview "ai-config" nil t)
-  (autoload 'aitab-mode "ai-config" nil t)
-  :bind
-  (("M-i e" . #'translate-preview)))
+(require 'ai-config)
 
 ;;-------------------------------------------
 ;;; initialize end

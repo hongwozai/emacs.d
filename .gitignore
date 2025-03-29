@@ -40,3 +40,4 @@ projects
 rime/*
 variables.el
 authinfo
+librime/*
