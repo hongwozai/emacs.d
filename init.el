@@ -70,7 +70,7 @@
   (menu-bar-mode -1))
 
 ;; modeline
-(setq venv-mode-string "")
+(setq-local venv-mode-string "")
 
 (setq-default mode-line-format
               '("%e"
@@ -155,6 +155,11 @@
 (setq global-auto-revert-non-file-buffers t
       dired-auto-revert-buffer            nil
       auto-revert-verbose                 nil)
+
+;; auto save
+(setq auto-save-visited-interval 1)
+(auto-save-visited-mode t)
+
 
 ;;; recent files
 (setq recentf-filename-handlers 'abbreviate-file-name)
@@ -572,9 +577,7 @@
 ;;; lsp server
 (use-package eglot :ensure t :defer t
   :hook
-  ((python-mode . eglot-ensure)
-   (python-ts-mode . eglot-ensure)
-   (rust-ts-mode . eglot-ensure)
+  ((rust-ts-mode . eglot-ensure)
    (go-ts-mode . eglot-ensure))
   :config
   (custom-set-faces
