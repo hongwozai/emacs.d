@@ -81,7 +81,7 @@
 (defun py--eldoc-filter (orig-fun string)
   (let ((clean
          (if (stringp string)
-             (replace-regexp-in-string "\n__PYTHON_EL_eval.+" "" string)
+             (replace-regexp-in-string "^__PYTHON_EL_eval.+$" "" string)
            string)))
     (funcall orig-fun clean)))
 
@@ -90,9 +90,15 @@
   ;; find python shell interpreter
   (let* ((map (symbol-value (intern (format "%s-map" major-mode))))
          (venv-path (py--project-venv)))
+    ;; define keys
+    (define-key map (kbd "C-M-f") 'python-nav-forward-sexp)
+    (define-key map (kbd "C-M-b") 'python-nav-backward-sexp)
+    (define-key map (kbd "C-M-n") 'python-nav-forward-statement)
+    (define-key map (kbd "C-M-p") 'python-nav-backward-statement)
+    ;; switch interpreter
     (when *is-mac*
       (setq-local python-shell-completion-native-enable nil))
-    ;; switch interpreter
+    ;; activate venv
     (when venv-path (py-activate venv-path))
     (eglot-ensure)))
 
@@ -100,8 +106,9 @@
 (add-hook 'python-ts-mode-hook 'py-mode-hook-function)
 
 (when *is-mac*
-  (with-eval-after-load 'comint
-    (add-hook 'comint-preoutput-filter-functions #'py--comint-filter nil t))
+  (add-hook 'inferior-python-mode-hook
+            (lambda ()
+              (add-hook 'comint-preoutput-filter-functions #'py--comint-filter nil t)))
 
   (with-eval-after-load 'eldoc
     (advice-add 'eldoc--message :around #'py--eldoc-filter)))

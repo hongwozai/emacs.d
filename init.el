@@ -279,6 +279,8 @@
               (ibuffer-update nil t)
               (hl-line-mode 1))))
 
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 ;;; windows
 (winner-mode t)
 
@@ -347,6 +349,8 @@
 (define-key minibuffer-local-map (kbd "M-.") 'minibuffer-insert-at-point)
 (define-key isearch-mode-map (kbd "M-.") 'isearch-insert-at-point)
 (define-key isearch-mode-map (kbd "SPC") 'isearch-insert-space)
+(global-set-key (kbd "M-%") 'query-replace-regexp)
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
 
 ;; current buffer occur
 (global-set-key (kbd "M-s o") 'occur-at-point)
@@ -518,8 +522,6 @@
   (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
   (define-key evil-ex-completion-map (kbd "C-f") 'forward-char)
   (define-key evil-normal-state-map (kbd "C-w u") 'winner-undo)
-
-  (define-key evil-normal-state-map (kbd "C-p") project-prefix-map)
   )
 
 (use-package evil-surround :ensure t :after evil

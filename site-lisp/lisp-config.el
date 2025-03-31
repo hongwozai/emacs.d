@@ -117,9 +117,15 @@
       (delete-region start (- end 1)))))
 
 (defun lisp-edit-define-keys (map)
+  ;; lisp keys
+  (define-key map (kbd "M-a") #'backward-sexp)
+  (define-key map (kbd "M-e") #'lisp-edit-forward)
   (define-key map (kbd "M-(") #'lisp-edit-insert-round)
   (define-key map (kbd "M-h") #'lisp-edit-auto-select)
   (define-key map (kbd "M-S") #'lisp-edit-splice-sexp)
+  (define-key map (kbd "M-R") #'lisp-edit-raise-sexp)
+  (define-key map (kbd "C-k") #'lisp-edit-kill-line)
+  ;; evil bind
   (when (featurep 'evil)
     (evil-define-key 'normal map
       ;; uppercase letters and lowercase letters swap functions
@@ -127,10 +133,8 @@
       (kbd ")") #'lisp-edit-up-list
       (kbd "M-(") #'lisp-edit-insert-round
       (kbd "M-S") #'lisp-edit-splice-sexp
-      (kbd "M-r") #'lisp-edit-raise-sexp
-      (kbd "C-k") #'lisp-edit-kill-line
-      (kbd "C-M-k") #'kill-sexp
-      (kbd "M-h") #'lisp-edit-auto-select)
+      (kbd "M-R") #'lisp-edit-raise-sexp
+      (kbd "C-k") #'lisp-edit-kill-line)
     (evil-define-key 'insert map
       (kbd "M-(") #'lisp-edit-insert-round
       (kbd "M-h") #'lisp-edit-auto-select)
