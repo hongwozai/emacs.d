@@ -49,7 +49,7 @@
         (progn (setq-local python-shell-interpreter ipy)
                (setq-local python-shell-interpreter-args "-i --simple-prompt"))
       (setq-local python-shell-interpreter (executable-find "python"))
-      (setq-local python-shell-interpreter "-i"))))
+      (setq-local python-shell-interpreter-args "-i"))))
 
 ;;;###autoload
 (defun py-activate (venv-path)
