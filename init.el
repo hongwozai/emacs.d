@@ -157,9 +157,12 @@
       auto-revert-verbose                 nil)
 
 ;; auto save
-(setq auto-save-visited-interval 1)
-(auto-save-visited-mode t)
+(setq auto-save-visited-interval 2)
+(add-hook 'after-init-hook #'auto-save-visited-mode)
 
+;; don't display save message
+(setq inhibit-message-regexps '("^Saving" "^Wrote"))
+(setq set-message-functions '(inhibit-message))
 
 ;;; recent files
 (setq recentf-filename-handlers 'abbreviate-file-name)
@@ -558,14 +561,19 @@
     :hook (company-mode . company-box-mode))
   )
 
+(use-package avy :ensure t :defer t
+  :bind
+  (("M-g w" . 'avy-goto-word-1)
+   ("M-g g" . 'avy-goto-line)
+   ("C-'" . 'avy-resume))
+  :init
+  (define-key isearch-mode-map (kbd "C-'") 'avy-isearch))
+
 ;; jump windows
 (use-package ace-window :ensure t :defer t
-  :init
-  (global-set-key (kbd "M-o") 'ace-window)
-  ;; depend avy
-  (global-set-key (kbd "M-g w") 'avy-goto-word-1)
-  (global-set-key (kbd "C-'") 'avy-resume)
-  (define-key isearch-mode-map (kbd "C-'") 'avy-isearch))
+  :bind (("M-o" . ace-window))
+  :custom
+  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 ;; gtags
 (use-package gtags-mode :ensure t :defer t
