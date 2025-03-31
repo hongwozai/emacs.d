@@ -117,19 +117,16 @@
       (delete-region start (- end 1)))))
 
 (defun lisp-edit-define-keys (map)
+  (define-key map (kbd "M-(") #'lisp-edit-insert-round)
+  (define-key map (kbd "M-h") #'lisp-edit-auto-select)
+  (define-key map (kbd "M-S") #'lisp-edit-splice-sexp)
   (when (featurep 'evil)
     (evil-define-key 'normal map
       ;; uppercase letters and lowercase letters swap functions
-      (kbd "W") #'evil-forward-word-begin
-      (kbd "B") #'evil-backward-word-begin
-      (kbd "w") #'lisp-edit-forward
-      (kbd "b") #'backward-sexp
-      (kbd "e") #'down-list
       (kbd "(") #'backward-up-list
       (kbd ")") #'lisp-edit-up-list
       (kbd "M-(") #'lisp-edit-insert-round
-      (kbd "M-d") #'kill-sexp
-      (kbd "M-s") #'lisp-edit-splice-sexp
+      (kbd "M-S") #'lisp-edit-splice-sexp
       (kbd "M-r") #'lisp-edit-raise-sexp
       (kbd "C-k") #'lisp-edit-kill-line
       (kbd "C-M-k") #'kill-sexp
@@ -138,10 +135,6 @@
       (kbd "M-(") #'lisp-edit-insert-round
       (kbd "M-h") #'lisp-edit-auto-select)
     (evil-define-key 'visual map
-      (kbd "W") #'evil-forward-word-begin
-      (kbd "B") #'evil-backward-word-begin
-      (kbd "w") #'lisp-edit-forward
-      (kbd "b") #'backward-sexp
       (kbd "(") #'backward-up-list
       (kbd ")") #'lisp-edit-up-list)
     ;; leave the last space

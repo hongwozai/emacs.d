@@ -285,8 +285,6 @@
 ;;-------------------------------------------
 ;;; search/highlight
 ;;-------------------------------------------
-(global-set-key (kbd "C-s") nil)
-
 (defun region-or-point (thing)
   (if (use-region-p)
       (buffer-substring-no-properties
@@ -341,9 +339,9 @@
 (autoload 'symbol-overlay-rename "symbol-overlay" nil t)
 (autoload 'symbol-overlay-remove-all "symbol-overlay" nil t)
 
-(global-set-key (kbd "C-s h") 'symbol-overlay-put)
-(global-set-key (kbd "C-s r") 'symbol-overlay-rename)
-(global-set-key (kbd "C-s U") 'symbol-overlay-remove-all)
+(global-set-key (kbd "M-s h") 'symbol-overlay-put)
+(global-set-key (kbd "M-s r") 'symbol-overlay-rename)
+(global-set-key (kbd "M-s U") 'symbol-overlay-remove-all)
 
 ;; current buffer search
 (define-key minibuffer-local-map (kbd "M-.") 'minibuffer-insert-at-point)
@@ -351,11 +349,11 @@
 (define-key isearch-mode-map (kbd "SPC") 'isearch-insert-space)
 
 ;; current buffer occur
-(global-set-key (kbd "C-s o") 'occur-at-point)
-(global-set-key (kbd "C-s O") 'occur)
+(global-set-key (kbd "M-s o") 'occur-at-point)
+(global-set-key (kbd "M-s O") 'occur)
 
 ;; current project grep
-(global-set-key (kbd "C-s g") 'project-grep)
+(global-set-key (kbd "M-s g") 'project-grep)
 
 ;;-------------------------------------------
 ;;; interactive
@@ -698,7 +696,7 @@
 
 (use-package bing-dict :ensure t :defer t
   :bind
-  (("C-s c" . translate-brief-at-point))
+  (("M-s c" . translate-brief-at-point))
   :init
   (defun translate-brief-at-point ()
     (interactive)
