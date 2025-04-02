@@ -109,7 +109,7 @@
 (with-eval-after-load 'python
   (push
    ;; ipython syntax error
-   (list "^[ \t]*File \\([^,]+\\):\\([0-9]+\\)\\(, in .+\\)?"
+   (list "^[ \t]*File \\([^,:]+\\):\\([0-9]+\\)\\(, in .+\\)?"
          1 2)
    python-shell-compilation-regexp-alist)
   (push
