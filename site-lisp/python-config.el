@@ -75,7 +75,7 @@
 ;;-------------------------------------------
 ;;; filter/hook
 ;;-------------------------------------------
-(defun py--comint-filter (output)
+(defun py--preoutput-comint-filter (output)
   (replace-regexp-in-string "__PYTHON_EL_eval.+\n" "" output))
 
 (defun py--eldoc-filter (orig-fun string)
@@ -105,10 +105,27 @@
 (add-hook 'python-mode-hook 'py-mode-hook-function)
 (add-hook 'python-ts-mode-hook 'py-mode-hook-function)
 
+;; compilation goto source
+(with-eval-after-load 'python
+  (push
+   ;; ipython syntax error
+   (list "^[ \t]*File \\([^,]+\\):\\([0-9]+\\)\\(, in .+\\)?"
+         1 2)
+   python-shell-compilation-regexp-alist)
+  (push
+   ;; backtrace
+   (list (rx line-start (1+ (any " \t"))
+             (group (1+ (not (any " (\"<"))))
+             "(" (group (1+ digit)) ")"
+             (1+ (not (any "("))) "()")
+         1 2)
+   python-shell-compilation-regexp-alist))
+
 (when *is-mac*
   (add-hook 'inferior-python-mode-hook
             (lambda ()
-              (add-hook 'comint-preoutput-filter-functions #'py--comint-filter nil t)))
+              (add-hook 'comint-preoutput-filter-functions
+                        #'py--preoutput-comint-filter nil t)))
 
   (with-eval-after-load 'eldoc
     (advice-add 'eldoc--message :around #'py--eldoc-filter)))
