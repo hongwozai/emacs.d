@@ -13,7 +13,7 @@
                     (directory-file-name
                      (file-name-directory venv-path)))
                  origin-name)))
-    (format " v:%s " name)))
+    (format " v:%s" name)))
 
 (defun py--maybe-activate-venv (venv-path)
   (py--activate-venv venv-path))

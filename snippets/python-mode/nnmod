@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: nnmodule
+# key: nnmod
+# --
+class ${1:Module}(nn.Module):
+
+    def __init__(self, ${2:config}):
+        super().__init__()
+        $0
+        return
+
+    def forward(self, x):
+        return x

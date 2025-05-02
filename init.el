@@ -380,7 +380,7 @@
 (setq compile-command "make")
 ;;; C-u -> read command and interactive
 (setq compilation-read-command t)
-;; (setq compilation-auto-jump-to-first-error t)
+(setq compilation-auto-jump-to-first-error t)
 (setq compilation-window-height 14)
 (setq compilation-scroll-output t)
 
@@ -440,9 +440,16 @@
               c-auto-newline nil
               )
 
+(defun compile-prev-command ()
+  (interactive)
+  (if current-prefix-arg
+      (call-interactively #'compile)
+    (compile compile-command)))
+
 (add-hook 'c-mode-hook
           (lambda ()
-            (c-set-offset 'inline-open 0)))
+            (c-set-offset 'inline-open 0)
+            (define-key c-mode-map (kbd "C-c C-c") 'compile-prev-command)))
 
 (add-hook 'c++-mode-hook
           (lambda ()
@@ -450,7 +457,8 @@
             (c-set-offset 'innamespace 0)
             ;; comment
             (setq-local comment-start "/* ")
-            (setq-local comment-end   " */")))
+            (setq-local comment-end   " */")
+            (define-key c++-mode-map (kbd "C-c C-c") 'compile-prev-command)))
 
 ;;; python
 (require 'python-config)
@@ -565,6 +573,8 @@
   :bind
   (("M-g w" . 'avy-goto-word-1)
    ("M-g g" . 'avy-goto-line)
+   ("M-g c" . 'avy-copy-line)
+   ("M-g m" . 'avy-move-line)
    ("C-'" . 'avy-resume))
   :init
   (define-key isearch-mode-map (kbd "C-'") 'avy-isearch))
@@ -586,6 +596,7 @@
 (use-package eglot :ensure t :defer t
   :hook
   ((rust-ts-mode . eglot-ensure)
+   (rust-mode . eglot-ensure)
    (go-ts-mode . eglot-ensure))
   :config
   (custom-set-faces
@@ -615,7 +626,10 @@
 
 ;; format-all
 (use-package format-all :ensure t :defer t
-  :hook (prog-mode . format-all-mode))
+  :bind
+  (("C-c C-f" . 'format-all-buffer)))
+
+(use-package rust-mode :ensure t :defer t)
 
 ;; yasnippet
 (use-package yasnippet :ensure t :defer t

@@ -28,7 +28,8 @@
 
 ;; advice function
 (defun imenu-flatter-with-function (fn &rest args)
-  (if imenu-flatter-enable
+  (if (and imenu-flatter-enable
+           (member major-mode '(python-mode python-ts-mode)))
       (imenu-flatter-flatten (apply fn args))
     (apply fn args)))
 
