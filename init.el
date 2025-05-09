@@ -386,8 +386,8 @@
 
 ;;; imenu
 ;; (setq imenu-flatten 'prefix)
-(with-eval-after-load 'imenu
-  (require 'imenu-flatter))
+;; (with-eval-after-load 'imenu
+;;   (require 'imenu-flatter))
 
 ;;; programming mode
 (add-hook 'prog-mode-hook
@@ -584,6 +584,22 @@
   :bind (("M-o" . ace-window))
   :custom
   (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
+(use-package consult :ensure t :defer t
+  :bind (("C-s" . 'consult-line)
+         ("M-s g" . 'consult-grep)
+         ("M-s G" . 'consult-git-grep)
+         ("M-s b" . 'consult-line-multi)
+         ("M-g r" . 'consult-recent-file)
+         ("M-g i" . 'consult-imenu)
+         ("M-g l" . 'consult-find)
+         ("M-g b" . 'consult-buffer-other-window)
+         ("M-g p" . 'consult-project-buffer))
+  :hook
+  (completion-list-mode . consult-preview-at-point-mode)
+  :config
+  (setq xref-show-definitions-function #'consult-xref)
+  (setq xref-show-xrefs-function #'consult-xref))
 
 ;; gtags
 (use-package gtags-mode :ensure t :defer t
