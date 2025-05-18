@@ -599,7 +599,9 @@
   (completion-list-mode . consult-preview-at-point-mode)
   :config
   (setq xref-show-definitions-function #'consult-xref)
-  (setq xref-show-xrefs-function #'consult-xref))
+  (setq xref-show-xrefs-function #'consult-xref)
+  (when (executable-find "rg")
+    (global-set-key (kbd "M-s g") 'consult-ripgrep)))
 
 ;; gtags
 (use-package gtags-mode :ensure t :defer t
@@ -721,10 +723,8 @@
   (when (file-exists-p rime--module-path)
     (setq default-input-method "rime")
     ;; https://github.com/rime/rime-luna-pinyin
-    ;; (rime-lib-select-schema "luna_pinyin_simp")
-    (when (package-installed-p 'posframe)
-      (require 'posframe)
-      (setq rime-show-candidate 'posframe))))
+    (rime-lib-select-schema "luna_pinyin_simp")
+    (setq rime-show-candidate 'popup)))
 
 (use-package bing-dict :ensure t :defer t
   :bind
