@@ -145,12 +145,15 @@
     (setq-local evil-move-beyond-eol t)))
 
 ;; lisp
-(dolist (hook '(emacs-lisp-mode-hook
-                scheme-mode-hook))
-  (add-hook hook
-            (lambda ()
-              (setq-local show-paren-style 'expression)
-              (lisp-edit-define-keys emacs-lisp-mode-map))))
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (setq-local show-paren-style 'expression)
+            (lisp-edit-define-keys emacs-lisp-mode-map)))
+
+(add-hook 'scheme-mode-hook
+          (lambda ()
+            (setq-local show-paren-style 'expression)
+            (lisp-edit-define-keys scheme-mode-hook)))
 
 ;; elisp
 (define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)

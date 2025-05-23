@@ -422,6 +422,7 @@
        ;; cc
        '(("\\.h\\'"   . c++-mode)
          ("\\.tcc\\'" . c++-mode)
+         ("\\.cuh?\\'" . c++-mode)
          ("CMakeLists\\.txt\\'" . cmake-mode)
          ("\\.cmake\\'" . cmake-mode))
        auto-mode-alist))
@@ -443,7 +444,9 @@
 (defun compile-prev-command ()
   (interactive)
   (if current-prefix-arg
-      (call-interactively #'compile)
+      (progn
+        (setq current-prefix-arg nil)
+        (call-interactively #'compile))
     (compile compile-command)))
 
 (add-hook 'c-mode-hook
@@ -723,7 +726,7 @@
   (when (file-exists-p rime--module-path)
     (setq default-input-method "rime")
     ;; https://github.com/rime/rime-luna-pinyin
-    (rime-lib-select-schema "luna_pinyin_simp")
+    ;; (rime-lib-select-schema "luna_pinyin_simp")
     (setq rime-show-candidate 'popup)))
 
 (use-package bing-dict :ensure t :defer t
