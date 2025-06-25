@@ -380,7 +380,7 @@
 (setq compile-command "make")
 ;;; C-u -> read command and interactive
 (setq compilation-read-command t)
-(setq compilation-auto-jump-to-first-error t)
+(setq compilation-auto-jump-to-first-error nil)
 (setq compilation-window-height 14)
 (setq compilation-scroll-output t)
 
@@ -572,6 +572,14 @@
     :hook (company-mode . company-box-mode))
   )
 
+;; highlight line
+(use-package bm :ensure t :defer t
+  :bind
+  (("M-s n" . 'bm-next)
+   ("M-s p" . 'bm-previous)
+   ("M-s l" . 'bm-toggle))
+  )
+
 (use-package avy :ensure t :defer t
   :bind
   (("M-g w" . 'avy-goto-word-1)
@@ -588,6 +596,7 @@
   :custom
   (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
+;; completion read
 (use-package consult :ensure t :defer t
   :bind (("C-s" . 'consult-line)
          ("M-s g" . 'consult-grep)
@@ -604,7 +613,9 @@
   (setq xref-show-definitions-function #'consult-xref)
   (setq xref-show-xrefs-function #'consult-xref)
   (when (executable-find "rg")
-    (global-set-key (kbd "M-s g") 'consult-ripgrep)))
+    (global-set-key (kbd "M-s g") 'consult-ripgrep))
+  (when (executable-find "fd")
+    (global-set-key (kbd "M-g l") 'consult-fd)))
 
 ;; gtags
 (use-package gtags-mode :ensure t :defer t

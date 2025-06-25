@@ -153,7 +153,7 @@
 (add-hook 'scheme-mode-hook
           (lambda ()
             (setq-local show-paren-style 'expression)
-            (lisp-edit-define-keys scheme-mode-hook)))
+            (lisp-edit-define-keys scheme-mode-map)))
 
 ;; elisp
 (define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)
