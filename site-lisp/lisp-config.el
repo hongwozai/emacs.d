@@ -155,6 +155,13 @@
             (setq-local show-paren-style 'expression)
             (lisp-edit-define-keys scheme-mode-map)))
 
+(add-hook 'scheme-mode-hook
+          (lambda ()
+            (setq scheme-program-name "racket")
+            (define-key scheme-mode-map (kbd "M-o") 'ace-window)
+            (define-key scheme-mode-map (kbd "C-c C-p") 'run-scheme)
+            (lisp-edit-define-keys scheme-mode-map)))
+
 ;; elisp
 (define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)
 

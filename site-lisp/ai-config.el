@@ -29,6 +29,14 @@
     :endpoint "/beta/completions"
     :models '(deepseek-chat))
 
+  ;; private deploy
+  (gptel-make-deepseek "DeepSeek-Private"
+    :stream t
+    :key "placeholder"
+    :protocol "http"
+    :host "9.136.14.11"
+    :models '(deepseek-chat))
+
   (gptel-make-openai "SiliconFlow"
     :stream t
     :host "api.siliconflow.cn"

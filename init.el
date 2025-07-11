@@ -454,6 +454,10 @@
             (c-set-offset 'inline-open 0)
             (define-key c-mode-map (kbd "C-c C-c") 'compile-prev-command)))
 
+(add-hook 'c-ts-mode-hook
+          (lambda ()
+            (define-key c-ts-mode-map (kbd "C-c C-c") 'compile-prev-command)))
+
 (add-hook 'c++-mode-hook
           (lambda ()
             (c-set-offset 'inline-open 0)
@@ -462,6 +466,16 @@
             (setq-local comment-start "/* ")
             (setq-local comment-end   " */")
             (define-key c++-mode-map (kbd "C-c C-c") 'compile-prev-command)))
+
+(add-hook 'c++-ts-mode-hook
+          (lambda ()
+            (c-set-offset 'inline-open 0)
+            (c-set-offset 'innamespace 0)
+            ;; comment
+            (setq-local comment-start "/* ")
+            (setq-local comment-end   " */")
+            (define-key c++-ts-mode-map (kbd "C-c C-c") 'compile-prev-command)))
+
 
 ;;; python
 (require 'python-config)
